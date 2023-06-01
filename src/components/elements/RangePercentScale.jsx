@@ -9,6 +9,7 @@ const RangePercentScale = (props) => {
 
   const handleChange = (event) => {
     updateRangeByValue(event.target.value)
+    console.log('handleChange', Math.floor(event.target.value * props.maxPercent / 100));
     props.setter(event.target.value)
   }
 

@@ -9,9 +9,9 @@ const loadAudioFile = async (url) => {
 
 const initAudio = async () => {
   try {
-    const snapBackBuffer = await loadAudioFile(`assets/${audio.snapBack}`);
-    const bigWinBuffer = await loadAudioFile(`assets/${audio.onBigWin}`);
-    const confettiBuffer = await loadAudioFile(`assets/${audio.confetti}`);
+    const snapBackBuffer = await loadAudioFile(`/assets/${audio.snapBack}`);
+    const bigWinBuffer = await loadAudioFile(`/assets/${audio.onBigWin}`);
+    const confettiBuffer = await loadAudioFile(`/assets/${audio.confetti}`);
     return {
       snapBackBuffer: { buffer: snapBackBuffer, volume: audio.snapBackVolume },
       bigWinBuffer: { buffer: bigWinBuffer, volume: audio.onBigWinVolume },

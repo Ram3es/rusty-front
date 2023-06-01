@@ -23,10 +23,10 @@ const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
 let snapBackBuffer, bigWinBuffer, confettiBuffer;
 
 const init = async () => {
-  // const audioBuffers = await getAudioBuffers();
-  // snapBackBuffer = audioBuffers.snapBackBuffer;
-  // bigWinBuffer = audioBuffers.bigWinBuffer;
-  // confettiBuffer = audioBuffers.confettiBuffer;
+  const audioBuffers = await getAudioBuffers();
+  snapBackBuffer = audioBuffers.snapBackBuffer;
+  bigWinBuffer = audioBuffers.bigWinBuffer;
+  confettiBuffer = audioBuffers.confettiBuffer;
 };
 
 init();

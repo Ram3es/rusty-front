@@ -180,7 +180,7 @@ const CreateCaseBattle = (props) => {
   })
 
   const createBattle = () => {
-    socket.emit("battles:create", modeToCreate(),(data) => {
+    socket.emit("battles:create", {...modeToCreate(), borrowPercent: Math.floor(modeToCreate().borrowPercent * 0.8)},(data) => {
       console.log("battles:create", data);
       if (data.msg) {
         toastr(data)
@@ -603,7 +603,7 @@ const CreateCaseBattle = (props) => {
                 </div>
                 <RangePercentScale
                   value={modeToCreate().borrowPercent}
-                  setter={(per) => setModeToCreate((prev) => ({ ...prev,  borrowPercent: per}))}
+                  setter={(per) => setModeToCreate((prev) => ({ ...prev,  borrowPercent: per }))}
                   maxPercent={80}
                   hexColor='#27F278'
                 />
