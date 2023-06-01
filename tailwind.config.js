@@ -148,6 +148,7 @@ module.exports = {
         "yellow-8f": "#8F5D10",
         "yellow-f6": "#F6C000",
         "yellow-ffa": "#FFA14B",
+        "yellow-ff-e": "FFEAC6",
         "yellow-ffb": "#FFB436",
         "yellow-eb": "#EBAC32",
 

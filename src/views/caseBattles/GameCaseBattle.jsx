@@ -489,7 +489,9 @@ const GameCaseBattle = (props) => {
                         </Match>
                         <Match when={game().status === "open"}>
                           {game().players[playerIndex + 1] ? (
-                            <div class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold">
+                            <div class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold" style={{
+                              'text-shadow': '0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                            }}>
                               Ready
                             </div>
                           ) : <Spiner classes="w-9 text-yellow-ffb" /> }
