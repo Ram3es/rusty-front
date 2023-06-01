@@ -1429,8 +1429,15 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-radius: 0px 0px 0px 4px;
 }
 
-.active-link {
+.reward-label {
   background: radial-gradient(70% 70% at 50% 80%, #ffb436 0%, #ffd58f 100%), #ffb436;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+.reward-label:hover {
+  background: #FFEAC6;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

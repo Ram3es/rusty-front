@@ -213,21 +213,20 @@ const SubHeader = (props) => {
                     >
                       <p
                         class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
-                          (currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()
-                            ? 'active-link'
-                            : 'text-gray-6a'
+                          toggle.url === URL.REWARDS ? 'reward-label' : 'text-gray-6a group-hover:text-gray-9aa'
                         } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
-                        {((currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()) && (
-                          <span
-                            class='w-1 h-1 rounded-full bg-yellow-ff'
-                            style={{
-                              'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
-                            }}
-                          />
+                        {toggle.url === URL.REWARDS && (
+                          <span class='flex h-[3px] w-[3px] relative text-yellow-ffb'>
+                            <span
+                              class='animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75 transform'
+                              style={{
+                                'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
+                              }}
+                            />
+                            <span class='relative inline-flex rounded-full h-[3px] w-[3px] bg-current' />
+                          </span>
                         )}
                       </p>
                     </NavLink>
@@ -247,23 +246,9 @@ const SubHeader = (props) => {
                       }}
                     >
                       <p
-                        class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
-                          (currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()
-                            ? 'active-link'
-                            : 'text-gray-6a'
-                        } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                        class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
-                        {((currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()) && (
-                          <span
-                            class='w-1 h-1 rounded-full bg-yellow-ff'
-                            style={{
-                              'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
-                            }}
-                          />
-                        )}
                       </p>
                     </NavLink>
                   )}
