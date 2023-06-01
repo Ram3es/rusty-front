@@ -1,0 +1,8 @@
+{
+  "name": "RustylootGG | The Premiere Rust gambling Experience",
+  "short_name": "RustylootGG",
+  "start_url": "https://rustyloot.gg/",
+  "display": "standalone",
+  "theme_color": "#ef671f",
+  "background_color": "#141824"
+}

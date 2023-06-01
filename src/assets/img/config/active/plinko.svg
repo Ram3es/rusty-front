@@ -1,0 +1,29 @@
+<svg
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="11.9998"
+            cy="4.94118"
+            r="4.19118"
+            stroke="#A96500"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="4.94118"
+            cy="19.0589"
+            r="4.19118"
+            stroke="#FFC701"
+            stroke-width="1.5"
+          />
+          <circle
+            cx="19.0584"
+            cy="19.0589"
+            r="4.19118"
+            stroke="#EC981A"
+            stroke-width="1.5"
+          />
+        </svg>

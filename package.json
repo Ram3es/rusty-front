@@ -1,0 +1,45 @@
+{
+  "name": "zebrasmarket",
+  "version": "0.0.1",
+  "description": "The Zebras Market. A platform for selling and buying virtual goods",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx",
+    "lint:fix": "./node_modules/.bin/eslint . --ext .js,.jsx --fix"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.7",
+    "eslint": "^8.34.0",
+    "eslint-plugin-solid": "^0.9.4",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.2",
+    "vite": "^2.9.9",
+    "vite-plugin-solid": "^2.2.6"
+  },
+  "dependencies": {
+    "@emoji-mart/data": "^1.0.6",
+    "canvas-confetti": "^1.6.0",
+    "chart.js": "^3.8.0",
+    "chart.js-plugin-labels-dv": "^3.3.0",
+    "copy-to-clipboard": "^3.3.1",
+    "countup.js": "^2.3.1",
+    "dayjs": "^1.11.7",
+    "emoji-mart": "^5.2.2",
+    "gsap": "^3.11.5",
+    "i18next": "^22.0.8",
+    "i18next-browser-languagedetector": "^7.0.1",
+    "i18next-xhr-backend": "^3.2.2",
+    "matter-js": "^0.18.0",
+    "snowf": "^0.0.3",
+    "socket.io-client": "^4.5.1",
+    "solid-app-router": "^0.3.3",
+    "solid-icons": "^1.0.4",
+    "solid-js": "^1.6.10",
+    "uuid": "^9.0.0",
+    "vanilla-lazyload": "^17.8.3"
+  }
+}
