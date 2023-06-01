@@ -213,7 +213,9 @@ const SubHeader = (props) => {
                     >
                       <p
                         class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
-                          toggle.url === URL.REWARDS ? 'reward-label' : 'text-gray-6a group-hover:text-gray-9aa'
+                          toggle.url === URL.REWARDS
+                            ? 'reward-label'
+                            : 'text-gray-6a group-hover:text-gray-9aa'
                         } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
@@ -370,10 +372,10 @@ const SubHeader = (props) => {
               {!userObject.authenticated ? (
                 <div class='flex items-center gap-6'>
                   <div class='flex h-10'>
-                    <div class='balance-bg rounded-l-6 flex items-center drop-shadow-dark'>
-                      <div class='bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 '>
+                    <div class='balance-bg rounded-l-6 flex items-center'>
+                      <div class='bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[146px]'>
                         <div
-                          class=' w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold'
+                          class='w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold'
                           style={{
                             background: `url(${balanceMaskBg})`,
                             'border-radius': '4px 4px 4px 4px'
