@@ -1,32 +1,25 @@
 import { NavLink } from 'solid-app-router'
-import { onMount, createSignal, For, createEffect, onCleanup } from 'solid-js'
-import { API, URL } from '../../libraries/url'
+import { createSignal, For, createEffect, onCleanup } from 'solid-js'
+import { URL } from '../../libraries/url'
 import injector from '../../injector/injector'
 
-import Bg from '../../assets/img/case/bg.png'
-import ItemSpinnerBg from '../../components/ItemSpinnerBg'
-import ItemSplash from '../upgrader/itemSplash.svg'
 import footerLogoBgVector from '../../assets/img/footer/footerLogoBgVector.png'
 import Coin from '../../utilities/Coin'
 import { setSpinReelsTrigger } from '../../components/cases/store'
 import { spinnerTimings } from '../../libraries/caseSpinConfig'
 import SpinnerImage from '../../assets/img/unbox/spinner.png'
 
-import BestDrops from '../case/BestDrops'
-import RecentDrops from '../case/RecentDrops'
-import HoveredButton from '../../components/elements/HoveredButton'
 import SpinnersContainerHorizontal from '../../components/cases/horizontal/SpinnersContainerHorizontal'
 import SpinnersContainerVertical from '../../components/cases/vertical/SpinnersContainerVertical'
 import SpinnersContainerBlank from '../../components/cases/SpinnersContainerBlank'
 import PotentialDropItem from '../case/PotentialDropItem'
-import Spinner from '../../components/elements/Spinner'
 import ArrowBack from '../../components/icons/ArrowBack'
 import TransparentButton from '../../components/elements/TransparentButton'
 import CaseGradientButton from '../../components/elements/CaseGradientButton'
-import DarkButton from '../../components/elements/DarkButton'
 import LightningIcon from '../../components/icons/LightningIcon'
 import GrayGradientButton from '../../components/elements/GrayGradientButton'
 import FairnessShieldIcon from '../../components/icons/cases/FairnessShield'
+import HistoryDrops from '../case/HistoryDrops'
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false)
 export const [isRolling, setIsRolling] = createSignal(false)
@@ -36,14 +29,12 @@ const CaseUnboxing = (props) => {
 
   const [rollCase, setRollCase] = createSignal()
   const [rollItems, setRollItems] = createSignal([])
-  const [recentDrops, setRecentDrops] = createSignal([])
   const [isCaseCanBeOpen, setIsCaseCanBeOpen] = createSignal(true)
   const [isCaseAlreadyOpened, setIsCaseAlreadyOpened] = createSignal(false)
   const [caseStatistic, setCaseStatistic] = createSignal()
   const [countOfCases, setCountOfCases] = createSignal(1)
   const [pendingNum, setPendingNum] = createSignal(1)
   const [spinnerOptions, setSpinnerOptions] = createSignal([])
-  const [rollInfo, setRollInfo] = createSignal()
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -219,8 +210,8 @@ const CaseUnboxing = (props) => {
                       'backdrop-filter': 'blur(6px)'
                     }}
                   >
-                    {Array.from({ length: pendingNum() }).map((_, index) => {
-                      return (
+                    <For each={Array.from({ length: pendingNum() })}>
+                      {(_, index) => (
                         <div class='w-full center'>
                           <img
                             alt='case-image'
@@ -228,8 +219,8 @@ const CaseUnboxing = (props) => {
                             src={rollCase().image || ''}
                           />
                         </div>
-                      )
-                    })}
+                      )}
+                    </For>
                   </div>
                 )}
                 {countOfCases() === 1 ? (
@@ -313,7 +304,7 @@ const CaseUnboxing = (props) => {
                     class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
                         ${
                           !isFastAnimation()
-                            ? ' border-gray-9a hover:border-white text-blue-9b hover:text-white'
+                            ? 'border-gray-9a hover:border-white text-blue-9b hover:text-white'
                             : 'border-yellow-ffb text-yellow-ffb'
                         }
                       `}
@@ -370,10 +361,7 @@ const CaseUnboxing = (props) => {
                 </For>
               </div>
             </div>
-            <div class='w-full flex gap-6'>
-              <BestDrops data={caseStatistic} _case={rollCase} />
-              <RecentDrops data={caseStatistic} _case={rollCase} />
-            </div>
+            <HistoryDrops data={caseStatistic} _case={rollCase} />
           </div>
         </div>
       )}

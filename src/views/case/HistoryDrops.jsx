@@ -1,18 +1,18 @@
 import { For } from 'solid-js'
-import BetHistoryItem from './BetHistoryItem'
-import LiveHistoryLabel from './LiveHistoryLabel'
-import TopHistoryLabel from './TopHistoryLabel'
+import LiveHistoryLabel from '../../components/elements/LiveHistoryLabel'
+import TopHistoryLabel from '../../components/elements/TopHistoryLabel'
+import RecentDropsItem from './RecentDropsItem'
 
-const NewHistory = (props) => {
+const HistoryDrops = (props) => {
   return (
     <div class='relative'>
       <div class='w-full flex-col llg:flex-row flex gap-2'>
         <div class='flex flex-col gap-3'>
           <TopHistoryLabel>huge wins</TopHistoryLabel>
           <div class='flex gap-2 overflow-x-scroll'>
-            <For each={props.history.sort((a, b) => b.winnings - a.winnings).slice(0, 3)}>
-              {(bet) => <BetHistoryItem bet={bet} />}
-            </For>
+            {/* <For each={props.data()?.recentDrops || [].sort((a, b) => b.winnings - a.winnings).slice(0, 3)}>
+              {(drop) => <RecentDropsItem drop={drop} _case={props._case} />}
+            </For> */}
           </div>
         </div>
         <div class='relative w-full flex flex-col gap-3'>
@@ -25,24 +25,18 @@ const NewHistory = (props) => {
           />
           <LiveHistoryLabel>live bets</LiveHistoryLabel>
           <div class='flex gap-2 xl:max-w-[635px] xll:max-w-[830px] xxl:max-w-[855px] overflow-x-scroll right-semitransparent'>
-            <For each={props.history.slice(0, 10)}>
-              {(bet) => (
+            <For each={props.data()?.recentDrops || []}>
+              {(drop) => (
                 <div class='shrink-0'>
-                  <BetHistoryItem bet={bet} />
+                  <RecentDropsItem drop={drop} _case={props._case} />
                 </div>
               )}
             </For>
           </div>
-          {/* <div
-            class='absolute right-16 top-[58px] z-20 h-[80px] w-[0px]'
-            style={{
-              'box-shadow': '0px 0px 5px 16px rgba(118, 124, 255, 0.04)'
-            }}
-          /> */}
         </div>
       </div>
     </div>
   )
 }
 
-export default NewHistory
+export default HistoryDrops
