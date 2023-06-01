@@ -10,6 +10,7 @@ import footerLogoBgVector from '../../assets/img/footer/footerLogoBgVector.png'
 import Coin from '../../utilities/Coin'
 import { setSpinReelsTrigger } from '../../components/cases/store'
 import { spinnerTimings } from '../../libraries/caseSpinConfig'
+import SpinnerImage from '../../assets/img/unbox/spinner.png'
 
 import BestDrops from '../case/BestDrops'
 import RecentDrops from '../case/RecentDrops'
@@ -248,9 +249,9 @@ const CaseUnboxing = (props) => {
                 )}
               </div>
             </div>
-            {!isRolling() ? (
+            {!isRolling() && (
               <div
-                class='min-h-[80px] flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 px-2 sm:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 '
+                class='relative min-h-[80px] flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 px-2 sm:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 '
                 style={{
                   background:
                     'radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
@@ -267,7 +268,11 @@ const CaseUnboxing = (props) => {
                     </span>
                   </div>
                 </div>
-                <div class='h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5'>
+                <div
+                  class={`${
+                    isRolling() ? 'opacity-[.03]' : 'opacity-100'
+                  } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
+                >
                   <div class=' gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100'>
                     <div class=' font-SpaceGrotesk text-14 text-gray-9a '>Case Amount:</div>
                     <div class='gap-1 center'>
@@ -303,7 +308,7 @@ const CaseUnboxing = (props) => {
                     </GrayGradientButton>
                   </div>
                 </div>
-                <div class=' flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a'>
+                <div class='flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a'>
                   <div
                     class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
                         ${
@@ -318,7 +323,7 @@ const CaseUnboxing = (props) => {
                       class={`w-6 h-6 border-opacity-20 hover:border-opacity-20 border rounded-4 center 
                          ${
                            !isFastAnimation()
-                             ? ' border-gray-9a hover:border-white'
+                             ? 'border-gray-9a hover:border-white'
                              : 'border-yellow-ffb'
                          }
                       `}
@@ -334,19 +339,21 @@ const CaseUnboxing = (props) => {
                     <span>Fairness</span>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div
-                class='mx-auto w-24 h-24 center relative'
-                style={{
-                  background:
-                    'radial-gradient(50% 50% at 50% 50%, rgba(255, 140, 76, 0.15) 0%, rgba(238, 138, 46, 0.0953125) 22.92%, rgba(255, 160, 76, 0.039) 57.81%, rgba(255, 198, 75, 0) 100%)'
-                }}
-              >
-                <Spinner />
-                <div class='absolute left-1/2 -bottom-3 transform -translate-x-1/2 font-Oswald text-24 text-gray-c6 uppercase'>
-                  Opening
-                </div>
+                {isRolling() && (
+                  <div class='absolute left-1/2 -translate-x-1/2'>
+                    <div class='relative flex items-center justify-center gap-2'>
+                      <img class='animate-reverse-spin' src={SpinnerImage} />
+                      <div
+                        class=' font-SpaceGrotesk text-14 font-medium text-yellow-ffb capitalize'
+                        style={{
+                          'text-shadow': '0px 0px 16px rgba(255, 180, 54, 0.36)'
+                        }}
+                      >
+                        Opening...
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>
