@@ -240,113 +240,110 @@ const CaseUnboxing = (props) => {
                 )}
               </div>
             </div>
-            {!isRolling() && (
+
+            <div
+              class='relative min-h-[80px] flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 px-2 sm:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 '
+              style={{
+                background:
+                  'radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
+              }}
+            >
+              <div class='flex flex-col items-center md:items-start md:justify-start gap-1 mr-2'>
+                <div class='text-white font-SpaceGrotesk font-bold text-20'>{rollCase().name}</div>
+                <div class='flex gap-1.5'>
+                  <Coin width='5' />
+                  <span class='font-bold text-sm potential-drop--price'>
+                    {Number(rollCase().price).toLocaleString()}
+                  </span>
+                </div>
+              </div>
               <div
-                class='relative min-h-[80px] flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 px-2 sm:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 '
-                style={{
-                  background:
-                    'radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
-                }}
+                class={`${
+                  isRolling() ? 'opacity-[.03]' : 'opacity-100'
+                } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
               >
-                <div class='flex flex-col items-center md:items-start md:justify-start gap-1 mr-2'>
-                  <div class='text-white font-SpaceGrotesk font-bold text-20'>
-                    {rollCase().name}
-                  </div>
-                  <div class='flex gap-1.5'>
-                    <Coin width='5' />
-                    <span class='font-bold text-sm potential-drop--price'>
-                      {Number(rollCase().price).toLocaleString()}
-                    </span>
+                <div class=' gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100'>
+                  <div class=' font-SpaceGrotesk text-14 text-gray-9a '>Case Amount:</div>
+                  <div class='gap-1 center'>
+                    <For each={[1, 2, 3, 4]}>
+                      {(row) => (
+                        <TransparentButton
+                          isActive={pendingNum() === row}
+                          callbackFn={() => handleNumSpinnersClick(row)}
+                          style={{
+                            padding: '0px',
+                            width: '40px',
+                            height: '40px'
+                          }}
+                        >
+                          {row}
+                        </TransparentButton>
+                      )}
+                    </For>
                   </div>
                 </div>
-                <div
-                  class={`${
-                    isRolling() ? 'opacity-[.03]' : 'opacity-100'
-                  } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
-                >
-                  <div class=' gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100'>
-                    <div class=' font-SpaceGrotesk text-14 text-gray-9a '>Case Amount:</div>
-                    <div class='gap-1 center'>
-                      <For each={[1, 2, 3, 4]}>
-                        {(row) => (
-                          <TransparentButton
-                            isActive={pendingNum() === row}
-                            callbackFn={() => handleNumSpinnersClick(row)}
-                            style={{
-                              padding: '0px',
-                              width: '40px',
-                              height: '40px'
-                            }}
-                          >
-                            {row}
-                          </TransparentButton>
-                        )}
-                      </For>
+                <div class='flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100'>
+                  <CaseGradientButton callbackFn={() => startGame(false)}>
+                    <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
+                      <span class='w-max'>Open for</span>
+                      <Coin width='5' />
+                      <span class='text-gradient'>{rollCase().price}</span>
                     </div>
-                  </div>
-                  <div class='flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100'>
-                    <CaseGradientButton callbackFn={() => startGame(false)}>
-                      <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
-                        <span class='w-max'>Open for</span>
-                        <Coin width='5' />
-                        <span class='text-gradient'>{rollCase().price}</span>
-                      </div>
-                    </CaseGradientButton>
-                    <GrayGradientButton callbackFn={() => startGame(true)}>
-                      <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
-                        Demo Spin
-                      </span>
-                    </GrayGradientButton>
-                  </div>
+                  </CaseGradientButton>
+                  <GrayGradientButton callbackFn={() => startGame(true)}>
+                    <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
+                      Demo Spin
+                    </span>
+                  </GrayGradientButton>
                 </div>
-                <div class='flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a'>
-                  <div
-                    class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
+              </div>
+              <div class='flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a'>
+                <div
+                  class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
                         ${
                           !isFastAnimation()
                             ? 'border-gray-9a hover:border-white text-blue-9b hover:text-white'
                             : 'border-yellow-ffb text-yellow-ffb'
                         }
                       `}
-                    onClick={() => setIsFastAnimation((prev) => !prev)}
-                  >
-                    <div
-                      class={`w-6 h-6 border-opacity-20 hover:border-opacity-20 border rounded-4 center 
+                  onClick={() => setIsFastAnimation((prev) => !prev)}
+                >
+                  <div
+                    class={`w-6 h-6 border-opacity-20 hover:border-opacity-20 border rounded-4 center 
                          ${
                            !isFastAnimation()
                              ? 'border-gray-9a hover:border-white'
                              : 'border-yellow-ffb'
                          }
                       `}
-                    >
-                      {isFastAnimation() && <LightningIcon />}
-                    </div>
-                    <span class={`shrink-0 ${isFastAnimation() ? 'opacity-75' : 'opacity-50'}`}>
-                      Fast Open
-                    </span>
+                  >
+                    {isFastAnimation() && <LightningIcon />}
                   </div>
-                  <div class='h-11 rounded-4 flex items-center px-3 border border-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm '>
-                    <FairnessShieldIcon />
-                    <span>Fairness</span>
+                  <span class={`shrink-0 ${isFastAnimation() ? 'opacity-75' : 'opacity-50'}`}>
+                    Fast Open
+                  </span>
+                </div>
+                <div class='h-11 rounded-4 flex items-center px-3 border border-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm '>
+                  <FairnessShieldIcon />
+                  <span>Fairness</span>
+                </div>
+              </div>
+              {isRolling() && (
+                <div class='absolute left-1/2 -translate-x-1/2'>
+                  <div class='relative flex items-center justify-center gap-2'>
+                    <img class='animate-reverse-spin' src={SpinnerImage} />
+                    <div
+                      class=' font-SpaceGrotesk text-14 font-medium text-yellow-ffb capitalize'
+                      style={{
+                        'text-shadow': '0px 0px 16px rgba(255, 180, 54, 0.36)'
+                      }}
+                    >
+                      Opening...
+                    </div>
                   </div>
                 </div>
-                {isRolling() && (
-                  <div class='absolute left-1/2 -translate-x-1/2'>
-                    <div class='relative flex items-center justify-center gap-2'>
-                      <img class='animate-reverse-spin' src={SpinnerImage} />
-                      <div
-                        class=' font-SpaceGrotesk text-14 font-medium text-yellow-ffb capitalize'
-                        style={{
-                          'text-shadow': '0px 0px 16px rgba(255, 180, 54, 0.36)'
-                        }}
-                      >
-                        Opening...
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
+              )}
+            </div>
           </div>
           <div class='flex flex-col gap-4 grow px-4 xl:px-8 xxl:px-14 pt-5'>
             <div class='w-full flex flex-col gap-4'>
