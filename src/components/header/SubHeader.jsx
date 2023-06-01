@@ -350,7 +350,11 @@ const SubHeader = (props) => {
                       }}
                     >
                       <div
-                        class={`h-[72px] px-2 llg:px-4 xll:px-7 py-2 relative ${
+                        class={`h-[66px] ${
+                          mode.url === URL.GAMEMODES.CASE_BATTLES
+                            ? 'xxl:w-[136px]'
+                            : 'xxl:w-[108px]'
+                        } px-2 llg:px-4 xll:px-7 py-2 relative ${
                           currPath().indexOf(mode.url) >= 0
                             ? 'header-nav-link-active'
                             : 'header-nav-link'
