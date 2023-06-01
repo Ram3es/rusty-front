@@ -378,7 +378,7 @@ const SubHeader = (props) => {
                   )}
                 </For>
               </div>
-              {!userObject.authenticated ? (
+              {userObject.authenticated ? (
                 <div class='flex items-center gap-6'>
                   <div class='flex h-10'>
                     <div class='balance-bg rounded-l-6 flex items-center drop-shadow-dark'>
