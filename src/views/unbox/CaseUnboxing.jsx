@@ -211,7 +211,7 @@ const CaseUnboxing = (props) => {
                     }}
                   >
                     <For each={Array.from({ length: pendingNum() })}>
-                      {(_, index) => (
+                      {(_) => (
                         <div class='w-full center'>
                           <img
                             alt='case-image'
@@ -361,7 +361,7 @@ const CaseUnboxing = (props) => {
                 </For>
               </div>
             </div>
-            <HistoryDrops data={caseStatistic} _case={rollCase} />
+            <HistoryDrops data={caseStatistic ?? []} _case={rollCase} />
           </div>
         </div>
       )}
