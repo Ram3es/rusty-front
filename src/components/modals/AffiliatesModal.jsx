@@ -7,6 +7,7 @@ import Modal from "./Modal";
 
 import Bg from "../../assets/img/modals/accountBg.png";
 import Splash from "../../assets/img/modals/accountSplash.svg";
+import BgMainVector from '../../assets/img/coinflip/bgItemsRL.png'
 
 import Countup from "../../utilities/Countup";
 
@@ -21,6 +22,7 @@ import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
 import GrayButtonBg from "../../assets/img/animatedGrayButtonBg.jpg";
 import HeaderBg from "../../assets/img/modals/ModalHeaderBg.png";
 import AffilatesBar from "../../assets/img/affilates/affilates-bar.png"
+import CloseButton from "../elements/CloseButton";
 
 const AffiliatesModal = (props) => {
   const i18n = useI18n();
@@ -221,38 +223,38 @@ const AffiliatesModal = (props) => {
             !props.searchParams?.affiliates ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
-            border: "2px solid rgba(102, 110, 151, 0.2)",
+            background:
+              'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
+            'backdrop-filter': 'blur(8px)'
           }}
         >
-          <div class={`flex justify-between items-center gap-2 px-8 py-6 relative border-b-2 bg-dark-16 border-gray-30`}>
-              <div class={`absolute rounded-t-6 left-0 top-0 w-full h-full bg-auto lg:bg-cover`}
-                  style={{'background-image': `url(${HeaderBg}`}} />
-              
-                <h2 class="text-white uppercase text-24 font-Oswald">
+          <div
+            class={`flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12`}
+            style={{
+              background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
+            }}
+          >
+              <div class="flex flex-col">
+                <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
                   {i18n.t("coinflip.affiliates_true.Affiliates")}
                 </h2>
+                <div class="font-SpaceGrotesk text-12 text-[#646683]">
+                  Invite people to RustyLoot and earn commission
+                </div>
+              </div>
+               
                 <NavLink
-                  class="text-gray-47 text-12 font-medium relative z-10"
                   href={props.pathname()}
                 >
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z"
-                      fill="#8C98A9"
-                    />
-                  </svg>
+                  <CloseButton />
                 </NavLink>
             </div>
-          <div class="px-8 py-8 overflow-y-scroll flex-1">
-            <div class="flex gap-2 mb-6">
+          <div class="px-8 py-8 overflow-y-scroll flex-1 relative">
+            <div
+              class='absolute inset-0 z-0 bg-repeat mix-blend-luminosity'
+              style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.005 }}
+            />
+            {/* <div class="flex gap-2 mb-6">
               <div
                 class={`relative center bg-dark-27 rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden group hover`}
                 style={{
@@ -313,7 +315,7 @@ const AffiliatesModal = (props) => {
                   {i18n.t("coinflip.affiliates_true.Tiers")}
                 </p>
               </div>
-            </div>
+            </div> */}
             <div
               class={`${
                 tab() == "overview" ? "flex" : "hidden"
@@ -321,14 +323,37 @@ const AffiliatesModal = (props) => {
             >
               <div class="w-full flex">
                 <div class="w-2/5 flex flex-col gap-0.5 pr-8">
-                  <p class="text-18 text-gray-8c font-normal sentence">
+                  <p class="text-14 text-gray-8c font-normal sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
+                  
                   <div class="flex items-center relative w-full h-9">
-                    <div class="w-full h-full bg-dark-20 center rounded-2" />
-                    <div class="flex items-center gap-4 absolute pl-4">
+                  <div
+                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                 radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                 linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                 radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                 linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                 linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                 
+                 "
+                      >
+                      <div
+                           class="flex w-full p-2 rounded-[4px] justify-between items-center h-full"
+                           style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                   radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                   linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                   radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                   linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                   linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                   
+                             "
+                      >
+                      
+                    <div class="flex items-center gap-4 pl-2">
                       <input
-                        class={`text-white text-14 font-bold uppercase w-44 ${
+                        class={`text-white text-14 font-bold font-SpaceGrotesk w-44 ${
                           toggleCode() ? "" : "hidden"
                         }`}
                         placeholder={i18n.t(
@@ -338,30 +363,15 @@ const AffiliatesModal = (props) => {
                         value={code()}
                       />
                       <p
-                        class={`text-white ${
+                        class={`text-gray-9a ${
                           toggleCode() ? "hidden" : ""
                         } text-14 font-bold uppercase`}
+                        onClick={() => setToggle((prev) => !prev)}
                       >
                         {affiliate?.code}
                       </p>
-                      <div class={`center gap-2`}>
-                        <svg
-                          class={`${
-                            affiliate?.code ? "center" : "hidden"
-                          } cursor-pointer`}
-                          onClick={() => setToggle((prev) => !prev)}
-                          width="14"
-                          height="14"
-                          viewBox="0 0 14 14"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M11.4148 0C11.2163 0 11.0063 0.0816667 10.8545 0.233333L9.4306 1.645L12.3485 4.56167L13.7724 3.15C14.0759 2.84667 14.0759 2.33333 13.7724 2.04167L11.9633 0.233333C11.8116 0.0816667 11.6132 0 11.4148 0ZM8.60192 2.47333L0 11.0833V14H2.91788L11.5198 5.39L8.60192 2.47333Z"
-                            fill="white"
-                          />
-                        </svg>
-                      </div>
+                    </div>
+                    </div>
                     </div>
                   </div>
                 </div>
