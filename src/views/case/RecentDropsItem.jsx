@@ -43,7 +43,6 @@ const skinStylesConfig = [
 ]
 
 const RecentDropsItem = (props) => {
-    console.log(props,'props')
     const getCurrentStylesByPrice = (skinPrice) => {
         for (const config of skinStylesConfig) {
             if (skinPrice > config.condition) {
