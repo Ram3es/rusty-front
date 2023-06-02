@@ -206,6 +206,7 @@ const GameCaseBattle = (props) => {
         gameId: Number(props.searchParams.id),
         team: getJoinTeam(player_index),
         player_index,
+        urlKey: props.searchParams.key,
       },
       (data) => {
         console.log(data);
