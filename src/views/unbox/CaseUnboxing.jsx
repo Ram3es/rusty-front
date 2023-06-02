@@ -329,7 +329,7 @@ const CaseUnboxing = (props) => {
                 </div>
               </div>
               {isRolling() && (
-                <div class='absolute left-1/2 -translate-x-1/2'>
+                <div class='absolute md:left-1/2 md:-translate-x-1/2 top-24 md:top-auto'>
                   <div class='relative flex items-center justify-center gap-2'>
                     <img class='animate-reverse-spin' src={SpinnerImage} />
                     <div
