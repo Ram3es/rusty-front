@@ -38,13 +38,11 @@ const CaseBattles = (props) => {
       })
       onBattlesPageLoaded(true)
       socket.emit('battles:connect', {}, (data) => {
-        console.log(Object.values(data.data.games))
-        setGames(data.data.games)
+        console.log("battles:cases", data.data);
+        setGames({...data.data.games, ...data.data.history})
       })
       socket.on(`battles:update`, (data) => {
-        console.log(data)
         setGames(data.gameId, data.data)
-        console.log(games)
       })
     }
   })
@@ -175,9 +173,9 @@ const CaseBattles = (props) => {
           <For
             each={Object.keys(games)?.sort((a, b) => {
               const calculations =
-                -(
+              -(
                   (games[a].status == 'open' ? 2 : games[a].status == 'playing' ? 1 : 0) +
-                  (1 - 1 / games[a].totalValue)
+                  (1 - 1 / games[a].totalValue * (sortBy() === sortByOptions[0] ? 1 : -1))
                 ) +
                 ((games[b].status == "open"
                   ? 2 
@@ -185,7 +183,7 @@ const CaseBattles = (props) => {
                   ? 1
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
-              return calculations * (sortBy() === sortByOptions[0] ? -1 : 1)
+              return calculations
             })}>
             {(id) => (<div
                 class="flex flex-col sm:flex-row w-full items-stretch min-h-[116px] bg-opacity-40 gap-2 case-battle-card"
