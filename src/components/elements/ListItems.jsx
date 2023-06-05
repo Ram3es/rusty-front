@@ -61,7 +61,6 @@ const ListItems = (_props) => {
   }
 
   createEffect(() => {
-
     if (props.items()?.length > 0) return
 
     setIsItemsLoaded(false)
@@ -134,7 +133,9 @@ const ListItems = (_props) => {
           )}
         </For>
       </div>
-      <PageLoader size='small' isShown={!isItemsLoaded()} />
+      <div class='m-auto absolute inset-0 flex items-center justify-center'>
+        <PageLoader size='small' isShown={!isItemsLoaded()} />
+      </div>
     </div>
   )
 }
