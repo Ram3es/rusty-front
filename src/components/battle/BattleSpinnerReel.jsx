@@ -277,7 +277,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
       <img
           src={lineColor === 'yellow' ? "/assets/caseLineHorizontal.svg" : lineColor === 'blue' ? "/assets/caseLineHorizontalBlue.svg" : "/assets/caseLineHorizontalGreen.svg"}
           alt="caseline"
-          class={`absolute h-32 w-full self-center transition-all duration-500
+          class={`absolute h-32 w-[90%] self-center transition-all duration-500
           ${spinComplete() ? "opacity-30" : "opacity-100"}
               `}
         />

@@ -504,7 +504,7 @@ const GameCaseBattle = (props) => {
                             <Match when={game().status === "open"}>
                               {game().players[playerIndex + 1] ? (
                                 <div class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold" style={{
-                                  'text-shadow': '0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                                  'text-shadow': `0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)`
                                 }}>
                                   Ready
                                 </div>
@@ -557,7 +557,7 @@ const GameCaseBattle = (props) => {
               class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${game().playersQty}`}
               style={{
                 background:
-                  "radial-gradient(25% 50% at 50% 0%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)"
+                  `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
               }}
             >
               <For each={Array.from(Array(game().playersQty).keys())}>
