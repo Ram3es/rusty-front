@@ -68,6 +68,13 @@ const GameCaseBattle = (props) => {
       : "blue";
   };
 
+  const getModeColorRgb = () => {
+    const color = getModeColor();
+    if(color === "yellow") return "255, 180, 54";
+    if(color === "green") return "218, 253, 9";
+    if(color === "blue") return "90, 195, 255";
+  }
+
   const getColor = (item_price) => {
     return item_price > 1000 * 100
       ? "gold"
@@ -416,125 +423,133 @@ const GameCaseBattle = (props) => {
                   </For>
                 </div>
               </div>
-              <div class="rounded-b-4 case-opening-wrapper-horizontal">
-              <div
-                class="relative w-full h-[326px] overflow-hidden flex"
-                style={{ 'background-image': `url('${footerLogoBgVector}')` }}
-                ref={setContainerRef}
-              >
-                <div class={`arrow-down absolute top-1/2 -right-[8px] -translate-y-1/2 rotate-90 ${getModeColor()}`} />
-                <div class={`arrow-down absolute top-1/2 -left-[8px] -translate-y-1/2 -rotate-90 ${getModeColor()}`} />
-                <div
-                    class="absolute left-0 top-0 w-full h-[68px]"
-                    style={{
-                      background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
-                    }}
-                  />
+              <div 
+              class="px-[2px] rounded-b-4"
+              style={{
+                background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${getModeColorRgb()},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${getModeColorRgb()},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%)`
+              }}>
+                <div class="bg-[#13152A]">
+                  <div class={`rounded-b- case-opening-wrapper-horizontal-${getModeColor()}`}>
                   <div
-                    class="absolute left-0 bottom-0 w-full h-[68px]"
-                    style={{
-                      background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)',
-                      transform: 'matrix(-1, 0, 0, -1, 0, 0)'
-                    }}
-                  />
-                <For each={Array.from(Array(game().playersQty).keys())}>
-                  {(playerIndex) => (
-                    <div class="relative w-full center">
-                      {playerIndex + 1 !== game().playersQty &&
-                          (game().mode === "royal" ||
-                            game().mode === "group" ||
-                            (game().mode === "team" &&
-                            playerIndex !== 0 &&
-                            playerIndex !== 2)) &&
-                          (getModeColor() === "yellow" ? (
-                            <div class="absolute z-40 text-yellow-ffb center right-0 top-0 h-full border-r border-black border-opacity-10">
-                              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
-                                  <BattleRoyaleIcon additionClasses="w-6 m-2" />
-                                </GrayWrapperdWithBorders>
-                              </div>
-                            </div>
-                          ) : getModeColor() === "green" ? (
-                            <div class="absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10">
-                              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
-                                  <BattleCursedIcon additionClasses="w-7 m-2" />
-                                </GrayWrapperdWithBorders>
-                              </div>
-                            </div>
-                          ) : (
-                            <div class="absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10">
-                              <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
-                                  <BattleGroupIcon additionClasses="w-7 mx-1 my-2" />
-                                </GrayWrapperdWithBorders>
-                              </div>
-                            </div>
-                          ))}
-                      <Switch>
-                        <Match when={game().status === "playing"}>
-                          {!!spinnerOptions()[playerIndex] &&
-                          !!spinLists()[playerIndex] ? (
-                            <BattleSpinnerReel
-                              spinnerIndex={playerIndex}
-                              isConfettiWin={
-                                spinnerOptions()[playerIndex].isConfettiWin
-                              }
-                              isBigWin={spinnerOptions()[playerIndex].isBigWin}
-                              isFastSpin={false}
-                              lineColor={getModeColor()}
-                            />
-                          ) : (
-                            <Spiner classes="w-9 text-yellow-ffb" />
-                          )}
-                        </Match>
-                        <Match when={game().status === "open"}>
-                          {game().players[playerIndex + 1] ? (
-                            <div class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold" style={{
-                              'text-shadow': '0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)'
-                            }}>
-                              Ready
-                            </div>
-                          ) : <Spiner classes="w-9 text-yellow-ffb" /> }
-                        </Match>
-                        <Match when={game().status === "ended"}>
-                          <div class="w-full center">
-                            {game().winners.findIndex(
-                              (winner) => winner.player_index === playerIndex + 1
-                            ) >= 0 ? (
-                              <div class="w-full h-full center flex-col gap-2">
-                                <div class="text-gradient-green font-SpaceGrotesk text-28 font-bold">
-                                  Winner
+                    class="relative w-full h-[326px]  flex"
+                    style={{ 'background-image': `url('${footerLogoBgVector}')` }}
+                    ref={setContainerRef}
+                  >
+                    <div class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${getModeColor()}`} />
+                    <div class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${getModeColor()}`} />
+                    <div
+                        class="absolute left-0 top-0 w-full h-[68px]"
+                        style={{
+                          background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
+                        }}
+                      />
+                      <div
+                        class="absolute left-0 bottom-0 w-full h-[68px]"
+                        style={{
+                          background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)',
+                          transform: 'matrix(-1, 0, 0, -1, 0, 0)'
+                        }}
+                      />
+                    <For each={Array.from(Array(game().playersQty).keys())}>
+                      {(playerIndex) => (
+                        <div class="relative w-full center">
+                          {playerIndex + 1 !== game().playersQty &&
+                              (game().mode === "royal" ||
+                                game().mode === "group" ||
+                                (game().mode === "team" &&
+                                playerIndex !== 0 &&
+                                playerIndex !== 2)) &&
+                              (getModeColor() === "yellow" ? (
+                                <div class="absolute z-40 text-yellow-ffb center right-0 top-0 h-full border-r border-black border-opacity-10">
+                                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
+                                      <BattleRoyaleIcon additionClasses="w-6 m-2" />
+                                    </GrayWrapperdWithBorders>
+                                  </div>
                                 </div>
-                                <div class="flex gap-2">
-                                  <Coin width="11" />{" "}
-                                  <span class="text-gradient font-SpaceGrotesk text-28 font-bold">
-                                    {
-                                      game().winners.find(
-                                        (winner) =>
-                                          winner.player_index === playerIndex + 1
-                                      ).winnerValue
-                                    }
-                                  </span>
+                              ) : getModeColor() === "green" ? (
+                                <div class="absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10">
+                                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
+                                      <BattleCursedIcon additionClasses="w-7 m-2" />
+                                    </GrayWrapperdWithBorders>
+                                  </div>
                                 </div>
-                              </div>
-                            ) : (
-                              <div class="w-full h-full center flex-col opacity-20 grayscale">
-                                <div class="flex gap-2">
-                                  <Coin width="11" />{" "}
-                                  <span class="text-gradient font-SpaceGrotesk text-28 font-bold">
-                                    0.00
-                                  </span>
+                              ) : (
+                                <div class="absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10">
+                                  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+                                    <GrayWrapperdWithBorders classes="rounded-6" gradientColor={getModeColor()}>
+                                      <BattleGroupIcon additionClasses="w-7 mx-1 my-2" />
+                                    </GrayWrapperdWithBorders>
+                                  </div>
                                 </div>
+                              ))}
+                          <Switch>
+                            <Match when={game().status === "playing"}>
+                              {!!spinnerOptions()[playerIndex] &&
+                              !!spinLists()[playerIndex] ? (
+                                <BattleSpinnerReel
+                                  spinnerIndex={playerIndex}
+                                  isConfettiWin={
+                                    spinnerOptions()[playerIndex].isConfettiWin
+                                  }
+                                  isBigWin={spinnerOptions()[playerIndex].isBigWin}
+                                  isFastSpin={false}
+                                  lineColor={getModeColor()}
+                                />
+                              ) : (
+                                <Spiner classes="w-9 text-yellow-ffb" />
+                              )}
+                            </Match>
+                            <Match when={game().status === "open"}>
+                              {game().players[playerIndex + 1] ? (
+                                <div class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold" style={{
+                                  'text-shadow': '0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                                }}>
+                                  Ready
+                                </div>
+                              ) : <Spiner classes="w-9 text-yellow-ffb" /> }
+                            </Match>
+                            <Match when={game().status === "ended"}>
+                              <div class="w-full center">
+                                {game().winners.findIndex(
+                                  (winner) => winner.player_index === playerIndex + 1
+                                ) >= 0 ? (
+                                  <div class="w-full h-full center flex-col gap-2">
+                                    <div class="text-gradient-green font-SpaceGrotesk text-28 font-bold">
+                                      Winner
+                                    </div>
+                                    <div class="flex gap-2">
+                                      <Coin width="11" />{" "}
+                                      <span class="text-gradient font-SpaceGrotesk text-28 font-bold">
+                                        {
+                                          game().winners.find(
+                                            (winner) =>
+                                              winner.player_index === playerIndex + 1
+                                          ).winnerValue
+                                        }
+                                      </span>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div class="w-full h-full center flex-col opacity-20 grayscale">
+                                    <div class="flex gap-2">
+                                      <Coin width="11" />{" "}
+                                      <span class="text-gradient font-SpaceGrotesk text-28 font-bold">
+                                        0.00
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </div>
-                        </Match>
-                      </Switch>
-                    </div>
-                  )}
-                </For>
-              </div>
+                            </Match>
+                          </Switch>
+                        </div>
+                      )}
+                    </For>
+                  </div>
+                  </div>
+                </div>
               </div>
               
             </div>
