@@ -273,7 +273,7 @@ const CaseBattles = (props) => {
                           >
                             {(caseItem) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer`}
+                                class={`relative cursor-pointer`}
                                 onClick={() => {
                                   const caseIndexToShow = casesState().findIndex(
                                     (c) => c.id === caseItem.id
@@ -284,7 +284,7 @@ const CaseBattles = (props) => {
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class={`h-[77px] w-[106px] ${
+                                  class={`h-[101px] w-[138px] ${
                                     games[id]?.status === 'open' || games[id]?.status === 'playing'
                                       ? ''
                                       : 'opacity-20'
@@ -335,7 +335,7 @@ const CaseBattles = (props) => {
                           <For each={games[id]?.cases || []}>
                             {(caseItem, index) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer ${
+                                class={`relative cursor-pointer ${
                                   index() < games[id].currentRound && 'opacity-20'
                                 }`}
                                 onClick={() => {
@@ -345,7 +345,7 @@ const CaseBattles = (props) => {
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class='h-[77px] w-[106px]'
+                                  class='h-[101px] w-[138px]'
                                   src={caseItem?.image?.replace('{url}', window.origin) || ''}
                                 />
                               </div>
