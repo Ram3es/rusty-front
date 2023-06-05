@@ -176,7 +176,7 @@ const CoinflipGameModal = (props) => {
             {data()?.status === 'ended' || data()?.status === 'spinning' ? (
               <>
                 <div
-                  class={`coinflip-animation transform -translate-x-2 -translate-y-2 relative z-10 ${
+                  class={`coinflip-animation scale-[150%] transform -translate-x-3 -translate-y-3 relative z-10 ${
                     data()?.side == 1 ? 'red' : 'black'
                   }`}
                 />
