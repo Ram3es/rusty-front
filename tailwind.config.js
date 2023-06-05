@@ -210,6 +210,7 @@ module.exports = {
         "yellow-gradient" : "linear-gradient(264.21deg, rgba(255, 209, 67, 0.74) 0%, rgba(255, 244, 67, 0.74) 100%)",
         "yellow-to-transparent": "linear-gradient(to right, rgba(255, 194, 57, 0.2), transparent)",
         "dark-gradient": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+        "dark-radial-gradient": "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 317.48% at 100% 50%, #1D2352 0%, #1D1F30 100%)",
         "dark-to-yellow": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
         "control-panel": "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)",
         "dark-primery-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
