@@ -314,7 +314,7 @@ const CreateCaseBattle = (props) => {
                 {(item) => {
                   const caseToShow = casesState().find((c) => c.id === item.caseId)
                   return (
-                    <div class='relative w-max mx-auto'
+                    <div class='relative w-max mx-auto pointer-events-auto'
                     draggable="true"
                     >
                       <CaseCardToAdd
