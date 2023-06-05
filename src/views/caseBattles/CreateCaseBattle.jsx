@@ -623,7 +623,7 @@ const CreateCaseBattle = (props) => {
                         'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                       }}
                     >
-                      {getProportionalPartByAmount(casesPrice() * 0.8, modeToCreate().borrowPercent)}
+                      {getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8))}
                     </span>
                   </p>
                 </div>
