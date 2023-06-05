@@ -1804,7 +1804,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   position: relative;
 }
 
-.case-opening-wrapper-horizontal {
+.case-opening-wrapper-horizontal-yellow {
   background: radial-gradient(
       33.44% 122.5% at 50.04% 121.87%,
       rgba(255, 180, 54, 0.07) 0%,
@@ -1813,6 +1813,57 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
     radial-gradient(2.08% 7.25% at 0% 50%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
     radial-gradient(2.26% 7.9% at 100% 50%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    linear-gradient(
+      180deg,
+      rgba(118, 124, 255, 0) 0%,
+      rgba(118, 124, 255, 0.12) 50%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+    radial-gradient(
+        220.05% 24.97% at 39.62% 51.7%,
+        rgba(31, 35, 68, 0.56) 0%,
+        rgba(35, 37, 61, 0.56) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+.case-opening-wrapper-horizontal-green {
+  background: radial-gradient(
+      33.44% 122.5% at 50.04% 121.87%,
+      rgba(218, 253, 9, 0.07) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    radial-gradient(2.08% 7.25% at 0% 50%, rgba(218, 253, 9, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(2.26% 7.9% at 100% 50%, rgba(218, 253, 9, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    linear-gradient(
+      180deg,
+      rgba(118, 124, 255, 0) 0%,
+      rgba(118, 124, 255, 0.12) 50%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+    radial-gradient(
+        220.05% 24.97% at 39.62% 51.7%,
+        rgba(31, 35, 68, 0.56) 0%,
+        rgba(35, 37, 61, 0.56) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.case-opening-wrapper-horizontal-blue {
+  background: radial-gradient(
+      33.44% 122.5% at 50.04% 121.87%,
+      rgba(90, 195, 255, 0.07) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    radial-gradient(2.08% 7.25% at 0% 50%, rgba(90, 195, 255, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(2.26% 7.9% at 100% 50%, rgba(90, 195, 255, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
     linear-gradient(
       180deg,
       rgba(118, 124, 255, 0) 0%,
