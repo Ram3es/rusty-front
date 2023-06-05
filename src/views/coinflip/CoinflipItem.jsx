@@ -401,7 +401,7 @@ const CoinflipItem = (props) => {
               </div>
             </div>
           )}
-          {props.game?.status !== 'ended' && props.game?.status !== 'spinning' && (
+          {props.game?.status === 'open' && (
             <>
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
