@@ -326,7 +326,7 @@ const CreateCaseBattle = (props) => {
                   {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{casesPrice()}</span>
+                <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
               </div>
             </GrayWrapperdWithBorders>
           </div>
@@ -857,7 +857,7 @@ const CreateCaseBattle = (props) => {
                 Create Battle
               </span>
               <Coin width='5' />
-              <span class='text-gradient'>{casesPrice()}</span>
+              <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>
