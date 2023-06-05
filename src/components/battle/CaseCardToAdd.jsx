@@ -42,7 +42,8 @@ const CaseCardToAdd = (props) => {
       </div>
       </> : <span class="text-12 text-gray-9a font-SpaceGrotesk font-bold mt-2">{props.item.name}</span>}
     </div>
-    <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-gradient group-hover:bg-dark-to-yellow min-h-[48px] relative z-10">
+    <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient group-hover:bg-dark-to-yellow min-h-[48px] relative z-10"
+    >
       <div class="flex gap-1">
         <Coin />
         <span class="text-gradient text-16 font-SpaceGrotesk font-bold">{props.item.price}</span>

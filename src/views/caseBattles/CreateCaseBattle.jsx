@@ -872,12 +872,17 @@ const CreateCaseBattle = (props) => {
         </div>
       </div>
       {isAddCaseModalOpen() && (
-        <div class="fixed left-0 top-0 w-full h-full center bg-black bg-opacity-50 z-50">
+        <div class="fixed left-0 top-0 w-full h-full center bg-black bg-opacity-50 z-50"
+        onClick={() => {
+          setIsAddCaseModalOpen(false);
+          console.log("firing")
+        }}>
         <div
           class="flex flex-col rounded-12 overflow-hidden"
           style={{
             background: 'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
           }}
+          onClick={(e) => e.stopPropagation()}
         >
           <div
             class="flex justify-between items-start px-4 ssm:px-8 py-6 border-black border-opacity-10 border rounded-t-12"
