@@ -394,7 +394,11 @@ const CoinflipItem = (props) => {
                   'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
-                {props.game?.status === 'pending' ? 'Joining' : 'Starting'}{' '}
+                {props.game?.status === 'pending'
+                  ? 'Joining'
+                  : props.game?.status === 'counting'
+                  ? 'Starting'
+                  : ''}{' '}
                 <span class={`${props.game?.status === 'pending' && 'text-white'}`}>
                   {counter()}
                 </span>
@@ -423,7 +427,8 @@ const CoinflipItem = (props) => {
             </>
           )}
           {userObject.user.id !== props.game?.creator?.id &&
-            (props.game?.status !== 'spinning' && props.game?.status !== 'ended') && (
+            props.game?.status !== 'spinning' &&
+            props.game?.status !== 'ended' && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
                 class='flex items-center justify-center w-[51px] h-10 rounded-4 border border-white/10'
