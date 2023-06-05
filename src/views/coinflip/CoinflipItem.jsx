@@ -394,7 +394,7 @@ const CoinflipItem = (props) => {
                   'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
-                {props.game?.status}{' '}
+                {props.game?.status === 'pending' ? 'Joining' : 'Starting'}{' '}
                 <span class={`${props.game?.status === 'pending' && 'text-white'}`}>
                   {counter()}
                 </span>
