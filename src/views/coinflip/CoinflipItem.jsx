@@ -364,65 +364,63 @@ const CoinflipItem = (props) => {
               />
             </NavLink>
           )}
-          {props.game?.status === 'pending' ||
-            (props.game?.status === 'counting' && (
+          {(props.game?.status === 'pending' || props.game?.status === 'counting') && (
+            <div
+              class={`px-3 flex items-center ${
+                props.game?.status === 'counting' && 'justify-center'
+              } w-[136px] h-10 rounded-4 gap-[18px]`}
+              style={{
+                background: 'rgba(255, 255, 255, 0.02)',
+                'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+              }}
+            >
+              {props.game?.status === 'pending' && (
+                <div class='w-5 h-5 rounded-full'>
+                  <img
+                    alt='avatar'
+                    class='w-full h-full rounded-full'
+                    src={
+                      props.game?.opponent?.avatar ??
+                      'https://avatars.cloudflare.steamstatic.com/063dc7e51bde42a6b4580e976a70efa19fb12e73_full.jpg'
+                    }
+                  />
+                </div>
+              )}
               <div
-                class={`px-3 flex items-center ${
-                  props.game?.status === 'counting' && 'justify-center'
-                } w-[136px] h-10 rounded-4 gap-[18px]`}
+                class={`${props.game?.status === 'pending' && 'text-gray-9a'} ${
+                  props.game?.status === 'counting' && 'text-yellow-ffb'
+                } capitalize font-bold font-SpaceGrotesk text-12 `}
                 style={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                  'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
-                {props.game?.status === 'pending' && (
-                  <div class='w-5 h-5 rounded-full'>
-                    <img
-                      alt='avatar'
-                      class='w-full h-full rounded-full'
-                      src={
-                        props.game?.opponent?.avatar ??
-                        'https://avatars.cloudflare.steamstatic.com/063dc7e51bde42a6b4580e976a70efa19fb12e73_full.jpg'
-                      }
-                    />
-                  </div>
-                )}
-                <div
-                  class={`${props.game?.status === 'pending' && 'text-gray-9a'} ${
-                    props.game?.status === 'counting' && 'text-yellow-ffb'
-                  } capitalize font-bold font-SpaceGrotesk text-12 `}
-                  style={{
-                    'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
-                  }}
-                >
-                  {props.game?.status}{' '}
-                  <span class={`${props.game?.status === 'pending' && 'text-white'}`}>
-                    {counter()}
-                  </span>
-                </div>
+                {props.game?.status}{' '}
+                <span class={`${props.game?.status === 'pending' && 'text-white'}`}>
+                  {counter()}
+                </span>
               </div>
-            ))}
-          {userObject.user.id !== props.game?.creator?.id &&
-            props.game?.status !== 'ended' &&
-            props.game?.status !== 'spinning' && (
-              <>
-                <NavLink
-                  href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
-                  class='w-[136px] h-10 flex items-center justify-center'
-                >
-                  <CaseGradientButton isFullWidth>
-                    <div class='flex justify-center items-center'>
-                      <span
-                        class='text-yellow-ffb font-SpaceGrotesk text-16 font-bold'
-                        style={{
-                          'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
-                        }}
-                      >
-                        {i18n.t('coinflip.Join')}
-                      </span>
-                    </div>
-                  </CaseGradientButton>
-                </NavLink>
+            </div>
+          )}
+          {props.game?.status !== 'ended' && props.game?.status !== 'spinning' && (
+            <>
+              <NavLink
+                href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
+                class='w-[136px] h-10 flex items-center justify-center'
+              >
+                <CaseGradientButton isFullWidth>
+                  <div class='flex justify-center items-center'>
+                    <span
+                      class='text-yellow-ffb font-SpaceGrotesk text-16 font-bold'
+                      style={{
+                        'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+                      }}
+                    >
+                      {i18n.t('coinflip.Join')}
+                    </span>
+                  </div>
+                </CaseGradientButton>
+              </NavLink>
+              {userObject.user.id !== props.game?.creator?.id && (
                 <NavLink
                   href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
                   class='flex items-center justify-center w-[51px] h-10 rounded-4 border border-white/10'
@@ -449,8 +447,9 @@ const CoinflipItem = (props) => {
                     />
                   </svg>
                 </NavLink>
-              </>
-            )}
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>
