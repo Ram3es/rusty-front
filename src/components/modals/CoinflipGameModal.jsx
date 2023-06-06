@@ -223,7 +223,7 @@ const CoinflipGameModal = (props) => {
           />
         </div>
         <div
-          class='text-center py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-2'
+          class='text-center py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-2 rounded-b-xl'
           style={{
             background:
               'radial-gradient(102.36% 100% at 50% 0%, rgba(118, 124, 255, 0) 0%, rgba(118, 124, 255, 0.06) 100%), linear-gradient(89.63deg, #1A1B30 0.32%, #191C35 99.68%)'
