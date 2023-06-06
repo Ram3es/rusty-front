@@ -1,7 +1,7 @@
 const DarkWrapperdWithBorders = (props) => {
   return (
     <div
-      class={`${props.isActive && 'p-0.5'} ${props.classes}`}
+      class={`${props.isActive && 'p-[1px]'} ${props.classes}`}
       style={{
         background: props.isActive && "linear-gradient(180deg, rgba(255, 180, 54, 0) -37.12%, rgba(255, 180, 54, 0.36) 100%)"
       }}

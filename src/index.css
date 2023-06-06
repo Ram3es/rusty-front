@@ -2117,7 +2117,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   right: 0;
   bottom: 0;
   width: 100%;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 6px;
   background: linear-gradient(90deg, rgba(218, 253, 9, 0.32) 0%, rgba(218, 253, 9, 0) 40.33%)
     border-box;
@@ -2166,7 +2166,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   right: 0;
   bottom: 0;
   width: 100%;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 6px;
   background: linear-gradient(90.76deg, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 18.33%)
     border-box;
