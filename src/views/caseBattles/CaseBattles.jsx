@@ -127,7 +127,7 @@ const CaseBattles = (props) => {
 
   return (
     <Fallback loaded={battlesPageLoaded}>
-      <div class="flex flex-col py-6 gap-8 min-h-[100vh]">
+      <div class="flex flex-col py-6 gap-2 min-h-[100vh]">
           <div class= "w-full grid grid-cols-3 gap-3 items-center bg-control-panel">
           <div class=" col-span-3 sm:col-span-1 w-full flex justify-center md:justify-start">
             <Dropdown 
@@ -170,6 +170,12 @@ const CaseBattles = (props) => {
               </YellowGradientButton>
             </NavLink>
           </div>
+        </div>
+        <div class="w-full flex font-SpaceGrotesk text-13 text-[#A2A5C6] font-semibold">
+            <div class="ml-8">Mode</div>
+            <div class="ml-11">Cases</div>
+            <div class="w-full flex-1" />
+            <div class="mr-32 hidden sm:block">Participants</div>
         </div>
         <div class='flex flex-col gap-3 px-0.5'>
           <For
