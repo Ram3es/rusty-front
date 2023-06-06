@@ -13,7 +13,7 @@ const CaseToolTip = (props) => {
       background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 242.42% at 100% 50%, #1D2352 0%, #1D1F30 100%)'
     }}
   >
- Devil Case 
+ {props.name}
  <div class="flex gap-1 items-center justify-center">
     <Coin width="4"/> 
     <GoldText text={getCurrencyString(props.price)}

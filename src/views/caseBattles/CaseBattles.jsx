@@ -287,7 +287,9 @@ const CaseBattles = (props) => {
                                 use:tippy={{
                                             props: {
                                               content: (
-                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}/>
+                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                                  name={caseItem.name}
+                                                />
                                               ),
                                               allowHTML: true,
                                               duration: 0,
