@@ -20,6 +20,7 @@ import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
 import { tippy, useTippy } from 'solid-tippy';
 import CaseToolTip from "../../components/battle/CaseToolTip"
+import { isWinner } from '../../utilities/games/caseBattles'
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -203,7 +204,7 @@ const CaseBattles = (props) => {
                     games[id]?.cursed !== 1
                 }}
               >
-                <div class='p-4 w-full flex gap-3 border-r border-[#161727] relative z-10'>
+                <div class='p-4 w-full flex gap-3 md:border-r border-dark-1617 relative z-10'>
                   <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>
                     {games[id]?.cursed === 1 && (
                       <BattleCursedIcon additionClasses='w-8 text-[#DAFD09]' />
@@ -236,7 +237,7 @@ const CaseBattles = (props) => {
                     </div>
                   </div>
 
-                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primery-gradient'>
+                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
                       isActive={games[id]?.status === 'open' || games[id]?.status === 'playing'}
                       classes='rounded-l-6'
@@ -396,9 +397,11 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
+                            widthClasses={games[id]?.status !== 'ended' || isWinner(games[id]?.winners || [], userIndex) ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !isWinner(games[id]?.winners || [], userIndex) && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
-                            <>
+                            <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
                               {games[id]?.cursed === 1 && (
                                 <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
                               )}
@@ -409,7 +412,7 @@ const CaseBattles = (props) => {
                                 games[id]?.cursed !== 1 && (
                                   <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
                                 )}
-                            </>
+                            </span>
                           ) : (
                             ''
                           )}

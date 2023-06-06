@@ -142,7 +142,7 @@ const CaseBattleJoinModal = (props) => {
                       <div
                         onClick={() => {
                           if (player !== null) return
-                          setSetup((prevState) => ({ ...prevState, team: index() + 1 }))
+                          setSetup((prevState) => ({ ...prevState, team: setup().team === index() + 1 ? null : index() + 1 }))
                         }}
                         class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow ${
                           !player && 'bg-blue-282 text-gray-9a hover:border'

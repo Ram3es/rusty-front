@@ -51,8 +51,8 @@ const CaseCardToAdd = (props) => {
     </div>
     <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient group-hover:bg-dark-to-yellow min-h-[48px] relative z-10"
     >
-      <div class="flex gap-1">
-        <Coin />
+      <div class="flex items-center gap-2">
+        <Coin width={5} />
         <span class="text-gradient text-16 font-SpaceGrotesk font-bold">{props.item.price}</span>
       </div>
       {props.isAdded && props.children && <div class="w-full flex justify-between items-center">

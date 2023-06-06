@@ -97,6 +97,10 @@ module.exports = {
         'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
         "box": "0px 4px 8px rgba(0, 0, 0, 0.25)"
       },
+      textShadow: {
+        'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
+        'gold-secondary': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+      },
       colors : {
         "transparent": "transparent",
         
@@ -244,7 +248,7 @@ module.exports = {
         "dark-radial-gradient": "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 317.48% at 100% 50%, #1D2352 0%, #1D1F30 100%)",
         "dark-to-yellow": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
         "control-panel": "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)",
-        "dark-primery-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
+        "dark-primary-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
         "dark-secondary": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
         'gray-button-gradient': 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)'
         
