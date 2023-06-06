@@ -2208,7 +2208,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .users-wrapper-gradient {
   background: radial-gradient(
-        100% 275.07% at 100% 0%,
+        100% 275.07% at 0% 100%,
         rgba(29, 35, 82, 0.56) 0%,
         rgba(29, 31, 48, 0.56) 100%
       )
