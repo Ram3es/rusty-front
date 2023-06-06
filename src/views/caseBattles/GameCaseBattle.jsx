@@ -243,6 +243,29 @@ const GameCaseBattle = (props) => {
     socket.off(`battles:update`)
   })
 
+  const isWinner = (winnersArray, playerIndex) => {
+    return winnersArray.some((winner) => winner.player_index === playerIndex + 1)
+  }
+
+  const getGradientForWinners = (playerQty, winnersArray, playerIndex) => {
+    return (
+      isWinner(winnersArray, playerIndex) &&
+      (playerQty === 2
+        ? `radial-gradient(100% 126.02% at ${
+            playerIndex + 1 === 1 ? '0%' : '100%'
+          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
+        : playerQty === 4
+        ? `radial-gradient(100% 126.02% at ${
+            playerIndex + 1 === 1 || playerIndex + 1 === 2 ? '0%' : '100%'
+          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
+        : playerQty === 3
+        ? `radial-gradient(${playerIndex + 1 === 2 ? '40%' : '100%'} 126.02% at ${
+            playerIndex + 1 === 1 ? '0%' : playerIndex + 1 === 2 ? '50%' : '100%'
+          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
+        : '')
+    )
+  }
+
   return (
     <div class='flex flex-col'>
       {game() && (
@@ -511,9 +534,7 @@ const GameCaseBattle = (props) => {
                                   </Match>
                                   <Match when={game().status === 'ended'}>
                                     <div class='w-full center'>
-                                      {game().winners.findIndex(
-                                        (winner) => winner.player_index === playerIndex + 1
-                                      ) >= 0 ? (
+                                      {isWinner(game().winners, playerIndex) ? (
                                         <div class='w-full h-full center flex-col gap-2 relative z-10'>
                                           <div
                                             class='absolute w-[64px] h-[50px] z-0 '
@@ -578,12 +599,25 @@ const GameCaseBattle = (props) => {
                     game().playersQty
                   }`}
                   style={{
-                    background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
+                    background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, ${
+                      game().status === 'ended' ? 0 : '0.07'
+                    }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
                   }}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
-                      <div class='center relative'>
+                      <div
+                        class={`center relative ${
+                          isWinner(game().winners, playerIndex) ? 'opacity-100' : 'opacity-30'
+                        }`}
+                        style={{
+                          background: `${getGradientForWinners(
+                            game().playersQty,
+                            game().winners,
+                            playerIndex
+                          )}`
+                        }}
+                      >
                         {game().players[playerIndex + 1] ? (
                           <div class='py-6 center px-2'>
                             <div class='py-3 pl-2 pr-6 flex flex-wrap gap-2 center'>
