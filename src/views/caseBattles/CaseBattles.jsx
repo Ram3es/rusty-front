@@ -18,6 +18,8 @@ import UserGameAvatar from '../../components/battle/UserGameAvatar'
 import CaseViewModal from '../../components/modals/CaseViewModal'
 import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -273,14 +275,27 @@ const CaseBattles = (props) => {
                           >
                             {(caseItem) => (
                               <div
-                                class={`relative cursor-pointer`}
-                                onClick={() => {
+                                class={`relative cursor-pointer pointer-events-auto`}
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   const caseIndexToShow = casesState().findIndex(
                                     (c) => c.id === caseItem.id
                                   )
                                   setCaseViewModalItem(casesState()[caseIndexToShow])
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                            props: {
+                                              content: (
+                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                                  name={caseItem.name}
+                                                />
+                                              ),
+                                              allowHTML: true,
+                                              duration: 0,
+                                            },
+                                            hidden: true,
+                                              }}
                               >
                                 <img
                                   alt={caseItem.name}

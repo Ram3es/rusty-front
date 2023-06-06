@@ -1,4 +1,4 @@
-import { createMemo } from 'solid-js'
+import { createMemo, createEffect } from 'solid-js'
 
 import Coin from '../../utilities/Coin'
 
@@ -10,39 +10,48 @@ const skinStylesConfig = [
         shadowLogoColor: 'rgba(235, 172, 50, 0.16)',
         itemBg: 'potential-drop--item__yellow',
         winPercentColor: 'text-yellow-eb',
-        textShadow: '#fe4a4a3d'
+        textShadow: '#fe4a4a3d',
+        chanceColor: 'rgba(235, 172, 50, 1)'
     },
     {
         condition: 1000 * 30,
         shadowLogoColor: 'rgba(255, 27, 27, 0.16)',
         itemBg: 'potential-drop--item__red',
         winPercentColor: 'text-red-fe',
-        textShadow: '#fe4a4a3d'
+        textShadow: '#fe4a4a3d',
+        chanceColor: 'rgba(255, 27, 27, 1)'
     },
     {
         condition: 1000 * 10,
         shadowLogoColor: 'rgba(214, 48, 255, 0.16)',
         itemBg: 'potential-drop--item__purple',
         winPercentColor: 'text-purple-d6',
-        textShadow: '#fe4a4a3d'
+        textShadow: '#fe4a4a3d',
+        chanceColor: 'rgba(214, 48, 255, 1)'
     },
     {
         condition: 1000 * 2,
         shadowLogoColor: 'rgba(40, 152, 255, 0.16)',
         itemBg: 'potential-drop--item__blue',
         winPercentColor: 'text-2898FF',
-        textShadow: '#fe4a4a3d'
+        textShadow: '#fe4a4a3d',
+        chanceColor: 'rgba(40, 152, 255, 1)'
     },
     {
         condition: 0,
         shadowLogoColor: 'rgba(198, 198, 198, 0.16)',
         itemBg: 'potential-drop--item__gray',
         winPercentColor: 'text-gray-c6c',
-        textShadow: '#fe4a4a3d'
+        textShadow: '#fe4a4a3d',
+        chanceColor: 'rgba(198, 198, 198, 1)'
     }
 ]
 
 const PotentialDropItem = (props) => {
+    createEffect(() => {
+        console.log(props);
+        console.log(styles())
+    })
     const getCurrentStylesByPrice = (skinPrice) => {
         for (const config of skinStylesConfig) {
             if (skinPrice > config.condition) {
@@ -50,7 +59,8 @@ const PotentialDropItem = (props) => {
                     shadowLogoColor: config.shadowLogoColor,
                     itemBg: config.itemBg,
                     winPercentColor: config.winPercentColor,
-                    textShadow: config.textShadow
+                    textShadow: config.textShadow,
+                    chanceColor: config.chanceColor
                 }
             }
         }
@@ -64,6 +74,7 @@ const PotentialDropItem = (props) => {
                 styles()?.itemBg || '' 
             } font-SpaceGrotesk`}
         >
+       
             <div
                 class='block group-hover:hidden absolute inset-0 z-0 bg-repeat overflow-hidden m-0.5 p-2'
                 style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
@@ -172,6 +183,12 @@ const PotentialDropItem = (props) => {
                     </div>
                 </div>
             </div>
+            <div class="absolute top-3 left-3 font-semibold z-50 text-11"
+        style={{
+            'color': `${styles().chanceColor}`,
+        }}>
+            {props.skin.chance}%
+        </div>
         </div>
     )
 }

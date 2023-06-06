@@ -3,8 +3,14 @@ import injector from "../../../injector/injector";
 const { socket, toastr } = injector;
 
 export const getCurrencyString = (amount) => {
-  return parseFloat(amount).toFixed(2);
+  // add commas to number
+  return parseFloat(amount).toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 };
+
+
 
 // used for development
 export const generateGrid = (mineCount) => {
