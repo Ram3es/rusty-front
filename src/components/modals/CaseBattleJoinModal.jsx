@@ -1,4 +1,4 @@
-import { For, createEffect, createSignal } from 'solid-js'
+import { For, createSignal } from 'solid-js'
 
 import injector from '../../injector/injector'
 
@@ -37,10 +37,6 @@ const CaseBattleJoinModal = (props) => {
   }
 
   const modeColor = () => getColorByModeAndCursed(props.game?.mode, props.game?.cursed)
-
-  createEffect(() => {
-    console.log(setup().team, 'team')
-  })
 
   return (
     <Modal
