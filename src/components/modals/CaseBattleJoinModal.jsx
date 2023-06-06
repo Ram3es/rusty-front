@@ -311,8 +311,8 @@ const CaseBattleJoinModal = (props) => {
                       }}
                     >
                       {getProportionalPartByAmount(
-                        props.game?.totalValue * 0.8,
-                        setup().borrowPercent
+                        props.game?.totalValue,
+                        Math.floor(setup().borrowPercent * 0.8)
                       )}
                     </span>
                   </p>

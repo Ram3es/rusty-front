@@ -7,15 +7,22 @@ const CaseCardToAdd = (props) => {
   return (
     <div class={`case-card-background border border-opacity-5 group h-[256px] w-[216px] flex flex-col ${
       props.isAdded && props.isActiveBorderShown ? 'border-yellow-ffb border-1 border-opacity-100' : 'border-transparent'
-     } relative rounded-6 overflow-hidden`}>
+     } relative rounded-6 overflow-hidden`}
+     onClick={() => {
+        if (!props.isAdded){
+          props.onAddCase();
+        }
+
+     }}>
     <div
       class=" absolute left-0 top-0 w-full h-full z-0 opacity-60 group-hover:opacity-100"
       style={{
         'background-image': `url('${headerLogoBgVector}')`
       }}
     />
-    <div class="relative grow z-10 px-4 pb-5 pt-0 flex flex-col justify-end items-center">
-      <img class="h-[110px] group-hover:rotate-6" src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} />
+    <div class={`relative grow z-10 px-4 ${!props.isAdded && "pb-5"} pb-2 pt-0 flex flex-col justify-end items-center`}>
+      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} />
+      <div class="h-[110px]" />
       {!props.isAdded ? <><div class="w-full block group-hover:hidden mt-5">
 
         <TransparentButton 

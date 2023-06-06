@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For, Show } from "solid-js";
+import { createEffect, createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import PageLoadState from "../../libraries/PageLoadState";
 import injector from "../../injector/injector";
 import Fallback from "../Fallback";
@@ -25,6 +25,8 @@ import YellowGradientButton from "../../components/elements/CaseGradientButton";
 import TrashBinIcon from "../../components/icons/TrashBinIcon"
 import RangePercentScale from '../../components/elements/RangePercentScale'
 import {getProportionalPartByAmount} from "../../utilities/Numbers";
+
+import Sortable from 'sortablejs'
 
 
 const minLevelOptions = ['bronze','silver', 'gold1','platinum1','diamond']
@@ -70,6 +72,8 @@ const CreateCaseBattle = (props) => {
   })
 
   const [casesPrice, setCasesPrice] = createSignal(0)
+
+  let sortable;
 
   const getSelectedCasesCost = () =>
     modeToCreate().cases.reduce(
@@ -191,6 +195,27 @@ const CreateCaseBattle = (props) => {
     })
   }
 
+  createEffect(() => {
+    if (sortable) sortable.destroy();
+    if (modeToCreate().cases.length > 0) {
+      console.log('update');
+      sortable = new Sortable(itemsWrapper, {
+        handle: ".swapper",
+        filter: ".not-drag",
+        draggable: ".item",
+        onEnd: (event) => {
+          const { newIndex, oldIndex } = event;
+          setModeToCreate((prev) => {
+            const newCasesObj = { ...prev }
+            newCasesObj.cases.splice(newIndex - 1, 0, newCasesObj.cases.splice(oldIndex - 1, 1)[0]);
+            return newCasesObj
+          })
+        },
+      });
+      console.log(sortable);
+    }
+  })
+
   const counter = (item) => {
     return (
       <div
@@ -276,6 +301,10 @@ const CreateCaseBattle = (props) => {
     )
   }
 
+  onCleanup(() => {
+    if (sortable) sortable.destroy();
+  });
+
   return (
     <Fallback loaded={createBattlesPageLoaded}>
       <div class='flex flex-col py-6 gap-6'>
@@ -297,14 +326,14 @@ const CreateCaseBattle = (props) => {
                   {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{casesPrice()}</span>
+                <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
               </div>
             </GrayWrapperdWithBorders>
           </div>
           <div class='flex flex-col gap-2 px-4 xl:px-8 xxl:px-32 my-6 llg:max-w-[calc(100vw-324px)]'>
             <div ref={itemsWrapper} class='grid mt-6 grid-cols-battle-create gap-2 '>
               <div
-                class='mx-auto h-[256px] w-[214px] bg-full cursor-pointer'
+                class='mx-auto h-[256px] w-[214px] bg-full cursor-pointer not-drag'
                 style={{
                   'background-image': `url(${AddCaseCard})`
                 }}
@@ -314,7 +343,9 @@ const CreateCaseBattle = (props) => {
                 {(item) => {
                   const caseToShow = casesState().find((c) => c.id === item.caseId)
                   return (
-                    <div class='relative w-max mx-auto'>
+                    <div class='relative w-max mx-auto pointer-events-auto item'
+                    draggable="true"
+                    >
                       <CaseCardToAdd
                         item={caseToShow}
                         isAdded={true}
@@ -324,14 +355,9 @@ const CreateCaseBattle = (props) => {
                         {counter(item)}
                       </CaseCardToAdd>
                       <div class='absolute right-3 top-3 w-7 h-7 z-10'>
-                        <RoundedButton
-                          onClick={() => {
-                            console.log(caseToShow)
-                            setCaseViewModalItem(caseToShow)
-                            toggleCaseViewModal()
-                          }}
-                        >
+                        <RoundedButton>
                           <svg
+                            class="swapper"
                             width='19'
                             height='20'
                             viewBox='0 0 19 20'
@@ -355,7 +381,7 @@ const CreateCaseBattle = (props) => {
                 <For each={Array.from(Array(placeholdersToShow()).keys())}>
                   {() => (
                     <div
-                      class='mx-auto h-[256px] w-[214px] bg-full'
+                      class='mx-auto h-[256px] w-[214px] bg-full not-drag'
                       style={{
                         'background-image': `url(${CasePlaceholder})`
                       }}
@@ -597,7 +623,7 @@ const CreateCaseBattle = (props) => {
                         'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                       }}
                     >
-                      {getProportionalPartByAmount(casesPrice() * 0.8, modeToCreate().borrowPercent)}
+                      {getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8))}
                     </span>
                   </p>
                 </div>
@@ -831,7 +857,7 @@ const CreateCaseBattle = (props) => {
                 Create Battle
               </span>
               <Coin width='5' />
-              <span class='text-gradient'>{casesPrice()}</span>
+              <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>

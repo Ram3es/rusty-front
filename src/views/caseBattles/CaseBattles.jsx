@@ -18,6 +18,8 @@ import UserGameAvatar from '../../components/battle/UserGameAvatar'
 import CaseViewModal from '../../components/modals/CaseViewModal'
 import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -273,18 +275,31 @@ const CaseBattles = (props) => {
                           >
                             {(caseItem) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer`}
-                                onClick={() => {
+                                class={`relative cursor-pointer pointer-events-auto`}
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   const caseIndexToShow = casesState().findIndex(
                                     (c) => c.id === caseItem.id
                                   )
                                   setCaseViewModalItem(casesState()[caseIndexToShow])
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                            props: {
+                                              content: (
+                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                                  name={caseItem.name}
+                                                />
+                                              ),
+                                              allowHTML: true,
+                                              duration: 0,
+                                            },
+                                            hidden: true,
+                                              }}
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class={`h-[77px] w-[106px] ${
+                                  class={`h-[101px] w-[138px] ${
                                     games[id]?.status === 'open' || games[id]?.status === 'playing'
                                       ? ''
                                       : 'opacity-20'
@@ -335,7 +350,7 @@ const CaseBattles = (props) => {
                           <For each={games[id]?.cases || []}>
                             {(caseItem, index) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer ${
+                                class={`relative cursor-pointer ${
                                   index() < games[id].currentRound && 'opacity-20'
                                 }`}
                                 onClick={() => {
@@ -345,7 +360,7 @@ const CaseBattles = (props) => {
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class='h-[77px] w-[106px]'
+                                  class='h-[101px] w-[138px]'
                                   src={caseItem?.image?.replace('{url}', window.origin) || ''}
                                 />
                               </div>
