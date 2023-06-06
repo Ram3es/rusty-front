@@ -232,7 +232,7 @@ const CoinflipGameModal = (props) => {
           <p class='truncate'>Server seed hash: {data()?.hash}</p>
           <div class='flex items-center justify-center gap-3'>
             <p>Game ID: {data()?.id}</p>
-            {data()?.ticket && <p class='text-yellow-ffb'>Ticket: {data()?.ticket}</p>}
+            {data()?.ticket && isWinBgShown() && <p class='text-yellow-ffb'>Ticket: {data()?.ticket}</p>}
           </div>
         </div>
       </div>
