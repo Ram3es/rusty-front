@@ -26,7 +26,7 @@ import TrashBinIcon from "../../components/icons/TrashBinIcon"
 import RangePercentScale from '../../components/elements/RangePercentScale'
 import {getProportionalPartByAmount} from "../../utilities/Numbers";
 
-import Sortable from 'sortablejs'
+import dragula from 'dragula'
 
 
 const minLevelOptions = ['bronze','silver', 'gold1','platinum1','diamond']
@@ -73,7 +73,7 @@ const CreateCaseBattle = (props) => {
 
   const [casesPrice, setCasesPrice] = createSignal(0)
 
-  let sortable;
+  let drake;
 
   const getSelectedCasesCost = () =>
     modeToCreate().cases.reduce(
@@ -196,23 +196,36 @@ const CreateCaseBattle = (props) => {
   }
 
   createEffect(() => {
-    if (sortable) sortable.destroy();
+    if (drake) drake.destroy();
     if (modeToCreate().cases.length > 0) {
-      console.log('update');
-      sortable = new Sortable(itemsWrapper, {
-        handle: ".swapper",
-        filter: ".not-drag",
-        draggable: ".item",
-        onEnd: (event) => {
-          const { newIndex, oldIndex } = event;
-          setModeToCreate((prev) => {
-            const newCasesObj = { ...prev }
-            newCasesObj.cases.splice(newIndex - 1, 0, newCasesObj.cases.splice(oldIndex - 1, 1)[0]);
-            return newCasesObj
-          })
-        },
+      const elements = itemsWrapper.querySelectorAll(".item-drop")
+      drake = dragula(Array.from(elements), 
+      {
+        revertOnSpill: true,
+        moves: function (el, container, handle) {
+          return handle.classList.contains('swapper');
+        }
       });
-      console.log(sortable);
+      drake.on('drag', (el, source) => {
+        el.style.display = 'none';
+      });
+      
+      drake.on('cancel', (el, container, source) => {
+        el.style.display = '';
+      });
+      
+      drake.on('drop', (el, target, source, sibling) => {
+        if (target.classList.contains('exclude-card') || target.closest('.exclude-card')) {
+          return; // Cancel the drop action
+        }
+        const newIndex = Array.from(elements).indexOf(target);
+        const oldIndex = Array.from(elements).indexOf(source);
+        setModeToCreate((prev) => {
+          const newCasesObj = { ...prev }
+          newCasesObj.cases.splice(newIndex, 0, newCasesObj.cases.splice(oldIndex, 1)[0]);
+          return newCasesObj
+        })
+      });
     }
   })
 
@@ -302,7 +315,7 @@ const CreateCaseBattle = (props) => {
   }
 
   onCleanup(() => {
-    if (sortable) sortable.destroy();
+    if (drake) drake.destroy();
   });
 
   return (
@@ -333,7 +346,7 @@ const CreateCaseBattle = (props) => {
           <div class='flex flex-col gap-2 px-4 xl:px-8 xxl:px-32 my-6 llg:max-w-[calc(100vw-324px)]'>
             <div ref={itemsWrapper} class='grid mt-6 grid-cols-battle-create gap-2 '>
               <div
-                class='mx-auto h-[256px] w-[214px] bg-full cursor-pointer not-drag'
+                class='mx-auto h-[256px] w-[214px] bg-full cursor-pointer exclude-card'
                 style={{
                   'background-image': `url(${AddCaseCard})`
                 }}
@@ -343,8 +356,11 @@ const CreateCaseBattle = (props) => {
                 {(item) => {
                   const caseToShow = casesState().find((c) => c.id === item.caseId)
                   return (
-                    <div class='relative w-max mx-auto pointer-events-auto item'
-                    draggable="true"
+                    <div class="item-drop">
+                      <div class='relative w-max mx-auto pointer-events-auto'
+                      style={{
+                        "touch-action": "none"
+                      }}
                     >
                       <CaseCardToAdd
                         item={caseToShow}
@@ -357,12 +373,12 @@ const CreateCaseBattle = (props) => {
                       <div class='absolute right-3 top-3 w-7 h-7 z-10'>
                         <RoundedButton>
                           <svg
-                            class="swapper"
                             width='19'
                             height='20'
                             viewBox='0 0 19 20'
                             fill='none'
                             xmlns='http://www.w3.org/2000/svg'
+                            class="swapper"
                           >
                             <path
                               fill-rule='evenodd'
@@ -374,6 +390,7 @@ const CreateCaseBattle = (props) => {
                         </RoundedButton>
                       </div>
                     </div>
+                    </div>
                   )
                 }}
               </For>
@@ -381,7 +398,7 @@ const CreateCaseBattle = (props) => {
                 <For each={Array.from(Array(placeholdersToShow()).keys())}>
                   {() => (
                     <div
-                      class='mx-auto h-[256px] w-[214px] bg-full not-drag'
+                      class='mx-auto h-[256px] w-[214px] bg-full exclude-card'
                       style={{
                         'background-image': `url(${CasePlaceholder})`
                       }}
