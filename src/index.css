@@ -962,7 +962,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
       /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
 }
 
-.potential-drop--price {
+.potential-drop--price, .coinflip-game--price {
   background: linear-gradient(
       75.96deg,
       rgba(255, 255, 255, 0) 20.07%,
