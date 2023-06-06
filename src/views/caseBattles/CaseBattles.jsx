@@ -18,6 +18,8 @@ import UserGameAvatar from '../../components/battle/UserGameAvatar'
 import CaseViewModal from '../../components/modals/CaseViewModal'
 import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -125,7 +127,7 @@ const CaseBattles = (props) => {
 
   return (
     <Fallback loaded={battlesPageLoaded}>
-      <div class="flex flex-col py-6 gap-8 min-h-[100vh]">
+      <div class="flex flex-col py-6 gap-2 min-h-[100vh]">
           <div class= "w-full grid grid-cols-3 gap-3 items-center bg-control-panel">
           <div class=" col-span-3 sm:col-span-1 w-full flex justify-center md:justify-start">
             <Dropdown 
@@ -169,6 +171,12 @@ const CaseBattles = (props) => {
             </NavLink>
           </div>
         </div>
+        <div class="w-full flex font-SpaceGrotesk text-13 text-[#A2A5C6] font-semibold">
+            <div class="ml-8">Mode</div>
+            <div class="ml-11">Cases</div>
+            <div class="w-full flex-1" />
+            <div class="mr-32 hidden sm:block">Participants</div>
+        </div>
         <div class='flex flex-col gap-3 px-0.5'>
           <For
             each={Object.keys(games)?.sort((a, b) => {
@@ -195,7 +203,7 @@ const CaseBattles = (props) => {
                     games[id]?.cursed !== 1
                 }}
               >
-                <div class='p-4 w-full flex gap-3 border-r border-black relative z-10'>
+                <div class='p-4 w-full flex gap-3 border-r border-[#161727] relative z-10'>
                   <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>
                     {games[id]?.cursed === 1 && (
                       <BattleCursedIcon additionClasses='w-8 text-[#DAFD09]' />
@@ -273,14 +281,27 @@ const CaseBattles = (props) => {
                           >
                             {(caseItem) => (
                               <div
-                                class={`relative cursor-pointer`}
-                                onClick={() => {
+                                class={`relative cursor-pointer pointer-events-auto`}
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   const caseIndexToShow = casesState().findIndex(
                                     (c) => c.id === caseItem.id
                                   )
                                   setCaseViewModalItem(casesState()[caseIndexToShow])
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                            props: {
+                                              content: (
+                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                                  name={caseItem.name}
+                                                />
+                                              ),
+                                              allowHTML: true,
+                                              duration: 0,
+                                            },
+                                            hidden: true,
+                                              }}
                               >
                                 <img
                                   alt={caseItem.name}
