@@ -14,15 +14,15 @@ const CaseToolTip = (props) => {
     }}
   >
  {props.name}
- <div class="flex gap-1 items-center justify-center">
+ <div class="flex gap-1 items-center justify-center w-full">
     <Coin width="4"/> 
     <GoldText text={getCurrencyString(props.price)}
       size={"12"} />
  </div>
  <div class="bg-[#1617275C] h-[1px] w-[100%]"/>
- <div class="flex gap-1">
+ <div class="flex gap-1  items-center justify-center">
     <img src={ToolTipInfoIcon} alt="tool tip info icon" />
-   <span class="">
+   <span class="w-full text-center">
    Right Click for drops
    </span>
  </div>
