@@ -8,3 +8,7 @@ export const getColorByModeAndCursed = (mode, cursed) => {
       return 'blue'
   }
 }
+
+export const isWinner = (winnersArray, playerIndex) => {
+  return winnersArray.some((winner) => winner.player_index === playerIndex + 1)
+}

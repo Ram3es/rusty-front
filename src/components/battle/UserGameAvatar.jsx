@@ -5,7 +5,7 @@ import Skull from '../../assets/img/pvpmines/Skull.png'
 const UserGameAvatar = (props) => {
   return (
     <div
-      class={`relative p-[1px] rounded-full  ${props.widthClasses ?? "w-9 h-9"}`}
+      class={`relative p-[1px] rounded-full ${props.widthClasses ?? "w-9 h-9"} ${props.opacityClasses ?? "opacity-100"}`}
       style={{
         background:
           !props.color ? props.mode === "cursed"

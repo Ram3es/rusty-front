@@ -20,6 +20,7 @@ import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
 import { tippy, useTippy } from 'solid-tippy';
 import CaseToolTip from "../../components/battle/CaseToolTip"
+import { isWinner } from '../../utilities/games/caseBattles'
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -390,9 +391,11 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
+                            widthClasses={games[id]?.status !== 'ended' || isWinner(games[id]?.winners || [], userIndex) ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !isWinner(games[id]?.winners || [], userIndex) && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
-                            <>
+                            <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
                               {games[id]?.cursed === 1 && (
                                 <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
                               )}
@@ -403,7 +406,7 @@ const CaseBattles = (props) => {
                                 games[id]?.cursed !== 1 && (
                                   <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
                                 )}
-                            </>
+                            </span>
                           ) : (
                             ''
                           )}
