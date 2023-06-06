@@ -230,7 +230,7 @@ const CaseBattles = (props) => {
                     </div>
                   </div>
 
-                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primery-gradient'>
+                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
                       isActive={games[id]?.status === 'open' || games[id]?.status === 'playing'}
                       classes='rounded-l-6'
