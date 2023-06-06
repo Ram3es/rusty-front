@@ -244,7 +244,10 @@ const GameCaseBattle = (props) => {
   })
 
   const isWinner = (winnersArray, playerIndex) => {
-    return winnersArray.some((winner) => winner.player_index === playerIndex + 1)
+    if (winnersArray) {
+      return winnersArray.some((winner) => winner.player_index === playerIndex + 1)
+    }
+    return false
   }
 
   const getGradientForWinners = (playerQty, winnersArray, playerIndex) => {
