@@ -319,7 +319,7 @@ const CoinflipItem = (props) => {
         <div class='w-30'>
           <div class='flex items-center gap-[9px]'>
             <Coin width='6' />
-            <span class='font-bold text-17.1 coinflip-game--price'>
+            <span class='font-bold text-16 llg:text-16 xll:text-19 font-SpaceGrotesk coinflip-game--price'>
               {Number(
                 (props.game?.creator?.value || 0) + (props.game?.opponent?.value || 0)
               ).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
