@@ -1,36 +1,43 @@
-import { createEffect, createSignal, For, onCleanup, onMount, Show } from "solid-js";
-import PageLoadState from "../../libraries/PageLoadState";
-import injector from "../../injector/injector";
-import Fallback from "../Fallback";
-import Coin from "../../utilities/Coin";
-import { createStore } from "solid-js/store";
-import { URL } from "../../libraries/url";
-import { NavLink, useNavigate } from "solid-app-router";
-import ArrowBack from "../../components/icons/ArrowBack";
-import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBorders";
-import AddCaseCard from "../../assets/img/case/AddCaseCard.png";
-import CasePlaceholder from "../../assets/img/case/CasePlaceholder.png";
-import CaseGradientButton from "../../components/elements/CaseGradientButton";
-import BattleRoyaleIcon from "../../components/icons/BattleRoyaleIcon";
-import BattleCursedIcon from "../../components/icons/BattleCursedIcon";
-import BattleGroupIcon from "../../components/icons/BattleGroupIcon";
-import Toggle from "../../components/elements/Toggle";
-import CaseSearchInput from "../case/CaseSearchInput";
-import Dropdown from "../../components/elements/Dropdown";
-import CaseCardToAdd from "../../components/battle/CaseCardToAdd";
-import CaseViewModal from "../../components/modals/CaseViewModal";
-import RoundedButton from "../../components/elements/RoundedButton";
-import GrayGradientButton from "../../components/elements/GrayGradientButton";
-import YellowGradientButton from "../../components/elements/CaseGradientButton";
-import TrashBinIcon from "../../components/icons/TrashBinIcon"
+import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js'
+import PageLoadState from '../../libraries/PageLoadState'
+import injector from '../../injector/injector'
+import Fallback from '../Fallback'
+import Coin from '../../utilities/Coin'
+import { createStore } from 'solid-js/store'
+import { URL } from '../../libraries/url'
+import { NavLink, useNavigate } from 'solid-app-router'
+import ArrowBack from '../../components/icons/ArrowBack'
+import GrayWrapperdWithBorders from '../../components/battle/GrayWrapperdWithBorders'
+import AddCaseCard from '../../assets/img/case/AddCaseCard.png'
+import CasePlaceholder from '../../assets/img/case/CasePlaceholder.png'
+import CaseGradientButton from '../../components/elements/CaseGradientButton'
+import BattleRoyaleIcon from '../../components/icons/BattleRoyaleIcon'
+import BattleCursedIcon from '../../components/icons/BattleCursedIcon'
+import BattleGroupIcon from '../../components/icons/BattleGroupIcon'
+import Toggle from '../../components/elements/Toggle'
+import CaseSearchInput from '../case/CaseSearchInput'
+import Dropdown from '../../components/elements/Dropdown'
+import CaseCardToAdd from '../../components/battle/CaseCardToAdd'
+import CaseViewModal from '../../components/modals/CaseViewModal'
+import RoundedButton from '../../components/elements/RoundedButton'
+import GrayGradientButton from '../../components/elements/GrayGradientButton'
+import YellowGradientButton from '../../components/elements/CaseGradientButton'
+import TrashBinIcon from '../../components/icons/TrashBinIcon'
 import RangePercentScale from '../../components/elements/RangePercentScale'
-import {getProportionalPartByAmount} from "../../utilities/Numbers";
+import { getProportionalPartByAmount } from '../../utilities/Numbers'
 
 import Sortable from 'sortablejs'
 
-
-const minLevelOptions = ['bronze','silver', 'gold1','platinum1','diamond']
-const priceRanges = ['All Prices', '0-5,000', '5,000-15,000', '15,000-50,000', '50,000-100,000', '100,000-250,000', '250,000+'];
+const minLevelOptions = ['bronze', 'silver', 'gold1', 'platinum1', 'diamond']
+const priceRanges = [
+  'All Prices',
+  '0-5,000',
+  '5,000-15,000',
+  '15,000-50,000',
+  '50,000-100,000',
+  '100,000-250,000',
+  '250,000+'
+]
 const sortOptions = ['ASC', 'DESC']
 
 function filterByRange(arrayOfCases, range) {
@@ -51,11 +58,11 @@ const CreateCaseBattle = (props) => {
   const { createBattlesPageLoaded, onCreateBattlesPageLoaded } = PageLoadState
   const { socket, toastr } = injector
   const [casesState, setCasesState] = createSignal([])
-  const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(false)
+  const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(true)
   const [placeholdersToShow, setPlaceholdersToShow] = createSignal(0)
-  const [ search, setSearch] = createSignal("");
-  const [ priceRange, setPriceRange ] = createSignal(priceRanges[0]);
-  const [ sortBy, setSortBy ] = createSignal(sortOptions[0]);
+  const [search, setSearch] = createSignal('')
+  const [priceRange, setPriceRange] = createSignal(priceRanges[0])
+  const [sortBy, setSortBy] = createSignal(sortOptions[0])
   const [caseViewModal, setCaseViewModal] = createSignal(false)
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null)
   const [modeToCreate, setModeToCreate] = createSignal({
@@ -73,7 +80,7 @@ const CreateCaseBattle = (props) => {
 
   const [casesPrice, setCasesPrice] = createSignal(0)
 
-  let sortable;
+  let sortable
 
   const getSelectedCasesCost = () =>
     modeToCreate().cases.reduce(
@@ -184,35 +191,42 @@ const CreateCaseBattle = (props) => {
   })
 
   const createBattle = () => {
-    socket.emit("battles:create", {...modeToCreate(), borrowPercent: Math.floor(modeToCreate().borrowPercent * 0.8)},(data) => {
-      console.log("battles:create", data);
-      if (data.msg) {
-        toastr(data)
+    socket.emit(
+      'battles:create',
+      { ...modeToCreate(), borrowPercent: Math.floor(modeToCreate().borrowPercent * 0.8) },
+      (data) => {
+        console.log('battles:create', data)
+        if (data.msg) {
+          toastr(data)
+        }
+        if (!data.error && data.data.gameId) {
+          navigate(
+            `${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${data.data.gameId}` +
+              (data.data.urlKey ? `&key=${data.data.urlKey}` : '')
+          )
+        }
       }
-      if (!data.error && data.data.gameId) {
-        navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${data.data.gameId}` + (data.data.urlKey ? `&key=${data.data.urlKey}` : ''))
-      }
-    })
+    )
   }
 
   createEffect(() => {
-    if (sortable) sortable.destroy();
+    if (sortable) sortable.destroy()
     if (modeToCreate().cases.length > 0) {
-      console.log('update');
+      console.log('update')
       sortable = new Sortable(itemsWrapper, {
-        handle: ".swapper",
-        filter: ".not-drag",
-        draggable: ".item",
+        handle: '.swapper',
+        filter: '.not-drag',
+        draggable: '.item',
         onEnd: (event) => {
-          const { newIndex, oldIndex } = event;
+          const { newIndex, oldIndex } = event
           setModeToCreate((prev) => {
             const newCasesObj = { ...prev }
-            newCasesObj.cases.splice(newIndex - 1, 0, newCasesObj.cases.splice(oldIndex - 1, 1)[0]);
+            newCasesObj.cases.splice(newIndex - 1, 0, newCasesObj.cases.splice(oldIndex - 1, 1)[0])
             return newCasesObj
           })
-        },
-      });
-      console.log(sortable);
+        }
+      })
+      console.log(sortable)
     }
   })
 
@@ -258,11 +272,11 @@ const CreateCaseBattle = (props) => {
           </svg>
         </RoundedButton>
         <div
-          class='h-9 w-[76px] center rounded-full backdrop-blur-sm border-yellow-ffb text-yellow-ffb font-SpaceGrotesk font-bold text-16 border-opacity-10'
+          class='h-9 w-[76px] counter-border center rounded-full text-yellow-ffb font-SpaceGrotesk font-bold text-16 text-shadow-gold-secondary'
           style={{
             background: 'rgba(26, 28, 48, 1)',
             filter:
-              'drop-shadow(0px 0px 6px rgba(255, 180, 54, 0.24)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))'
+              'drop-shadow(0px 0px 3px rgba(255, 180, 54, 0.24)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))'
           }}
         >
           {modeToCreate().cases.find((i) => i.caseId === item.id || i.caseId === item.caseId)?.qty}
@@ -302,8 +316,8 @@ const CreateCaseBattle = (props) => {
   }
 
   onCleanup(() => {
-    if (sortable) sortable.destroy();
-  });
+    if (sortable) sortable.destroy()
+  })
 
   return (
     <Fallback loaded={createBattlesPageLoaded}>
@@ -326,7 +340,16 @@ const CreateCaseBattle = (props) => {
                   {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
+                <span class='text-gradient'>
+                  {modeToCreate().borrowMoney
+                    ? getProportionalPartByAmount(
+                        casesPrice(),
+                        Math.floor(modeToCreate().borrowPercent * 0.8)
+                      )
+                    : modeToCreate().fundBattle
+                    ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                    : casesPrice()}
+                </span>
               </div>
             </GrayWrapperdWithBorders>
           </div>
@@ -343,9 +366,7 @@ const CreateCaseBattle = (props) => {
                 {(item) => {
                   const caseToShow = casesState().find((c) => c.id === item.caseId)
                   return (
-                    <div class='relative w-max mx-auto pointer-events-auto item'
-                    draggable="true"
-                    >
+                    <div class='relative w-max mx-auto pointer-events-auto item' draggable='true'>
                       <CaseCardToAdd
                         item={caseToShow}
                         isAdded={true}
@@ -357,7 +378,7 @@ const CreateCaseBattle = (props) => {
                       <div class='absolute right-3 top-3 w-7 h-7 z-10'>
                         <RoundedButton>
                           <svg
-                            class="swapper"
+                            class='swapper'
                             width='19'
                             height='20'
                             viewBox='0 0 19 20'
@@ -444,7 +465,9 @@ const CreateCaseBattle = (props) => {
                 >
                   <div class='flex gap-2 items-center text-[#DAFD09]'>
                     <BattleCursedIcon additionClasses='w-5' />
-                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold`}>Cursed Battle</span>
+                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                      Cursed Battle
+                    </span>
                   </div>
                 </CaseGradientButton>
               </div>
@@ -595,7 +618,12 @@ const CreateCaseBattle = (props) => {
                 <Toggle
                   checked={modeToCreate().borrowMoney === 1}
                   onChange={(isChecked) =>
-                    setModeToCreate((prev) => ({ ...prev, borrowMoney: isChecked ? 1 : 0, fundBattle: 0, fundPercent: 0 }))
+                    setModeToCreate((prev) => ({
+                      ...prev,
+                      borrowMoney: isChecked ? 1 : 0,
+                      fundBattle: 0,
+                      fundPercent: 0
+                    }))
                   }
                   color='green-27'
                 />
@@ -623,13 +651,16 @@ const CreateCaseBattle = (props) => {
                         'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                       }}
                     >
-                      {getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8))}
+                      {getProportionalPartByAmount(
+                        casesPrice(),
+                        Math.floor(modeToCreate().borrowPercent * 0.8)
+                      )}
                     </span>
                   </p>
                 </div>
                 <RangePercentScale
                   value={modeToCreate().borrowPercent}
-                  setter={(per) => setModeToCreate((prev) => ({ ...prev,  borrowPercent: per }))}
+                  setter={(per) => setModeToCreate((prev) => ({ ...prev, borrowPercent: per }))}
                   maxPercent={80}
                   hexColor='#27F278'
                 />
@@ -640,7 +671,11 @@ const CreateCaseBattle = (props) => {
                   }}
                 >
                   <p class='text-center font-SpaceGrotesk text-11 font-bold text-white'>
-                    On win you receive <span class='text-green-27'>{Math.floor(modeToCreate().borrowPercent * 0.8)}%</span> of total win amount!
+                    On win you receive{' '}
+                    <span class='text-green-27'>
+                      {Math.floor(modeToCreate().borrowPercent * 0.8)}%
+                    </span>{' '}
+                    of total win amount!
                   </p>
                 </div>
               </div>
@@ -710,7 +745,12 @@ const CreateCaseBattle = (props) => {
                 <Toggle
                   checked={modeToCreate().fundBattle === 1}
                   onChange={(isChecked) =>
-                    setModeToCreate((prev) => ({ ...prev, fundBattle: isChecked ? 1 : 0, borrowMoney: 0, borrowPercent: 0 }))
+                    setModeToCreate((prev) => ({
+                      ...prev,
+                      fundBattle: isChecked ? 1 : 0,
+                      borrowMoney: 0,
+                      borrowPercent: 0
+                    }))
                   }
                   color='yellow'
                 />
@@ -744,7 +784,7 @@ const CreateCaseBattle = (props) => {
                 </div>
                 <RangePercentScale
                   value={modeToCreate().fundPercent}
-                  setter={(per) => setModeToCreate((prev) => ({ ...prev,  fundPercent: per}))}
+                  setter={(per) => setModeToCreate((prev) => ({ ...prev, fundPercent: per }))}
                   maxPercent={100}
                   hexColor='#FFB436'
                 />
@@ -857,11 +897,20 @@ const CreateCaseBattle = (props) => {
                 Create Battle
               </span>
               <Coin width='5' />
-              <span class='text-gradient'>{modeToCreate().borrowMoney ? getProportionalPartByAmount(casesPrice(), Math.floor(modeToCreate().borrowPercent * 0.8)) : modeToCreate().fundBattle ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) : casesPrice()}</span>
+              <span class='text-gradient'>
+                {modeToCreate().borrowMoney
+                  ? getProportionalPartByAmount(
+                      casesPrice(),
+                      Math.floor(modeToCreate().borrowPercent * 0.8)
+                    )
+                  : modeToCreate().fundBattle
+                  ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                  : casesPrice()}
+              </span>
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>
-            <Dropdown 
+            <Dropdown
               label='Min Level:'
               variant='level'
               activeName={modeToCreate().minLevel}
@@ -872,125 +921,177 @@ const CreateCaseBattle = (props) => {
         </div>
       </div>
       {isAddCaseModalOpen() && (
-        <div class="fixed left-0 top-0 w-full h-full center bg-black bg-opacity-50 z-50"
-        onClick={() => {
-          setIsAddCaseModalOpen(false);
-          console.log("firing")
-        }}>
         <div
-          class="flex flex-col rounded-12 overflow-hidden"
-          style={{
-            background: 'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
+          class='fixed left-0 top-0 w-full h-full center bg-black bg-opacity-50 z-50'
+          onClick={() => {
+            setIsAddCaseModalOpen(false)
+            console.log('firing')
           }}
-          onClick={(e) => e.stopPropagation()}
         >
           <div
-            class="flex justify-between items-start px-4 ssm:px-8 py-6 border-black border-opacity-10 border rounded-t-12"
+            class='flex flex-col rounded-12 overflow-hidden'
+            style={{
+              background:
+                'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
+            }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <div class="flex flex-wrap gap-4 items-center">
-              <div class="w-full sm:w-80">
-                <CaseSearchInput
-                  search={search()}
-                  onReset={() => setSearch('')}
-                  onInput={(text) => setSearch(text)}
-                  isFullWidth
+            <div class='flex justify-between items-start px-4 ssm:px-8 py-6 border-black border-opacity-10 border rounded-t-12'>
+              <div class='flex flex-wrap gap-4 items-center'>
+                <div class='w-full sm:w-80'>
+                  <CaseSearchInput
+                    search={search()}
+                    onReset={() => setSearch('')}
+                    onInput={(text) => setSearch(text)}
+                    isFullWidth
+                  />
+                </div>
+                <Dropdown
+                  activeName={sortBy()}
+                  itemsList={sortOptions}
+                  submitItem={(sort) => setSortBy(sort)}
+                  label=' Sort by Price:'
+                />
+                <Dropdown
+                  activeName={priceRange()}
+                  itemsList={priceRanges}
+                  submitItem={(price) => setPriceRange(price)}
+                  label='Price Range:'
+                  variant='range'
                 />
               </div>
-              <Dropdown
-                activeName={sortBy()}
-                itemsList={sortOptions}
-                submitItem={(sort) => setSortBy(sort)}
-                label=' Sort by Price:'
-              />
-              <Dropdown
-                activeName={priceRange()}
-                itemsList={priceRanges}
-                submitItem={(price) => setPriceRange(price)}
-                label='Price Range:'
-                variant='range'
-              />
-            </div>
-            <div
-              class="p-3.5 ml-2 border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
-              onClick={() => setIsAddCaseModalOpen(false)}
-            >
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z" fill="#9A9EC8"/>
-              </svg>
-            </div>
-          </div>
-          <div class="grid py-6 grid-cols-battle-create px-12 gap-2 max-w-[1184px] w-full bg-dark-secondary h-[60vh] overflow-y-scroll">
-            <For each={filterByRange(casesState().filter(c => c.name.toLowerCase().includes(search().toLowerCase())), priceRange())}>
-              {item => (
-                <div class="relative w-fit mx-auto">
-                  <CaseCardToAdd
-                    item={item}
-                    isAdded={!modeToCreate().cases.every(caseItem => caseItem.caseId !== item.id)}
-                    isActiveBorderShown={true}
-                    onAddCase={() => {
-                      setModeToCreate((prev) => ({...prev, cases: [...prev.cases, {caseId: item.id, qty: 1}]}))
-                      getPlaceholdernumber()
-                    }}
-                  >
-                    {!modeToCreate().cases.every(caseItem => caseItem.caseId !== item.id) && <div class="w-full flex justify-between items-center">
-                      {counter(item)}
-                    </div>}
-                  </CaseCardToAdd>
-                  {!modeToCreate().cases.every(caseItem => caseItem.caseId !== item.id) && 
-                    <div class="absolute right-3 top-3 z-10">
-                      <RoundedButton
-                        onClick={() => {
-                          setModeToCreate((prev) => {
-                            const ind = prev.cases.findIndex(i => i.caseId === item.id || i.caseId === item.caseId)
-                            const newCasesObj = {...prev}
-                            newCasesObj.cases.splice(ind, 1)
-                            return newCasesObj
-                          })
-                          getPlaceholdernumber()
-                        }}
-                      >
-                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path fill-rule="evenodd" clip-rule="evenodd" d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z" fill="#9A9EC8"/>
-                        </svg>
-                      </RoundedButton>
-                    </div>}
-                </div>
-              )}
-            </For>
-          </div>
-          <div class="flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border ">
-            <GrayWrapperdWithBorders classes="rounded-t-2 w-max">
-              <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center py-2.5 px-8 sm:px-12 ">
-                <span class="w-max">{modeToCreate().cases.reduce((total, c) => total += c.qty ,0)} Cases</span>
-                <Coin width="5" />
-                <span class="text-gradient">{modeToCreate().cases.reduce((total, c) => total += c.qty * casesState().find(obj => obj.id === c.caseId)?.price || 0 ,0)}</span>
-              </div>
-            </GrayWrapperdWithBorders>
-            <div class='flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4'>
-            <GrayGradientButton
-              callbackFn={() => setModeToCreate(prev => ({...prev, cases: [] })) }
-            >
-              <div class="text-gray-9a center gap-2 ">
-                <TrashBinIcon />
-                <span class='hidden sm:block'>Clear selection</span>
-              </div>
-            </GrayGradientButton>
-            <YellowGradientButton
-                callbackFn={() =>  setIsAddCaseModalOpen(false)}
+              <div
+                class='p-3.5 ml-2 border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer'
+                onClick={() => setIsAddCaseModalOpen(false)}
               >
-                <div class="center gap-2 text-yellow-ffb">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 0C5.58579 0 5.25 0.335786 5.25 0.75V5.25H0.75C0.335786 5.25 0 5.58579 0 6C0 6.41421 0.335786 6.75 0.75 6.75H5.25V11.25C5.25 11.6642 5.58579 12 6 12C6.41421 12 6.75 11.6642 6.75 11.25V6.75H11.25C11.6642 6.75 12 6.41421 12 6C12 5.58579 11.6642 5.25 11.25 5.25H6.75V0.75C6.75 0.335786 6.41421 0 6 0Z" fill="#FFB436"/>
-                  </svg>
-                  <span class='hidden sm:block'>
-                    Confirm Selection
+                <svg
+                  width='10'
+                  height='10'
+                  viewBox='0 0 10 10'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    clip-rule='evenodd'
+                    d='M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z'
+                    fill='#9A9EC8'
+                  />
+                </svg>
+              </div>
+            </div>
+            <div class='grid py-6 grid-cols-battle-create px-12 gap-2 max-w-[1184px] w-full bg-dark-secondary h-[60vh] overflow-y-scroll'>
+              <For
+                each={filterByRange(
+                  casesState().filter((c) => c.name.toLowerCase().includes(search().toLowerCase())),
+                  priceRange()
+                )}
+              >
+                {(item) => (
+                  <div class='relative w-fit mx-auto'>
+                    <CaseCardToAdd
+                      item={item}
+                      isAdded={
+                        !modeToCreate().cases.every((caseItem) => caseItem.caseId !== item.id)
+                      }
+                      isActiveBorderShown={true}
+                      onAddCase={() => {
+                        setModeToCreate((prev) => ({
+                          ...prev,
+                          cases: [...prev.cases, { caseId: item.id, qty: 1 }]
+                        }))
+                        getPlaceholdernumber()
+                      }}
+                    >
+                      {!modeToCreate().cases.every((caseItem) => caseItem.caseId !== item.id) && (
+                        <div class='w-full flex justify-between items-center'>{counter(item)}</div>
+                      )}
+                    </CaseCardToAdd>
+                    {!modeToCreate().cases.every((caseItem) => caseItem.caseId !== item.id) && (
+                      <div class='absolute right-3 top-3 z-10'>
+                        <RoundedButton
+                          onClick={() => {
+                            setModeToCreate((prev) => {
+                              const ind = prev.cases.findIndex(
+                                (i) => i.caseId === item.id || i.caseId === item.caseId
+                              )
+                              const newCasesObj = { ...prev }
+                              newCasesObj.cases.splice(ind, 1)
+                              return newCasesObj
+                            })
+                            getPlaceholdernumber()
+                          }}
+                        >
+                          <svg
+                            width='10'
+                            height='10'
+                            viewBox='0 0 10 10'
+                            fill='none'
+                            xmlns='http://www.w3.org/2000/svg'
+                          >
+                            <path
+                              fill-rule='evenodd'
+                              clip-rule='evenodd'
+                              d='M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z'
+                              fill='#9A9EC8'
+                            />
+                          </svg>
+                        </RoundedButton>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </For>
+            </div>
+            <div class='flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border '>
+              <GrayWrapperdWithBorders classes='rounded-t-2 w-max'>
+                <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center py-2.5 px-8 sm:px-12 '>
+                  <span class='w-max'>
+                    {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
+                  </span>
+                  <Coin width='5' />
+                  <span class='text-gradient'>
+                    {modeToCreate().cases.reduce(
+                      (total, c) =>
+                        (total +=
+                          c.qty * casesState().find((obj) => obj.id === c.caseId)?.price || 0),
+                      0
+                    )}
                   </span>
                 </div>
-              </YellowGradientButton>
+              </GrayWrapperdWithBorders>
+              <div class='flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4'>
+                <GrayGradientButton
+                  callbackFn={() => setModeToCreate((prev) => ({ ...prev, cases: [] }))}
+                >
+                  <div class='text-gray-9a center gap-2 '>
+                    <TrashBinIcon />
+                    <span class='hidden sm:block'>Clear selection</span>
+                  </div>
+                </GrayGradientButton>
+                <YellowGradientButton callbackFn={() => setIsAddCaseModalOpen(false)}>
+                  <div class='center gap-2 text-yellow-ffb'>
+                    <svg
+                      width='12'
+                      height='12'
+                      viewBox='0 0 12 12'
+                      fill='none'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <path
+                        fill-rule='evenodd'
+                        clip-rule='evenodd'
+                        d='M6 0C5.58579 0 5.25 0.335786 5.25 0.75V5.25H0.75C0.335786 5.25 0 5.58579 0 6C0 6.41421 0.335786 6.75 0.75 6.75H5.25V11.25C5.25 11.6642 5.58579 12 6 12C6.41421 12 6.75 11.6642 6.75 11.25V6.75H11.25C11.6642 6.75 12 6.41421 12 6C12 5.58579 11.6642 5.25 11.25 5.25H6.75V0.75C6.75 0.335786 6.41421 0 6 0Z'
+                        fill='#FFB436'
+                      />
+                    </svg>
+                    <span class='hidden sm:block'>Confirm Selection</span>
+                  </div>
+                </YellowGradientButton>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       )}
       <Show when={caseViewModal()}>
         <CaseViewModal item={caseViewModalItem()} handleClose={toggleCaseViewModal} />
