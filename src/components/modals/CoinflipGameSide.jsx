@@ -163,13 +163,13 @@ const CoinflipGameSide = (props) => {
               } flex flex-col md:flex-row md:items-center gap-4`}
             >
               {props.data()?.status === 'pending' && !props.left && props.counter() <= 10 && (
-                <span class='potential-drop--price font-bold text-[14.4px] font-SpaceGrotesk'>
+                <span class='coinflip-game--price font-bold text-[14.4px] font-SpaceGrotesk'>
                   Joining...
                 </span>
               )}
               <div class='hidden md:flex items-center gap-[9px]'>
                 <Coin width='5' />
-                <span class='font-bold text-16 llg:text-16 xll:text-19 potential-drop--price'>
+                <span class='font-bold text-14.4 font-SpaceGrotesk coinflip-game--price'>
                   {Number(
                     props.data()?.[props.left ? 'creator' : 'opponent']?.value || 0
                   ).toLocaleString('en-US', {
@@ -245,9 +245,9 @@ const CoinflipGameSide = (props) => {
               class='md:w-[197px] h-10 flex items-center justify-center'
             >
               <CaseGradientButton isFullWidth>
-                <div class='flex justify-center items-center md:gap-2 flex-wrap md:flex-nowrap'>
+                <div class='flex justify-center font-SpaceGrotesk items-center md:gap-2 flex-wrap md:flex-nowrap'>
                   <span
-                    class='text-yellow-ffb font-SpaceGrotesk text-14 font-bold'
+                    class='text-yellow-ffb text-14 font-bold'
                     style={{
                       'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                     }}
@@ -256,7 +256,7 @@ const CoinflipGameSide = (props) => {
                   </span>
                   <div class='flex items-center gap-[9px]'>
                     <Coin width='5' />
-                    <span class='font-bold llg:text-14 xll:text-16 potential-drop--price'>
+                    <span class='font-bold text-14 font-SpaceGrotesk coinflip-game--price'>
                       {Number(props.data()?.creator?.value || 0).toLocaleString('en-US', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
@@ -338,7 +338,7 @@ const CoinflipGameSide = (props) => {
                   </span>
                   <div class='flex items-center gap-[9px]'>
                     <Coin width='5' />
-                    <span class='font-bold llg:text-14 xll:text-16 potential-drop--price'>
+                    <span class='font-bold text-14 font-SpaceGrotesk coinflip-game--price'>
                       {Number(props.data()?.creator?.value || 0).toLocaleString('en-US', {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2
