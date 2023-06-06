@@ -197,7 +197,7 @@ const CaseBattles = (props) => {
                     games[id]?.cursed !== 1
                 }}
               >
-                <div class='p-4 w-full flex gap-3 border-r border-black relative z-10'>
+                <div class='p-4 w-full flex gap-3 md:border-r border-dark-1617 relative z-10'>
                   <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>
                     {games[id]?.cursed === 1 && (
                       <BattleCursedIcon additionClasses='w-8 text-[#DAFD09]' />
