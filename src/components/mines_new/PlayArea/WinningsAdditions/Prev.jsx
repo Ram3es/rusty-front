@@ -21,7 +21,7 @@ const Prev = (props) => {
     <div
       class={`flex gap-1 items-center w-36 px-4 absolute transition-transform duration-100
          `}
-      style={`right: -15px; transform: translateY(${
+      style={`right: -10px; transform: translateY(${
         props.prevOffsets()[props.index]
       }px);
       opacity: ${opacity()};
