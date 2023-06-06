@@ -414,9 +414,9 @@ const CreateCaseBattle = (props) => {
           </div>
         </div>
 
-        <div class='center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)] bg-control-panel'>
-          <div class='flex flex-row md:flex-col justify-between px-6 md:px-14 py-4 border-white border border-opacity-5 gap-6 sm:gap-16 md:gap-4'>
-            <div class=' flex flex-col justify-between md:flex-row gap-2 w-full'>
+        <div class='center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:w-[calc(100vw-324px)] bg-control-panel'>
+          <div class='w-[616px] flex flex-row md:flex-col justify-between px-6 md:px-14 py-4 border-white border border-opacity-5 gap-6 sm:gap-16 md:gap-4'>
+            <div class='flex flex-col justify-between md:flex-row gap-2 w-full'>
               <div
                 class={` ${
                   (modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
