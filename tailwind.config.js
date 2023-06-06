@@ -66,6 +66,9 @@ module.exports = {
         'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
         "box": "0px 4px 8px rgba(0, 0, 0, 0.25)"
       },
+      textShadow: {
+        'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
+      },
       colors : {
         "transparent": "transparent",
         
