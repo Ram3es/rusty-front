@@ -613,7 +613,9 @@ const GameCaseBattle = (props) => {
                     ) :  game().owner === userObject.user.id &&
                     !spinLists()[playerIndex] ? (
                       <div class="w-full center">
-                        <div class="h-10">
+                        <div class="h-10" style={{
+                        'box-shadow': '0px 0px 36px rgba(255, 180, 54, 0.16), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                      }}>
                           <GrayGradientButton
                             callbackFn={() => callBot(playerIndex + 1)}
                           >
