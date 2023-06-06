@@ -26,6 +26,7 @@ module.exports = {
         'ltr-linear-infinite': 'move-bg 5s linear infinite',
         'net': "net 5s infinite alternate",
         'reverse-spin': 'reverse-spin 1s linear infinite',
+        shake: "shake 0.6s",
       },
       keyframes: {
         stripes: {
@@ -56,7 +57,37 @@ module.exports = {
           from: {
             transform: 'rotate(360deg)'
           },
-        }
+        },
+        shake: {
+          "0%, 100%": { transform: "translate(0, 0) " },
+          "10%": {
+            transform: "translate(-2px, 1px)  ",
+          },
+          "20%": {
+            transform: "translate(2px, -1px)  ",
+          },
+          "30%": {
+            transform: "translate(-1px, 2px)  ",
+          },
+          "40%": {
+            transform: "translate(1px, -2px)  ",
+          },
+          "50%": {
+            transform: "translate(-1px, 1px)  ",
+          },
+          "60%": {
+            transform: "translate(1px, -1px)  ",
+          },
+          "70%": {
+            transform: "translate(-2px, 2px) ",
+          },
+          "80%": {
+            transform: "translate(2px, -2px) ",
+          },
+          "90%": {
+            transform: "translate(-1px, 1px) ",
+          },
+        },
       },
       boxShadow: {
         "button": "0px 2px 2px rgba(0, 0, 0, 0.12)"

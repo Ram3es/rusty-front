@@ -554,15 +554,13 @@ const CreateCaseBattle = (props) => {
         <div class='flex flex-col items-center justify-center xl:items-stretch xl:flex-row gap-4 text-gray-66 px-4 xl:px-8 xxl:px-14'>
           <div class='flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
-              class={`flex items-center justify-between rounded-6 ${
-                modeToCreate().borrowMoney !== 1 ? 'opacity-50' : ''
-              }`}
+              class={`flex items-center justify-between rounded-6 h-[60px]`}
               style={{
                 background:
                   'radial-gradient(50% 100% at 50% 0%, rgba(39, 242, 120, 0.12) 0%, rgba(39, 242, 120, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
               }}
             >
-              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l'>
+              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full'>
                 <div class='border border-green-27/30 rounded-4 w-9 h-9 flex items-center justify-center'>
                   <div
                     class='w-full h-full rounded-4 flex items-center justify-center'
@@ -611,10 +609,10 @@ const CreateCaseBattle = (props) => {
                       </svg>
                     </span>
                   </p>
-                  <span class='text-gray-a2'>Create a battle for a fraction of the cost!</span>
+                  <span class='text-gray-a2 text-13 xl:text-10 xll:text-13'>Create a battle for a fraction of the cost!</span>
                 </div>
               </div>
-              <div class='center px-4 py-3 bg-white bg-opacity-[0.01] rounded-r-6 border h-full border-white border-opacity-5'>
+              <div class='relative center px-4 bg-white bg-opacity-[0.01] rounded-r-6 border h-full border-white border-opacity-5'>
                 <Toggle
                   checked={modeToCreate().borrowMoney === 1}
                   onChange={(isChecked) =>
@@ -684,15 +682,13 @@ const CreateCaseBattle = (props) => {
 
           <div class='flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
-              class={`flex items-center justify-between rounded-6 ${
-                modeToCreate().fundBattle !== 1 ? 'opacity-50' : ''
-              }`}
+              class={`flex items-center justify-between rounded-6 h-[60px]`}
               style={{
                 background:
                   'radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
               }}
             >
-              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l'>
+              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full'>
                 <div class='border border-yellow-ffb/30 rounded-4 w-9 h-9 flex items-center justify-center'>
                   <div
                     class='w-full h-full flex items-center justify-center rounded-4'
@@ -738,7 +734,7 @@ const CreateCaseBattle = (props) => {
                       </svg>
                     </span>
                   </p>
-                  <span class='text-gray-a2'>Cover the join cost of other players!</span>
+                  <span class='text-gray-a2 text-13 xl:text-10 xll:text-13'>Cover the join cost of other players!</span>
                 </div>
               </div>
               <div class='center px-4 py-3 bg-white bg-opacity-[0.01] rounded-r-6 border h-full border-white border-opacity-5'>
@@ -804,15 +800,13 @@ const CreateCaseBattle = (props) => {
 
           <div class='flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
-              class={`flex items-center justify-between rounded-6 ${
-                modeToCreate().private !== 1 ? 'opacity-50' : ''
-              }`}
+              class={`flex items-center justify-between rounded-6 h-[60px]`}
               style={{
                 background:
                   'radial-gradient(50% 100% at 50% 0%, rgba(159, 151, 249, 0.12) 0%, rgba(159, 151, 249, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
               }}
             >
-              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l'>
+              <div class='grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full'>
                 <div class='border border-purple-9f/30 rounded-4 w-9 h-9 flex items-center justify-center'>
                   <div
                     class='w-full h-full flex items-center justify-center rounded-4'
@@ -856,7 +850,7 @@ const CreateCaseBattle = (props) => {
                       </svg>
                     </span>
                   </p>
-                  <span class='text-gray-a2'>Battle is listed as private!</span>
+                  <span class='text-gray-a2 text-13 xl:text-10 xll:text-13'>Battle is listed as private!</span>
                 </div>
               </div>
               <div class='center px-4 py-3 bg-white bg-opacity-[0.01] rounded-r-6 border h-full border-white border-opacity-5'>

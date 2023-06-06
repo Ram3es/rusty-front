@@ -73,7 +73,7 @@ const CaseViewModal = (props) => {
                     </div>
                 </div>
                 <div
-                    class='flex flex-col gap-2 overflow-hidden py-6 pl-[22px] pr-8 bg-dark-secondary'
+                    class='flex flex-col gap-2 overflow-hidden py-6 px-[22px] bg-dark-secondary'
                 >
                     <p class='text-yellow-ffb font-medium text-base font-SpaceGrotesk'>
                         You can unbox:
