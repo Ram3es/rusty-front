@@ -1,4 +1,5 @@
 import { For, createEffect, createSignal } from 'solid-js'
+import { useNavigate } from 'solid-app-router'
 
 import injector from '../../injector/injector'
 
@@ -29,17 +30,23 @@ const CaseBattleJoinModal = (props) => {
     borrowPercent: 0
   })
 
+  const navigate = useNavigate()
+
   const joinGame = (gameId) => {
     socket.emit(
       'battles:join',
       {
         gameId,
         team: setup().team,
+        player_index: setup().team,
         borrowMoney: setup().borrowMoney,
         borrowPercent: setup().borrowPercent
       },
       (data) => {
-        console.log(data)
+        if (!data.error) {
+          navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
+          props?.handleClose()
+        }
       }
     )
   }
@@ -153,7 +160,7 @@ const CaseBattleJoinModal = (props) => {
                     <>
                       <div
                         onClick={() => {
-                          if (player !== null) return
+                          if (player !== null || player.id === userObject.user?.id) return
                           setSetup((prevState) => ({
                             ...prevState,
                             team: setup().team === index() + 1 ? null : index() + 1
@@ -162,11 +169,13 @@ const CaseBattleJoinModal = (props) => {
                         class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow bg-blue-282 ${
                           !player && setup().team !== index() + 1 && 'text-gray-9a'
                         } ${
-                          modeColor() === 'yellow'
-                            ? 'hover:border hover:border-yellow-ffb hover:text-yellow-ffb'
-                            : modeColor() === 'green'
-                            ? 'hover:border hover:border-[#DAFD09] hover:text-[#DAFD09]'
-                            : 'hover:border hover:border-[#5AC3FF] hover:text-[#5AC3FF]'
+                          !player
+                            ? modeColor() === 'yellow'
+                              ? 'hover:border hover:border-yellow-ffb hover:text-yellow-ffb'
+                              : modeColor() === 'green'
+                              ? 'hover:border hover:border-[#DAFD09] hover:text-[#DAFD09]'
+                              : 'hover:border hover:border-[#5AC3FF] hover:text-[#5AC3FF]'
+                            : ''
                         }`}
                         classList={{
                           'border border-yellow-ffb text-yellow-ffb':
