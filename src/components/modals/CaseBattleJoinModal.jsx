@@ -1,4 +1,4 @@
-import { For, createSignal } from 'solid-js'
+import { For, createEffect, createSignal } from 'solid-js'
 
 import injector from '../../injector/injector'
 
@@ -20,7 +20,7 @@ import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
 
 const CaseBattleJoinModal = (props) => {
-  const { socket } = injector
+  const { socket, userObject } = injector
 
   const [setup, setSetup] = createSignal({
     team: null,
@@ -30,18 +30,25 @@ const CaseBattleJoinModal = (props) => {
   })
 
   const joinGame = (gameId) => {
-    socket.emit('battles:join', {
-      gameId,
-      team: setup().team,
-      borrowMoney: setup().borrowMoney,
-      borrowPercent: setup().borrowPercent
-
-    }, (data) => {
-      console.log(data)
-    })
+    socket.emit(
+      'battles:join',
+      {
+        gameId,
+        team: setup().team,
+        borrowMoney: setup().borrowMoney,
+        borrowPercent: setup().borrowPercent
+      },
+      (data) => {
+        console.log(data)
+      }
+    )
   }
 
   const modeColor = () => getColorByModeAndCursed(props.game?.mode, props.game?.cursed)
+
+  createEffect(() => {
+    console.log(userObject, 'userObject')
+  })
 
   return (
     <Modal
@@ -147,27 +154,38 @@ const CaseBattleJoinModal = (props) => {
                       <div
                         onClick={() => {
                           if (player !== null) return
-                          setSetup((prevState) => ({ ...prevState, team: setup().team === index() + 1 ? null : index() + 1 }))
+                          setSetup((prevState) => ({
+                            ...prevState,
+                            team: setup().team === index() + 1 ? null : index() + 1
+                          }))
                         }}
-                        class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow ${
-                          !player && 'bg-blue-282 text-gray-9a hover:border'
-                        } ${setup().team === index() + 1 && 'border'}`}
+                        class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow bg-blue-282 ${
+                          !player && setup().team !== index() + 1 && 'text-gray-9a'
+                        } ${
+                          modeColor() === 'yellow'
+                            ? 'hover:border hover:border-yellow-ffb hover:text-yellow-ffb'
+                            : modeColor() === 'green'
+                            ? 'hover:border hover:border-[#DAFD09] hover:text-[#DAFD09]'
+                            : 'hover:border hover:border-[#5AC3FF] hover:text-[#5AC3FF]'
+                        }`}
                         classList={{
-                          'border-yellow-ffb text-yellow-ffb':
+                          'border border-yellow-ffb text-yellow-ffb':
                             setup().team === index() + 1 && modeColor() === 'yellow',
-                          'border-[#DAFD09] text-[#DAFD09]':
+                          'border border-[#DAFD09] text-[#DAFD09]':
                             setup().team === index() + 1 && modeColor() === 'green',
-                          'border-[#5AC3FF] text-[#5AC3FF]':
-                            setup().team === index() + 1 && modeColor() === 'blue',
-                          'hover:border-yellow-ffb hover:text-yellow-ffb': modeColor() === 'yellow',
-                          'hover:border-[#DAFD09] hover:text-[#DAFD09]': modeColor() === 'green',
-                          'hover:border-[#5AC3FF] hover:text-[#5AC3FF]': modeColor() === 'blue'
+                          'border border-[#5AC3FF] text-[#5AC3FF]':
+                            setup().team === index() + 1 && modeColor() === 'blue'
                         }}
                       >
                         {player ? (
+                          <img class='rounded-full' src={player.avatar} alt='steam-avatar' />
+                        ) : userObject.authenticated && setup().team === index() + 1 ? (
                           <img
                             class='rounded-full'
-                            src={player.avatar}
+                            src={
+                              userObject.user?.avatar ??
+                              'https://upload.wikimedia.org/wikipedia/commons/3/3c/IMG_logo_%282017%29.svg'
+                            }
                             alt='steam-avatar'
                           />
                         ) : (
