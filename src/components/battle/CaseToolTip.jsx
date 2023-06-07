@@ -43,8 +43,6 @@ const CaseToolTip = (props) => {
 </div>
 </div>
   )
-
-  // 232843
 }
 
 export default CaseToolTip;

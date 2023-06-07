@@ -25,6 +25,8 @@ import YellowGradientButton from '../../components/elements/CaseGradientButton'
 import TrashBinIcon from '../../components/icons/TrashBinIcon'
 import RangePercentScale from '../../components/elements/RangePercentScale'
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
+import { tippy, useTippy } from 'solid-tippy';
+import InfoToolTip from '../../components/battle/InfoToolTip'
 
 import dragula from 'dragula'
 
@@ -39,6 +41,14 @@ const priceRanges = [
   '250,000+'
 ]
 const sortOptions = ['ASC', 'DESC']
+
+const switchInfo = {
+  borrow: `Drag the slider below to borrow money from the house to create bigger battles. If you end up 
+  winning you will only receive a fraction of the winnings dependent on how much you borrowed.`,
+  fund: `Drag the slider below to determine the battle join cost for other players. Discounting battles 
+  at 100% will make the battle free for anyone to join but will make your creation cost a lot more expensive!`,
+  private: `Want to high roll in peace? Private battles are only visible to players with whom you share the battle link with!`
+}
 
 function filterByRange(arrayOfCases, range) {
   const [min, max] = range.split('-').map((val) => parseInt(val.replace(',', '')))
@@ -613,7 +623,18 @@ const CreateCaseBattle = (props) => {
                 <div class='flex flex-col font-SpaceGrotesk font-bold text-13'>
                   <p class='text-green-27 flex items-center gap-1.5'>
                     Borrow Money{' '}
-                    <span class='cursor-pointer'>
+                    <span class='cursor-pointer'
+                    use:tippy={{
+                                props: {
+                                  content: (
+                                    <InfoToolTip text={switchInfo.borrow}
+                                    />
+                                  ),
+                                  allowHTML: true,
+                                  duration: 0,
+                                },
+                                hidden: true,
+                                  }}>
                       <svg
                         width='14'
                         height='14'
@@ -738,7 +759,18 @@ const CreateCaseBattle = (props) => {
                 <div class='flex flex-col font-SpaceGrotesk font-bold text-13'>
                   <p class='text-yellow-ffb flex items-center gap-1.5'>
                     Fund Money{' '}
-                    <span class='cursor-pointer'>
+                    <span class='cursor-pointer'
+                     use:tippy={{
+                                props: {
+                                  content: (
+                                    <InfoToolTip text={switchInfo.fund}
+                                    />
+                                  ),
+                                  allowHTML: true,
+                                  duration: 0,
+                                },
+                                hidden: true,
+                                  }}>
                       <svg
                         width='14'
                         height='14'
@@ -854,7 +886,18 @@ const CreateCaseBattle = (props) => {
                 <div class='flex flex-col font-SpaceGrotesk font-bold text-13'>
                   <p class='text-purple-9f flex items-center gap-1.5'>
                     Private Battle{' '}
-                    <span class='cursor-pointer'>
+                    <span class='cursor-pointer'
+                     use:tippy={{
+                                props: {
+                                  content: (
+                                    <InfoToolTip text={switchInfo.private}
+                                    />
+                                  ),
+                                  allowHTML: true,
+                                  duration: 0,
+                                },
+                                hidden: true,
+                                  }}>
                       <svg
                         width='14'
                         height='14'
