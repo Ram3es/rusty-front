@@ -56,13 +56,13 @@ const ItemCardSmall = (props) => {
 
   return (
     <div
-      class={`group min-w-[120px] min-h-[120px] z-10 rounded-4 relative cursor-pointer card-drops--item ${
+      class={`group min-w-[120px] min-h-[120px] z-10 rounded-4 relative cursor-pointer ${
         styles().itemBg
       } font-SpaceGrotesk`}
     >
       <div
         class='hidden group-hover:block absolute inset-0 z-0 bg-repeat overflow-hidden m-0.5 p-2'
-        style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.04 }}
+        style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
       />
       <div class='rounded-4 absolute inset-0 z-10 pt-4 pb-2'>
         {props.caseName && props.caseName !== 'Free Daily Case' && (
