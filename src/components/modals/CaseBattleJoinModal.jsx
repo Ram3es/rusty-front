@@ -223,9 +223,7 @@ const CaseBattleJoinModal = (props) => {
           </div>
           <div class='flex flex-col w-[330px] lg:w-fit lg:min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
-              class={`flex items-center justify-between rounded-6 h-[80px] lg:h-[60px] ${
-                setup().borrowMoney !== 1 ? 'opacity-50' : ''
-              }`}
+              class='flex items-center justify-between rounded-6 h-[80px] lg:h-[60px]'
               style={{
                 background:
                   'radial-gradient(50% 100% at 50% 0%, rgba(39, 242, 120, 0.12) 0%, rgba(39, 242, 120, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
