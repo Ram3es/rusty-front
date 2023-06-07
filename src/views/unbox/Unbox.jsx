@@ -20,6 +20,8 @@ import TransparentButton from '../../components/elements/TransparentButton'
 import headerLogoBgVector from '../../assets/img/header/headerLogoBgVector.png'
 import GradientButton from '../../components/elements/GradientButton'
 import CaseSearchInput from '../case/CaseSearchInput'
+import GoldText from "../../components/mines_new/MISC/GoldText"
+import {getCurrencyString} from "../../components/mines_new/utils/tools"
 
 // let typingTimer;
 const filterByTagList = [
@@ -227,9 +229,9 @@ const Unbox = (props) => {
                     </GradientButton>
                   </div>
                 </div>
-                <div class='w-full center bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10'>
+                <div class='w-full center gap-2 bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10'>
                   <Coin />
-                  <span class='text-gradient text-16 font-SpaceGrotesk font-bold'>1200</span>
+                  <GoldText text={getCurrencyString((item.price).toString())} size="16"/>
                 </div>
               </NavLink>
             )}
