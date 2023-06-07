@@ -1,4 +1,5 @@
 import { For, onMount, onCleanup } from 'solid-js'
+import { useDebounce } from '../../utilities/hooks/debounce'
 
 const RangePercentScale = (props) => {
   let inputRef
@@ -9,21 +10,22 @@ const RangePercentScale = (props) => {
 
   const handleChange = (event) => {
     updateRangeByValue(event.target.value)
-    console.log('handleChange', Math.floor(event.target.value * props.maxPercent / 100));
     props.setter(event.target.value)
   }
+
+  // const debouncedSetter = useDebounce(handleChange, 100)
 
   onMount(() => {
     if (inputRef) {
       updateRangeByValue(props.value)
     }
     inputRef.addEventListener('input', (event) => {
-      updateRangeByValue(event.target.value)
+      handleChange(event)
     })
 
     onCleanup(() => {
       inputRef.removeEventListener('input', (event) => {
-        updateRangeByValue(event.target.value)
+        handleChange(event)
       })
     })
   })
