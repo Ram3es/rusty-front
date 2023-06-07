@@ -27,18 +27,20 @@ import RangePercentScale from '../../components/elements/RangePercentScale'
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { tippy, useTippy } from 'solid-tippy';
 import InfoToolTip from '../../components/battle/InfoToolTip'
+import { getCurrencyString } from '../../components/mines_new/utils/tools'
+import GoldText from '../../components/mines_new/MISC/GoldText'
 
 import dragula from 'dragula'
 
 const minLevelOptions = ['bronze', 'silver', 'gold1', 'platinum1', 'diamond']
 const priceRanges = [
   'All Prices',
-  '0-5,000',
-  '5,000-15,000',
-  '15,000-50,000',
-  '50,000-100,000',
-  '100,000-250,000',
-  '250,000+'
+  '0-5,000.00',
+  '5,000.00-15,000.00',
+  '15,000.00-50,000.00',
+  '50,000.00-100,000.00',
+  '100,000.00-250,000.00',
+  '250,000.00+'
 ]
 const sortOptions = ['ASC', 'DESC']
 
@@ -1099,21 +1101,19 @@ const CreateCaseBattle = (props) => {
                 )}
               </For>
             </div>
-            <div class='flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border '>
-              <GrayWrapperdWithBorders classes='rounded-t-2 w-max'>
+            <div class='flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border  '>
+              <GrayWrapperdWithBorders classes='rounded-[4px] w-max'>
                 <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center py-2.5 px-8 sm:px-12 '>
                   <span class='w-max'>
                     {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
                   </span>
                   <Coin width='5' />
-                  <span class='text-gradient'>
-                    {modeToCreate().cases.reduce(
+                    <GoldText text={getCurrencyString(modeToCreate().cases.reduce(
                       (total, c) =>
                         (total +=
                           c.qty * casesState().find((obj) => obj.id === c.caseId)?.price || 0),
                       0
-                    )}
-                  </span>
+                    ))} size="15" />
                 </div>
               </GrayWrapperdWithBorders>
               <div class='flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4'>
