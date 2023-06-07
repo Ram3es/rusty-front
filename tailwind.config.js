@@ -347,7 +347,8 @@ module.exports = {
         'pvp-mines': "repeat(auto-fill,minmax(360px, 1fr))",
         'jackpot-history': "repeat(auto-fill,minmax(20rem, 1fr))",
         'home-original' : "repeat(15, 1fr)",
-        'rewards-table' : "12rem 3fr 2fr 1fr 1fr"
+        'rewards-table' : "12rem 3fr 2fr 1fr 1fr",
+        'rewards-table-sm' : "repeat(3, 1fr)"
       },
       backgroundSize: {
         "full": "100% 100%",

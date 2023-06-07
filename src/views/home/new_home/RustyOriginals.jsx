@@ -36,7 +36,7 @@ const RustyOriginals = () => {
                 <div class=" col-span-5 lg:col-span-3 home-originals-secondary h-[272px] relative ">
                   <TilesLabel >
                     <div class='flex items-center gap-2 text-gray-9a font-SpaceGrotesk font-bold'>
-                      <BattleIcon  additionClasses='w-5 h-5 text-[#595C87]' />
+                      <BattleIcon  additionClasses='w-5 h-5 text-gray-55' />
                       <span>Case Battles</span>
                     </div>
                   </TilesLabel>
