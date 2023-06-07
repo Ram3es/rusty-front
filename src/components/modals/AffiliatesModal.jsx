@@ -22,6 +22,9 @@ import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
 import GrayButtonBg from "../../assets/img/animatedGrayButtonBg.jpg";
 import HeaderBg from "../../assets/img/modals/ModalHeaderBg.png";
 import AffilatesBar from "../../assets/img/affilates/affilates-bar.png"
+import affiliatesDepositorsBg from "../../assets/img/affilates/affiliatesDepositorsBg.png"
+import affiliatesTotalDepositored from "../../assets/img/affilates/affiliatesTotalDepositored.png"
+import affiliatesTotalEarned from "../../assets/img/affilates/affiliatesTotalEarned.png"
 import CloseButton from "../elements/CloseButton";
 
 const AffiliatesModal = (props) => {
@@ -319,7 +322,7 @@ const AffiliatesModal = (props) => {
             <div
               class={`${
                 tab() == "overview" ? "flex" : "hidden"
-              } flex-col gap-4 w-full overflow-y-scroll`}
+              } flex-col gap-8 w-full overflow-y-scroll`}
             >
               <div class="w-full flex">
                 <div class="w-2/5 flex flex-col gap-0.5 pr-8">
@@ -327,7 +330,7 @@ const AffiliatesModal = (props) => {
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
                   
-                  <div class="flex items-center relative w-full h-9">
+                  <div class="flex items-center relative w-full h-10">
                   <div
                        class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
@@ -340,169 +343,155 @@ const AffiliatesModal = (props) => {
                  "
                       >
                       <div
-                           class="flex w-full p-2 rounded-[4px] justify-between items-center h-full"
-                           style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
-                   radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
-                   linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
-                   radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
-                   linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
-                   linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
-                   
-                             "
-                      >
-                      
-                    <div class="flex items-center gap-4 pl-2">
-                      <input
-                        class={`text-white text-14 font-bold font-SpaceGrotesk w-44 ${
-                          toggleCode() ? "" : "hidden"
-                        }`}
-                        placeholder={i18n.t(
-                          "coinflip.affiliates_true.Enter code"
-                        )}
-                        onInput={(e) => setCode(e.currentTarget.value)}
-                        value={code()}
-                      />
-                      <p
-                        class={`text-gray-9a ${
-                          toggleCode() ? "hidden" : ""
-                        } text-14 font-bold uppercase`}
-                        onClick={() => setToggle((prev) => !prev)}
-                      >
-                        {affiliate?.code}
-                      </p>
-                    </div>
-                    </div>
+                            class="flex w-full p-2 rounded-[4px] justify-between items-center h-full"
+                            style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                    linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                    radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                    linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                    
+                              "
+                        >
+                      <div class="flex items-center gap-4 pl-2 pr-1">
+                        <input
+                          class={`text-white text-14 font-bold font-SpaceGrotesk w-44 ${
+                            toggleCode() ? "" : "hidden"
+                          }`}
+                          placeholder={i18n.t(
+                            "coinflip.affiliates_true.Enter code"
+                          )}
+                          onInput={(e) => setCode(e.currentTarget.value)}
+                          value={code()}
+                        />
+                        <p
+                          class={`text-gray-9a w-44 ${
+                            toggleCode() ? "hidden" : ""
+                          } text-14 font-bold uppercase`}
+                          onClick={() => setToggle((prev) => !prev)}
+                        >
+                          {affiliate?.code}
+                        </p>
+                        <div
+                          class="px-3 cursor-pointer center h-8 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk"
+                          onClick={() => {
+                            if (affiliate?.code) {
+                              changeAffiliateCode();
+                            } else {
+                              createAffiliateCode();
+                            }
+                          }}
+                        >
+                          Save
+                        </div>
+                      </div>
+                        </div>
                     </div>
                   </div>
                 </div>
                 <div class="flex-1 flex flex-col gap-0.5 pr-8">
-                  <p class="text-18 text-gray-8c font-normal sentence">
+                  <p class="text-14 text-gray-8c font-normal sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate link")}
                   </p>
-                  <div class="flex items-center relative w-full h-9">
-                    <div class="w-full h-full bg-dark-20 center rounded-2" />
-                    <div class="flex items-center justify-between gap-4 absolute pl-4 pr-4 overflow-hidden max-w-full w-full">
-                      <p class="text-white text-16 font-bold truncate flex-1">{`${API}/r/${affiliate?.code}`}</p>
-                      <div class="flex">
-                        <svg
-                          class="cursor-pointer"
-                          onClick={copy}
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
+                  <div class="flex items-center relative w-full h-10">
+                  <div
+                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                 radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                 linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                 radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                 linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                 linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                 
+                 "
+                      >
+                      <div
+                            class="flex w-full p-2 rounded-[4px] justify-between items-center h-full"
+                            style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                    linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                    radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                    linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                    
+                              "
                         >
-                          <path
-                            d="M15 5H7C5.89543 5 5 5.89543 5 7V15C5 16.1046 5.89543 17 7 17H15C16.1046 17 17 16.1046 17 15V7C17 5.89543 16.1046 5 15 5Z"
-                            stroke="white"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                          <path
-                            d="M13 5V3C13 2.46957 12.7893 1.96086 12.4142 1.58579C12.0391 1.21071 11.5304 1 11 1H3C2.46957 1 1.96086 1.21071 1.58579 1.58579C1.21071 1.96086 1 2.46957 1 3V11C1 11.5304 1.21071 12.0391 1.58579 12.4142C1.96086 12.7893 2.46957 13 3 13H5"
-                            stroke="white"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                          />
-                        </svg>
+                      <div class="flex items-center gap-4 pl-2 w-full">
+                      <p class="text-white text-14 font-bold truncate font-SpaceGrotesk w-full flex-1">{`${API}/r/`}<span class="text-yellow-ffb">{affiliate?.code}</span></p>
+                      <div class="flex">
+                      <div
+                          class="bg-gray-button-gradient p-1 rounded-4 border border-white/10"
+                          onClick={copy}
+                        >
+                          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_2073_136815)">
+                            <mask id="mask0_2073_136815" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="18" height="18">
+                            <path d="M0 18H18V0H0V18Z" fill="white"/>
+                            </mask>
+                            <g mask="url(#mask0_2073_136815)">
+                            <path d="M11.25 17.25H3C2.175 17.25 1.5 16.575 1.5 15.75V6C1.5 5.5875 1.8375 5.25 2.25 5.25C2.6625 5.25 3 5.5875 3 6V15C3 15.4125 3.3375 15.75 3.75 15.75H11.25C11.6625 15.75 12 16.0875 12 16.5C12 16.9125 11.6625 17.25 11.25 17.25ZM14.25 14.25H6C5.175 14.25 4.5 13.575 4.5 12.75V2.25C4.5 1.425 5.175 0.75 6 0.75H14.25C15.075 0.75 15.75 1.425 15.75 2.25V12.75C15.75 13.575 15.075 14.25 14.25 14.25ZM13.5 2.25H6.75C6.3375 2.25 6 2.5875 6 3V12C6 12.4125 6.3375 12.75 6.75 12.75H13.5C13.9125 12.75 14.25 12.4125 14.25 12V3C14.25 2.5875 13.9125 2.25 13.5 2.25Z" fill="#8C90B9"/>
+                            </g>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_2073_136815">
+                            <rect width="18" height="18" fill="white" transform="matrix(1 0 0 -1 0 18)"/>
+                            </clipPath>
+                            </defs>
+                          </svg>
+                        </div>
                       </div>
+                      </div>
+                        </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="flex">
-                <div
-                  class="relative w-52 h-10 center hover group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden"
-                  style={{ "background-image": `url(${YellowButtonBg})` }}
-                  onClick={() => {
-                    if (affiliate?.code) {
-                      changeAffiliateCode();
-                    } else {
-                      createAffiliateCode();
-                    }
-                  }}
-                >
-                  <div class="scrolling-btn-image absolute left-0 top-0 hidden group-hover:block" />
-                  <p class="text-dark-16 text-14 font-semibold font-Oswald uppercase min-w-36 text-center z-10 px-4 py-2.5">
-                    {affiliate?.code
-                      ? affiliateCode.changeCode[i18n.language]
-                      : affiliateCode.createCode[i18n.language]}
-                  </p>
-                </div>
-              </div>
 
-              <div class="w-full grid grid-cols-3 gap-4">
-                <For each={stats}>
-                  {(item) => (
-                    <div class="w-full h-24 xll:h-24 fourk:h-32 flex justify-center items-center pl-4 xll:pl-6 relative rounded-4 bg-dark-22">
-                      <div
-                        class="w-full h-full absolute left-0 top-0 rounded-4 backdrop-blur-sm"
-                        style={{
-                          background:
-                            "linear-gradient(218.47deg, rgba(19, 22, 32, 0.5) -4.89%, rgba(19, 22, 32, 0) 109.48%)",
-                          border: "2px solid rgba(102, 110, 151, 0.2)",
-                        }}
-                      />
-                      <div class="flex gap-1 relative">
-                        { item.type !== 'depositors' ? 
-                          <Coin /> : 
-                          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12.5" cy="12.5" r="12.5" fill="url(#paint0_radial_8_231425)"/>
-                            <g filter="url(#filter0_d_8_231425)">
-                            <path d="M12.4878 12.127C9.99755 12.1316 7.93748 14.0913 7.81307 16.5679C7.80976 16.6382 7.82087 16.7084 7.84573 16.7742C7.87059 16.8401 7.90867 16.9003 7.95766 16.9511C8.00666 17.0018 8.06554 17.0422 8.13071 17.0696C8.19589 17.0971 8.26601 17.1111 8.33679 17.1107H16.6592C16.7297 17.1105 16.7994 17.0961 16.8641 17.0684C16.9288 17.0407 16.9871 17.0003 17.0357 16.9496C17.0843 16.8989 17.122 16.8389 17.1466 16.7733C17.1712 16.7077 17.1822 16.6378 17.1789 16.5679C17.0543 14.0882 14.9894 12.1272 12.496 12.127H12.4878Z" fill="#C35A0E"/>
-                            <path d="M12.4978 7.42188C11.1778 7.42188 10.1016 8.49661 10.1016 9.81016C10.1016 11.1237 11.1778 12.2022 12.4978 12.2022C13.8179 12.2022 14.8979 11.1237 14.8978 9.81016C14.8978 8.49661 13.8179 7.42188 12.4978 7.42188Z" fill="#C35A0E"/>
-                            </g>
-                            <defs>
-                            <filter id="filter0_d_8_231425" x="7.8125" y="7.42188" width="9.36719" height="11.1887" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-                            <feOffset dy="1.5"/>
-                            <feComposite in2="hardAlpha" operator="out"/>
-                            <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.865584 0 0 0 0 0.425 0 0 0 1 0"/>
-                            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_8_231425"/>
-                            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_8_231425" result="shape"/>
-                            </filter>
-                            <radialGradient id="paint0_radial_8_231425" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12.5 12.4995) scale(12.5 12.4999)">
-                            <stop stop-color="#FFCC17"/>
-                            <stop offset="1" stop-color="#FF9A23"/>
-                            </radialGradient>
-                            </defs>
-                          </svg>
-                        }
-                        
-                        <div class="flex flex-col gap-2">
-                          <div class="flex gap-2">
-                            <p class="leading-none text-20 text-white font-bold font-Oswald relative">
-                              {Number(item.value() || 0).toLocaleString()}
-                            </p>
-                            {item.note && <div class="relative group cursor-pointer">
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M5.64711 12C5.4153 11.9677 5.18349 11.9501 4.95462 11.9061C3.05614 11.5423 1.63595 10.5065 0.705786 8.81338C0.183485 7.86267 -0.0541914 6.82981 0.0103627 5.74706C0.151208 3.4906 1.22222 1.80046 3.19699 0.703039C4.14182 0.177804 5.17175 -0.0540043 6.25157 0.0105498C8.50216 0.148461 10.1894 1.21947 11.2927 3.18544C11.7035 3.91607 11.9206 4.71126 11.9793 5.54753C11.9822 5.58274 11.991 5.61502 11.9998 5.65023C11.9998 5.88497 11.9998 6.11971 11.9998 6.35445C11.9939 6.38673 11.9822 6.42194 11.9793 6.45422C11.9206 7.29049 11.7005 8.08274 11.2956 8.81631C10.3625 10.5065 8.94523 11.5393 7.04676 11.9061C6.81788 11.9501 6.58314 11.9707 6.35427 12C6.11659 12 5.88185 12 5.64711 12ZM6.00215 0.544588C3.00039 0.53872 0.55027 2.98297 0.544401 5.99647C0.538533 8.99824 2.98278 11.4484 5.99335 11.4572C8.99512 11.463 11.4452 9.01878 11.4511 6.00527C11.4599 3.00351 9.01566 0.553391 6.00215 0.544588Z" fill="#8C98A9"/>
-                                  <path d="M4.64648 5.65621C4.64648 5.64741 4.64648 5.64448 4.64648 5.64154C4.66116 5.39506 4.7932 5.27182 5.03381 5.2014C5.36245 5.1075 5.67935 4.99894 6.02853 5.01654C6.41585 5.03415 6.7709 5.27476 6.82665 5.61513C6.86186 5.82347 6.84719 6.05527 6.79731 6.26361C6.677 6.77124 6.52442 7.27006 6.38944 7.77476C6.3601 7.88333 6.35423 7.99777 6.3513 8.10927C6.34543 8.29706 6.43053 8.41443 6.61538 8.43497C6.78264 8.45258 6.95576 8.4291 7.12301 8.41443C7.17583 8.4115 7.22571 8.38509 7.29907 8.36161C7.26973 8.47899 7.24625 8.57875 7.21398 8.67852C7.20811 8.69906 7.17583 8.71373 7.15236 8.72253C6.90881 8.80469 6.67113 8.91032 6.42172 8.96314C6.05787 9.04237 5.69109 9.04237 5.36538 8.81349C5.13651 8.65211 5.03968 8.4291 5.05142 8.15035C5.06902 7.75422 5.20693 7.38744 5.30963 7.01185C5.38886 6.71549 5.46515 6.41619 5.54144 6.11983C5.55318 6.07875 5.55318 6.03473 5.55611 5.99072C5.56785 5.66502 5.427 5.53004 5.09836 5.56819C4.94578 5.58579 4.79907 5.62394 4.64648 5.65621Z" fill="#8C98A9"/>
-                                  <path d="M6.58575 3.00049C7.03176 3.00049 7.36626 3.31446 7.3604 3.71645C7.35746 4.01575 7.13739 4.2769 6.81169 4.36493C6.45371 4.46469 6.05171 4.30331 5.89913 3.99521C5.67906 3.56093 5.98716 3.05624 6.50359 3.00342C6.53293 3.00342 6.56521 3.00342 6.58575 3.00049Z" fill="#8C98A9"/>
-                                </svg>
-                                {/* <svg class="group-hover:block hidden absolute left-1/2 bottom-full transform -translate-x-1/2 rotate-180" width="19" height="8" viewBox="0 0 19 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 0H0L9.5 8L19 0Z" fill="#373D54"></path></svg> */}
-                                <span
-                                  class="group-hover:flex hidden bottom-full left-1/2 absolute z-20 transform -translate-x-1/4 -translate-y-2 py-1 px-2 bg-dark-17 border border-gray-30 text-gray-8c text-14 shadow-md flex-row-reverse gap-3 w-40 text-left"
-                                >
-                                    {item.note}
-                                </span>
-                            </div>}
-                              
-                          </div>
+              <div class="flex flex-col gap-4">
+                <div class="flex flex-col">
+                  <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
+                    DASHBOARD
+                  </h2>
+                  <div class="font-SpaceGrotesk text-12 text-[#646683]">
+                    Overview of your Affiliate Stats
+                  </div>
+                </div>
+                <div class="w-full grid grid-cols-3 gap-4">
+                  <For each={stats}>
+                    {(item) => (
+                      <div class="w-full h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22">
+                        <div
+                          class={`w-full h-full absolute left-0 top-0 rounded-4 backdrop-blur-sm ${item.type === 'earned' ? "green-borders" : ""}`}
+                          style={{
+                            background:
+                            item.type !== 'depositors' ? item.type === 'earned' ? `url(${affiliatesTotalEarned})` : `url(${affiliatesTotalDepositored})` : `url(${affiliatesDepositorsBg})`,
+
+                          }}
+                        />
+                        <div class="flex gap-1 relative">
                           
-                          <p class="text-16 text-gray-8c font-normal sentence leading-none">
-                            {item?.name[i18n.language]}
-                          </p>
+                          <div class={`flex flex-col ${item.type === 'depositors' ? "gap-1" : "gap-2"}`}>
+                            <div class="center gap-2">
+                              { item.type !== 'depositors' ? <Coin /> : ""}
+                              <p class={`leading-none
+                              ${item.type !== 'depositors' ? item.type === 'earned' ? "text-20 text-gradient-green-secondary" : "text-20 text-gradient" : "text-32 text-white"}
+                               font-SpaceGrotesk font-bold relative`}
+                              >
+                              
+                                {Number(item.value() || 0).toLocaleString()}
+                              </p>
+                            </div>
+                            <p class={`${item.type === 'earned' ? "text-gradient-green-secondary" : "text-yellow-ffb"} text-14 font-SpaceGrotesk font-normal sentence leading-none`}>
+                              {item?.name[i18n.language]}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                </For>
+                    )}
+                  </For>
+                </div>
               </div>
+             
               <div class="center bg-black bg-opacity-20 py-8 px-4 relative overflow-hidden">
                 <div
                   class="absolute left-0 top-0 w-full h-full rounded-4 overflow-hidden"
