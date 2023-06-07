@@ -360,11 +360,13 @@ const GameCaseBattle = (props) => {
                   )}
                 </For>
               </div>
-              <GrayWrapperdWithBorders classes='rounded-t-2 w-max'>
+              <GrayWrapperdWithBorders classes='rounded-t-4 w-max'>
                 <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12'>
                   <span class='w-max'>{getCurrentRollItem().name}</span>
                   <Coin width='5' />
-                  <span class='text-gradient'>{getCurrentRollItem().price}</span>
+                  <span class='text-gradient text-shadow-gold-secondary'>
+                    {getCurrentRollItem().price}
+                  </span>
                 </div>
               </GrayWrapperdWithBorders>
             </div>
