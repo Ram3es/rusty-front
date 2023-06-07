@@ -27,18 +27,20 @@ import RangePercentScale from '../../components/elements/RangePercentScale'
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { tippy, useTippy } from 'solid-tippy';
 import InfoToolTip from '../../components/battle/InfoToolTip'
+import { getCurrencyString } from '../../components/mines_new/utils/tools'
+import GoldText from '../../components/mines_new/MISC/GoldText'
 
 import dragula from 'dragula'
 
 const minLevelOptions = ['bronze', 'silver', 'gold1', 'platinum1', 'diamond']
 const priceRanges = [
   'All Prices',
-  '0-5,000',
-  '5,000-15,000',
-  '15,000-50,000',
-  '50,000-100,000',
-  '100,000-250,000',
-  '250,000+'
+  '0-5,000.00',
+  '5,000.00-15,000.00',
+  '15,000.00-50,000.00',
+  '50,000.00-100,000.00',
+  '100,000.00-250,000.00',
+  '250,000.00+'
 ]
 const sortOptions = ['ASC', 'DESC']
 
@@ -446,14 +448,7 @@ const CreateCaseBattle = (props) => {
         <div class='center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:w-[calc(100vw-324px)] bg-control-panel'>
           <div class='md:w-[616px] flex flex-row md:flex-col justify-between px-6 md:px-14 py-4 border-white border border-opacity-5 gap-6 sm:gap-16 md:gap-4'>
             <div class='flex flex-col justify-between md:flex-row gap-2 w-full'>
-              <div
-                class={` ${
-                  (modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
-                  modeToCreate().cursed !== 1
-                    ? ''
-                    : 'opacity-50'
-                }`}
-              >
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   callbackFn={() =>
@@ -467,16 +462,22 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1}
+                  rgb={"255, 180, 54"}
+                  toggle
                 >
                   <div class='flex gap-2 '>
-                    <BattleRoyaleIcon additionClasses='w-4 text-yellow-ffb' />
-                    <span class={`text-yellow-ffb font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                    <BattleRoyaleIcon additionClasses={`w-4 text-yellow-ffb ${(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`${(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1 ? "text-yellow-ffb" : "text-[#9A9EC8]"} font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
                       Battle Royale
                     </span>
                   </div>
                 </CaseGradientButton>
               </div>
-              <div class={`${modeToCreate().cursed === 1 ? '' : 'opacity-50'}`}>
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   color='green'
@@ -491,20 +492,19 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={modeToCreate().cursed === 1}
+                  rgb="218, 253, 9"
+                  toggle
                 >
-                  <div class='flex gap-2 items-center text-[#DAFD09]'>
-                    <BattleCursedIcon additionClasses='w-5' />
-                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                  <div class={`flex gap-2 items-center text-[#DAFD09]`}>
+                    <BattleCursedIcon additionClasses={`w-5 ${modeToCreate().cursed === 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold ${modeToCreate().cursed === 1 ? "text-[#DAFD09]" :"text-[#9A9EC8]"}`}>
                       Cursed Battle
                     </span>
                   </div>
                 </CaseGradientButton>
               </div>
-              <div
-                class={`${
-                  modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? '' : 'opacity-50'
-                }`}
-              >
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   color='blue'
@@ -519,10 +519,13 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={modeToCreate().mode === 'group' && modeToCreate().cursed !== 1}
+                  rgb="90, 195, 255"
+                  toggle
                 >
                   <div class='flex gap-2 items-center'>
-                    <BattleGroupIcon additionClasses='text-[#5AC3FF] w-5' />
-                    <span class={`text-[#5AC3FF] font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                    <BattleGroupIcon additionClasses={`text-[#5AC3FF] w-5 ${modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`${modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? "text-[#5AC3FF]" : "text-[#9A9EC8]"} font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
                       Group Mode
                     </span>
                   </div>
@@ -936,7 +939,7 @@ const CreateCaseBattle = (props) => {
           >
             <div class='flex gap-2 items-center'>
               {getModeColor() === 'yellow' ? (
-                <BattleRoyaleIcon additionClasses='w-4 text-yellow-ffb' />
+                <BattleRoyaleIcon additionClasses='w-5 text-yellow-ffb' />
               ) : getModeColor() === 'green' ? (
                 <BattleCursedIcon additionClasses='text-[#DAFD09] w-5' />
               ) : (
@@ -1099,21 +1102,19 @@ const CreateCaseBattle = (props) => {
                 )}
               </For>
             </div>
-            <div class='flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border '>
-              <GrayWrapperdWithBorders classes='rounded-t-2 w-max'>
+            <div class='flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border  '>
+              <GrayWrapperdWithBorders classes='rounded-[4px] w-max'>
                 <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center py-2.5 px-8 sm:px-12 '>
                   <span class='w-max'>
                     {modeToCreate().cases.reduce((total, c) => (total += c.qty), 0)} Cases
                   </span>
                   <Coin width='5' />
-                  <span class='text-gradient'>
-                    {modeToCreate().cases.reduce(
+                    <GoldText text={getCurrencyString(modeToCreate().cases.reduce(
                       (total, c) =>
                         (total +=
                           c.qty * casesState().find((obj) => obj.id === c.caseId)?.price || 0),
                       0
-                    )}
-                  </span>
+                    ))} size="15" />
                 </div>
               </GrayWrapperdWithBorders>
               <div class='flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4'>

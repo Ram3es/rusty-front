@@ -4,7 +4,7 @@ const GrayGradientButton = (props) => {
   return (
     <div
       class={`${props.additionalClass ?? 'h-10 w-max px-4 gap-3' } relative bg-gray-button-gradient border-[#FFFFFF0A]  border center rounded-4 cursor-pointer flex items-center 
-      drop-shadow-lg shadow-black transition duration-300  hover:shadow-2xl hover:border-[#FFFFFF1A] text-shadow-lg`}
+        transition duration-300  ${!props.noShadow && "drop-shadow-lg hover:shadow-2xl text-shadow-lg shadow-black"} hover:border-[#FFFFFF1A] `}
       onClick={(e) => {
         e.stopPropagation()
         playOptionClickSound();
