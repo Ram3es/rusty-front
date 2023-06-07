@@ -21,7 +21,7 @@ const CasesCounter = (props) => {
         },
         options: {
           responsive: true,
-          cutout: 15, // Adjust the cutoutPercentage to change the sector width
+          cutout: 16, // Adjust the cutoutPercentage to change the sector width
           animation: {
             animateRotate: false // Disable rotation animation for smoother rounding effect
           },

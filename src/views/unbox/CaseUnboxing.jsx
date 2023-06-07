@@ -353,9 +353,9 @@ const CaseUnboxing = (props) => {
                 </p>
               </div>
               <div class='w-full grid grid-cols-potential-drop--item gap-3'>
-                <For each={rollCase()?.items || []}>
-                  {(item) => <PotentialDropItem skin={item} />}
-                </For>
+              <For each={rollCase()?.items.sort((a, b) => b.price - a.price) || []}>
+                {(item) => <PotentialDropItem skin={item} />}
+              </For>
               </div>
             </div>
             <HistoryDrops data={caseStatistic ?? []} _case={rollCase} />
