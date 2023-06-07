@@ -4,12 +4,14 @@ import ArrowDown from "../../components/icons/ArrowDown";
 import Coin from "../../utilities/Coin";
 import RankLabel from "../../components/chat/RankLabel"
 import Ranks from '../../utilities/Ranks'
+import GoldText from "../mines_new/MISC/GoldText";
 
 const RangeVariantButton = (props) => {
   return (
     <GrayGradientButton
       callbackFn={props.callbackFn}
       additionalClass='w-4 h-4 shadow-button text-gray-9a' 
+      noShadow
     > 
       <ArrowDown isOpen={props.isOpen} />
     </GrayGradientButton>
@@ -19,7 +21,13 @@ const RangeVariantItems = (props) => {
   return(
     <div class='flex gap-2 items-center text-yellow-ffb'>
       <Coin width='5' />
-      {props.activeName}
+      {props.activeName.includes('-') ? (() => {
+          const [min, max] = props.activeName.split('-');
+          return<><GoldText text={min}  size="14"/><GoldText text=" - " /><GoldText text={max}  size="14"/></>
+        } 
+          ) : (
+            <GoldText text={props.activeName} />
+      )}
     </div>
   )
 }
@@ -116,7 +124,15 @@ const Dropdown = (props) => {
                     <RankVariantItems activeName={item} />
                   </Match>
                   <Match when={props.variant === 'range'}>
-                    <RangeVariantItems activeName={item}/>
+                    {/* <RangeVariantItems activeName={item}/> */}
+                    {item.includes('-') ? (() => {
+                      const [min, max] = item.split('-');
+                      return<><GoldText text={min}  size="14"/><GoldText text=" - " /><GoldText text={max}  size="14"/></>
+                    } 
+                     ) : (
+                       <GoldText text={item} />
+                  )}
+
                   </Match>
                 </Switch>
               </li>

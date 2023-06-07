@@ -18,6 +18,9 @@ import UserGameAvatar from '../../components/battle/UserGameAvatar'
 import CaseViewModal from '../../components/modals/CaseViewModal'
 import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
+import { isWinner } from '../../utilities/games/caseBattles'
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -38,13 +41,11 @@ const CaseBattles = (props) => {
       })
       onBattlesPageLoaded(true)
       socket.emit('battles:connect', {}, (data) => {
-        console.log(Object.values(data.data.games))
-        setGames(data.data.games)
+        console.log("battles:cases", data.data);
+        setGames({...data.data.games, ...data.data.history})
       })
       socket.on(`battles:update`, (data) => {
-        console.log(data)
         setGames(data.gameId, data.data)
-        console.log(games)
       })
     }
   })
@@ -127,7 +128,7 @@ const CaseBattles = (props) => {
 
   return (
     <Fallback loaded={battlesPageLoaded}>
-      <div class="flex flex-col py-6 gap-8 min-h-[100vh]">
+      <div class="flex flex-col py-6 gap-2 min-h-[100vh]">
           <div class= "w-full grid grid-cols-3 gap-3 items-center bg-control-panel">
           <div class=" col-span-3 sm:col-span-1 w-full flex justify-center md:justify-start">
             <Dropdown 
@@ -171,13 +172,19 @@ const CaseBattles = (props) => {
             </NavLink>
           </div>
         </div>
+        <div class="w-full flex font-SpaceGrotesk text-13 text-[#A2A5C6] font-semibold">
+            <div class="ml-8">Mode</div>
+            <div class="ml-11">Cases</div>
+            <div class="w-full flex-1" />
+            <div class="mr-32 hidden sm:block">Participants</div>
+        </div>
         <div class='flex flex-col gap-3 px-0.5'>
           <For
             each={Object.keys(games)?.sort((a, b) => {
               const calculations =
-                -(
+              -(
                   (games[a].status == 'open' ? 2 : games[a].status == 'playing' ? 1 : 0) +
-                  (1 - 1 / games[a].totalValue)
+                  (1 - 1 / games[a].totalValue * (sortBy() === sortByOptions[0] ? 1 : -1))
                 ) +
                 ((games[b].status == "open"
                   ? 2 
@@ -185,7 +192,7 @@ const CaseBattles = (props) => {
                   ? 1
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
-              return calculations * (sortBy() === sortByOptions[0] ? -1 : 1)
+              return calculations
             })}>
             {(id) => (<div
                 class="flex flex-col sm:flex-row w-full items-stretch min-h-[116px] bg-opacity-40 gap-2 case-battle-card"
@@ -197,7 +204,7 @@ const CaseBattles = (props) => {
                     games[id]?.cursed !== 1
                 }}
               >
-                <div class='p-4 w-full flex gap-3 border-r border-black relative z-10'>
+                <div class='p-4 w-full flex gap-3 md:border-r border-dark-1617 relative z-10'>
                   <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>
                     {games[id]?.cursed === 1 && (
                       <BattleCursedIcon additionClasses='w-8 text-[#DAFD09]' />
@@ -230,7 +237,7 @@ const CaseBattles = (props) => {
                     </div>
                   </div>
 
-                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primery-gradient'>
+                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
                       isActive={games[id]?.status === 'open' || games[id]?.status === 'playing'}
                       classes='rounded-l-6'
@@ -275,18 +282,31 @@ const CaseBattles = (props) => {
                           >
                             {(caseItem) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer`}
-                                onClick={() => {
+                                class={`relative cursor-pointer pointer-events-auto`}
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   const caseIndexToShow = casesState().findIndex(
                                     (c) => c.id === caseItem.id
                                   )
                                   setCaseViewModalItem(casesState()[caseIndexToShow])
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                            props: {
+                                              content: (
+                                                <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                                  name={caseItem.name}
+                                                />
+                                              ),
+                                              allowHTML: true,
+                                              duration: 0,
+                                            },
+                                            hidden: true,
+                                              }}
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class={`h-[77px] w-[106px] ${
+                                  class={`h-[101px] w-[138px] ${
                                     games[id]?.status === 'open' || games[id]?.status === 'playing'
                                       ? ''
                                       : 'opacity-20'
@@ -337,7 +357,7 @@ const CaseBattles = (props) => {
                           <For each={games[id]?.cases || []}>
                             {(caseItem, index) => (
                               <div
-                                class={`relative px-4 py-3 cursor-pointer ${
+                                class={`relative cursor-pointer ${
                                   index() < games[id].currentRound && 'opacity-20'
                                 }`}
                                 onClick={() => {
@@ -347,7 +367,7 @@ const CaseBattles = (props) => {
                               >
                                 <img
                                   alt={caseItem.name}
-                                  class='h-[77px] w-[106px]'
+                                  class='h-[101px] w-[138px]'
                                   src={caseItem?.image?.replace('{url}', window.origin) || ''}
                                 />
                               </div>
@@ -377,9 +397,11 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
+                            widthClasses={games[id]?.status !== 'ended' || isWinner(games[id]?.winners || [], userIndex) ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !isWinner(games[id]?.winners || [], userIndex) && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
-                            <>
+                            <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
                               {games[id]?.cursed === 1 && (
                                 <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
                               )}
@@ -390,7 +412,7 @@ const CaseBattles = (props) => {
                                 games[id]?.cursed !== 1 && (
                                   <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
                                 )}
-                            </>
+                            </span>
                           ) : (
                             ''
                           )}

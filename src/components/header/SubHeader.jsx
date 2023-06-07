@@ -213,21 +213,22 @@ const SubHeader = (props) => {
                     >
                       <p
                         class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
-                          (currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()
-                            ? 'active-link'
-                            : 'text-gray-6a'
+                          toggle.url === URL.REWARDS
+                            ? 'reward-label'
+                            : 'text-gray-6a group-hover:text-gray-9aa'
                         } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
-                        {((currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()) && (
-                          <span
-                            class='w-1 h-1 rounded-full bg-yellow-ff'
-                            style={{
-                              'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
-                            }}
-                          />
+                        {toggle.url === URL.REWARDS && (
+                          <span class='flex h-[3px] w-[3px] relative text-yellow-ffb'>
+                            <span
+                              class='animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75 transform'
+                              style={{
+                                'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
+                              }}
+                            />
+                            <span class='relative inline-flex rounded-full h-[3px] w-[3px] bg-current' />
+                          </span>
                         )}
                       </p>
                     </NavLink>
@@ -247,23 +248,9 @@ const SubHeader = (props) => {
                       }}
                     >
                       <p
-                        class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
-                          (currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()
-                            ? 'active-link'
-                            : 'text-gray-6a'
-                        } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                        class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
-                        {((currPath().indexOf(toggle.url) >= 0 && toggle.url !== '/') ||
-                          toggle.url === currPath()) && (
-                          <span
-                            class='w-1 h-1 rounded-full bg-yellow-ff'
-                            style={{
-                              'box-shadow': '0px 0px 5px 1px rgba(255, 180, 54, 0.72)'
-                            }}
-                          />
-                        )}
                       </p>
                     </NavLink>
                   )}
@@ -350,11 +337,15 @@ const SubHeader = (props) => {
                       }}
                     >
                       <div
-                        class={`h-[72px] px-2 llg:px-4 xll:px-7 py-2 relative ${
+                        class={`h-[66px] ${
+                          mode.url === URL.GAMEMODES.CASE_BATTLES
+                            ? 'xxl:w-[136px]'
+                            : 'xxl:w-[108px]'
+                        } px-2 llg:px-4 xll:px-7 py-2 relative ${
                           currPath().indexOf(mode.url) >= 0
                             ? 'header-nav-link-active'
                             : 'header-nav-link'
-                        } transition-all duration-200 pb-0 cursor-pointer group`}
+                        } transition-colors transition-shadows duration-200 pb-0 cursor-pointer group`}
                       >
                         <div class='flex flex-col justify-around py-1 items-center relative h-full z-10'>
                           <div
@@ -381,10 +372,10 @@ const SubHeader = (props) => {
               {userObject.authenticated ? (
                 <div class='flex items-center gap-6'>
                   <div class='flex h-10'>
-                    <div class='balance-bg rounded-l-6 flex items-center drop-shadow-dark'>
-                      <div class='bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 '>
+                    <div class='balance-bg rounded-l-6 flex items-center'>
+                      <div class='bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[146px]'>
                         <div
-                          class=' w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold'
+                          class='w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold'
                           style={{
                             background: `url(${balanceMaskBg})`,
                             'border-radius': '4px 4px 4px 4px'

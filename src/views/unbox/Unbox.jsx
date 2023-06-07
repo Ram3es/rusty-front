@@ -119,6 +119,8 @@ function compareArrays(array1, array2) {
 //   )
 // }
 
+
+
 const Unbox = (props) => {
   const { unboxPageLoaded, onUnboxPageLoaded } = PageLoadState
   const [search, setSearch] = createSignal('')
@@ -127,7 +129,9 @@ const Unbox = (props) => {
   // const [ sortBy, setSortBy ] = createSignal(sortOptions[0]);
   const [cases, setCases] = createSignal([])
   const { socket } = Injector
-
+  createEffect(() => {
+    console.log(cases());
+  })
   createEffect(() => {
     if (props.loaded()) {
       onUnboxPageLoaded(true)
@@ -135,7 +139,7 @@ const Unbox = (props) => {
       //   console.log(data.data.cases);
       //   setCases(() => data.data.cases)
       // });
-      socket.emit('cases:get', { price: 'desc' }, (data) => {
+      socket.emit('battles:cases', { price: 'desc' }, (data) => {
         console.log(data.data.cases)
         setCases(() => data.data.cases)
       })
@@ -200,10 +204,14 @@ const Unbox = (props) => {
                 />
                 <div class='relative grow z-10 px-4 pb-5 pt-9 flex flex-col justify-between items-center'>
                   <img
-                    class='w-auto h-[127px] group-hover:rotate-6'
+                    class='w-auto h-[127px] scale-150 absolute group-hover:rotate-6 top-6'
                     src={item.image ? item.image.replace('{url}', window.origin) : ''}
                     alt={item.name}
+                    style={{
+                            filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+                          }}
                   />
+                  <div class='w-auto h-[127px]'/>
                   <div class='w-full block group-hover:hidden'>
                     <TransparentButton
                       callbackFn={() => setTagsToFilter(item.tags)}
