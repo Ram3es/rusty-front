@@ -188,6 +188,7 @@ const GameCaseBattle = (props) => {
   }
 
   const joinGame = (player_index) => {
+    console.log('props.searchParams.key', props.searchParams.key)
     socket.emit(
       'battles:join',
       {
@@ -272,7 +273,7 @@ const GameCaseBattle = (props) => {
   return (
     <div class='flex flex-col'>
       {game() && (
-        <div class='w-full h-full flex flex-col gap-8 relative pt-8'>
+        <div class='w-full h-full flex flex-col gap-8 relative py-8'>
           <div class='px-4 xl:px-8 xxl:px-14 flex flex-col '>
             <div class='flex flex-col md:flex-row justify-between gap-2 mb-0 xl:-mb-8'>
               <div class='flex items-center gap-6'>
@@ -292,7 +293,7 @@ const GameCaseBattle = (props) => {
               </div>
               <div class='flex flex-wrap gap-2 justify-center items-center mx-auto md:mx-0'>
                 <div
-                  class={`w-max center px-5 py-[9px] border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
+                  class={`w-max center h-10 px-5 border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(_, index) => (
@@ -359,11 +360,13 @@ const GameCaseBattle = (props) => {
                   )}
                 </For>
               </div>
-              <GrayWrapperdWithBorders classes='rounded-t-2 w-max'>
+              <GrayWrapperdWithBorders classes='rounded-t-4 w-max'>
                 <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12'>
                   <span class='w-max'>{getCurrentRollItem().name}</span>
                   <Coin width='5' />
-                  <span class='text-gradient'>{getCurrentRollItem().price}</span>
+                  <span class='text-gradient text-shadow-gold-secondary'>
+                    {getCurrentRollItem().price}
+                  </span>
                 </div>
               </GrayWrapperdWithBorders>
             </div>
@@ -611,7 +614,9 @@ const GameCaseBattle = (props) => {
                     {(playerIndex) => (
                       <div
                         class={`center relative ${
-                          isWinner(game().winners, playerIndex) ? 'opacity-100' : 'opacity-30'
+                          game().status !== 'ended' || isWinner(game().winners, playerIndex)
+                            ? 'opacity-100'
+                            : 'opacity-30'
                         }`}
                         style={{
                           background: `${getGradientForWinners(
