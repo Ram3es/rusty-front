@@ -227,9 +227,9 @@ const Unbox = (props) => {
                     </GradientButton>
                   </div>
                 </div>
-                <div class='w-full center bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10'>
+                <div class='w-full center bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10 gap-2'>
                   <Coin />
-                  <span class='text-gradient text-16 font-SpaceGrotesk font-bold'>1200</span>
+                  <span class='text-gradient text-16 font-SpaceGrotesk font-bold'>{item.price}</span>
                 </div>
               </NavLink>
             )}

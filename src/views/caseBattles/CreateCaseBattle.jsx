@@ -367,12 +367,12 @@ const CreateCaseBattle = (props) => {
                 <Coin width='5' />
                 <span class='text-gradient'>
                   {modeToCreate().borrowMoney
-                    ? getProportionalPartByAmount(
+                    ? casesPrice() - getProportionalPartByAmount(
                         casesPrice(),
                         Math.floor(modeToCreate().borrowPercent * 0.8)
                       )
                     : modeToCreate().fundBattle
-                    ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                    ? casesPrice() + getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) * (modeToCreate().players - 1)
                     : casesPrice()}
                 </span>
               </div>
@@ -957,12 +957,12 @@ const CreateCaseBattle = (props) => {
               </span>
               <Coin width='5' />
              <GoldText text={(getCurrencyString(modeToCreate().borrowMoney
-                  ? getProportionalPartByAmount(
+                  ?  casesPrice() - getProportionalPartByAmount(
                       casesPrice(),
                       Math.floor(modeToCreate().borrowPercent * 0.8)
                     )
                   : modeToCreate().fundBattle
-                  ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                  ? casesPrice() + getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) * (modeToCreate().players - 1)
                   : casesPrice()).toString())}
                     size="16"
                   />
