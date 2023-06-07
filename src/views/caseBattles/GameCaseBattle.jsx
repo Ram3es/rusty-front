@@ -188,6 +188,7 @@ const GameCaseBattle = (props) => {
   }
 
   const joinGame = (player_index) => {
+    console.log('props.searchParams.key', props.searchParams.key)
     socket.emit(
       'battles:join',
       {
@@ -611,7 +612,9 @@ const GameCaseBattle = (props) => {
                     {(playerIndex) => (
                       <div
                         class={`center relative ${
-                          isWinner(game().winners, playerIndex) ? 'opacity-100' : 'opacity-30'
+                          game().status !== 'ended' || isWinner(game().winners, playerIndex)
+                            ? 'opacity-100'
+                            : 'opacity-30'
                         }`}
                         style={{
                           background: `${getGradientForWinners(
