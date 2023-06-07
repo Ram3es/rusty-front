@@ -23,15 +23,20 @@ const CaseBattleJoinModal = (props) => {
   const { socket } = injector
 
   const [setup, setSetup] = createSignal({
-    gameId: props.game?.gameId,
     team: null,
     urlKey: null,
     borrowMoney: 0,
     borrowPercent: 0
   })
 
-  const joinGame = () => {
-    socket.emit('battles:join', setup(), (data) => {
+  const joinGame = (gameId) => {
+    socket.emit('battles:join', {
+      gameId,
+      team: setup().team,
+      borrowMoney: setup().borrowMoney,
+      borrowPercent: setup().borrowPercent
+
+    }, (data) => {
       console.log(data)
     })
   }
