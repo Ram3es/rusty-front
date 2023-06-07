@@ -25,7 +25,11 @@ import AffilatesBar from "../../assets/img/affilates/affilates-bar.png"
 import affiliatesDepositorsBg from "../../assets/img/affilates/affiliatesDepositorsBg.png"
 import affiliatesTotalDepositored from "../../assets/img/affilates/affiliatesTotalDepositored.png"
 import affiliatesTotalEarned from "../../assets/img/affilates/affiliatesTotalEarned.png"
+import affiliateCoin1 from "../../assets/img/affilates/affiliateCoin1.png"
+import affiliateCoin2 from "../../assets/img/affilates/affiliateCoin2.png"
+import affiliateCoin3 from "../../assets/img/affilates/affiliateCoin3.png"
 import CloseButton from "../elements/CloseButton";
+import Ranks from "../../utilities/Ranks";
 
 const AffiliatesModal = (props) => {
   const i18n = useI18n();
@@ -43,6 +47,44 @@ const AffiliatesModal = (props) => {
   const [toggleCode, setToggle] = createSignal(true);
 
   const [tab, setTab] = createSignal("overview");
+
+  const [tiers] = createSignal([
+    {
+      name: "bronze",
+      image: "bronze",
+      deposit: 1,
+      tax: 5,
+      referrals: 5,
+    },
+    {
+      name: "silver",
+      image: "silver",
+      deposit: 1.5,
+      tax: 6,
+      referrals: 10,
+    },
+    {
+      name: "gold",
+      image: "gold3",
+      deposit: 1.75,
+      tax: 7,
+      referrals: 20,
+    },
+    {
+      name: "platinum",
+      image: "platinum3",
+      deposit: 1.85,
+      tax: 8,
+      referrals: 35,
+    },
+    {
+      name: "diamond",
+      image: "diamond",
+      deposit: 2,
+      tax: 15,
+      referrals: 75,
+    },
+  ]);
 
   const stats = [
     {
@@ -492,15 +534,13 @@ const AffiliatesModal = (props) => {
                 </div>
               </div>
              
-              <div class="center bg-black bg-opacity-20 py-8 px-4 relative overflow-hidden">
+              <div class="center py-8 px-4 relative overflow-hidden">
                 <div
                   class="absolute left-0 top-0 w-full h-full rounded-4 overflow-hidden"
-                  style={{
-                    border: "2px solid #303448",
-                  }}
                 >
-                  <img alt="background" src={Bg} class="min-w-full min-h-full" />
-                  <img alt="splash" src={Splash} class="w-full absolute bottom-0 left-0" />
+                  <img alt="affiliateCoin1" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin1} class=" absolute right-5 top-5" />
+                  <img alt="affiliateCoin2" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin2} class=" absolute right-10 bottom-0" />
+                  <img alt="affiliateCoin3" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin3} class=" absolute left-5 top-1/2 -translate-y-1/2" />
                 </div>
                 <div class="w-full h-full center flex-col gap-4 z-10">
                   <div class="center gap-3">
@@ -511,15 +551,12 @@ const AffiliatesModal = (props) => {
                         src={userObject?.user?.avatar || ""}
                       />
                     </div>
-                    <div class="flex flex-col">
+                    {/* <div class="flex flex-col">
                       <div class="flex items-end gap-2">
                         <p class="text-16 text-white font-bold">
                           {userObject?.user?.username ||
                             userStatus.status[i18n.language]}
                         </p>
-                        {/* <div class="px-1.5 h-4 bg-yellow-ff center">
-                                                  <p class="text-12 text-dark-16 font-medium font-Oswald">20</p>
-                                              </div> */}
                       </div>
                       <p class="text-gray-8c text-14 font-normal capitalize">
                         {(
@@ -529,80 +566,29 @@ const AffiliatesModal = (props) => {
                         %{" "}
                         {i18n.t("coinflip.affiliates_true.Progress to next tier")}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
-                  <div class="w-120 max-w-full flex flex-col gap-5">
-                    <div class="w-full flex justify-between items-center relative">
-                      <div class="center gap-2">
-                        <div
-                          class="relative center h-7 px-7"
-                          style={
-                            {
-                              // background: ranks[account?.level?.next]?.color
-                            }
-                          }
-                        >
-                          <svg
-                            class="absolute left-0"
-                            width="3"
-                            height="12"
-                            viewBox="0 0 3 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M3 5.68421L0 12L0 0L3 5.68421Z"
-                              fill="#1B2030"
-                            />
-                          </svg>
-                          <svg
-                            class="absolute top-0"
-                            width="16"
-                            height="2"
-                            viewBox="0 0 16 2"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M7.61905 2L0 0H16L7.61905 2Z"
-                              fill="#1A2130"
-                            />
-                          </svg>
-                          <svg
-                            class="absolute bottom-0"
-                            width="16"
-                            height="2"
-                            viewBox="0 0 16 2"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M8.42105 0L0 2H16L8.42105 0Z"
-                              fill="#161B2B"
-                            />
-                          </svg>
-                          <svg
-                            class="absolute right-0"
-                            width="3"
-                            height="12"
-                            viewBox="0 0 3 12"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path
-                              d="M-2.76072e-07 6.31579L3 0L3 12L-2.76072e-07 6.31579Z"
-                              fill="#1B2030"
-                            />
-                          </svg>
-                        </div>
-                      </div>
+                  <div class="w-120 max-w-full flex flex-col items-center gap-3">
+                    <div class="flex items-center justify-center gap-2">
+                      <Ranks
+                        width={5}
+                        staff={2}
+                        rank={tiers()[affiliate?.level?.current]?.image}
+                      />
+                      <span class="uppercase text-gradient font-SpaceGrotesk text-14 font-bold">{tiers()[affiliate?.level?.current]?.name} TIER AFFILIATE</span>
                     </div>
-                    <div class="w-full h-4 rounded-full overflow-hidden bg-dark-22">
+                  
+                    <div
+                      class="w-[196px] h-0.5 rounded-full overflow-hidden bg-dark-22"
+                      style={{
+                        background: 'radial-gradient(100% 2400% at 0% 100%, rgba(255, 180, 54, 0.2) 0%, rgba(255, 180, 54, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), rgba(255, 255, 255, 0.02)'
+                      }}
+                    >
                       <div
                         class="h-full rounded-full"
                         style={{
                           background:
-                            `url("${AffilatesBar}")`,
+                            `linear-gradient(269.6deg, #FFB436 0%, #7B633A 100%)`,
                           width: `${
                             (affiliate?.wager -
                               affiliate?.level?.current * 1000) /
@@ -611,19 +597,34 @@ const AffiliatesModal = (props) => {
                         }}
                       />
                     </div>
-                  </div>
-                  <div class="center flex-col gap-2 py-4">
-                    <div class="center gap-3">
-                      <Coin />
-                      <p class="text-20 text-white font-bold font-Oswald leading-none -mt-0.5">
-                        <Countup props={Number(affiliate?.balance || 0)} />{" "}
+                    <div>
+                      <p class="text-gray-8c text-12 font-normal font-SpaceGrotesk capitalize">
+                        <span class="text-white">
+                          {(
+                            (affiliate?.wager - affiliate?.level?.current * 1000) /
+                              (affiliate?.level?.next * 10) || 0
+                          ).toFixed(2)}
+                          %{" "}
+                        </span>
+                        {i18n.t("coinflip.affiliates_true.Progress to next tier")}
                       </p>
                     </div>
-                    <p class="text-16 text-gray-8c font-normal capitalize">
-                      {i18n.t("coinflip.affiliates_true.Available earnings")}
-                    </p>
+                    <div
+                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient font-bold text-[#27F278] text-14 font-SpaceGrotesk"
+                      onClick={claimReward}
+                    >
+                      Claim
+                      <Coin width="5" />
+                      <span class="text-gradient-green-secondary">
+                        <Countup props={Number(affiliate?.balance || 0)} />
+                      </span>
+                    </div>
                   </div>
-                  <div class="center gap-4">
+                  
+                </div>
+                
+              </div>
+              <div class="center gap-4">
                     <div
                       class="relative w-52 h-10 center hover group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden"
                       style={{ "background-image": `url(${YellowButtonBg})` }}
@@ -648,8 +649,6 @@ const AffiliatesModal = (props) => {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
             </div>
             {tab() == "users" ? (
               <AffiliatesUsers affiliate={affiliate} />
