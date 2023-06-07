@@ -956,16 +956,18 @@ const CreateCaseBattle = (props) => {
                 Create Battle
               </span>
               <Coin width='5' />
-              <span class='text-gradient'>
-                {modeToCreate().borrowMoney
+             <GoldText text={(getCurrencyString(modeToCreate().borrowMoney
                   ? getProportionalPartByAmount(
                       casesPrice(),
                       Math.floor(modeToCreate().borrowPercent * 0.8)
                     )
                   : modeToCreate().fundBattle
                   ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
-                  : casesPrice()}
-              </span>
+                  : casesPrice()).toString())}
+                    size="16"
+                  />
+                
+
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>

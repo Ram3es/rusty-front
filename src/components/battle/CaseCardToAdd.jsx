@@ -2,6 +2,8 @@ import headerLogoBgVector from "../../assets/img/header/headerLogoBgVector.png"
 import Coin from "../../utilities/Coin"
 import GradientButton from "../elements/GradientButton"
 import TransparentButton from "../elements/TransparentButton"
+import GoldText from "../mines_new/MISC/GoldText"
+import { getCurrencyString } from "../mines_new/utils/tools"
 
 const CaseCardToAdd = (props) => {
   return (
@@ -21,7 +23,11 @@ const CaseCardToAdd = (props) => {
       }}
     />
     <div class={`relative grow z-10 px-4 ${!props.isAdded && "pb-5"} pb-2 pt-0 flex flex-col justify-end items-center`}>
-      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} />
+      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} 
+        style={{
+          filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+        }}
+      />
       <div class="h-[110px]" />
       {!props.isAdded ? <><div class="w-full block group-hover:hidden mt-5">
 
@@ -49,11 +55,11 @@ const CaseCardToAdd = (props) => {
       </div>
       </> : <span class="text-12 text-gray-9a font-SpaceGrotesk font-bold mt-2">{props.item.name}</span>}
     </div>
-    <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient group-hover:bg-dark-to-yellow min-h-[48px] relative z-10"
+    <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient  min-h-[48px] relative z-10"
     >
       <div class="flex items-center gap-2">
         <Coin width={5} />
-        <span class="text-gradient text-16 font-SpaceGrotesk font-bold">{props.item.price}</span>
+        <GoldText text={getCurrencyString((props.item.price).toString())} size="16"/>
       </div>
       {props.isAdded && props.children && <div class="w-full flex justify-between items-center">
         {props.children}
