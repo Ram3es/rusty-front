@@ -611,13 +611,13 @@ const GameCaseBattle = (props) => {
                   }}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
-                    {(playerIndex) => (
+                    {(playerIndex, index) => (
                       <div
-                        class={`center relative ${
+                        class={`center relative llg:h-20 ${
                           game().status !== 'ended' || isWinner(game().winners, playerIndex)
                             ? 'opacity-100'
                             : 'opacity-30'
-                        }`}
+                        } ${(index() === 0 || index() === Array.from(Array(game().playersQty).keys()).at(-1)) ? 'rounded-r' : 'rounded'}`}
                         style={{
                           background: `${getGradientForWinners(
                             game().playersQty,
@@ -627,7 +627,7 @@ const GameCaseBattle = (props) => {
                         }}
                       >
                         {game().players[playerIndex + 1] ? (
-                          <div class='py-6 center px-2'>
+                          <div class='center p-2'>
                             <div class='py-3 pl-2 pr-6 flex flex-wrap gap-2 center'>
                               <div class='w-max'>
                                 <UserGameAvatar
