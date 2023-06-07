@@ -539,7 +539,7 @@ const CreateCaseBattle = (props) => {
                   <div
                     class={`w-max center px-5 py-3 ${
                       option.qty === modeToCreate().players && option.mode === modeToCreate().mode
-                        ? 'border-yellow-ffb text-yellow-ffb'
+                        ? 'border-yellow-ffb text-white'
                         : 'border-white border-opacity-5 text-gray-9a'
                     } border rounded-4 flex gap-1 items-center cursor-pointer`}
                     onClick={() =>
