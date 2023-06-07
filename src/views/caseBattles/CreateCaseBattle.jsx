@@ -938,7 +938,7 @@ const CreateCaseBattle = (props) => {
           >
             <div class='flex gap-2 items-center'>
               {getModeColor() === 'yellow' ? (
-                <BattleRoyaleIcon additionClasses='w-4 text-yellow-ffb' />
+                <BattleRoyaleIcon additionClasses='w-5 text-yellow-ffb' />
               ) : getModeColor() === 'green' ? (
                 <BattleCursedIcon additionClasses='text-[#DAFD09] w-5' />
               ) : (
