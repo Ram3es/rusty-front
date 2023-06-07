@@ -132,7 +132,7 @@ const CaseBattleJoinModal = (props) => {
                 class='border border-gray-600/50 rounded-6 flex items-center gap-2.5 px-4 py-2.5'
                 style={{
                   background:
-                    'radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%)',
+                    'radial-gradient(100% 275.07% at 0% 100%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%)',
                   'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
