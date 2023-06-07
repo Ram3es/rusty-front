@@ -448,14 +448,7 @@ const CreateCaseBattle = (props) => {
         <div class='center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:w-[calc(100vw-324px)] bg-control-panel'>
           <div class='md:w-[616px] flex flex-row md:flex-col justify-between px-6 md:px-14 py-4 border-white border border-opacity-5 gap-6 sm:gap-16 md:gap-4'>
             <div class='flex flex-col justify-between md:flex-row gap-2 w-full'>
-              <div
-                class={` ${
-                  (modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
-                  modeToCreate().cursed !== 1
-                    ? ''
-                    : 'opacity-50'
-                }`}
-              >
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   callbackFn={() =>
@@ -469,16 +462,22 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1}
+                  rgb={"255, 180, 54"}
+                  toggle
                 >
                   <div class='flex gap-2 '>
-                    <BattleRoyaleIcon additionClasses='w-4 text-yellow-ffb' />
-                    <span class={`text-yellow-ffb font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                    <BattleRoyaleIcon additionClasses={`w-4 text-yellow-ffb ${(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`${(modeToCreate().mode === 'royal' || modeToCreate().mode === 'team') &&
+                  modeToCreate().cursed !== 1 ? "text-yellow-ffb" : "text-[#9A9EC8]"} font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
                       Battle Royale
                     </span>
                   </div>
                 </CaseGradientButton>
               </div>
-              <div class={`${modeToCreate().cursed === 1 ? '' : 'opacity-50'}`}>
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   color='green'
@@ -493,20 +492,19 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={modeToCreate().cursed === 1}
+                  rgb="218, 253, 9"
+                  toggle
                 >
-                  <div class='flex gap-2 items-center text-[#DAFD09]'>
-                    <BattleCursedIcon additionClasses='w-5' />
-                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                  <div class={`flex gap-2 items-center text-[#DAFD09]`}>
+                    <BattleCursedIcon additionClasses={`w-5 ${modeToCreate().cursed === 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`font-SpaceGrotesk text-14 sm:text-16 font-bold ${modeToCreate().cursed === 1 ? "text-[#DAFD09]" :"text-[#9A9EC8]"}`}>
                       Cursed Battle
                     </span>
                   </div>
                 </CaseGradientButton>
               </div>
-              <div
-                class={`${
-                  modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? '' : 'opacity-50'
-                }`}
-              >
+              <div>
                 <CaseGradientButton
                   isFullWidth={true}
                   color='blue'
@@ -521,10 +519,13 @@ const CreateCaseBattle = (props) => {
                       }
                     })
                   }
+                  selected={modeToCreate().mode === 'group' && modeToCreate().cursed !== 1}
+                  rgb="90, 195, 255"
+                  toggle
                 >
                   <div class='flex gap-2 items-center'>
-                    <BattleGroupIcon additionClasses='text-[#5AC3FF] w-5' />
-                    <span class={`text-[#5AC3FF] font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
+                    <BattleGroupIcon additionClasses={`text-[#5AC3FF] w-5 ${modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? "opacity-100" : "opacity-30"}`} />
+                    <span class={`${modeToCreate().mode === 'group' && modeToCreate().cursed !== 1 ? "text-[#5AC3FF]" : "text-[#9A9EC8]"} font-SpaceGrotesk text-14 sm:text-16 font-bold`}>
                       Group Mode
                     </span>
                   </div>
