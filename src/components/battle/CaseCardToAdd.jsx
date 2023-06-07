@@ -2,6 +2,8 @@ import headerLogoBgVector from "../../assets/img/header/headerLogoBgVector.png"
 import Coin from "../../utilities/Coin"
 import GradientButton from "../elements/GradientButton"
 import TransparentButton from "../elements/TransparentButton"
+import GoldText from "../mines_new/MISC/GoldText"
+import { getCurrencyString } from "../mines_new/utils/tools"
 
 const CaseCardToAdd = (props) => {
   return (
@@ -57,7 +59,7 @@ const CaseCardToAdd = (props) => {
     >
       <div class="flex items-center gap-2">
         <Coin width={5} />
-        <span class="text-gradient text-16 font-SpaceGrotesk font-bold">{props.item.price}</span>
+        <GoldText text={getCurrencyString((props.item.price).toString())} size="16"/>
       </div>
       {props.isAdded && props.children && <div class="w-full flex justify-between items-center">
         {props.children}
