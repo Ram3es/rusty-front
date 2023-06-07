@@ -309,6 +309,8 @@ module.exports = {
         'pvpmines': "repeat(auto-fill,minmax(20rem, 1fr))",
         'pvp-mines': "repeat(auto-fill,minmax(360px, 1fr))",
         'jackpot-history': "repeat(auto-fill,minmax(20rem, 1fr))",
+        'home-original' : "repeat(15, 1fr)",
+        'rewards-table' : "12rem 3fr 2fr 1fr 1fr"
       },
       backgroundSize: {
         "full": "100% 100%",

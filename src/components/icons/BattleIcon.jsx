@@ -1,6 +1,6 @@
-const BattleIcon = () => {
+const BattleIcon = (props) => {
   return (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg  class={props.additionClasses} width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
         d='M0.0855103 21.8313L2.84704 19.0698L5.01334 21.2361L2.25181 23.9976L0.0855103 21.8313Z'
         fill='currentColor'

@@ -33,6 +33,7 @@ import BunnerSnow from "../../components/elements/BunnerSnow";
 import Ranks from "../../utilities/Ranks";
 import Fallback from "../Fallback";
 import PageLoadState from "../../libraries/PageLoadState";
+import BannerSection from "./new_home/BannerSection"
 
 const Home = (props) => {
   const { leaderboards, userObject, SNOWMODE } = injector;
@@ -151,6 +152,7 @@ const Home = (props) => {
     <Fallback loaded={() => true}>
       <img alt="background" src={Bg} class="absolute left-0 top-0 min-w-full md:min-h-full" />
       <div class="w-full h-full pt-8 flex flex-col gap-4 relative min-h-screen">
+        <BannerSection />
         <div
           class={`w-full rounded-12 flex justify-between items-center relative`}
         >
