@@ -293,7 +293,7 @@ const GameCaseBattle = (props) => {
               </div>
               <div class='flex flex-wrap gap-2 justify-center items-center mx-auto md:mx-0'>
                 <div
-                  class={`w-max center px-5 py-[9px] border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
+                  class={`w-max center h-10 px-5 border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(_, index) => (
