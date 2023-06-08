@@ -490,7 +490,7 @@ const GameCaseBattle = (props) => {
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleRoyaleIcon additionClasses='w-6 m-2' />
+                                          <BattleRoyaleIcon additionClasses='w-6 m-2' glowColor={"255, 180, 54"}/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
@@ -501,18 +501,18 @@ const GameCaseBattle = (props) => {
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleCursedIcon additionClasses='w-7 m-2' />
+                                          <BattleCursedIcon additionClasses='w-7 m-2' glowColor={"218, 253, 9"}/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
                                   ) : (
                                     <div class='absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10'>
-                                      <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+                                      <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 '>
                                         <GrayWrapperdWithBorders
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleGroupIcon additionClasses='w-7 mx-1 my-2' />
+                                          <BattleGroupIcon additionClasses='w-7 mx-1 my-2' glowColor="90, 195, 255"/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
