@@ -3,6 +3,7 @@ import { createMemo } from 'solid-js'
 import ItemMainBg from '../../assets/img/case/potentialDropItemVectorBg.png'
 
 import Coin from '../../utilities/Coin'
+import { getCurrencyString } from '../mines_new/utils/tools'
 
 const skinStylesConfig = [
   {
@@ -157,7 +158,7 @@ const ItemCardSmall = (props) => {
             <div class='group-hover:hidden flex gap-1.5'>
               <Coin width='5' />
               <span class='font-bold text-sm potential-drop--price'>
-                {Number(props?.drop?.item_price).toLocaleString()}
+                {getCurrencyString(props?.drop?.item_price).toLocaleString()}
               </span>
             </div>
             <p class='px-4 hidden group-hover:block text-13 text-white font-bold truncate max-w-full'>

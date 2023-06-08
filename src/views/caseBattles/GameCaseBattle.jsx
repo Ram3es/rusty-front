@@ -29,6 +29,7 @@ import EmojiIcon from '../../components/icons/EmojiIcon'
 import { getRandomFunction } from '../../utilities/Random/randomGen'
 import WinningsDisplay from "../../components/battle/WinningsDisplay"
 import LosingDisplay from "../../components/battle/LosingDisplay"
+import { getCurrencyString } from '../../components/mines_new/utils/tools'
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -295,7 +296,7 @@ const GameCaseBattle = (props) => {
                   <span class='w-max'>Battle Cost</span>
                   <div class='flex items-center gap-2'>
                     <Coin width='5' />
-                    <span class='text-gradient'>{game().totalValue}</span>
+                    <span class='text-gradient'>{getCurrencyString(game().totalValue)}</span>
                   </div>
                 </div>
               </div>
@@ -373,7 +374,7 @@ const GameCaseBattle = (props) => {
                   <span class='w-max'>{getCurrentRollItem().name}</span>
                   <Coin width='5' />
                   <span class='text-gradient text-shadow-gold-secondary'>
-                    {getCurrentRollItem().price}
+                    {getCurrencyString(getCurrentRollItem().price)}
                   </span>
                 </div>
               </GrayWrapperdWithBorders>
