@@ -71,7 +71,7 @@ const CreateCaseBattle = (props) => {
   const { socket, toastr } = injector
   const [casesState, setCasesState] = createSignal([])
   const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(false)
-  const [placeholdersToShow, setPlaceholdersToShow] = createSignal(0)
+  const [placeholdersToShow, setPlaceholdersToShow] = createSignal(2)
   const [search, setSearch] = createSignal('')
   const [priceRange, setPriceRange] = createSignal(priceRanges[0])
   const [sortBy, setSortBy] = createSignal(sortOptions[0])

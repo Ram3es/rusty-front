@@ -1,4 +1,6 @@
 import {createSignal, onMount} from "solid-js";
+import { getCurrencyString } from "../mines_new/utils/tools";
+
 const WinningsDisplay = (props) => {
   const [value, setValue] = createSignal(0);
   let interval = 1000;
@@ -14,7 +16,7 @@ const WinningsDisplay = (props) => {
     }, duration)
   })
   return (
-    <span>{value()}</span>
+    <span>{getCurrencyString(value())}</span>
   )
 }
 

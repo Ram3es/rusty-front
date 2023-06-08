@@ -8,7 +8,7 @@ const GrayGradientButton = (props) => {
       onClick={(e) => {
         e.stopPropagation()
         playOptionClickSound();
-        props.callbackFn();
+        if (props.callbackFn) props.callbackFn();
       } }
     >
       {props.children}

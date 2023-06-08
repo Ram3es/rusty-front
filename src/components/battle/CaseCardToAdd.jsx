@@ -1,3 +1,4 @@
+import {createSignal} from "solid-js";
 import headerLogoBgVector from "../../assets/img/header/headerLogoBgVector.png"
 import Coin from "../../utilities/Coin"
 import GradientButton from "../elements/GradientButton"
@@ -6,16 +7,18 @@ import GoldText from "../mines_new/MISC/GoldText"
 import { getCurrencyString } from "../mines_new/utils/tools"
 
 const CaseCardToAdd = (props) => {
+  const [isHovering, setIsHovering] = createSignal(false);
   return (
-    <div class={`case-card-background border border-opacity-5 group h-[256px] w-[216px] flex flex-col ${
+    <div class={`case-card-background border border-opacity-5 group h-[256px] w-[216px] flex flex-col  ${
       props.isAdded && props.isActiveBorderShown ? 'border-yellow-ffb border-1 border-opacity-100' : 'border-transparent'
      } relative rounded-6 overflow-hidden`}
      onClick={() => {
         if (!props.isAdded){
           props.onAddCase();
         }
-
-     }}>
+     }}
+     onMouseOver={() => setIsHovering(true)}
+      onMouseOut={() => setIsHovering(false)}>
     <div
       class=" absolute left-0 top-0 w-full h-full z-0 opacity-60 group-hover:opacity-100"
       style={{
@@ -26,12 +29,18 @@ const CaseCardToAdd = (props) => {
       <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} 
         style={{
           filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+          transition: `all 0.15s ease-in-out`
         }}
       />
-      <div class="h-[110px]" />
-      {!props.isAdded ? <><div class="w-full block group-hover:hidden mt-5">
-
-        <TransparentButton 
+      <div class="h-[110px] w-full relative" />
+      {!props.isAdded ? <>
+      
+       
+      <div class={`w-full block  mt-5 ${isHovering() && "scale-x-0" }`}
+      style={{
+        transition: `all 0.15s ease-in-out`
+      }}>
+       <TransparentButton 
           callbackFn={() => {}}
           isActive={false}
           isFullWidth={true}
@@ -39,7 +48,11 @@ const CaseCardToAdd = (props) => {
           <span class="truncate">{props.item.name}</span>
         </TransparentButton>
       </div>
-      <div class="w-full hidden group-hover:block mt-5">
+
+      <div class={`absolute min-w-[182px] mt-5 scale-x-0 ${isHovering() && "scale-x-100" }`}
+       style={{
+        transition: `all 0.15s ease-in-out`
+      }}>
         <GradientButton
           isFullWidth={true}
           isActive={true}
@@ -53,6 +66,7 @@ const CaseCardToAdd = (props) => {
           </div>
         </GradientButton>
       </div>
+        
       </> : <span class="text-12 text-gray-9a font-SpaceGrotesk font-bold mt-2">{props.item.name}</span>}
     </div>
     <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient  min-h-[48px] relative z-10"

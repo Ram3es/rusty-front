@@ -29,6 +29,7 @@ import EmojiIcon from '../../components/icons/EmojiIcon'
 import { getRandomFunction } from '../../utilities/Random/randomGen'
 import WinningsDisplay from "../../components/battle/WinningsDisplay"
 import LosingDisplay from "../../components/battle/LosingDisplay"
+import { getCurrencyString } from '../../components/mines_new/utils/tools'
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -286,7 +287,7 @@ const GameCaseBattle = (props) => {
             <div class='flex flex-col md:flex-row justify-between gap-2 mb-0 xl:-mb-8'>
               <div class='flex items-center gap-6'>
                 <NavLink href={URL.GAMEMODES.CASE_BATTLES}>
-                  <div class='flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max'>
+                  <div class='flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max h-[40px]'>
                     <ArrowBack />
                     <span class='font-SpaceGrotesk text-14 text-gray-9a'>Return to Battles</span>
                   </div>
@@ -295,7 +296,7 @@ const GameCaseBattle = (props) => {
                   <span class='w-max'>Battle Cost</span>
                   <div class='flex items-center gap-2'>
                     <Coin width='5' />
-                    <span class='text-gradient'>{game().totalValue}</span>
+                    <span class='text-gradient'>{getCurrencyString(game().totalValue)}</span>
                   </div>
                 </div>
               </div>
@@ -373,7 +374,7 @@ const GameCaseBattle = (props) => {
                   <span class='w-max'>{getCurrentRollItem().name}</span>
                   <Coin width='5' />
                   <span class='text-gradient text-shadow-gold-secondary'>
-                    {getCurrentRollItem().price}
+                    {getCurrencyString(getCurrentRollItem().price)}
                   </span>
                 </div>
               </GrayWrapperdWithBorders>
@@ -570,7 +571,7 @@ const GameCaseBattle = (props) => {
                                           >
                                             Winner
                                           </div>
-                                          <div class='flex gap-2'>
+                                          <div class='flex gap-2 items-center justify-center'>
                                             <Coin width='11' />{' '}
                                             <span class={`text-gradient font-SpaceGrotesk text-28 font-bold transition-all duration-1000
                                              ${game().status === 'ended' ? "scale-100" : "scale-50"}`}>
@@ -627,9 +628,9 @@ const GameCaseBattle = (props) => {
                       <div
                         class={`center relative llg:h-20 ${
                           game().status !== 'ended' || isWinner(game().winners, playerIndex)
-                            ? 'opacity-100'
+                            ? `opacity-100 ${playerIndex === 0 ? "rounded-l-8" : playerIndex === Array.from(Array(game().playersQty).keys()).at(-1) ? "rounded-r-8" : ""}`
                             : 'opacity-30'
-                        } ${(index() === 0 || index() === Array.from(Array(game().playersQty).keys()).at(-1)) ? 'rounded-r' : 'rounded'}`}
+                        }`}
                         style={{
                           background: `${getGradientForWinners(
                             game().playersQty,
@@ -707,12 +708,12 @@ const GameCaseBattle = (props) => {
                             </div>
                           </div>
                         )}
-                        <div class='border-r border-black border-opacity-20 absolute right-0 top-0 h-full' />
+                        <div class='border-r  border-black border-opacity-20 absolute right-0 top-0 h-full' />
                       </div>
                     )}
                   </For>
                 </div>
-                <div class='border border-black border-opacity-5 rounded-8 -mt-12 flex bg-dark-secondary'>
+                <div class='border border-black border-opacity-5 rounded-8 -mt-12 flex bg-dark-secondary border-r-0'>
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
