@@ -19,6 +19,7 @@ const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
 const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor, randomFunction }) => {
+  
   createEffect(() => {
     if (isFastSpin) {
       setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
@@ -29,6 +30,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
   const [reelItem, setReelItem] = createSignal();
   const [imgItem, setImgItem] = createSignal();
   const [reel, setReel] = createSignal();
+  const [lineWidth, setLineWidth] = createSignal(0);
 
   // const [fireworksContainer, setFireworksContainer] = createSignal();
 
@@ -207,6 +209,12 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
   //   }, 300);
   // };
 
+  createEffect(() => {
+    setLineWidth(reel().offsetWidth - 42);
+    // setLineWidth(373 - 60);
+    console.log("line width ", lineWidth());
+  })
+
   return (
     <div
       id="slot-screen"
@@ -221,6 +229,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
               flex flex-col
               transition-all 
               w-full
+
               `}
           style={`transform: translateY(${translateY() - topIndex()}px);
             transition-timing-function: ${timingFunction()};
@@ -277,9 +286,12 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
       <img
           src={lineColor === 'yellow' ? "/assets/caseLineHorizontal.svg" : lineColor === 'blue' ? "/assets/caseLineHorizontalBlue.svg" : "/assets/caseLineHorizontalGreen.svg"}
           alt="caseline"
-          class={`absolute h-32 w-[90%] self-center transition-all duration-500
+          class={`absolute h-32  self-center transition-opacity duration-500
           ${spinComplete() ? "opacity-30" : "opacity-100"}
               `}
+              style={{
+                width: lineWidth() + "px",
+              }}
         />
       <div
         class={`absolute self-center h-20 w-20
