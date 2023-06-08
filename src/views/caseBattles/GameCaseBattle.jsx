@@ -439,13 +439,13 @@ const GameCaseBattle = (props) => {
                     </div>
                   </div>
                   <div
-                    class='px-[2px] rounded-b-4'
+                    class={`px-[2px] rounded-b-4`}
                     style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${getModeColorRgb()},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${getModeColorRgb()},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%)`
+                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${getModeColorRgb()},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${getModeColorRgb()},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%`
                     }}
                   >
                     <div class='bg-[#13152A]'>
-                      <div class={`rounded-b- case-opening-wrapper-horizontal-${getModeColor()}`}>
+                      <div class={`rounded-b- ${game().status !== 'ended' && `case-opening-wrapper-horizontal-${getModeColor()}`}`}>
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
                             class='absolute w-full h-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40'
