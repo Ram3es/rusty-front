@@ -7,6 +7,7 @@ import RankLabel from '../../../components/chat/RankLabel'
 import Coin from '../../../utilities/Coin'
 import GoldText from '../../../components/mines_new/MISC/GoldText'
 import GreenText from '../../../components/mines_new/MISC/GreenText'
+import { formatNumber } from '../../../utilities/Numbers'
 
 const filterOption = [
     {name: "All Wins"},
@@ -110,23 +111,20 @@ export const RewardsTable = () => {
                                     <GoldText
                                         gradient='gold-text-originals'
                                         size={14} 
-                                        text={(112320).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} />
+                                        text={formatNumber(112034)} />
                                </div>
                                <div class='flex items-center font-SpaceGrotesk font-bold text-sm  justify-center md:justify-start'>
                                     <ResultTiles rate={0.43} />
                                </div>
                                <div class={`${row.rate  < 1 && 'mix-blend-luminosity' } flex items-center justify-start md:justify-end gap-2 font-SpaceGrotesk`}>
                                     <Coin width='5' />
-                                    <GreenText size='14' text={(11200.34).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} />
+                                    <GreenText size='14' text={formatNumber(11200.34)} />
                                 </div>
                             </div>
                         </div>
                     ) }
                 </For>
             </div>
-
-            
-
         </div>
 
     )

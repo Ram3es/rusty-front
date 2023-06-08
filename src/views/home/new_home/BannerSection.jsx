@@ -3,6 +3,27 @@ import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
 import intersect from './img/welcome-intersect.png'
 import CaseGradientButton from '../../../components/elements/CaseGradientButton'
+import Coin from "../../../utilities/Coin"
+import GreenText from "../../../components/mines_new/MISC/GreenText"
+import gunCase from "./img/dead-gun-case.png"
+import { formatNumber } from '../../../utilities/Numbers'
+import ArrowSliderStyle from "../../../components/icons/ArrowSliderStyle"
+import blueBox from "./img/blue-techno-box.png"
+import GoldRay from '../../../components/icons/GoldRay'
+import Ranks from "../../../utilities/Ranks"
+import RankLabel from '../../../components/chat/RankLabel'
+
+
+export const RoundedBtn = (props) => {
+    return (
+        <div onClick={() => props.handleClick()} class={`${props.additionalClasses} cursor-pointer`}>
+            <div class={`${props.background ?? 'home-slider-btn'}  w-8 h-8 rounded-full shadow-button center`}>
+                {props.children}
+            </div>
+        </div>
+    )
+}
+
  
  const BannerSection = () => {
     return  (
@@ -12,27 +33,103 @@ import CaseGradientButton from '../../../components/elements/CaseGradientButton'
                 style={{ background: 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)' }}
             >
                 <div class='grid  grid-cols-[1fr_1fr]  sm:grid-cols-[1.5fr_1fr_1fr] '>
-                    <div class={`h-[200px] col-span-2 sm:col-span-1 relative home-welcome--bg `} >
+                    <div class={`h-[200px] min-w-[340px] col-span-2 sm:col-span-1 relative home-welcome--bg p-[22px] `} >
                         <img src={welcomeBg} alt='bg' class='absolute left-0 top-0 w-full h-full mix-blend-luminosity' />
                         <img src={intersect} alt='intersect' class='absolute left-0 bottom-0 object-cover w-full ' />
+                        <h2 
+                          class="text-2xl font-bold font-SpaceGrotesk mx-auto text-center home-welcome--text"
+                          >Welcome</h2>
+                        <div class="flex items-center justify-center -translate-y-2">
+                            <GoldRay additionalClasses="rotate-180" />  
+                            <div class="rounded-full border border-gold-ffc w-max p-1">
+                                <img src={blueBox} alt='blue-box' />
+                            </div>
+                            <GoldRay additionalClasses="" />
+                        </div>
+                        <div
+                            class="flex flex-wrap center h-[26px] mx-auto gap-x-2 text-sm font-bold w-max whitespace-nowrap px-2.5 rounded"
+                            style={{ 
+                                background: "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
+                                "box-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)"
+                                }}
+                        >
+                            <Ranks
+                                width={7}
+                                rank={'gold1'}
+                            />
+                            <RankLabel
+                                rank={"gold1"}
+                            />
+                            <span class="text-gray-9aa truncate max-w-[100px]">
+                                {"Terry rustyloot"}
+                            </span>
+                        </div>
+                        {/* <div class='bg-red w-max mx-auto'>sdasfsf</div> */}
+                        <div class='mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto'>
+                            <div class="w-full max-w-[200px] h-2 rounded-[2px] overflow-hidden home-progress-bg ">
+                                <div
+                                class="h-full rounded-[2px] duration-200"
+                                style={{
+                                    background:
+                                    "linear-gradient(269.6deg, #FFB436 0%, #7B633A 100%)",
+                                    width: '30%'
+                                    // width: `${
+                                    // (props.account?.user?.wagered -
+                                    //     props.account?.level?.from * 1000) /
+                                    // (props.account?.level?.to * 10)
+                                    // }%`,
+                                }}
+                                />
+                            </div>
+                            <div class='absolute  left-0'>
+                                    <Ranks width='8' rank={'gold1'}  />
+                            </div>
+                            <div class='absolute  right-0'>
+                                <Ranks width='8' rank={'gold3'}  />
+                            </div>
+                        </div>
                     </div>
-                    <div  class='relative home-daily--bg'>
-                       <img src={ribbed} class='absolute inset-0 h-full w-full' />
+                    <div class=' relative home-daily--bg'>
+                        <div class='h-full flex flex-col items-center justify-between p-3 '>
+                        <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
+                            Daily Case
+                        </span>
+                        <CaseGradientButton callbackFn={() => {}}>
+                            <span class='text-yellow-ffb  font-SpaceGrotesk font-bold text-sm '>
+                               Open Daily Case
+                            </span>
+                        </CaseGradientButton>
+                        </div>
+                       <img src={ribbed} alt='bg' class='absolute inset-0 h-full w-full' />
+                       <img src={gunCase} alt='guncase' class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
+                       <RoundedBtn
+                            handleClick={() => {}}
+                            additionalClasses='absolute top-[40%] left-2 text-gray-9a' >
+                                <ArrowSliderStyle additionalClasses='rotate-180' /> 
+                        </RoundedBtn>
+                        <RoundedBtn
+                            handleClick={() => {}}
+                            additionalClasses='absolute top-[40%] right-2 text-gray-9a' >
+                                <ArrowSliderStyle />   
+                        </RoundedBtn>
                     </div>
                     <div class=' flex flex-col items-center justify-between p-3 relative home-rakeback--bg'>
-                        <div>asdas</div>
-                        {/* <div class=" h-10 p-3 ">asdwfdewf</div> */}
+                        <span class='text-gradient-green-secondary  font-SpaceGrotesk font-bold text-base '>
+                            Rakeback
+                        </span>
                         <CaseGradientButton
-                          gradient='mint-button-gradient'
+                             color='mint'
+                             callbackFn={() => {}}
                          >
-                            <div class='flex font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base '>
-                             <span>Claim</span>
+                            <div class='flex items-center gap-2 font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base '>
+                                <span>Claim</span>
+                                <Coin width='5' />
+                                <GreenText size='14' text={formatNumber(320)} />
                             </div>
                         </CaseGradientButton>
 
                         <img src={ribbed} class=' absolute inset-0 min-h-full min-w-full' />
-                        <img src={coinsStack} alt='coins-stack' class='  absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2' />
-                    
+                        <img src={coinsStack} alt='coins-stack' class='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'/>
                    </div>
                 </div>
             </div>
