@@ -367,12 +367,12 @@ const CreateCaseBattle = (props) => {
                 <Coin width='5' />
                 <span class='text-gradient'>
                   {modeToCreate().borrowMoney
-                    ? getProportionalPartByAmount(
+                    ? casesPrice() - getProportionalPartByAmount(
                         casesPrice(),
                         Math.floor(modeToCreate().borrowPercent * 0.8)
                       )
                     : modeToCreate().fundBattle
-                    ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                    ? casesPrice() + getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) * (modeToCreate().players - 1)
                     : casesPrice()}
                 </span>
               </div>
@@ -539,7 +539,7 @@ const CreateCaseBattle = (props) => {
                   <div
                     class={`w-max center px-5 py-3 ${
                       option.qty === modeToCreate().players && option.mode === modeToCreate().mode
-                        ? 'border-yellow-ffb text-yellow-ffb'
+                        ? 'border-yellow-ffb text-white'
                         : 'border-white border-opacity-5 text-gray-9a'
                     } border rounded-4 flex gap-1 items-center cursor-pointer`}
                     onClick={() =>
@@ -957,12 +957,12 @@ const CreateCaseBattle = (props) => {
               </span>
               <Coin width='5' />
              <GoldText text={(getCurrencyString(modeToCreate().borrowMoney
-                  ? getProportionalPartByAmount(
+                  ?  casesPrice() - getProportionalPartByAmount(
                       casesPrice(),
                       Math.floor(modeToCreate().borrowPercent * 0.8)
                     )
                   : modeToCreate().fundBattle
-                  ? getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent)
+                  ? casesPrice() + getProportionalPartByAmount(casesPrice(), modeToCreate().fundPercent) * (modeToCreate().players - 1)
                   : casesPrice()).toString())}
                     size="16"
                   />
