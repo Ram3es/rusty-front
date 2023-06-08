@@ -1912,6 +1912,21 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   filter: drop-shadow(0px 0px 6px rgba(255, 180, 54, 0.24)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12));
 }
 
+.tear-current-border-gradient:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, rgba(39, 242, 120, 0) 50%, #27F278 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
 .yellow-button-gradient::before {
   content: '';
   position: absolute;

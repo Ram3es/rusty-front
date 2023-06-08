@@ -30,6 +30,8 @@ import affiliateCoin2 from "../../assets/img/affilates/affiliateCoin2.png"
 import affiliateCoin3 from "../../assets/img/affilates/affiliateCoin3.png"
 import CloseButton from "../elements/CloseButton";
 import Ranks from "../../utilities/Ranks";
+import GrayGradientButton from "../elements/GrayGradientButton";
+import ArrowBack from "../icons/ArrowBack";
 
 const AffiliatesModal = (props) => {
   const i18n = useI18n();
@@ -258,9 +260,9 @@ const AffiliatesModal = (props) => {
         href={props.pathname()}
       />
       <div
-        class="flex flex-col absolute top-40"
+        class="flex flex-col absolute top-40 w-full"
         style={{
-          width: "50rem",
+          "max-width": "830px",
         }}
       >
         <div
@@ -279,6 +281,16 @@ const AffiliatesModal = (props) => {
               background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
             }}
           >
+            <div class="flex flex-col sm:flex-row gap-6">
+              {tab() !== "overview" && <div
+                class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max"
+                onClick={() => setTab("overview")}
+              >
+                <ArrowBack />
+                <span class="font-SpaceGrotesk text-14 text-gray-9a">
+                  Return to Dashboard
+                </span>
+              </div>}
               <div class="flex flex-col">
                 <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
                   {i18n.t("coinflip.affiliates_true.Affiliates")}
@@ -287,6 +299,7 @@ const AffiliatesModal = (props) => {
                   Invite people to RustyLoot and earn commission
                 </div>
               </div>
+            </div>
                
                 <NavLink
                   href={props.pathname()}
@@ -299,75 +312,13 @@ const AffiliatesModal = (props) => {
               class='absolute inset-0 z-0 bg-repeat mix-blend-luminosity'
               style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.005 }}
             />
-            {/* <div class="flex gap-2 mb-6">
-              <div
-                class={`relative center bg-dark-27 rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden group hover`}
-                style={{
-                  "background-image": `url(${
-                    tab() == "overview" ? GrayButtonBg : ""
-                  })`,
-                }}
-                onClick={() => {
-                  setTab("overview");
-                }}
-              >
-                <div class="scrolling-btn-image-gray absolute left-0 top-0 hidden group-hover:block" />
-                <p
-                  class={`text-14 ${
-                    tab() == "overview" ? "text-dark-1b" : "text-gray-8c"
-                  } group-hover:text-dark-1b font-medium font-Oswald uppercase z-10 px-4 py-1.5`}
-                >
-                  {i18n.t("coinflip.affiliates_true.Overview")}
-                </p>
-              </div>
-              <div
-                class={`relative center bg-dark-27 rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden group hover`}
-                style={{
-                  "background-image": `url(${
-                    tab() == "users" ? GrayButtonBg : ""
-                  })`,
-                }}
-                onClick={() => {
-                  setTab("users");
-                }}
-              >
-                <div class="scrolling-btn-image-gray absolute left-0 top-0 hidden group-hover:block" />
-                <p
-                  class={`text-14 ${
-                    tab() == "users" ? "text-dark-1b" : "text-gray-8c"
-                  } group-hover:text-dark-1b font-medium font-Oswald uppercase z-10 px-4 py-1.5`}
-                >
-                  {i18n.t("coinflip.affiliates_true.Users")}
-                </p>
-              </div>
-              <div
-                class={`relative center bg-dark-27 rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden group hover`}
-                style={{
-                  "background-image": `url(${
-                    tab() == "tiers" ? GrayButtonBg : ""
-                  })`,
-                }}
-                onClick={() => {
-                  setTab("tiers");
-                }}
-              >
-                <div class="scrolling-btn-image-gray absolute left-0 top-0 hidden group-hover:block" />
-                <p
-                  class={`text-14 ${
-                    tab() == "tiers" ? "text-dark-1b" : "text-gray-8c"
-                  } group-hover:text-dark-1b font-medium font-Oswald uppercase z-10 px-4 py-1.5`}
-                >
-                  {i18n.t("coinflip.affiliates_true.Tiers")}
-                </p>
-              </div>
-            </div> */}
             <div
               class={`${
                 tab() == "overview" ? "flex" : "hidden"
               } flex-col gap-8 w-full overflow-y-scroll`}
             >
-              <div class="w-full flex">
-                <div class="w-2/5 flex flex-col gap-0.5 pr-8">
+              <div class="w-full flex flex-col sm:flex-row">
+                <div class="w-full sm:w-2/5 flex flex-col gap-0.5 pr-8">
                   <p class="text-14 text-gray-8c font-normal sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
@@ -395,9 +346,9 @@ const AffiliatesModal = (props) => {
                     
                               "
                         >
-                      <div class="flex items-center gap-4 pl-2 pr-1">
+                      <div class="flex items-center gap-4 pl-2 pr-1 w-full">
                         <input
-                          class={`text-white text-14 font-bold font-SpaceGrotesk w-44 ${
+                          class={`text-white text-14 font-bold font-SpaceGrotesk w-full sm:w-44 ${
                             toggleCode() ? "" : "hidden"
                           }`}
                           placeholder={i18n.t(
@@ -407,7 +358,7 @@ const AffiliatesModal = (props) => {
                           value={code()}
                         />
                         <p
-                          class={`text-gray-9a w-44 ${
+                          class={`text-gray-9a w-full sm:w-44 ${
                             toggleCode() ? "hidden" : ""
                           } text-14 font-bold uppercase`}
                           onClick={() => setToggle((prev) => !prev)}
@@ -498,7 +449,7 @@ const AffiliatesModal = (props) => {
                     Overview of your Affiliate Stats
                   </div>
                 </div>
-                <div class="w-full grid grid-cols-3 gap-4">
+                <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-4">
                   <For each={stats}>
                     {(item) => (
                       <div class="w-full h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22">
@@ -551,22 +502,6 @@ const AffiliatesModal = (props) => {
                         src={userObject?.user?.avatar || ""}
                       />
                     </div>
-                    {/* <div class="flex flex-col">
-                      <div class="flex items-end gap-2">
-                        <p class="text-16 text-white font-bold">
-                          {userObject?.user?.username ||
-                            userStatus.status[i18n.language]}
-                        </p>
-                      </div>
-                      <p class="text-gray-8c text-14 font-normal capitalize">
-                        {(
-                          (affiliate?.wager - affiliate?.level?.current * 1000) /
-                            (affiliate?.level?.next * 10) || 0
-                        ).toFixed(2)}
-                        %{" "}
-                        {i18n.t("coinflip.affiliates_true.Progress to next tier")}
-                      </p>
-                    </div> */}
                   </div>
                   <div class="w-120 max-w-full flex flex-col items-center gap-3">
                     <div class="flex items-center justify-center gap-2">
@@ -625,30 +560,19 @@ const AffiliatesModal = (props) => {
                 
               </div>
               <div class="center gap-4">
-                    <div
-                      class="relative w-52 h-10 center hover group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden"
-                      style={{ "background-image": `url(${YellowButtonBg})` }}
-                      onClick={claimReward}
-                    >
-                      <div class="scrolling-btn-image absolute left-0 top-0 hidden group-hover:block" />
-                      <p class="text-dark-16 text-14 font-semibold font-Oswald uppercase min-w-36 text-center z-10 px-4 py-2.5">
-                        {i18n.t("coinflip.affiliates_true.Claim earnings")}
-                      </p>
-                    </div>
-                    <div
-                      onClick={() => setTab("tiers")}
-                      class="relative cursor-pointer center hover h-10 w-52 rounded-2 bg-cover group scrolling-btn-wrapper overflow-hidden"
-                      style={{ "background-image": `url(${YellowButtonBg})` }}
-                    >
-                      <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0" />
-                      <div class="absolute left-0.5 top-0.5 h-9 w-[calc(100%-4px)] bg-dark-13" />
-                      <div class="absolute center">
-                        <p class="text-yellow-ff text-14 font-semibold font-Oswald uppercase">
-                          {i18n.t("coinflip.affiliates_true.Tier benefits")}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                <GrayGradientButton
+                  additionalClass="w-40 h-10 text-gray-a2 font-SpaceGrotesk text-14 font-bold cursor-pointer"
+                  callbackFn={() => setTab("users")}
+                >
+                  View Depositors
+                </GrayGradientButton>
+                <GrayGradientButton
+                  additionalClass="w-40 h-10 text-gray-a2 font-SpaceGrotesk text-14 font-bold cursor-pointer"
+                  callbackFn={() => setTab("tiers")}
+                >
+                  Tier Benefits
+                </GrayGradientButton>
+              </div>
             </div>
             {tab() == "users" ? (
               <AffiliatesUsers affiliate={affiliate} />
