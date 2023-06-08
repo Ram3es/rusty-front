@@ -56,7 +56,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
 
   createEffect(() => {
     console.log(reelsSpinning());
-    console.log(reelItem());
+    // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
       console.log('moveToIndex', spinnerIndex, spinIndexes()[spinnerIndex]);
@@ -67,7 +67,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
     if (spinLists()) {
       console.log('here spin', spinLists());
       setReelItem(() => document.querySelector("[data-reel-item]"))
-      console.log(reelItem());
+      // console.log(reelItem());
     }
   })
 
