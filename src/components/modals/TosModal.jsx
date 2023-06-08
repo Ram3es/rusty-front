@@ -1,12 +1,16 @@
 import injector from "../../injector/injector";
 import { URL } from "../../libraries/url";
 import Modal from "./Modal";
+import YellowGradientButton from '../../components/elements/CaseGradientButton'
 
 import Splash from "../../assets/img/modals/winningSplash.svg";
 import Symbol from "../../assets/img/modals/tosSymbol.svg";
+import LoginModelBg from "../../assets/img/modals/LoginModelBg.png";
+import smallLogo from '../../assets/smallLogo.svg'
 
 import { NavLink } from "solid-app-router";
 import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
+import CloseButton from "../elements/CloseButton";
 
 const TosModal = () => {
   const { setToggles } = injector;
@@ -24,76 +28,85 @@ const TosModal = () => {
         onClick={() => setToggles("tosModal", false)}
       />
       <div
-        class="flex w-11/12 flex-col"
+        class="flex w-11/12 flex-col rounded-12 overflow-hidden"
         style={{
-          "max-width": "32rem",
+          "max-width": "698px",
         }}
       >
-        <div class="bg-dark-16 w-full px-6 pt-16 pb-16 relative flex flex-col gap-6">
+        <div class="bg-dark-16 w-full min-h-[458px] px-4 pt-2 relative center flex-col gap-6">
           <div
-            class="w-full h-3/5 left-0 top-0 absolute"
+            onClick={() => setToggles("tosModal", false)}
+            class="center cursor-pointer absolute right-2 top-2 z-10"
+          >
+            <CloseButton />
+          </div>
+          <div
+            class="w-full h-full left-0 top-0 absolute min-h-[458px]"
             style={{
               background:
-                "linear-gradient(180deg, rgba(114, 81, 31, 0.5) -4.92%, rgba(61, 39, 32, 0.5) 30.6%, rgba(22, 27, 42, 0) 54.64%, rgba(25, 31, 49, 0) 100%)",
+                "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
             }}
           >
-            <img alt="splash" class="w-full" src={Splash} />
+            <img alt="LoginModelBg" class="w-full" src={LoginModelBg} />
           </div>
-          <div class="w-full flex flex-col gap-12 z-10 relative">
-            <div
-              onClick={() => setToggles("tosModal", false)}
-              class="center absolute -top-6 right-2 cursor-pointer"
-            >
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 14 14"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
-                  d="M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z"
-                  fill="#8C98A9"
-                />
+          <div class="w-full flex flex-col gap-9 z-10 relative">
+            
+            <div class="center flex gap-6">
+              <svg class="rotate-180" width="135" height="5" viewBox="0 0 135 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0.157898L134.842 2.56579L0 4.97369V0.157898Z" fill="url(#paint0_linear_2656_221028)"/>
+              <defs>
+              <linearGradient id="paint0_linear_2656_221028" x1="8.16279e-07" y1="2.56579" x2="134.842" y2="2.56584" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFC467"/>
+              <stop offset="1" stop-color="#FFC467" stop-opacity="0"/>
+              </linearGradient>
+              </defs>
+              </svg>
+              <img
+                alt='logo'
+                class={`max-w-[76px] fourk:w-auto block`}
+                src={smallLogo}
+                style={{ filter: 'drop-shadow(0px 0px 24px rgba(255, 194, 57, 0.16))' }}
+              />
+              <svg width="135" height="5" viewBox="0 0 135 5" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 0.157898L134.842 2.56579L0 4.97369V0.157898Z" fill="url(#paint0_linear_2656_221028)"/>
+              <defs>
+              <linearGradient id="paint0_linear_2656_221028" x1="8.16279e-07" y1="2.56579" x2="134.842" y2="2.56584" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFC467"/>
+              <stop offset="1" stop-color="#FFC467" stop-opacity="0"/>
+              </linearGradient>
+              </defs>
               </svg>
             </div>
-            <div class="center flex-col gap-6">
-              <img alt="symbol" src={Symbol} />
-              <p class="text-28 text-white font-medium font-Oswald uppercase">
-                terms of service
-              </p>
-            </div>
 
-            <div class="center">
-              <p class="text-16 text-gray-8c font-normal text-center">
-                By logging in and using this website you acknowledge
+            <div class="center flex-col">
+              <p
+                class="text-24 text-white font-bold font-SpaceGrotesk uppercase"
+                style={{
+                  "text-shadow": "0px 0px 14px rgba(255, 255, 255, 0.56)"
+                }}
+              >
+                ENTERING RUSTYLOOT
+              </p>
+              <p class="text-14 text-[#646683] font-SpaceGrotesk text-center">
+              By logging in and using this website you acknowledge that you are at least
                 <br />
-                that are at least 18 years old and agree to our{" "}
+                18 years old and agree to our{" "}
                 <NavLink
-                  class="text-yellow-ff underline"
+                  class="text-yellow-ffb underline"
                   href={URL.TOS}
                   onClick={() => setToggles("tosModal", false)}
                 >
-                  Terms of Service.
+                  Terms of Service
                 </NavLink>
               </p>
             </div>
 
             <div class="center gap-4">
-              <div
-                class="relative w-52 h-10 center hover group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden"
-                style={{ "background-image": `url(${YellowButtonBg})` }}
-                onClick={() => {
-                  location.replace(URL.SIGNIN);
-                }}
-              >
-                <div class="scrolling-btn-image absolute left-0 top-0 hidden group-hover:block" />
-                <p class="text-dark-16 text-14 font-semibold font-Oswald uppercase min-w-36 text-center z-10 px-4 py-2.5">
-                  i agree, proceed to sign in
-                </p>
-              </div>
+              <YellowGradientButton callbackFn={() => location.replace(URL.SIGNIN)}>
+                <div class='center text-14 font-SpaceGrotesk gap-2 text-yellow-ffb font-bold'>
+                  I agree, proceed to Sign In
+                </div>
+              </YellowGradientButton>
             </div>
           </div>
         </div>
