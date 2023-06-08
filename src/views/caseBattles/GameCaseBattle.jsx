@@ -439,25 +439,27 @@ const GameCaseBattle = (props) => {
                     </div>
                   </div>
                   <div
-                    class='px-[2px] rounded-b-4'
+                    class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
                     style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${getModeColorRgb()},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${getModeColorRgb()},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%)`
+                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%`
                     }}
                   >
-                    <div class='bg-[#13152A]'>
-                      <div class={`rounded-b- case-opening-wrapper-horizontal-${getModeColor()}`}>
+                    <div class='bg-[#13152A] rounded-b-4'>
+                      <div class={`rounded-b-4 ${game().status !== 'ended' && `case-opening-wrapper-horizontal-${getModeColor()}`}`}>
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
-                            class='absolute w-full h-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40'
+                            class='absolute w-full h-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40 rounded-b-4'
                             style={{
                               'background-image': `url('${footerLogoBgVector}')`
                             }}
                           />
                           <div
-                            class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${getModeColor()}`}
+                            class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${game().status === 'ended' ? "gray" : `${getModeColor()}`}
+                            transition-colors duration-200`}
                           />
                           <div
-                            class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${getModeColor()}`}
+                            class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${game().status === 'ended' ? "gray" : `${getModeColor()}`}
+                            transition-colors duration-200`}
                           />
                           <div
                             class='absolute left-0 top-0 w-full h-[68px]'
@@ -490,7 +492,7 @@ const GameCaseBattle = (props) => {
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleRoyaleIcon additionClasses='w-6 m-2' />
+                                          <BattleRoyaleIcon additionClasses='w-6 m-2' glowColor={"255, 180, 54"}/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
@@ -501,18 +503,18 @@ const GameCaseBattle = (props) => {
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleCursedIcon additionClasses='w-7 m-2' />
+                                          <BattleCursedIcon additionClasses='w-7 m-2' glowColor={"218, 253, 9"}/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
                                   ) : (
                                     <div class='absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10'>
-                                      <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+                                      <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 '>
                                         <GrayWrapperdWithBorders
                                           classes='rounded-6'
                                           gradientColor={getModeColor()}
                                         >
-                                          <BattleGroupIcon additionClasses='w-7 mx-1 my-2' />
+                                          <BattleGroupIcon additionClasses='w-7 mx-1 my-2' glowColor="90, 195, 255"/>
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>

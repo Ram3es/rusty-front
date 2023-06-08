@@ -5,6 +5,9 @@ const BattleRoyaleIcon = (props) => {
       viewBox='0 0 16 16'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
+      style={{
+        filter: `${props.glowColor && `drop-shadow(0px 0px 8px rgba(${props.glowColor}, 0.8))`}`
+      }}
     >
       <path
         d='M0 14.554L1.84099 12.713L3.28517 14.1572L1.44418 15.9982L0 14.554Z'

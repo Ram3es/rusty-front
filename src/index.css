@@ -2071,6 +2071,16 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-top: 13px solid rgb(218, 253, 9);
 }
 
+.arrow-down.gray{
+  border-top: 22px solid rgba(154, 158, 200, 0.454);
+}
+
+.arrow-down.gray::before {
+  border-top: 13px solid rgb(154, 158, 200);
+}
+
+
+
 .yellow-button-gradient {
   position: relative;
   background: radial-gradient(

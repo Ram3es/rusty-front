@@ -1,6 +1,13 @@
 const BattleCursedIcon = (props) => {
   return (
-    <svg class={props.additionClasses} viewBox="0 0 36 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg class={props.additionClasses} 
+    viewBox="0 0 36 31" 
+    fill="none"
+     xmlns="http://www.w3.org/2000/svg"
+     style={{
+        filter: `${props.glowColor && `drop-shadow(0px 0px 8px rgba(${props.glowColor}, 0.8))`}`
+      }}
+     >
       <path d="M6.20203 27.9956L8.96356 25.2341L11.1299 27.4004L8.36833 30.1619L6.20203 27.9956Z" fill="currentColor"/>
       <path d="M25.6419 20.3606L24.5586 21.4439L22.7016 19.5869L19.3251 22.7102L21.3087 24.6939L20.2254 25.7772L22.392 27.9438L27.8085 22.5272L25.6419 20.3606Z" fill="currentColor"/>
       <path d="M25.0959 27.4019L27.2623 25.2356L30.0238 27.9971L27.8575 30.1634L25.0959 27.4019Z" fill="currentColor"/>
