@@ -27,6 +27,8 @@ import YellowGradientButton from '../../components/elements/CaseGradientButton'
 import GrayGradientButton from '../../components/elements/GrayGradientButton'
 import EmojiIcon from '../../components/icons/EmojiIcon'
 import { getRandomFunction } from '../../utilities/Random/randomGen'
+import WinningsDisplay from "../../components/battle/WinningsDisplay"
+import LosingDisplay from "../../components/battle/LosingDisplay"
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -542,12 +544,12 @@ const GameCaseBattle = (props) => {
                                       <Spiner classes='w-9 text-yellow-ffb' />
                                     )}
                                   </Match>
-                                  <Match when={game().status === 'ended'}>
-                                    <div class='w-full center'>
-                                      {isWinner(game().winners, playerIndex) ? (
+                                  </Switch>
+                                    <div class={`w-full center transition-all duration-200 ${game().status === 'ended' ? "scale-100" : "absolute scale-0"}`}>
+                                      {game().status === 'ended' ? isWinner(game().winners, playerIndex) ? (
                                         <div class='w-full h-full center flex-col gap-2 relative z-10'>
                                           <div
-                                            class='absolute w-[64px] h-[50px] z-0 '
+                                            class={`absolute w-[64px] h-[50px] z-0`}
                                             style={{
                                               background: 'rgba(43, 246, 124, 0.56)',
                                               filter: 'blur(50px)',
@@ -565,12 +567,15 @@ const GameCaseBattle = (props) => {
                                           </div>
                                           <div class='flex gap-2'>
                                             <Coin width='11' />{' '}
-                                            <span class='text-gradient font-SpaceGrotesk text-28 font-bold'>
+                                            <span class={`text-gradient font-SpaceGrotesk text-28 font-bold transition-all duration-1000
+                                             ${game().status === 'ended' ? "scale-100" : "scale-50"}`}>
                                               {
-                                                game().winners.find(
+                                                <WinningsDisplay value={
+                                                  game().winners.find(
                                                   (winner) =>
                                                     winner.player_index === playerIndex + 1
                                                 ).winnerValue
+                                                }/>
                                               }
                                             </span>
                                           </div>
@@ -588,14 +593,12 @@ const GameCaseBattle = (props) => {
                                           <div class='flex gap-2 opacity-20 grayscale'>
                                             <Coin width='11' />{' '}
                                             <span class='text-gradient font-SpaceGrotesk text-28 font-bold'>
-                                              0.00
+                                              <LosingDisplay game={game}/>
                                             </span>
                                           </div>
                                         </div>
-                                      )}
+                                      ) : null}
                                     </div>
-                                  </Match>
-                                </Switch>
                               </div>
                               )}
                           </For>
