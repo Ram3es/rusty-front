@@ -286,7 +286,7 @@ const GameCaseBattle = (props) => {
             <div class='flex flex-col md:flex-row justify-between gap-2 mb-0 xl:-mb-8'>
               <div class='flex items-center gap-6'>
                 <NavLink href={URL.GAMEMODES.CASE_BATTLES}>
-                  <div class='flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max'>
+                  <div class='flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max h-[40px]'>
                     <ArrowBack />
                     <span class='font-SpaceGrotesk text-14 text-gray-9a'>Return to Battles</span>
                   </div>
