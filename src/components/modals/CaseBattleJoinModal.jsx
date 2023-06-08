@@ -66,6 +66,7 @@ const CaseBattleJoinModal = (props) => {
       handler={() => {}}
     >
       <div onClick={props?.handleClose} class='w-full h-full absolute left-0 top-0' />
+      
       <div
         class='rounded-xl flex flex-col absolute top-32 lg:w-[768px] max-h-[600px] overflow-x-scroll'
         style={{
@@ -74,11 +75,8 @@ const CaseBattleJoinModal = (props) => {
           'backdrop-filter': 'blur(8px)'
         }}
       >
-        <div class='border border-black/20 w-full pl-[22px] pr-8 py-5 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
-          <h3 class='uppercase text-white font-bold font-SpaceGrotesk text-20'>join battle</h3>
-          <div class='center gap-2'>
-            <div
-              class='w-max center px-5 py-3 border-white border-opacity-5 text-gray-9a border rounded-4 flex gap-1 items-center'
+      <div
+              class='absolute top-5 left-1/2 -translate-x-1/2 w-max center px-5 py-3 border-white border-opacity-5 text-gray-9a border rounded-4 flex gap-1 items-center'
               classList={{
                 'hover:border-yellow-ffb': modeColor() === 'yellow',
                 'hover:border-[#DAFD09]': modeColor() === 'green',
@@ -113,7 +111,8 @@ const CaseBattleJoinModal = (props) => {
                 Battle {props.game?.mode}
               </p>
             </div>
-          </div>
+        <div class='border border-black/20 w-full pl-[22px] pr-8 py-5 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
+          <div class='uppercase text-white font-SpaceGrotesk text-20'>join battle</div>
           <div
             onClick={props.handleClose}
             class='text-gray-9a w-10 h-10 flex items-center justify-center border rounded border-[#FFFFFF0A] cursor-pointer'
