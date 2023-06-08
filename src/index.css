@@ -2123,6 +2123,21 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
 }
 
+.tear-current-border-gradient:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: linear-gradient(90deg, rgba(39, 242, 120, 0) 50%, #27F278 100%) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
 .yellow-button-gradient::before {
   content: '';
   position: absolute;
@@ -2189,6 +2204,28 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-radius: 4px;
   border: 1px solid transparent;
   background: linear-gradient(180deg, rgba(90, 195, 255, 0) -37.12%, rgba(90, 195, 255, 0.36) 100%)
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.green-success-button-gradient {
+  position: relative;
+  background: radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(39, 242, 120, 0.28) 0%, rgba(39, 242, 120, 0) 100%) border-box;
+  filter: drop-shadow(0px 0px 6px rgba(39, 242, 120, 0.24)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12));
+}
+
+.green-success-button-gradient::before, .green-borders::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(39, 242, 120, 0) -37.12%, rgba(39, 242, 120, 0.36) 100%)
     border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
