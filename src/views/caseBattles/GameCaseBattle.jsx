@@ -570,7 +570,7 @@ const GameCaseBattle = (props) => {
                                           >
                                             Winner
                                           </div>
-                                          <div class='flex gap-2'>
+                                          <div class='flex gap-2 items-center justify-center'>
                                             <Coin width='11' />{' '}
                                             <span class={`text-gradient font-SpaceGrotesk text-28 font-bold transition-all duration-1000
                                              ${game().status === 'ended' ? "scale-100" : "scale-50"}`}>
@@ -627,9 +627,9 @@ const GameCaseBattle = (props) => {
                       <div
                         class={`center relative llg:h-20 ${
                           game().status !== 'ended' || isWinner(game().winners, playerIndex)
-                            ? 'opacity-100'
+                            ? `opacity-100 ${playerIndex === 0 ? "rounded-l-8" : playerIndex === Array.from(Array(game().playersQty).keys()).at(-1) ? "rounded-r-8" : ""}`
                             : 'opacity-30'
-                        } ${(index() === 0 || index() === Array.from(Array(game().playersQty).keys()).at(-1)) ? 'rounded-r' : 'rounded'}`}
+                        }`}
                         style={{
                           background: `${getGradientForWinners(
                             game().playersQty,
@@ -707,7 +707,7 @@ const GameCaseBattle = (props) => {
                             </div>
                           </div>
                         )}
-                        <div class='border-r border-black border-opacity-20 absolute right-0 top-0 h-full' />
+                        <div class='border-r  border-black border-opacity-20 absolute right-0 top-0 h-full' />
                       </div>
                     )}
                   </For>
