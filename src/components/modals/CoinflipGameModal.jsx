@@ -176,7 +176,7 @@ const CoinflipGameModal = (props) => {
             {data()?.status === 'ended' || data()?.status === 'spinning' ? (
               <>
                 <div
-                  class={`coinflip-animation transform -translate-x-2 -translate-y-2 relative z-10 ${
+                  class={`coinflip-animation scale-[150%] transform -translate-x-3 -translate-y-3 relative z-10 ${
                     data()?.side == 1 ? 'red' : 'black'
                   }`}
                 />
@@ -223,7 +223,7 @@ const CoinflipGameModal = (props) => {
           />
         </div>
         <div
-          class='text-center py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-2'
+          class='text-center py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-2 rounded-b-xl'
           style={{
             background:
               'radial-gradient(102.36% 100% at 50% 0%, rgba(118, 124, 255, 0) 0%, rgba(118, 124, 255, 0.06) 100%), linear-gradient(89.63deg, #1A1B30 0.32%, #191C35 99.68%)'
@@ -232,7 +232,7 @@ const CoinflipGameModal = (props) => {
           <p class='truncate'>Server seed hash: {data()?.hash}</p>
           <div class='flex items-center justify-center gap-3'>
             <p>Game ID: {data()?.id}</p>
-            {data()?.ticket && <p class='text-yellow-ffb'>Ticket: {data()?.ticket}</p>}
+            {data()?.ticket && isWinBgShown() && <p class='text-yellow-ffb'>Ticket: {data()?.ticket}</p>}
           </div>
         </div>
       </div>

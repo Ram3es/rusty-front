@@ -61,7 +61,6 @@ const ListItems = (_props) => {
   }
 
   createEffect(() => {
-
     if (props.items()?.length > 0) return
 
     setIsItemsLoaded(false)
@@ -90,7 +89,7 @@ const ListItems = (_props) => {
         ref={paymentModalWrapper}
         class='grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 relative'
       >
-        <For each={props.items()} fallback={<PageLoader size='small' isShown={true} />}>
+        <For each={props.items()}>
           {(item) => (
             <div
               class={`group w-[120px] h-[120px] z-10 rounded-4 cursor-pointer bet-history--item ${
@@ -134,7 +133,9 @@ const ListItems = (_props) => {
           )}
         </For>
       </div>
-      <PageLoader size='small' isShown={!isItemsLoaded()} />
+      <div class='m-auto absolute inset-0 flex items-center justify-center'>
+        <PageLoader size='small' isShown={!isItemsLoaded()} />
+      </div>
     </div>
   )
 }

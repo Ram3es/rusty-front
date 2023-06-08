@@ -345,7 +345,7 @@ const SubHeader = (props) => {
                           currPath().indexOf(mode.url) >= 0
                             ? 'header-nav-link-active'
                             : 'header-nav-link'
-                        } transition-all duration-200 pb-0 cursor-pointer group`}
+                        } transition-colors transition-shadows duration-200 pb-0 cursor-pointer group`}
                       >
                         <div class='flex flex-col justify-around py-1 items-center relative h-full z-10'>
                           <div

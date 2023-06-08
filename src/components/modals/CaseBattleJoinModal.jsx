@@ -1,4 +1,5 @@
-import { For, createSignal } from 'solid-js'
+import { For, createEffect, createSignal } from 'solid-js'
+import { useNavigate } from 'solid-app-router'
 
 import injector from '../../injector/injector'
 
@@ -20,23 +21,41 @@ import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
 
 const CaseBattleJoinModal = (props) => {
-  const { socket } = injector
+  const { socket, userObject } = injector
 
   const [setup, setSetup] = createSignal({
-    gameId: props.game?.gameId,
     team: null,
     urlKey: null,
     borrowMoney: 0,
     borrowPercent: 0
   })
 
-  const joinGame = () => {
-    socket.emit('battles:join', setup(), (data) => {
-      console.log(data)
-    })
+  const navigate = useNavigate()
+
+  const joinGame = (gameId) => {
+    socket.emit(
+      'battles:join',
+      {
+        gameId,
+        team: setup().team,
+        player_index: setup().team,
+        borrowMoney: setup().borrowMoney,
+        borrowPercent: setup().borrowPercent
+      },
+      (data) => {
+        if (!data.error) {
+          navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
+          props?.handleClose()
+        }
+      }
+    )
   }
 
   const modeColor = () => getColorByModeAndCursed(props.game?.mode, props.game?.cursed)
+
+  createEffect(() => {
+    console.log(userObject, 'userObject')
+  })
 
   return (
     <Modal
@@ -127,7 +146,7 @@ const CaseBattleJoinModal = (props) => {
                 class='border border-gray-600/50 rounded-6 flex items-center gap-2.5 px-4 py-2.5'
                 style={{
                   background:
-                    'radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%)',
+                    'radial-gradient(100% 275.07% at 0% 100%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%)',
                   'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
@@ -141,28 +160,41 @@ const CaseBattleJoinModal = (props) => {
                     <>
                       <div
                         onClick={() => {
-                          if (player !== null) return
-                          setSetup((prevState) => ({ ...prevState, team: index() + 1 }))
+                          if (player !== null || player.id === userObject.user?.id) return
+                          setSetup((prevState) => ({
+                            ...prevState,
+                            team: setup().team === index() + 1 ? null : index() + 1
+                          }))
                         }}
-                        class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow ${
-                          !player && 'bg-blue-282 text-gray-9a hover:border'
-                        } ${setup().team === index() + 1 && 'border'}`}
+                        class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow bg-blue-282 ${
+                          !player && setup().team !== index() + 1 && 'text-gray-9a'
+                        } ${
+                          !player
+                            ? modeColor() === 'yellow'
+                              ? 'hover:border hover:border-yellow-ffb hover:text-yellow-ffb'
+                              : modeColor() === 'green'
+                              ? 'hover:border hover:border-[#DAFD09] hover:text-[#DAFD09]'
+                              : 'hover:border hover:border-[#5AC3FF] hover:text-[#5AC3FF]'
+                            : ''
+                        }`}
                         classList={{
-                          'border-yellow-ffb text-yellow-ffb':
+                          'border border-yellow-ffb text-yellow-ffb':
                             setup().team === index() + 1 && modeColor() === 'yellow',
-                          'border-[#DAFD09] text-[#DAFD09]':
+                          'border border-[#DAFD09] text-[#DAFD09]':
                             setup().team === index() + 1 && modeColor() === 'green',
-                          'border-[#5AC3FF] text-[#5AC3FF]':
-                            setup().team === index() + 1 && modeColor() === 'blue',
-                          'hover:border-yellow-ffb hover:text-yellow-ffb': modeColor() === 'yellow',
-                          'hover:border-[#DAFD09] hover:text-[#DAFD09]': modeColor() === 'green',
-                          'hover:border-[#5AC3FF] hover:text-[#5AC3FF]': modeColor() === 'blue'
+                          'border border-[#5AC3FF] text-[#5AC3FF]':
+                            setup().team === index() + 1 && modeColor() === 'blue'
                         }}
                       >
                         {player ? (
+                          <img class='rounded-full' src={player.avatar} alt='steam-avatar' />
+                        ) : userObject.authenticated && setup().team === index() + 1 ? (
                           <img
                             class='rounded-full'
-                            src={player.avatar}
+                            src={
+                              userObject.user?.avatar ??
+                              'https://upload.wikimedia.org/wikipedia/commons/3/3c/IMG_logo_%282017%29.svg'
+                            }
                             alt='steam-avatar'
                           />
                         ) : (
@@ -218,9 +250,7 @@ const CaseBattleJoinModal = (props) => {
           </div>
           <div class='flex flex-col w-[330px] lg:w-fit lg:min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
-              class={`flex items-center justify-between rounded-6 h-[80px] lg:h-[60px] ${
-                setup().borrowMoney !== 1 ? 'opacity-50' : ''
-              }`}
+              class='flex items-center justify-between rounded-6 h-[80px] lg:h-[60px]'
               style={{
                 background:
                   'radial-gradient(50% 100% at 50% 0%, rgba(39, 242, 120, 0.12) 0%, rgba(39, 242, 120, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)'
@@ -311,8 +341,8 @@ const CaseBattleJoinModal = (props) => {
                       }}
                     >
                       {getProportionalPartByAmount(
-                        props.game?.totalValue * 0.8,
-                        setup().borrowPercent
+                        props.game?.totalValue,
+                        Math.floor(setup().borrowPercent * 0.8)
                       )}
                     </span>
                   </p>

@@ -962,7 +962,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
       /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
 }
 
-.potential-drop--price {
+.potential-drop--price,
+.coinflip-game--price {
   background: linear-gradient(
       75.96deg,
       rgba(255, 255, 255, 0) 20.07%,
@@ -1011,7 +1012,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 }
 
-.potential-drop--item__yellow:hover {
+.potential-drop--item__yellow:hover,
+.card-drops--item__yellow:hover {
   background: radial-gradient(
       64.83% 52.59% at 0% 0%,
       rgba(235, 172, 50, 0.34) 0%,
@@ -1041,7 +1043,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 }
 
-.potential-drop--item__red:hover {
+.potential-drop--item__red:hover,
+.card-drops--item__red:hover {
   background: radial-gradient(
       64.83% 52.59% at 0% 0%,
       rgba(255, 27, 27, 0.34) 0%,
@@ -1071,7 +1074,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 }
 
-.potential-drop--item__purple:hover {
+.potential-drop--item__purple:hover,
+.card-drops--item__purple:hover {
   background: radial-gradient(
       64.83% 52.59% at 0% 0%,
       rgba(214, 48, 255, 0.34) 0%,
@@ -1101,7 +1105,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 }
 
-.potential-drop--item__blue:hover {
+.potential-drop--item__blue:hover,
+.card-drops--item__blue:hover {
   background: radial-gradient(
       64.83% 52.59% at 0% 0%,
       rgba(40, 152, 255, 0.34) 0%,
@@ -1131,7 +1136,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08));
 }
 
-.potential-drop--item__gray:hover {
+.potential-drop--item__gray:hover,
+.card-drops--item__gray:hover {
   background: radial-gradient(
       64.83% 52.59% at 0% 0%,
       rgba(198, 198, 198, 0.34) 0%,
@@ -1152,7 +1158,6 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 
 .recent-drops--item,
-.card-drops--item,
 .bet-history--item {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(1.5px);
@@ -1161,7 +1166,6 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 
 .recent-drops--item:after,
-.card-drops--item:after,
 .bet-history--item:after {
   content: '';
   position: absolute;
@@ -1176,6 +1180,120 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   top: 2px;
   left: 2px;
   z-index: 0;
+}
+
+.card-drops--item__yellow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(255, 146, 46, 0.56) -0.86%,
+      rgba(255, 146, 46, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(255, 146, 46, 0.56) 0%, rgba(255, 146, 46, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-drops--item__red::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(255, 27, 27, 0.56) -0.86%,
+      rgba(255, 146, 46, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(255, 27, 27, 0.56) 0%, rgba(255, 27, 27, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-drops--item__purple::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(214, 48, 255, 0.56) -0.86%,
+      rgba(214, 48, 255, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(214, 48, 255, 0.56) 0%, rgba(214, 48, 255, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-drops--item__blue::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(40, 152, 255, 0.56) -0.86%,
+      rgba(40, 152, 255, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(40, 152, 255, 0.56) 0%, rgba(40, 152, 255, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-drops--item__gray::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(198, 198, 198, 0.56) -0.86%,
+      rgba(198, 198, 198, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(198, 198, 198, 0.56) 0%, rgba(198, 198, 198, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.card-drops--item__gray:hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(
+      146.41deg,
+      rgba(198, 198, 198, 0.56) -0.86%,
+      rgba(198, 198, 198, 0) 20.95%
+    ),
+    linear-gradient(308.58deg, rgba(198, 198, 198, 0.56) 0%, rgba(198, 198, 198, 0) 20.48%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08) 30.3%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .recent-drops--item__yellow,
@@ -1437,7 +1555,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   text-fill-color: transparent;
 }
 .reward-label:hover {
-  background: #FFEAC6;
+  background: #ffeac6;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1757,11 +1875,13 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .text-gradient-gray {
   background: linear-gradient(
-    75.96deg, 
-    rgba(255, 255, 255, 0) 20.07%,
-    rgba(255, 255, 255, 0.16) 41.3%, 
-    rgba(0, 0, 0, 0.16) 68.93%, 
-    rgba(255, 255, 255, 0.16) 100%), #9A9EC8;
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.16) 41.3%,
+      rgba(0, 0, 0, 0.16) 68.93%,
+      rgba(255, 255, 255, 0.16) 100%
+    ),
+    #9a9ec8;
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1804,7 +1924,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   position: relative;
 }
 
-.case-opening-wrapper-horizontal {
+.case-opening-wrapper-horizontal-yellow {
   background: radial-gradient(
       33.44% 122.5% at 50.04% 121.87%,
       rgba(255, 180, 54, 0.07) 0%,
@@ -1813,6 +1933,57 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
     radial-gradient(2.08% 7.25% at 0% 50%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
     radial-gradient(2.26% 7.9% at 100% 50%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    linear-gradient(
+      180deg,
+      rgba(118, 124, 255, 0) 0%,
+      rgba(118, 124, 255, 0.12) 50%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+    radial-gradient(
+        220.05% 24.97% at 39.62% 51.7%,
+        rgba(31, 35, 68, 0.56) 0%,
+        rgba(35, 37, 61, 0.56) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+.case-opening-wrapper-horizontal-green {
+  background: radial-gradient(
+      33.44% 122.5% at 50.04% 121.87%,
+      rgba(218, 253, 9, 0.07) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    radial-gradient(2.08% 7.25% at 0% 50%, rgba(218, 253, 9, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(2.26% 7.9% at 100% 50%, rgba(218, 253, 9, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    linear-gradient(
+      180deg,
+      rgba(118, 124, 255, 0) 0%,
+      rgba(118, 124, 255, 0.12) 50%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+    radial-gradient(
+        220.05% 24.97% at 39.62% 51.7%,
+        rgba(31, 35, 68, 0.56) 0%,
+        rgba(35, 37, 61, 0.56) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.case-opening-wrapper-horizontal-blue {
+  background: radial-gradient(
+      33.44% 122.5% at 50.04% 121.87%,
+      rgba(90, 195, 255, 0.07) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    radial-gradient(2.08% 7.25% at 0% 50%, rgba(90, 195, 255, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(2.26% 7.9% at 100% 50%, rgba(90, 195, 255, 0.36) 0%, rgba(255, 180, 54, 0) 100%),
     linear-gradient(
       180deg,
       rgba(118, 124, 255, 0) 0%,
@@ -1900,6 +2071,16 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-top: 13px solid rgb(218, 253, 9);
 }
 
+.arrow-down.gray{
+  border-top: 22px solid rgba(154, 158, 200, 0.454);
+}
+
+.arrow-down.gray::before {
+  border-top: 13px solid rgb(154, 158, 200);
+}
+
+
+
 .yellow-button-gradient {
   position: relative;
   background: radial-gradient(
@@ -1909,7 +2090,37 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     )
     /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   box-shadow: 0px 0px 6px rgba(255, 180, 54, 0.24);
-  filter: drop-shadow(0px 0px 6px rgba(255, 180, 54, 0.24)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0px 0px 6px rgba(255, 180, 54, 0.24))
+    drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12));
+}
+
+.yellow-button-gradient-not-selected {
+  background: radial-gradient(
+      50% 50% at 0% 100%,
+      rgba(255, 180, 54, 0.08) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(50% 100% at 50% 0%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+}
+
+.green-button-gradient-not-selected {
+  background: radial-gradient(50% 50% at 0% 100%, rgba(218, 253, 9, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+    radial-gradient(50% 100% at 50% 0%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+}
+
+.blue-button-gradient-not-selected {
+  background: radial-gradient(
+      50% 50% at 0% 100%,
+      rgba(90, 195, 255, 0.08) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(50% 100% at 50% 0%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
 }
 
 .tear-current-border-gradient:after {
@@ -1936,7 +2147,8 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 4px;
   border: 1px solid transparent;
-  background: linear-gradient(180deg, rgba(255, 180, 54, 0) -37.12%, rgba(255, 180, 54, 0.36) 100%) border-box;
+  background: linear-gradient(180deg, rgba(255, 180, 54, 0) -37.12%, rgba(255, 180, 54, 0.36) 100%)
+    border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -2103,7 +2315,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   right: 0;
   bottom: 0;
   width: 100%;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 6px;
   background: linear-gradient(90deg, rgba(218, 253, 9, 0.32) 0%, rgba(218, 253, 9, 0) 40.33%)
     border-box;
@@ -2152,7 +2364,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   right: 0;
   bottom: 0;
   width: 100%;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 6px;
   background: linear-gradient(90.76deg, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 18.33%)
     border-box;
@@ -2190,7 +2402,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .users-wrapper-gradient {
   background: radial-gradient(
-        100% 275.07% at 100% 0%,
+        100% 275.07% at 0% 100%,
         rgba(29, 35, 82, 0.56) 0%,
         rgba(29, 31, 48, 0.56) 100%
       )
@@ -2202,7 +2414,14 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-radius: 6px;
 }
 .gold-text {
-  background: radial-gradient(70% 70% at 50% 80%, #FFB436 0%, #FFD58F 100%),linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.16) 41.3%, rgba(0, 0, 0, 0.16) 68.93%, rgba(255, 255, 255, 0.16) 100%);
+  background: radial-gradient(70% 70% at 50% 80%, #ffb436 0%, #ffd58f 100%),
+    linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.16) 41.3%,
+      rgba(0, 0, 0, 0.16) 68.93%,
+      rgba(255, 255, 255, 0.16) 100%
+    );
   -webkit-background-clip: text;
   -moz-background-clip: text;
   background-clip: text;
@@ -2214,7 +2433,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 .pvp-game-card,
 .game-active,
 .game-inactive,
-.pvp-mines-quantity  {
+.pvp-mines-quantity {
   position: relative;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   border-radius: 6px;
@@ -2228,41 +2447,54 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 6px;
   border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.02)
-    border-box;
+  background: rgba(255, 255, 255, 0.02) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
 
 .pvp-open-game {
-  background: 
-   radial-gradient(50% 100% at 50% 100%, rgba(255, 180, 54, 0.08) 0%, rgba(255, 180, 54, 0) 100%),
-   radial-gradient(87.52% 85.51% at 46.04% 9.88%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%),
-   radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%),
-   radial-gradient(100% 991.18% at 0% 50%, #1F2344 0%, #23253D 100%);
+  background: radial-gradient(
+      50% 100% at 50% 100%,
+      rgba(255, 180, 54, 0.08) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    radial-gradient(
+      87.52% 85.51% at 46.04% 9.88%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%),
+    radial-gradient(100% 991.18% at 0% 50%, #1f2344 0%, #23253d 100%);
 }
 
 .pvp-playing-game {
-  background: 
-  radial-gradient(87.52% 85.51% at 46.04% 9.88%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
-  radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), 
-  radial-gradient(100% 991.18% at 0% 50%, #1F2344 0%, #23253D 100%);
+  background: radial-gradient(
+      87.52% 85.51% at 46.04% 9.88%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%),
+    radial-gradient(100% 991.18% at 0% 50%, #1f2344 0%, #23253d 100%);
 }
 
 .pvp-ended-game {
   background: radial-gradient(
-    100% 991.18% at 0% 50%, 
-    rgba(29, 35, 82, 0.56) 0%, 
-    rgba(29, 31, 48, 0.56) 100%), 
-    radial-gradient(100% 991.18% at 0% 50%, #1F2344 0%, #23253D 100%);
+      100% 991.18% at 0% 50%,
+      rgba(29, 35, 82, 0.56) 0%,
+      rgba(29, 31, 48, 0.56) 100%
+    ),
+    radial-gradient(100% 991.18% at 0% 50%, #1f2344 0%, #23253d 100%);
 }
 
 .game-active {
-  background: 
-  radial-gradient(162.5% 100% at 50% 0%, rgba(255, 180, 54, 0.24) 0%, rgba(255, 180, 54, 0) 100%), 
-  linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-  radial-gradient(272.05% 172.05% at 50% 0%, #1D2352 0%, #1D1F30 100%);
+  background: radial-gradient(
+      162.5% 100% at 50% 0%,
+      rgba(255, 180, 54, 0.24) 0%,
+      rgba(255, 180, 54, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(272.05% 172.05% at 50% 0%, #1d2352 0%, #1d1f30 100%);
   text-shadow: 0px 0px 8px rgba(255, 180, 54, 0.48);
 }
 
@@ -2275,16 +2507,15 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 6px;
   border: 1px solid transparent;
-  background: linear-gradient(180deg, rgba(255, 180, 54, 0) -20%, rgba(255, 180, 54, 0.36)) rgba(255, 255, 255, 0.02)
-  border-box;
+  background: linear-gradient(180deg, rgba(255, 180, 54, 0) -20%, rgba(255, 180, 54, 0.36))
+    rgba(255, 255, 255, 0.02) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
 .game-inactive {
-  background: 
-  linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-  radial-gradient(272.05% 172.05% at 50% 0%, #1D2352 0%, #1D1F30 100%);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(272.05% 172.05% at 50% 0%, #1d2352 0%, #1d1f30 100%);
 }
 
 .game-inactive::before {
@@ -2296,18 +2527,22 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 6px;
   border: 1px solid transparent;
-  background: linear-gradient(180deg, rgba(154, 158, 200, 0) -20%, rgba(154, 158, 200, 0.36)) rgba(255, 255, 255, 0.02)
-  border-box;
+  background: linear-gradient(180deg, rgba(154, 158, 200, 0) -20%, rgba(154, 158, 200, 0.36))
+    rgba(255, 255, 255, 0.02) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
 
 .pvp-mines-quantity {
-  background:
-    radial-gradient(102.36% 100% at 50% 0%, rgba(214, 51, 51, 0.12) 0%, rgba(214, 51, 51, 0) 100%), 
-    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
-    radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%); /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+  background: radial-gradient(
+      102.36% 100% at 50% 0%,
+      rgba(214, 51, 51, 0.12) 0%,
+      rgba(214, 51, 51, 0) 100%
+    ),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%),
+    /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+      radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1f2344 0%, #23253d 100%); /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
 }
 .pvp-mines-quantity::before {
   content: '';
@@ -2318,15 +2553,11 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 6px;
   border: 1px solid transparent;
-  background: rgba(255, 255, 255, 0.05)
-    border-box;
+  background: rgba(255, 255, 255, 0.05) border-box;
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
-
 }
-
-
 
 .coinflip-statistic__gray::before {
   content: '';
@@ -2374,4 +2605,47 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
     ),
     linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
     radial-gradient(100% 275.07% at 100% 0%, #1d2352 0%, #1d1f30 100%);
+}
+
+.counter-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 9999rem;
+  padding: 0.9px;
+  background: linear-gradient(180deg, rgba(255, 180, 54, 0) -37.12%, rgba(255, 180, 54, 0.36) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.search-input {
+  background: radial-gradient(
+      18.04% 118.75% at 4.59% 100%,
+      rgba(255, 178, 54, 0.08) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+}
+
+.search-input::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }

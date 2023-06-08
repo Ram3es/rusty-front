@@ -20,6 +20,8 @@ import History from '../../views/history'
 import Fallback from '../../views/Fallback'
 import PageLoadState from '../../libraries/PageLoadState'
 import NewHistory from '../elements/NewHistory'
+import LogoBg from "../../assets/img/footer/footerLogoBgVector.png"
+
 
 export const [isPlaying, setIsPlaying] = createSignal(false)
 export const [hasLost, setHasLost] = createSignal(false)
@@ -160,12 +162,11 @@ const TilesContainer = () => {
         }}
       >
         <div
-          class='hidden lg:block absolute top-0 left-0 z-10 w-full h-full opacity-[0.01]'
-          style={{
-            'background-image': 'url(/assets/RustyLogoBg.svg)',
-            'background-repeat': 'repeat'
-          }}
+          class='absolute top-0 left-0 z-10 w-full h-full '
+          style={{'background-image': `url('${LogoBg}')`,
+          'background-size': 'cover'}}
         />
+       
         <div class='flex flex-col-reverse justify-center xl:flex-row xl:gap-24 h-full w-full relative z-20'>
           <TilesMenu />
           <PlayArea />

@@ -20,6 +20,8 @@ import TransparentButton from '../../components/elements/TransparentButton'
 import headerLogoBgVector from '../../assets/img/header/headerLogoBgVector.png'
 import GradientButton from '../../components/elements/GradientButton'
 import CaseSearchInput from '../case/CaseSearchInput'
+import GoldText from "../../components/mines_new/MISC/GoldText"
+import {getCurrencyString} from "../../components/mines_new/utils/tools"
 
 // let typingTimer;
 const filterByTagList = [
@@ -119,6 +121,8 @@ function compareArrays(array1, array2) {
 //   )
 // }
 
+
+
 const Unbox = (props) => {
   const { unboxPageLoaded, onUnboxPageLoaded } = PageLoadState
   const [search, setSearch] = createSignal('')
@@ -127,7 +131,9 @@ const Unbox = (props) => {
   // const [ sortBy, setSortBy ] = createSignal(sortOptions[0]);
   const [cases, setCases] = createSignal([])
   const { socket } = Injector
-
+  createEffect(() => {
+    console.log(cases());
+  })
   createEffect(() => {
     if (props.loaded()) {
       onUnboxPageLoaded(true)
@@ -135,7 +141,7 @@ const Unbox = (props) => {
       //   console.log(data.data.cases);
       //   setCases(() => data.data.cases)
       // });
-      socket.emit('cases:get', { price: 'desc' }, (data) => {
+      socket.emit('battles:cases', { price: 'desc' }, (data) => {
         console.log(data.data.cases)
         setCases(() => data.data.cases)
       })
@@ -200,10 +206,14 @@ const Unbox = (props) => {
                 />
                 <div class='relative grow z-10 px-4 pb-5 pt-9 flex flex-col justify-between items-center'>
                   <img
-                    class='w-auto h-[127px] group-hover:rotate-6'
+                    class='w-auto h-[127px] scale-150 absolute group-hover:rotate-6 top-6'
                     src={item.image ? item.image.replace('{url}', window.origin) : ''}
                     alt={item.name}
+                    style={{
+                            filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+                          }}
                   />
+                  <div class='w-auto h-[127px]'/>
                   <div class='w-full block group-hover:hidden'>
                     <TransparentButton
                       callbackFn={() => setTagsToFilter(item.tags)}
@@ -219,9 +229,9 @@ const Unbox = (props) => {
                     </GradientButton>
                   </div>
                 </div>
-                <div class='w-full center bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10'>
+                <div class='w-full center gap-2 bg-dark-gradient group-hover:bg-dark-to-yellow h-12 relative z-10'>
                   <Coin />
-                  <span class='text-gradient text-16 font-SpaceGrotesk font-bold'>1200</span>
+                  <GoldText text={getCurrencyString((item.price).toString())} size="16"/>
                 </div>
               </NavLink>
             )}

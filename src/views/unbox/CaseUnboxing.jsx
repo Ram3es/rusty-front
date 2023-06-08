@@ -134,7 +134,7 @@ const CaseUnboxing = (props) => {
   }
 
   const startGame = (isDemo) => {
-    if (isCaseCanBeOpen()) {
+    if (isCaseCanBeOpen() && !isRolling()) {
       let durationInSeconds = spinnerTimings.verticalInitialSpin + 3 // For example, a 2-second duration
       if (isFastAnimation()) {
         durationInSeconds = durationInSeconds * spinnerTimings.fastSpinMultiplier
@@ -253,7 +253,7 @@ const CaseUnboxing = (props) => {
                 <div class='flex gap-1.5'>
                   <Coin width='5' />
                   <span class='font-bold text-sm potential-drop--price'>
-                    {Number(rollCase().price).toLocaleString()}
+                    {(Number(rollCase().price) * pendingNum()).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -287,7 +287,7 @@ const CaseUnboxing = (props) => {
                     <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                       <span class='w-max'>Open for</span>
                       <Coin width='5' />
-                      <span class='text-gradient'>{rollCase().price}</span>
+                      <span class='text-gradient'>{(Number(rollCase().price) * pendingNum()).toLocaleString()}</span>
                     </div>
                   </CaseGradientButton>
                   <GrayGradientButton callbackFn={() => startGame(true)}>
@@ -353,9 +353,9 @@ const CaseUnboxing = (props) => {
                 </p>
               </div>
               <div class='w-full grid grid-cols-potential-drop--item gap-3'>
-                <For each={rollCase()?.items || []}>
-                  {(item) => <PotentialDropItem skin={item} />}
-                </For>
+              <For each={rollCase()?.items.sort((a, b) => b.price - a.price) || []}>
+                {(item) => <PotentialDropItem skin={item} />}
+              </For>
               </div>
             </div>
             <HistoryDrops data={caseStatistic ?? []} _case={rollCase} />

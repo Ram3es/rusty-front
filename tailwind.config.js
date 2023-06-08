@@ -26,6 +26,7 @@ module.exports = {
         'ltr-linear-infinite': 'move-bg 5s linear infinite',
         'net': "net 5s infinite alternate",
         'reverse-spin': 'reverse-spin 1s linear infinite',
+        shake: "shake 0.6s",
       },
       keyframes: {
         stripes: {
@@ -56,7 +57,37 @@ module.exports = {
           from: {
             transform: 'rotate(360deg)'
           },
-        }
+        },
+        shake: {
+          "0%, 100%": { transform: "translate(0, 0) " },
+          "10%": {
+            transform: "translate(-2px, 1px)  ",
+          },
+          "20%": {
+            transform: "translate(2px, -1px)  ",
+          },
+          "30%": {
+            transform: "translate(-1px, 2px)  ",
+          },
+          "40%": {
+            transform: "translate(1px, -2px)  ",
+          },
+          "50%": {
+            transform: "translate(-1px, 1px)  ",
+          },
+          "60%": {
+            transform: "translate(1px, -1px)  ",
+          },
+          "70%": {
+            transform: "translate(-2px, 2px) ",
+          },
+          "80%": {
+            transform: "translate(2px, -2px) ",
+          },
+          "90%": {
+            transform: "translate(-1px, 1px) ",
+          },
+        },
       },
       boxShadow: {
         "button": "0px 2px 2px rgba(0, 0, 0, 0.12)"
@@ -65,6 +96,10 @@ module.exports = {
         'yellow': '0px 0px 10px rgba(255, 199, 1, 0.6)',
         'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
         "box": "0px 4px 8px rgba(0, 0, 0, 0.25)"
+      },
+      textShadow: {
+        'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
+        'gold-secondary': '0px 2px 2px rgba(0, 0, 0, 0.12)'
       },
       colors : {
         "transparent": "transparent",
@@ -210,9 +245,10 @@ module.exports = {
         "yellow-gradient" : "linear-gradient(264.21deg, rgba(255, 209, 67, 0.74) 0%, rgba(255, 244, 67, 0.74) 100%)",
         "yellow-to-transparent": "linear-gradient(to right, rgba(255, 194, 57, 0.2), transparent)",
         "dark-gradient": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+        "dark-radial-gradient": "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 317.48% at 100% 50%, #1D2352 0%, #1D1F30 100%)",
         "dark-to-yellow": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
         "control-panel": "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)",
-        "dark-primery-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
+        "dark-primary-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
         "dark-secondary": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
         'gray-button-gradient': 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)'
         
@@ -339,8 +375,10 @@ module.exports = {
         12: "0.75rem",
         13: "0.813rem",
         14: "0.875rem",
+        14.4: "0.9rem",
         15: "0.9375rem",
         16: "1rem",
+        17.1: "1.069",
         18: "1.125rem",
         19: "1.1875rem",
         20: "1.25rem",
@@ -371,5 +409,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('tailwindcss-textshadow')],
 }

@@ -10,8 +10,6 @@ import Platinum3 from '../assets/img/ranks/platinum3.svg';
 import Diamond from '../assets/img/ranks/diamond.svg';
 
 import Badge from "../assets/badge.svg"
-import Img from './Img';
-import { createEffect } from 'solid-js';
 
 const Ranks = (props) => {
     const ranks = {
@@ -27,15 +25,10 @@ const Ranks = (props) => {
         diamond: Diamond,
     };
 
-    // createEffect(() => {
-    //     console.log(typeof props?.rank === "function" ? props?.rank() : props?.rank)
-    // })
-
     return (
     <>
         <div class={`${props.width ? `w-${props.width}` : "w-6"}`}>
             <img alt="badge" class="w-full" src={!props.staff || props.staff < 3 ? ranks[typeof props?.rank === "function" ? props?.rank() : props?.rank] : Badge} />
-            {/* <img alt="badge"  class="w-full" src={!props.staff || props.staff < 3 ? ranks[typeof props?.rank === "function" ? props?.rank() : props?.rank] : Badge} /> */}
         </div>
     </>
     )

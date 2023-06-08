@@ -18,7 +18,7 @@ const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
-const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor }) => {
+const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor, randomFunction }) => {
   createEffect(() => {
     if (isFastSpin) {
       setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
@@ -56,7 +56,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
 
   createEffect(() => {
     console.log(reelsSpinning());
-    console.log(reelItem());
+    // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
       console.log('moveToIndex', spinnerIndex, spinIndexes()[spinnerIndex]);
@@ -67,7 +67,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
     if (spinLists()) {
       console.log('here spin', spinLists());
       setReelItem(() => document.querySelector("[data-reel-item]"))
-      console.log(reelItem());
+      // console.log(reelItem());
     }
   })
 
@@ -75,7 +75,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
     const itemHeight = reelItem().offsetHeight;
     let moveAmount = (index - 1) * itemHeight;
     const spinOffSet = getSpinOffSet();
-    const positiveOffSet = Math.floor(Math.random() * 2);
+    const positiveOffSet = Math.floor(randomFunction() * 2);
     if (positiveOffSet) {
       moveAmount += spinOffSet;
     } else {
@@ -128,18 +128,18 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
 
   const getSpinOffSet = () => {
     const itemHeight = reelItem().offsetHeight;
-    const landInMiddle = Math.random() <= LAND_IN_MIDDLE_CHANCE;
+    const landInMiddle = randomFunction() <= LAND_IN_MIDDLE_CHANCE;
     if (landInMiddle) {
-      let newOffset = itemHeight / 2 - Math.random() * 0.1 * itemHeight;
+      let newOffset = itemHeight / 2 - randomFunction() * 0.1 * itemHeight;
 
       if (withinOtherReelBounds(newOffset)) {
-        newOffset = itemHeight / 2 - Math.random() * 0.1 * itemHeight;
+        newOffset = itemHeight / 2 - randomFunction() * 0.1 * itemHeight;
       }
       spinOffsets().push(newOffset);
       return newOffset;
     }
     const newOffset =
-      Math.floor((Math.random() * 0.95 + 0.05) * itemHeight) / 2;
+      Math.floor((randomFunction() * 0.95 + 0.05) * itemHeight) / 2;
     spinOffsets().push(newOffset);
     return newOffset;
   };
@@ -277,7 +277,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor 
       <img
           src={lineColor === 'yellow' ? "/assets/caseLineHorizontal.svg" : lineColor === 'blue' ? "/assets/caseLineHorizontalBlue.svg" : "/assets/caseLineHorizontalGreen.svg"}
           alt="caseline"
-          class={`absolute h-32 w-full self-center transition-all duration-500
+          class={`absolute h-32 w-[90%] self-center transition-all duration-500
           ${spinComplete() ? "opacity-30" : "opacity-100"}
               `}
         />
