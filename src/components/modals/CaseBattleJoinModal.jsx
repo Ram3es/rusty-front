@@ -133,7 +133,10 @@ const CaseBattleJoinModal = (props) => {
             </svg>
           </div>
         </div>
-        <div class='relative flex flex-col items-center justify-center mb-8'>
+        <div class='relative flex flex-col items-center justify-center mb-8 '
+        style={{
+          background: 'linear-gradient(180deg,  rgba(217, 217, 217, 0) 70%, rgba(27,30,56,1 ) 100%)'
+        }}>
           <div
             class=' absolute w-full h-full z-[-1]'
             style={{ 'background-image': `url('${BodyVectorBackground}')`, opacity: 0.004 }}
