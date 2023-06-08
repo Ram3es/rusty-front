@@ -712,7 +712,7 @@ const GameCaseBattle = (props) => {
                     )}
                   </For>
                 </div>
-                <div class='border border-black border-opacity-5 rounded-8 -mt-12 flex bg-dark-secondary'>
+                <div class='border border-black border-opacity-5 rounded-8 -mt-12 flex bg-dark-secondary border-r-0'>
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
