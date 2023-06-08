@@ -26,6 +26,7 @@ import Spiner from '../../components/battle/Spiner'
 import YellowGradientButton from '../../components/elements/CaseGradientButton'
 import GrayGradientButton from '../../components/elements/GrayGradientButton'
 import EmojiIcon from '../../components/icons/EmojiIcon'
+import { getRandomFunction } from '../../utilities/Random/randomGen'
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -267,6 +268,11 @@ const GameCaseBattle = (props) => {
           } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
         : '')
     )
+  }
+
+  const createRandomFunction = (gameId, currentRound, playerIndex) => {
+    const rng = getRandomFunction(`${gameId.toString()}${currentRound.toString()}${playerIndex.toString()}`);
+    return rng;
   }
 
   return (
@@ -516,6 +522,7 @@ const GameCaseBattle = (props) => {
                                         isBigWin={spinnerOptions()[playerIndex].isBigWin}
                                         isFastSpin={false}
                                         lineColor={getModeColor()}
+                                        randomFunction={createRandomFunction(game().id, game().currentRound, playerIndex)}
                                       />
                                     ) : (
                                       <Spiner classes='w-9 text-yellow-ffb' />
@@ -590,7 +597,7 @@ const GameCaseBattle = (props) => {
                                   </Match>
                                 </Switch>
                               </div>
-                            )}
+                              )}
                           </For>
                         </div>
                       </div>
