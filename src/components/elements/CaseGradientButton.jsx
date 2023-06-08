@@ -8,7 +8,13 @@ const CaseGradientButton = (props) => {
       }}>
       <div class={`${!props.selected && props.toggle && "bg-[#19171f]"} h-full rounded-4`}>
         <div
-          class={`h-full rounded-4 px-4 ${!props.color || props.color === 'yellow' ? `yellow-button-gradient${!props.selected  && props.toggle ? "-not-selected" : ""}` : props.color  === 'green' ? `green-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}` : `blue-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}`} rounded-4 flex center cursor-pointer ${props.isFullWidth ? 'w-full' : 'w-max'}`}
+          class={`h-full rounded-4 px-4  ${props.gradient ? props.gradient :` 
+          ${!props.color || props.color && !props.gradient === 'yellow' 
+            ? `yellow-button-gradient${!props.selected  && props.toggle ? "-not-selected" : ""}` 
+            : props.color  === 'green' 
+              ? `green-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}` 
+              : `blue-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}`} `} rounded-4 flex center cursor-pointer 
+                  ${props.isFullWidth ? 'w-full' : 'w-max'}`}
           onClick={() => {
             playOptionClickSound();
             if (props.callbackFn) props.callbackFn();

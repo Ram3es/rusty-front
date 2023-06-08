@@ -117,7 +117,7 @@ export const RewardsTable = () => {
                                </div>
                                <div class={`${row.rate  < 1 && 'mix-blend-luminosity' } flex items-center justify-start md:justify-end gap-2 font-SpaceGrotesk`}>
                                     <Coin width='5' />
-                                    <GreenText size='14' text={(11200).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} />
+                                    <GreenText size='14' text={(11200.34).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} />
                                 </div>
                             </div>
                         </div>
