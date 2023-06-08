@@ -439,9 +439,9 @@ const GameCaseBattle = (props) => {
                     </div>
                   </div>
                   <div
-                    class={`px-[2px] rounded-b-4 shadow-xl `}
+                    class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
                     style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${getModeColorRgb()},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${getModeColorRgb()},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%`
+                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%`
                     }}
                   >
                     <div class='bg-[#13152A] rounded-b-4'>
@@ -454,10 +454,12 @@ const GameCaseBattle = (props) => {
                             }}
                           />
                           <div
-                            class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${getModeColor()}`}
+                            class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${game().status === 'ended' ? "gray" : `${getModeColor()}`}
+                            transition-colors duration-200`}
                           />
                           <div
-                            class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${getModeColor()}`}
+                            class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${game().status === 'ended' ? "gray" : `${getModeColor()}`}
+                            transition-colors duration-200`}
                           />
                           <div
                             class='absolute left-0 top-0 w-full h-[68px]'
