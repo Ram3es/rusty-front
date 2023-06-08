@@ -239,6 +239,10 @@ const PaymentModal = (props) => {
       setActiveItems([])
     }
 
+    socket.on("steam:market:update", () => {
+      updateItems(false);
+    });
+
     if (
       (props.searchParams?.deposit && props.searchParams?.items) ||
       props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT
@@ -545,6 +549,10 @@ const PaymentModal = (props) => {
       ru: 'вывести'
     }
   }
+
+  onCleanup(() => {
+    socket.off("steam:market:update");
+  });
 
   return (
     <Modal
