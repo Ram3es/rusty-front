@@ -226,6 +226,44 @@ const FreeModal = (props) => {
                 <p class="text-14 text-gray-8c font-normal font-SpaceGrotesk sentence">
                   {i18n.t("free_coins.Flash code")}
                 </p>
+                <div
+                  class="w-full max-w-md p-[2px] rounded-[4px] h-11 mt-1"
+                  style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                                radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                                linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                                radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                                linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                                linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                                
+                                "
+                >
+                  <div
+                    class="flex w-full p-2 rounded-[4px] justify-between items-center h-full"
+                    style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
+                                        radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
+                                        linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
+                                        radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),
+                                        linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),
+                                        linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+                                    "
+                  >
+                    <div class="flex items-center gap-4 pl-2 pr-1 w-full relative z-10">
+                      <input
+                        ref={input}
+                        class={`text-white grow text-14 font-SpaceGrotesk sm:w-44`}
+                        placeholder={i18n.t("free_coins.Type here")}
+                        onInput={(e) => setCode(e.currentTarget.value)}
+                        value={code()}
+                      />
+                      <div
+                        class="px-3 cursor-pointer center h-8 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk"
+                        onClick={claim}
+                      >
+                        {buttonName.claim[i18n.language]}
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div class="w-full h-10 bg-dark-20 relative center">
                   <div class="absolute w-full h-full rounded-4 bg-dark-22" />
                   <input
