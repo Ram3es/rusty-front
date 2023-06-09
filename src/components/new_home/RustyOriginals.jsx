@@ -1,5 +1,5 @@
 import { For } from "solid-js";
-import BattleIcon from '../../../components/icons/BattleIcon'
+import BattleIcon from '../icons/BattleIcon'
 
 export const TilesLabel = (props) => {
 

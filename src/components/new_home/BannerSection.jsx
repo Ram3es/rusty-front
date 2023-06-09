@@ -1,18 +1,18 @@
-import { createSignal, For } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import ribbed from './img/ribbed.png'
 import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
 import intersect from './img/welcome-intersect.png'
-import CaseGradientButton from '../../../components/elements/CaseGradientButton'
-import Coin from "../../../utilities/Coin"
-import GreenText from "../../../components/mines_new/MISC/GreenText"
+import CaseGradientButton from '../elements/CaseGradientButton'
+import Coin from "../../utilities/Coin"
+import GreenText from "../mines_new/MISC/GreenText"
 import gunCase from "./img/dead-gun-case.png"
-import { formatNumber } from '../../../utilities/Numbers'
-import ArrowSliderStyle from "../../../components/icons/ArrowSliderStyle"
+import { formatNumber } from '../../utilities/Numbers'
+import ArrowSliderStyle from "../icons/ArrowSliderStyle"
 import blueBox from "./img/blue-techno-box.png"
-import GoldRay from '../../../components/icons/GoldRay'
-import Ranks from "../../../utilities/Ranks"
-import RankLabel from '../../../components/chat/RankLabel'
+import GoldRay from '../icons/GoldRay'
+import Ranks from "../../utilities/Ranks"
+import RankLabel from '../chat/RankLabel'
 import Banner1 from "./img/banner-1.png"
 import Banner2 from "./img/banner-2.png"
 import Banner3 from "./img/banner-3.png"
@@ -48,7 +48,7 @@ const banners = [
 ] 
 
  
- const BannerSection = () => {
+ const BannerSection = (props) => {
     const [activeBanner, setActiveBanner] = createSignal(0);
 
     return  (
@@ -61,57 +61,61 @@ const banners = [
                     <div class={`h-[200px] min-w-[340px] col-span-2 md:col-span-1 relative home-welcome--bg p-[22px] `} >
                         <img src={welcomeBg} alt='bg' class='absolute left-0 top-0 w-full h-full mix-blend-luminosity' />
                         <img src={intersect} alt='intersect' class='absolute left-0 bottom-0 object-cover w-full ' />
-                        <h2 
-                          class="text-2xl font-bold font-SpaceGrotesk mx-auto text-center home-welcome--text"
-                          >Welcome</h2>
-                        <div class="flex items-center justify-center -translate-y-2">
-                            <GoldRay additionalClasses="rotate-180" />  
-                            <div class="rounded-full border border-gold-ffc w-max p-1">
-                                <img src={blueBox} alt='blue-box' />
-                            </div>
-                            <GoldRay additionalClasses="" />
-                        </div>
-                        <div
-                            class="flex flex-wrap center h-[26px] mx-auto gap-x-2 text-sm font-bold w-max whitespace-nowrap px-2.5 rounded"
-                            style={{ 
-                                background: "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
-                                "box-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)"
-                                }}
-                        >
-                            <Ranks
-                                width={7}
-                                rank={'gold1'}
-                            />
-                            <RankLabel
-                                rank={"gold1"}
-                            />
-                            <span class="text-gray-9aa truncate max-w-[100px]">
-                                {"Terry rustyloot"}
-                            </span>
-                        </div>
-                        <div class='mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto'>
-                            <div class="w-full max-w-[200px] h-2 rounded-[2px] overflow-hidden home-progress-bg ">
+                        <h2 class="text-2xl font-bold font-SpaceGrotesk mx-auto text-center home-welcome--text">
+                            Welcome
+                        </h2>
+                        <Show when={props.user}>
+                            <>
+                                <div class="flex items-center justify-center -translate-y-2">
+                                    <GoldRay additionalClasses="rotate-180" />  
+                                    <div class="rounded-full border border-gold-ffc w-max p-1">
+                                        <img src={blueBox} alt='blue-box' />
+                                    </div>
+                                    <GoldRay additionalClasses="" />
+                                </div>
                                 <div
-                                class="h-full rounded-[2px] duration-200"
-                                style={{
-                                    background:
-                                    "linear-gradient(269.6deg, #FFB436 0%, #7B633A 100%)",
-                                    width: '30%'
-                                    // width: `${
-                                    // (props.account?.user?.wagered -
-                                    //     props.account?.level?.from * 1000) /
-                                    // (props.account?.level?.to * 10)
-                                    // }%`,
-                                }}
-                                />
-                            </div>
-                            <div class='absolute  left-0'>
-                                    <Ranks width='8' rank={'gold1'}  />
-                            </div>
-                            <div class='absolute  right-0'>
-                                <Ranks width='8' rank={'gold3'}  />
-                            </div>
-                        </div>
+                                    class="flex flex-wrap center h-[26px] mx-auto gap-x-2 text-sm font-bold w-max whitespace-nowrap px-2.5 rounded"
+                                    style={{ 
+                                        background: "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
+                                        "box-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)"
+                                        }}
+                                >
+                                    <Ranks
+                                        width={7}
+                                        rank={'gold1'}
+                                    />
+                                    <RankLabel
+                                        rank={"gold1"}
+                                    />
+                                    <span class="text-gray-9aa truncate max-w-[100px]">
+                                        {"Terry rustyloot"}
+                                    </span>
+                                </div>
+                                <div class='mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto'>
+                                    <div class="w-full max-w-[200px] h-2 rounded-[2px] overflow-hidden home-progress-bg ">
+                                        <div
+                                        class="h-full rounded-[2px] duration-200"
+                                        style={{
+                                            background:
+                                            "linear-gradient(269.6deg, #FFB436 0%, #7B633A 100%)",
+                                            width: '30%'
+                                            // width: `${
+                                            // (props.account?.user?.wagered -
+                                            //     props.account?.level?.from * 1000) /
+                                            // (props.account?.level?.to * 10)
+                                            // }%`,
+                                        }}
+                                        />
+                                    </div>
+                                    <div class='absolute  left-0'>
+                                            <Ranks width='8' rank={'gold1'}  />
+                                    </div>
+                                    <div class='absolute  right-0'>
+                                        <Ranks width='8' rank={'gold3'}  />
+                                    </div>
+                                </div>
+                            </>
+                        </Show>
                     </div>
                     <div class=' relative home-daily--bg min-h-[200px]'>
                         <div class='h-full flex flex-col items-center justify-between p-3 '>

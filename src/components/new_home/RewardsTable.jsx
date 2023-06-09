@@ -1,13 +1,13 @@
-import ToggleButton from "../../../components/ToggleButton"
+import ToggleButton from "../ToggleButton"
 import { For, createSignal } from "solid-js";
-import stripped from "../../../assets/img/home/leaderboard/stripped-mask.png"
-import BattleIcon from '../../../components/icons/BattleIcon'
-import Ranks from "../../../utilities/Ranks"
-import RankLabel from '../../../components/chat/RankLabel'
-import Coin from '../../../utilities/Coin'
-import GoldText from '../../../components/mines_new/MISC/GoldText'
-import GreenText from '../../../components/mines_new/MISC/GreenText'
-import { formatNumber } from '../../../utilities/Numbers'
+import stripped from "../../assets/img/home/leaderboard/stripped-mask.png"
+import BattleIcon from '../icons/BattleIcon'
+import Ranks from "../../utilities/Ranks"
+import RankLabel from '../chat/RankLabel'
+import Coin from '../../utilities/Coin'
+import GoldText from '../mines_new/MISC/GoldText'
+import GreenText from '../mines_new/MISC/GreenText'
+import { formatNumber } from '../../utilities/Numbers'
 
 const filterOption = [
     {name: "All Wins"},
