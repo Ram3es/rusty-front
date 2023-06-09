@@ -414,7 +414,7 @@ const GameCaseBattle = (props) => {
                             'border-bottom-color': getModeColorHex(),
                           }}
                       />
-                      <div class="w-full bg-[#15162C] rounded-t-8">
+                     <div class="w-full bg-[#15162C] rounded-t-8">
                     <div class="w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)] p-[1px]">
                       <div class="w-full bg-[#15162C] rounded-t-8">
                         <div
@@ -490,9 +490,11 @@ const GameCaseBattle = (props) => {
                       <div class={`rounded-b-4 ${game().status !== 'ended' && `case-opening-wrapper-horizontal-${getModeColor()}`}`}>
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
-                            class='absolute w-full h-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40 rounded-b-4'
+                            class='absolute w-full h-[326px] inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40 rounded-b-4'
                             style={{
-                              'background-image': `url('${footerLogoBgVector}')`
+                              'background-image': `url('${footerLogoBgVector}')`,
+                              'background-size': "250%",
+                              'background-position': 'center',
                             }}
                           />
                           <div
@@ -507,14 +509,14 @@ const GameCaseBattle = (props) => {
                             class='absolute left-0 top-0 w-full h-[68px]'
                             style={{
                               background:
-                                'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
+                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)',
                             }}
                           />
                           <div
                             class='absolute left-0 bottom-0 w-full h-[68px]'
                             style={{
                               background:
-                                'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)',
+                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)',
                               transform: 'matrix(-1, 0, 0, -1, 0, 0)'
                             }}
                           />
