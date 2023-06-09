@@ -1,3 +1,4 @@
+import { createSignal } from "solid-js";
 import ribbed from './img/ribbed.png'
 import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
@@ -12,6 +13,9 @@ import blueBox from "./img/blue-techno-box.png"
 import GoldRay from '../../../components/icons/GoldRay'
 import Ranks from "../../../utilities/Ranks"
 import RankLabel from '../../../components/chat/RankLabel'
+import Banner1 from "./img/banner-1.png"
+import Banner2 from "./img/banner-2.png"
+import Banner3 from "./img/banner-3.png"
 
 
 export const RoundedBtn = (props) => {
@@ -24,12 +28,33 @@ export const RoundedBtn = (props) => {
     )
 }
 
+const banners = [
+    {
+        image: Banner1
+    },
+    {
+        image: Banner2
+    },
+    {
+        image: Banner3
+    },
+    {
+        image: Banner2
+    },
+    {
+        image: Banner3
+    },
+    
+] 
+
  
  const BannerSection = () => {
+    const [activeBanner, setActiveBanner] = createSignal(0);
+
     return  (
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+        <div class="grid grid-cols-3 gap-5 w-full h-full ">
             <div 
-                class='col-span-2 rounded-8 overflow-hidden'
+                class=' col-span-3 md:col-span-2 rounded-8 overflow-hidden '
                 style={{ background: 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)' }}
             >
                 <div class='grid  grid-cols-[1fr_1fr]  sm:grid-cols-[1.5fr_1fr_1fr] '>
@@ -64,7 +89,6 @@ export const RoundedBtn = (props) => {
                                 {"Terry rustyloot"}
                             </span>
                         </div>
-                        {/* <div class='bg-red w-max mx-auto'>sdasfsf</div> */}
                         <div class='mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto'>
                             <div class="w-full max-w-[200px] h-2 rounded-[2px] overflow-hidden home-progress-bg ">
                                 <div
@@ -89,7 +113,7 @@ export const RoundedBtn = (props) => {
                             </div>
                         </div>
                     </div>
-                    <div class=' relative home-daily--bg'>
+                    <div class=' relative home-daily--bg min-h-[200px]'>
                         <div class='h-full flex flex-col items-center justify-between p-3 '>
                         <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
                             Daily Case
@@ -133,7 +157,51 @@ export const RoundedBtn = (props) => {
                    </div>
                 </div>
             </div>
-            <div class='col-span-2 sm:col-span-1'>ecwe</div>
+            <div class='col-span-3 md:col-span-1 relative min-h-[200px]'>
+                
+                <div class=' rounded-8 h-full w-full overflow-hidden '>
+                    <img src={banners[activeBanner()].image} alt='banner' class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 center h-[calc(100%_-_1px)] w-[calc(100%_-_2px)] rounded-8" />
+                    <div 
+                        class='absolute h-full w-full flex justify-between items-end text-white p-4 home-banner '
+                        style={{background: "linear-gradient(180deg, rgba(30, 33, 54, 0) 0%, rgba(30, 33, 54, 1) 95.97%)"}}
+                    >
+                        <div class=" flex flex-col font-SpaceGrotesk ">
+                            <span class="text-xl">New Gamemode</span>
+                            <span class="text-xs">Check out our new updated look!</span>
+                        </div>
+                        <div>
+                            <div class="flex items-end gap-1">
+                                <For each={banners}>
+                                    {(_,idx) => {
+                                    return <>
+                                         <div class="bg-[#2D3058] h-1 w-4">
+                                            <div class={`${idx() !== activeBanner() && "hidden" } block w-[60%] h-full bg-yellow-ffb`} />
+                                        </div>
+                                        </>}
+                                        }
+                                </For>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <RoundedBtn
+                    handleClick={() => setActiveBanner(
+                        (prev) => (prev <= 0 ? banners.length : prev) - 1
+                      )}
+                    additionalClasses='absolute top-[40%] -left-3 text-gray-9a' >
+                        <ArrowSliderStyle additionalClasses='rotate-180' /> 
+                </RoundedBtn>
+                <RoundedBtn
+                    handleClick={() =>  setActiveBanner(
+                        (prev) => (prev + 1) % banners.length
+                      )}
+                    additionalClasses='absolute top-[40%] -right-3 text-gray-9a' >
+                        <ArrowSliderStyle />   
+                </RoundedBtn>
+
+            </div>
         </div>
     )
 }
