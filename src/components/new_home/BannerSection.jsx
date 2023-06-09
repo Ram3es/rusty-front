@@ -1,4 +1,4 @@
-import { createSignal, For, Show } from "solid-js";
+import { createSignal, For, onMount, Show } from "solid-js";
 import ribbed from './img/ribbed.png'
 import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
@@ -16,6 +16,10 @@ import RankLabel from '../chat/RankLabel'
 import Banner1 from "./img/banner-1.png"
 import Banner2 from "./img/banner-2.png"
 import Banner3 from "./img/banner-3.png"
+import injector from "../../injector/injector";
+import { NavLink } from "solid-app-router";
+import { URL } from "../../libraries/url";
+import { playCashoutSound } from "../../utilities/Sounds/SoundButtonClick";
 
 
 export const RoundedBtn = (props) => {
@@ -48,8 +52,35 @@ const banners = [
 ] 
 
  
- const BannerSection = (props) => {
+ const BannerSection = () => {
     const [activeBanner, setActiveBanner] = createSignal(0);
+    const [activeCase, setActiveCase] = createSignal(0);
+    const [cases, setCases] = createSignal([]);
+    const { userObject, socket, toastr, setUserObject } = injector;
+
+    let rakebackClaim = () => {
+        socket.emit("system:rakeback:claim", {}, (data) => {
+          if (data.msg) {
+            toastr(data);
+          }
+    
+          if (!data.error) {
+            playCashoutSound();
+          }
+    
+          if (!data.error) {
+            setUserObject("user", (prev) => ({ ...prev.user, rakeback: 0 }));
+          }
+        });
+      };
+
+    onMount(() => {
+        console.log("userObject", userObject);
+        socket.emit("rewards:cases", {}, (data) => {
+            setCases(data.cases);
+          });
+          
+    })
 
     return  (
         <div class="grid grid-cols-3 gap-5 w-full h-full ">
@@ -64,12 +95,12 @@ const banners = [
                         <h2 class="text-2xl font-bold font-SpaceGrotesk mx-auto text-center home-welcome--text">
                             Welcome
                         </h2>
-                        <Show when={props.user}>
+                        <Show when={userObject.authenticated}>
                             <>
                                 <div class="flex items-center justify-center -translate-y-2">
                                     <GoldRay additionalClasses="rotate-180" />  
                                     <div class="rounded-full border border-gold-ffc w-max p-1">
-                                        <img src={blueBox} alt='blue-box' />
+                                        <img class="w-12 rounded-full" src={userObject.user?.avatar || ""} alt='blue-box' />
                                     </div>
                                     <GoldRay additionalClasses="" />
                                 </div>
@@ -82,13 +113,15 @@ const banners = [
                                 >
                                     <Ranks
                                         width={7}
-                                        rank={'gold1'}
+                                        staff={userObject?.user?.rank}
+                                        rank={userObject?.user?.level?.league}
                                     />
                                     <RankLabel
-                                        rank={"gold1"}
+                                        staff={userObject?.user?.rank}
+                                        rank={userObject?.user?.level?.league}
                                     />
                                     <span class="text-gray-9aa truncate max-w-[100px]">
-                                        {"Terry rustyloot"}
+                                        {userObject?.user?.username}
                                     </span>
                                 </div>
                                 <div class='mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto'>
@@ -98,20 +131,21 @@ const banners = [
                                         style={{
                                             background:
                                             "linear-gradient(269.6deg, #FFB436 0%, #7B633A 100%)",
-                                            width: '30%'
-                                            // width: `${
-                                            // (props.account?.user?.wagered -
-                                            //     props.account?.level?.from * 1000) /
-                                            // (props.account?.level?.to * 10)
-                                            // }%`,
+                                            width: `${
+                                                (userObject?.user?.wagered - userObject?.user?.level?.from * 1000) /
+                                                (userObject?.user?.level?.to * 10)
+                                            }%`,
                                         }}
                                         />
                                     </div>
                                     <div class='absolute  left-0'>
-                                            <Ranks width='8' rank={'gold1'}  />
+                                        <Ranks
+                                            width='8'
+                                            rank={userObject?.user?.level?.league}
+                                        />
                                     </div>
                                     <div class='absolute  right-0'>
-                                        <Ranks width='8' rank={'gold3'}  />
+                                        <Ranks width='8' rank={userObject?.user?.level?.next}  />
                                     </div>
                                 </div>
                             </>
@@ -120,23 +154,37 @@ const banners = [
                     <div class=' relative home-daily--bg min-h-[200px]'>
                         <div class='h-full flex flex-col items-center justify-between p-3 '>
                         <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
-                            Daily Case
+                            {cases()[activeCase()]?.name}
                         </span>
-                        <CaseGradientButton callbackFn={() => {}}>
-                            <span class='text-yellow-ffb  font-SpaceGrotesk font-bold text-sm '>
-                               Open Daily Case
-                            </span>
-                        </CaseGradientButton>
+                        {cases()[activeCase()]?.id ? <NavLink class="relative z-10" href={`${URL.CASE}?id=${cases()[activeCase()]?.id}`}>
+                            <CaseGradientButton callbackFn={() => {}}>
+                                <span class='text-yellow-ffb  font-SpaceGrotesk font-bold text-sm '>
+                                Open Daily Case
+                                </span>
+                            </CaseGradientButton>
+                        </NavLink> : ''}
                         </div>
                        <img src={ribbed} alt='bg' class='absolute inset-0 h-full w-full' />
-                       <img src={gunCase} alt='guncase' class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
+                       <img src={cases()[activeCase()]?.image} alt={cases()[activeCase()]?.name} class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
                        <RoundedBtn
-                            handleClick={() => {}}
+                            handleClick={() => {
+                                if (activeCase() === 0) {
+                                    setActiveCase(cases().length - 1)
+                                } else {
+                                    setActiveCase(prev => prev - 1)
+                                }
+                            }}
                             additionalClasses='absolute top-[40%] left-2 text-gray-9a' >
                                 <ArrowSliderStyle additionalClasses='rotate-180' /> 
                         </RoundedBtn>
                         <RoundedBtn
-                            handleClick={() => {}}
+                            handleClick={() => {
+                                if (activeCase() === cases().length - 1) {
+                                    setActiveCase(0)
+                                } else {
+                                    setActiveCase(prev => prev + 1)
+                                }
+                            }}
                             additionalClasses='absolute top-[40%] right-2 text-gray-9a' >
                                 <ArrowSliderStyle />   
                         </RoundedBtn>
@@ -147,12 +195,12 @@ const banners = [
                         </span>
                         <CaseGradientButton
                              color='mint'
-                             callbackFn={() => {}}
+                             callbackFn={() => rakebackClaim()}
                          >
                             <div class='flex items-center gap-2 font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base '>
                                 <span>Claim</span>
                                 <Coin width='5' />
-                                <GreenText size='14' text={formatNumber(320)} />
+                                <GreenText size='14' text={formatNumber(userObject?.user?.rakeback || 0)} />
                             </div>
                         </CaseGradientButton>
 
@@ -164,7 +212,7 @@ const banners = [
             <div class='col-span-3 md:col-span-1 relative min-h-[200px]'>
                 
                 <div class=' rounded-8 h-full w-full overflow-hidden '>
-                    <img src={banners[activeBanner()].image} alt='banner' class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 center h-[calc(100%_-_1px)] w-[calc(100%_-_2px)] rounded-8" />
+                    <img src={banners[activeBanner()]?.image} alt='banner' class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 center h-[calc(100%_-_1px)] w-[calc(100%_-_2px)] rounded-8" />
                     <div 
                         class='absolute h-full w-full flex justify-between items-end text-white p-4 home-banner '
                         style={{background: "linear-gradient(180deg, rgba(30, 33, 54, 0) 0%, rgba(30, 33, 54, 1) 95.97%)"}}

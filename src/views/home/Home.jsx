@@ -10,7 +10,7 @@ const Home = () => {
  
   return (
     <Fallback loaded={() => true}>
-      <img alt="background" src={Bg} class="absolute left-0 top-0 min-w-full md:min-h-full" />
+      {/* <img alt="background" src={Bg} class="absolute left-0 top-0 min-w-full md:min-h-full" /> */}
       <div class="w-full h-full pt-8 flex flex-col gap-4 relative min-h-screen">
         <div class='flex flex-col gap-14 '>
           <BannerSection />

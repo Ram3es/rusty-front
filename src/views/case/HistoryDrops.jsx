@@ -13,8 +13,8 @@ const HistoryDrops = (props) => {
             <For
               each={props
                 .data()
-                ?.recentDrops.sort((a, b) => b.item_price - a.item_price)
-                .slice(0, 3)}
+                ?.recentDrops?.sort((a, b) => b.item_price - a.item_price)
+                ?.slice(0, 3)}
             >
               {(drop) => <RecentDropsItem drop={drop} _case={props._case} />}
             </For>
