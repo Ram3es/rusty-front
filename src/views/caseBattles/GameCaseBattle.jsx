@@ -55,6 +55,7 @@ const GameCaseBattle = (props) => {
   const [winnings, setWinnings] = createSignal([])
   const [containsBigWin, setContainsBigWin] = createSignal(false)
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false)
+  const [dashesYellow, setDashesYellow] = createSignal(0);
 
   const getModeColor = () => {
     return (game().mode === 'royal' || game().mode === 'team') && game().cursed !== 1
@@ -107,7 +108,10 @@ const GameCaseBattle = (props) => {
     setGame(() => inputGame)
     // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
     if (inputGame.status === 'playing') {
-      setTimeout(() => setWinnings(inputGame.players), 5500)
+      setTimeout(() => {
+        setWinnings(inputGame.players)
+        setDashesYellow(prev => prev + 1);
+      }, 5500)
     } else {
       setWinnings(inputGame.players)
     }
@@ -361,10 +365,13 @@ const GameCaseBattle = (props) => {
                   {(i) => (
                     <div
                       class={`w-2 h-1 ${
-                        game().currentRound > i || game().status === 'ended'
+                        dashesYellow() > i || game().status === 'ended'
                           ? 'bg-yellow-ffb'
                           : 'bg-[#3B3D4D]'
                       }`}
+                      style={{
+                        transition: 'color 0.3s ease-in-out'
+                      }}
                     />
                   )}
                 </For>
