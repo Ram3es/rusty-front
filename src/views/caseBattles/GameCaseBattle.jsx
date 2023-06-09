@@ -39,11 +39,11 @@ export const [spinLists, setSpinLists] = createSignal([])
 export const [isRolling, setIsRolling] = createSignal(false)
 
 export const playClickAudio = () => {
-  console.log('playClickAudio')
+  // console.log('playClickAudio')
 }
 
 export const playEndAudio = () => {
-  console.log("playEndAudio' ")
+  // console.log("playEndAudio' ")
 }
 
 const GameCaseBattle = (props) => {
@@ -55,6 +55,7 @@ const GameCaseBattle = (props) => {
   const [winnings, setWinnings] = createSignal([])
   const [containsBigWin, setContainsBigWin] = createSignal(false)
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false)
+  const [dashesYellow, setDashesYellow] = createSignal(0);
 
   const getModeColor = () => {
     return (game().mode === 'royal' || game().mode === 'team') && game().cursed !== 1
@@ -101,13 +102,16 @@ const GameCaseBattle = (props) => {
   }
 
   const updateGame = (inputGame) => {
-    console.log('inputGame', inputGame)
+    // console.log('inputGame', inputGame)
     setRollItems([])
     setSpinnerOptions([])
     setGame(() => inputGame)
     // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
     if (inputGame.status === 'playing') {
-      setTimeout(() => setWinnings(inputGame.players), 3000)
+      setTimeout(() => {
+        setWinnings(inputGame.players)
+        setDashesYellow(prev => prev + 1);
+      }, 5500)
     } else {
       setWinnings(inputGame.players)
     }
@@ -139,7 +143,7 @@ const GameCaseBattle = (props) => {
           isBigWin: true
         }))
       )
-      console.log(spinnerOptions())
+      // console.log(spinnerOptions())
       const newSpinIndexes = []
       const newSpinLists = []
 
@@ -159,10 +163,10 @@ const GameCaseBattle = (props) => {
       setSpinIndexes(() => newSpinIndexes)
       setSpinLists(() => newSpinLists)
       setReelsSpinning(() => true)
-      console.log('srinList!!!!!!', spinLists)
+      // console.log('srinList!!!!!!', spinLists)
     }
-    console.log(document.querySelectorAll('[data-spiner-row]'))
-    console.log(document.querySelectorAll('[data-won-item]'))
+    // console.log(document.querySelectorAll('[data-spiner-row]'))
+    // console.log(document.querySelectorAll('[data-won-item]'))
   }
 
   const getJoinTeam = (playerIndex) => {
@@ -185,14 +189,14 @@ const GameCaseBattle = (props) => {
         team: getJoinTeam(player_index),
         player_index
       },
-      (data) => {
-        console.log(data)
-      }
+      // (data) => {
+      //   // console.log(data)
+      // }
     )
   }
 
   const joinGame = (player_index) => {
-    console.log('props.searchParams.key', props.searchParams.key)
+    // console.log('props.searchParams.key', props.searchParams.key)
     socket.emit(
       'battles:join',
       {
@@ -201,9 +205,9 @@ const GameCaseBattle = (props) => {
         player_index,
         urlKey: props.searchParams.key
       },
-      (data) => {
-        console.log(data)
-      }
+      // (data) => {
+      //   console.log(data)
+      // }
     )
   }
 
@@ -221,7 +225,7 @@ const GameCaseBattle = (props) => {
             urlKey: props.searchParams.key
           },
           (data) => {
-            console.log(data)
+            // console.log(data)
             if (data.data?.game) {
               updateGame(data.data.game)
             }
@@ -233,7 +237,7 @@ const GameCaseBattle = (props) => {
 
   createEffect(() => {
     socket.on(`battles:update`, (data) => {
-      console.log(data)
+      // console.log(data)
       if (data.gameId === Number(props.searchParams.id) && data.data) {
         updateGame(data.data)
       }
@@ -361,10 +365,13 @@ const GameCaseBattle = (props) => {
                   {(i) => (
                     <div
                       class={`w-2 h-1 ${
-                        game().currentRound > i || game().status === 'ended'
+                        dashesYellow() > i || game().status === 'ended'
                           ? 'bg-yellow-ffb'
                           : 'bg-[#3B3D4D]'
                       }`}
+                      style={{
+                        transition: 'color 0.3s ease-in-out'
+                      }}
                     />
                   )}
                 </For>
@@ -382,67 +389,84 @@ const GameCaseBattle = (props) => {
             <div class='overflow-auto'>
               <div class='w-fit md:w-full flex flex-col gap-8'>
                 <div class='relative '>
-                  <div
-                    class='flex justify-center w-full overflow-hidden border-2 rounded-t-8 border-b-0 border-white border-opacity-5'
-                    style={{
-                      background:
-                        'linear-gradient(90deg, rgba(118, 124, 255, 0) 0%, rgba(118, 124, 255, 0.12) 50%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(220.05% 51.82% at 60.38% 107.3%, #1F2344 0%, #23253D 100%)',
-                      'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
-                    }}
-                  >
-                    <div
-                      class='flex items-center w-max relative transition-transform duration-75'
-                      style={{
-                        transform: `translateX(${
-                          game().status === 'playing' || game().status === 'open'
-                            ? 40 * (game().cases.length - 1) - 80 * (game().currentRound ?? 0)
-                            : 0
-                        }px)`
-                      }}
-                    >
-                      {(game().status === 'playing' || game().status === 'open') && (
-                        <div
-                          class='absolute left-0 top-0 h-full w-[80px] transition-transform duration-75'
-                          style={{
-                            background:
-                              getModeColor() === 'yellow'
-                                ? 'linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)'
-                                : getModeColor() === 'blue'
-                                ? 'linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)'
-                                : 'linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)',
-                            transform: `translateX(${80 * (game()?.currentRound ?? 0)}px)`
-                          }}
-                        >
-                          <span class='absolute left-1/2 top-0 -translate-x-1/2'>
-                            <ArrowDownWithGradient color={getModeColor()} />
-                          </span>
-                          <span class='absolute left-1/2 bottom-0 -translate-x-1/2 rotate-180'>
-                            <ArrowDownWithGradient color={getModeColor()} />
-                          </span>
-                        </div>
-                      )}
-                      <For each={game()?.cases || []}>
-                        {(caseItem, index) => (
+                  <div class="w-full flex items-center justify-center p-[2px] rounded-t-8"
+                  style={{
+                    background: `radial-gradient(circle at center, rgba(255, 180, 54, 1) 6%, rgba(255, 255, 255, 0.05) 9%)`,
+                  }}>
+                    <div class="w-full bg-[#15162C] rounded-t-8">
+                      <div
+                        class='flex justify-center w-full overflow-hidden rounded-t-8  '
+                        style={{
+                          background:
+                            `radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.05) 0%, rgba(255, 180, 54, 0) 100%),
+                            linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.14) 100%),
+                            linear-gradient(180deg, rgba(118, 124, 255, 0) -15.97%, rgba(118, 124, 255, 0.08) 59.38%, rgba(118, 124, 255, 0) 134.72%),
+                            linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
+                            radial-gradient(220.05% 24.97% at 39.62% 51.7%, rgba(31, 35, 68, 0.36) 0%, rgba(35, 37, 61, 0.36) 100%)`,
+
+                        }}
+                      >
                           <div
-                            class={`relative px-2 py-1 cursor-pointer ${
-                              (index() < game().currentRound || game().status === 'ended') &&
-                              'opacity-20'
-                            }`}
+                            class='flex items-center w-max relative transition-transform duration-75 '
+                            style={{
+                              transform: `translateX(${
+                                game().status === 'playing' || game().status === 'open'
+                                  ? 32 * (game().cases.length - 1) - 64 * (game().currentRound ?? 0)
+                                  : 0
+                              }px)`
+                            }}
                           >
-                            <img
-                              alt={caseItem.name}
-                              class='h-[48px] w-[64px]'
-                              src={caseItem?.image?.replace('{url}', window.origin) || ''}
-                            />
+                            {(game().status === 'playing' || game().status === 'open') && (
+                              <div
+                                class='absolute left-0 top-0 h-full w-[64px] transition-transform duration-200'
+                                style={{
+                                  background:
+                                    getModeColor() === 'yellow'
+                                      ? 'linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)'
+                                      : getModeColor() === 'blue'
+                                      ? 'linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)'
+                                      : 'linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)',
+                                  transform: `translateX(${64 * (game()?.currentRound ?? 0)}px)`
+                                }}
+                              >
+                                <span class='absolute left-1/2 -top-[1px] -translate-x-1/2 '>
+                                  <ArrowDownWithGradient color={getModeColor()} />
+                                </span>
+                                <span class='absolute left-1/2 -bottom-[1px] -translate-x-1/2 rotate-180'>
+                                  <ArrowDownWithGradient color={getModeColor()} />
+                                </span>
+                              </div>
+                            )}
+                            <For each={game()?.cases || []}>
+                              {(caseItem, index) => (
+                                <div
+                                  class={`relative  py-1 cursor-pointer
+                                  ${(game().status === 'open' && index() > 4) ? 'opacity-0' : 'opacity-20' }
+                                  ${game().status !== 'open' || game().status !== 'closed' ?
+                                  `${index() >= game().currentRound + 5 ? "scale-0 opacity-0" : index() > game().currentRound ? "scale-95 opacity-100" : index() <= game().currentRound - 5 ? "scale-0 opacity-0" : "scale-95 opacity-20"}}`: ""}
+                                  ${index() === game().currentRound && 'scale-125 opacity-100'}
+                                  `}
+                      
+                                  style={{
+                                    transition: 'all 0.2s ease-in-out',
+                                  }}
+                                >
+                                  <img
+                                    alt={caseItem.name}
+                                    class='h-[48px] w-[64px]'
+                                    src={caseItem?.image?.replace('{url}', window.origin) || ''}
+                                  />
+                                </div>
+                              )}
+                            </For>
                           </div>
-                        )}
-                      </For>
+                      </div>
                     </div>
                   </div>
                   <div
                     class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
                     style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.04) 30%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 54.5%, rgba(255, 255, 255, 0.08) 70%`
+                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.05) 30%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${game().status === 'ended' ? "154, 158, 200" : `${getModeColorRgb()}`},0.6) 54.5%, rgba(255, 255, 255, 0.05) 70%`
                     }}
                   >
                     <div class='bg-[#13152A] rounded-b-4'>
