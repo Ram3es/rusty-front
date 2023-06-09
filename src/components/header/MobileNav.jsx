@@ -15,7 +15,7 @@ const MobileNav = (props) => {
     { name: "profile", url: `${props.pathname()}?profile=true`, isLight: true },
     { name: "FREE COINS", url: "/?free=true", isLight: true },
     { name: "REWARDS", url: URL.REWARDS, isLight: true },
-    { name: "LEADERBOARD", url: "/" },
+    { name: "LEADERBOARD", url: URL.LEADERBOARD },
     { name: "SUPPORT", url: SOCIAL.DISCORD },
     { name: "inbox", isInboxLink: true },
     { name: "LOG OUT", url: URL.SIGNOUT },

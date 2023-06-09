@@ -17,6 +17,7 @@ export const URL = {
     UNBOXING: "/unbox",
     CASE_UNBOXING: "/case-unboxing",
     CASES: "/cases",
+    LEADERBOARD: "/leaderboard",
 
     SIGNIN: `${API}/steam/auth`,
     SIGNOUT: `${API}/steam/logout`,
