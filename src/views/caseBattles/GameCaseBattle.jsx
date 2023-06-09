@@ -279,11 +279,6 @@ const GameCaseBattle = (props) => {
     return rng;
   }
 
-  createEffect(() => {
-    console.log("------ GAME -----");
-    console.log(game());
-  })
-
   return (
     <div class='flex flex-col'>
       {game() && (
@@ -396,18 +391,18 @@ const GameCaseBattle = (props) => {
                     }}
                   >
                     <div
-                      class='flex items-center w-max relative transition-transform duration-75'
+                      class='flex items-center w-max relative transition-transform duration-75 '
                       style={{
                         transform: `translateX(${
                           game().status === 'playing' || game().status === 'open'
-                            ? 40 * (game().cases.length - 1) - 80 * (game().currentRound ?? 0)
+                            ? 32 * (game().cases.length - 1) - 64 * (game().currentRound ?? 0)
                             : 0
                         }px)`
                       }}
                     >
                       {(game().status === 'playing' || game().status === 'open') && (
                         <div
-                          class='absolute left-0 top-0 h-full w-[80px] transition-transform duration-200'
+                          class='absolute left-0 top-0 h-full w-[64px] transition-transform duration-200'
                           style={{
                             background:
                               getModeColor() === 'yellow'
@@ -415,7 +410,7 @@ const GameCaseBattle = (props) => {
                                 : getModeColor() === 'blue'
                                 ? 'linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)'
                                 : 'linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)',
-                            transform: `translateX(${80 * (game()?.currentRound ?? 0)}px)`
+                            transform: `translateX(${64 * (game()?.currentRound ?? 0)}px)`
                           }}
                         >
                           <span class='absolute left-1/2 top-0 -translate-x-1/2'>
@@ -429,12 +424,13 @@ const GameCaseBattle = (props) => {
                       <For each={game()?.cases || []}>
                         {(caseItem, index) => (
                           <div
-                            class={`relative px-2 py-1 cursor-pointer  
+                            class={`relative  py-1 cursor-pointer  
                             ${(game().status === 'open' && index() > 4) ? 'opacity-0' : 'opacity-20' }
                             ${game().status !== 'open' || game().status !== 'closed' ? 
                             `${index() >= game().currentRound + 5 ? "scale-0 opacity-0" : index() >= game().currentRound ? "scale-100 opacity-100" : index() <= game().currentRound - 5 ? "scale-0 opacity-0" : "scale-100 opacity-20"}}`: ""}
                             ${index() === game().currentRound && 'scale-125 opacity-100'}
                             `}
+
                             style={{
                               transition: 'all 0.2s ease-in-out',
                             }}
