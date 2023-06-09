@@ -72,6 +72,13 @@ const GameCaseBattle = (props) => {
     if (color === 'blue') return '90, 195, 255'
   }
 
+  const getModeColorHex = () => {
+    const color = getModeColor()
+    if (color === 'yellow') return '#ffb436'
+    if (color === 'green') return '#DAFD09'
+    if (color === 'blue') return '#5ac3ff'
+  }
+
   const getColor = (item_price) => {
     return item_price > 1000 * 100
       ? 'gold'
@@ -391,15 +398,21 @@ const GameCaseBattle = (props) => {
                 <div class='relative'>
                   <div class="relative w-full flex items-center justify-center p-[1px] rounded-t-8"
                   style={{
-                    background: `radial-gradient(circle at center, rgba(255, 180, 54, 1) 6%, rgba(255, 255, 255, 0.05) 8%)`,
+                    background: `radial-gradient(circle at center, rgba(${getModeColorRgb()}, 1) 6%, rgba(255, 255, 255, 0.05) 8%)`,
                   }}>
-                  <div class="absolute left-1/2 top-0 -translate-x-1/2 rotate-180
-                                border-x-[8px] border-b-[4px] border-b-[#FFB436]
-                                border-x-transparent"
+                  <div class={`absolute left-1/2 top-0 -translate-x-1/2 rotate-180
+                                border-x-[8px] border-b-[4px]
+                                border-x-transparent`}
+                        style={{
+                          'border-bottom-color': getModeColorHex(),
+                        }}
                       />
-                    <div class="absolute left-1/2 bottom-0 -translate-x-1/2
-                                border-x-[8px] border-b-[4px] border-b-[#FFB436]
-                                border-x-transparent"
+                    <div class={`absolute left-1/2 bottom-0 -translate-x-1/2
+                                border-x-[8px] border-b-[4px]
+                                border-x-transparent`}
+                          style={{
+                            'border-bottom-color': getModeColorHex(),
+                          }}
                       />
                       <div class="w-full bg-[#15162C] rounded-t-8">
                     <div class="w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)] p-[1px]">
