@@ -39,11 +39,11 @@ export const [spinLists, setSpinLists] = createSignal([])
 export const [isRolling, setIsRolling] = createSignal(false)
 
 export const playClickAudio = () => {
-  console.log('playClickAudio')
+  // console.log('playClickAudio')
 }
 
 export const playEndAudio = () => {
-  console.log("playEndAudio' ")
+  // console.log("playEndAudio' ")
 }
 
 const GameCaseBattle = (props) => {
@@ -101,13 +101,13 @@ const GameCaseBattle = (props) => {
   }
 
   const updateGame = (inputGame) => {
-    console.log('inputGame', inputGame)
+    // console.log('inputGame', inputGame)
     setRollItems([])
     setSpinnerOptions([])
     setGame(() => inputGame)
     // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
     if (inputGame.status === 'playing') {
-      setTimeout(() => setWinnings(inputGame.players), 3000)
+      setTimeout(() => setWinnings(inputGame.players), 5500)
     } else {
       setWinnings(inputGame.players)
     }
@@ -139,7 +139,7 @@ const GameCaseBattle = (props) => {
           isBigWin: true
         }))
       )
-      console.log(spinnerOptions())
+      // console.log(spinnerOptions())
       const newSpinIndexes = []
       const newSpinLists = []
 
@@ -159,10 +159,10 @@ const GameCaseBattle = (props) => {
       setSpinIndexes(() => newSpinIndexes)
       setSpinLists(() => newSpinLists)
       setReelsSpinning(() => true)
-      console.log('srinList!!!!!!', spinLists)
+      // console.log('srinList!!!!!!', spinLists)
     }
-    console.log(document.querySelectorAll('[data-spiner-row]'))
-    console.log(document.querySelectorAll('[data-won-item]'))
+    // console.log(document.querySelectorAll('[data-spiner-row]'))
+    // console.log(document.querySelectorAll('[data-won-item]'))
   }
 
   const getJoinTeam = (playerIndex) => {
@@ -185,14 +185,14 @@ const GameCaseBattle = (props) => {
         team: getJoinTeam(player_index),
         player_index
       },
-      (data) => {
-        console.log(data)
-      }
+      // (data) => {
+      //   // console.log(data)
+      // }
     )
   }
 
   const joinGame = (player_index) => {
-    console.log('props.searchParams.key', props.searchParams.key)
+    // console.log('props.searchParams.key', props.searchParams.key)
     socket.emit(
       'battles:join',
       {
@@ -201,9 +201,9 @@ const GameCaseBattle = (props) => {
         player_index,
         urlKey: props.searchParams.key
       },
-      (data) => {
-        console.log(data)
-      }
+      // (data) => {
+      //   console.log(data)
+      // }
     )
   }
 
@@ -221,7 +221,7 @@ const GameCaseBattle = (props) => {
             urlKey: props.searchParams.key
           },
           (data) => {
-            console.log(data)
+            // console.log(data)
             if (data.data?.game) {
               updateGame(data.data.game)
             }
@@ -233,7 +233,7 @@ const GameCaseBattle = (props) => {
 
   createEffect(() => {
     socket.on(`battles:update`, (data) => {
-      console.log(data)
+      // console.log(data)
       if (data.gameId === Number(props.searchParams.id) && data.data) {
         updateGame(data.data)
       }
@@ -278,6 +278,11 @@ const GameCaseBattle = (props) => {
     const rng = getRandomFunction(`${gameId.toString()}${currentRound.toString()}${playerIndex.toString()}`);
     return rng;
   }
+
+  createEffect(() => {
+    console.log("------ GAME -----");
+    console.log(game());
+  })
 
   return (
     <div class='flex flex-col'>
@@ -402,7 +407,7 @@ const GameCaseBattle = (props) => {
                     >
                       {(game().status === 'playing' || game().status === 'open') && (
                         <div
-                          class='absolute left-0 top-0 h-full w-[80px] transition-transform duration-75'
+                          class='absolute left-0 top-0 h-full w-[80px] transition-transform duration-200'
                           style={{
                             background:
                               getModeColor() === 'yellow'
@@ -424,10 +429,15 @@ const GameCaseBattle = (props) => {
                       <For each={game()?.cases || []}>
                         {(caseItem, index) => (
                           <div
-                            class={`relative px-2 py-1 cursor-pointer ${
-                              (index() < game().currentRound || game().status === 'ended') &&
-                              'opacity-20'
-                            }`}
+                            class={`relative px-2 py-1 cursor-pointer  
+                            ${(game().status === 'open' && index() > 4) ? 'opacity-0' : 'opacity-20' }
+                            ${game().status !== 'open' || game().status !== 'closed' ? 
+                            `${index() >= game().currentRound + 5 ? "scale-0 opacity-0" : index() >= game().currentRound ? "scale-100 opacity-100" : index() <= game().currentRound - 5 ? "scale-0 opacity-0" : "scale-100 opacity-20"}}`: ""}
+                            ${index() === game().currentRound && 'scale-125 opacity-100'}
+                            `}
+                            style={{
+                              transition: 'all 0.2s ease-in-out',
+                            }}
                           >
                             <img
                               alt={caseItem.name}

@@ -3,10 +3,7 @@ import { getCurrencyString } from "../mines_new/utils/tools";
 
 const LosingDisplay = (props) => {
     const calculateCasesCost = () => {
-    console.log('CASES HJEERE')
-    console.log(props.game().cases);
     let cost = props.game().cases.reduce((total, item) => total + item.price, 0);
-    console.log(cost);
     setValue(cost);
     }
   const [value, setValue] = createSignal();
