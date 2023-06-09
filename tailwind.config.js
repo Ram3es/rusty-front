@@ -99,7 +99,8 @@ module.exports = {
       },
       textShadow: {
         'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
-        'gold-secondary': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+        'gold-secondary': '0px 2px 2px rgba(0, 0, 0, 0.12)',
+        'base': '0px 2px 2px rgba(0, 0, 0, 0.12)'
       },
       colors : {
         "transparent": "transparent",
@@ -346,6 +347,9 @@ module.exports = {
         'pvpmines': "repeat(auto-fill,minmax(20rem, 1fr))",
         'pvp-mines': "repeat(auto-fill,minmax(360px, 1fr))",
         'jackpot-history': "repeat(auto-fill,minmax(20rem, 1fr))",
+        'home-original' : "repeat(15, 1fr)",
+        'rewards-table' : "12rem 3fr 2fr 1fr 1fr",
+        'rewards-table-sm' : "repeat(3, 1fr)"
       },
       backgroundSize: {
         "full": "100% 100%",
