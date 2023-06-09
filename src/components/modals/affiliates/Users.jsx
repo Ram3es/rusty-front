@@ -6,6 +6,8 @@ import RankLabel from "../../chat/RankLabel";
 import TransparentButton from "../../elements/TransparentButton";
 import RoundedButton from "../../elements/RoundedButton";
 
+import stripped from "../../../assets/img/home/leaderboard/stripped-mask.png"
+
 const AffiliatesUsers = ({ affiliate }) => {
   const i18n = useI18n();
   const size = 9;
@@ -38,25 +40,31 @@ const AffiliatesUsers = ({ affiliate }) => {
     <>
       <div class="w-full flex flex-col gap-2 relative z-20">
         <div class="w-full center">
-          <div class="w-11/12 h-full grid grid-cols-4">
-            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize">user</p>
-            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize">Earned</p>
-            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize">Wagered</p>
-            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize">last deposit</p>
+          <div class="w-full px-2 h-full grid grid-cols-8">
+            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize col-span-3">user</p>
+            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize col-span-2">Earned</p>
+            <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize col-span-2">Wagered</p>
+            <p class="text-right text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize col-span-1">last deposit</p>
           </div>
         </div>
         <div class="w-full flex flex-col">
           <For each={loaded()}>
             {(val, i) => (
               <div
-                class={`w-full h-12 ${
-                  i() % 2 == 0 ? "bg-dark-26" : ""
-                } bg-opacity-25 overflow-hidden center`}
+                class={`w-full h-12 overflow-hidden center relative rounded-6`}
+                style={{
+                  background: "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 51, 0.85417) 57.05%, rgba(25, 28, 53, 0.35) 98.24%), rgba(0, 0, 0, 0.24)"
+                }}
               >
+                <img 
+                  src={stripped} 
+                  alt="stripped" 
+                  class='absolute top-0 left-0 w-auto min-w-full h-full' 
+                />
                 {/* {type == "transaction" ? <users val={val} /> : type == "oldSeeds" ? <OldSeeds val={val} /> : <History val={val} />} */}
-                <div class="w-11/12 h-full grid">
-                  <div class="w-full overflow-hidden grid grid-cols-4">
-                    <div class="w-full overflow-hidden flex items-center gap-2 pr-4">
+                <div class="w-full px-2 h-full grid">
+                  <div class="w-full overflow-hidden grid grid-cols-8">
+                    <div class="w-full overflow-hidden flex items-center gap-2 pr-4 col-span-3">
                       <img
                         alt="avatar" 
                         class="w-7 h-7 rounded-full bg-white"
@@ -70,15 +78,15 @@ const AffiliatesUsers = ({ affiliate }) => {
                           'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                         }}
                       >
-                        {/* <Ranks
+                        <Ranks
                           width={5}
-                          staff={message?.user?.rank}
-                          rank={message?.user?.level?.league}
+                          staff={val?.rank}
+                          rank={val?.level?.league}
                         />
                         <RankLabel
-                          staff={message?.user?.rank}
-                          rank={message?.user?.level?.league}
-                        /> */}
+                          staff={val?.rank}
+                          rank={val?.level?.league}
+                        />
                         <span
                           class='text-gray-9aa truncate max-w-[100px]'
                         >
@@ -86,20 +94,20 @@ const AffiliatesUsers = ({ affiliate }) => {
                         </span>
                       </div>
                     </div>
-                    <div class="w-full flex items-center gap-2">
+                    <div class="w-full flex items-center gap-2 col-span-2">
                       <Coin />
                       <p class="text-gradient-green-secondary text-16 font-bold font-SpaceGrotesk">
                         {Number(val?.earning).toLocaleString()}
                       </p>
                     </div>
-                    <div class="w-full flex items-center gap-2">
+                    <div class="w-full flex items-center gap-2 col-span-2">
                       <Coin />
                       <p class="text-gradient text-16 font-bold font-SpaceGrotesk">
                         {Number(val?.wager).toLocaleString()}
                       </p>
                     </div>
-                    <div class="w-full flex items-center">
-                      <p class="text-white text-14 font-bold font-SpaceGrotesk">
+                    <div class="w-full flex items-center justify-end col-span-1">
+                      <p class="text-gray-9a text-14 font-bold font-SpaceGrotesk">
                         {new Date(val?.timestamp).toLocaleDateString('en-GB')}
                       </p>
                     </div>

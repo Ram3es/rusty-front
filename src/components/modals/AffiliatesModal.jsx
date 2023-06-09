@@ -32,6 +32,7 @@ import CloseButton from "../elements/CloseButton";
 import Ranks from "../../utilities/Ranks";
 import GrayGradientButton from "../elements/GrayGradientButton";
 import ArrowBack from "../icons/ArrowBack";
+import GoldRay from "../icons/GoldRay";
 
 const AffiliatesModal = (props) => {
   const i18n = useI18n();
@@ -494,14 +495,12 @@ const AffiliatesModal = (props) => {
                   <img alt="affiliateCoin3" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin3} class=" absolute left-5 top-1/2 -translate-y-1/2" />
                 </div>
                 <div class="w-full h-full center flex-col gap-4 z-10">
-                  <div class="center gap-3">
-                    <div class="w-10 h-10 bg-dark-16 rounded-full border border-yellow-ff p-0.5">
-                      <img
-                        alt="avatar" 
-                        class="w-full h-full rounded-full"
-                        src={userObject?.user?.avatar || ""}
-                      />
-                    </div>
+                  <div class="flex items-center justify-center -translate-y-2">
+                      <GoldRay additionalClasses="rotate-180" />  
+                      <div class="rounded-full border border-gold-ffc w-max p-1">
+                          <img class="w-12 rounded-full" src={userObject.user?.avatar || ""} alt='blue-box' />
+                      </div>
+                      <GoldRay additionalClasses="" />
                   </div>
                   <div class="w-120 max-w-full flex flex-col items-center gap-3">
                     <div class="flex items-center justify-center gap-2">
