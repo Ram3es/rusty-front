@@ -69,6 +69,7 @@ import Cases from "./views/cases/Cases";
 import CaseBattles from "./views/caseBattles/CaseBattles";
 import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
+import Leaderboard from "./views/leaderboard/Leaderboard";
 
 const App = () => {
 
@@ -245,6 +246,10 @@ const App = () => {
                                   <Route
                                     path={`${URL.CASE_UNBOXING}`}
                                     element={<CaseUnboxing searchParams={searchParams} loaded={loaded} />}
+                                  />
+                                  <Route
+                                    path={`${URL.LEADERBOARD}`}
+                                    element={<Leaderboard searchParams={searchParams} loaded={loaded} />}
                                   />
                                   <Route
                                     path="*"
