@@ -70,6 +70,7 @@ import CaseBattles from "./views/caseBattles/CaseBattles";
 import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
+import NewProfile from "./components/modals/profile/NewProfile";
 
 const App = () => {
 
@@ -350,7 +351,7 @@ const App = () => {
                           <Match
                             when={searchParams.profile && !searchParams.benefits}
                           >
-                            <Profile
+                            <NewProfile
                               pathname={pathname}
                               changeLang={handleOnChangeLang}
                               searchParams={searchParams}

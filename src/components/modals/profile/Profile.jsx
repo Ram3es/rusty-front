@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import { createEffect, createSignal, For } from "solid-js";
 import injector from "../../../injector/injector";
 import Modal from "../Modal";
 
@@ -33,7 +33,7 @@ const Profile = (props) => {
         }
         data.data.history = Object.values(pfIds).sort((a,b) => (b.id - a.id));
 
-        console.log("new data", data.data.history);
+        // console.log("new data", data.data.history);
 
         setAccount(data.data);
 
