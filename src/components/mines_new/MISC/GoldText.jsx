@@ -1,7 +1,10 @@
 const GoldText = (props) => {
   return (
     <span
-      class={`${props.size ? `text-[${props.size}px]`: 'text-[14.3719px]'} gold-text font-SpaceGrotesk`}
+      class={`
+        ${props.size ? `text-[${props.size}px]`: 'text-[14.3719px]'} 
+        ${props.gradient ?? ' gold-text' }
+        font-SpaceGrotesk`}
       style={{
         'font-size': `${props.size ? props.size : '14.3719'}px`,
         'font-weight': `${props.notBold ? 'normal' : 'bold'}`

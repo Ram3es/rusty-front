@@ -44,9 +44,9 @@ const UserGameAvatar = (props) => {
       </div>
       {props?.eliminated && 
         <img 
-        src={Skull}
-        alt="skull"
-        class='absolute inset-0 m-auto w-6 h-6' /> }
+          src={Skull}
+          alt="skull"
+          class='absolute inset-0 m-auto w-6 h-6' /> }
     </div>
   );
 };

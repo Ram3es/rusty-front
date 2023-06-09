@@ -196,14 +196,11 @@ const GameCaseBattle = (props) => {
         team: getJoinTeam(player_index),
         player_index
       },
-      // (data) => {
-      //   // console.log(data)
-      // }
+      () => {}
     )
   }
 
   const joinGame = (player_index) => {
-    // console.log('props.searchParams.key', props.searchParams.key)
     socket.emit(
       'battles:join',
       {
@@ -212,9 +209,7 @@ const GameCaseBattle = (props) => {
         player_index,
         urlKey: props.searchParams.key
       },
-      // (data) => {
-      //   console.log(data)
-      // }
+      () => {}
     )
   }
 
