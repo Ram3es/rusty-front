@@ -1,4 +1,4 @@
-import { createSignal } from "solid-js";
+import { createSignal, For } from "solid-js";
 import ribbed from './img/ribbed.png'
 import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
@@ -57,8 +57,8 @@ const banners = [
                 class=' col-span-3 md:col-span-2 rounded-8 overflow-hidden '
                 style={{ background: 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)' }}
             >
-                <div class='grid  grid-cols-[1fr_1fr]  sm:grid-cols-[1.5fr_1fr_1fr] '>
-                    <div class={`h-[200px] min-w-[340px] col-span-2 sm:col-span-1 relative home-welcome--bg p-[22px] `} >
+                <div class='grid  grid-cols-[1fr_1fr]  md:grid-cols-[1.5fr_1fr_1fr] '>
+                    <div class={`h-[200px] min-w-[340px] col-span-2 md:col-span-1 relative home-welcome--bg p-[22px] `} >
                         <img src={welcomeBg} alt='bg' class='absolute left-0 top-0 w-full h-full mix-blend-luminosity' />
                         <img src={intersect} alt='intersect' class='absolute left-0 bottom-0 object-cover w-full ' />
                         <h2 

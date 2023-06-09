@@ -2911,6 +2911,23 @@ text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(1.5px);
 }
 
+.home-progress-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: linear-gradient(44.83deg, rgba(255, 180, 54, 0.24) 0%, rgba(255, 146, 46, 0) 47.39%, rgba(255, 180, 54, 0) 47.39%)
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+
+}
+
 .home-banner {
   position: relative;
 }
