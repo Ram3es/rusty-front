@@ -70,7 +70,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[4].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[5].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
@@ -128,27 +128,27 @@ const NewProfileGameHistory = (props) => {
       grid: 'grid-cols-[5rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
     },
     mines: {
-      headings: ['pf id', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
+      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
       structure: MinesStructure,
       grid: 'grid-cols-[5rem_1fr_1fr_8rem_8rem_8rem_1fr]'
     },
     plinko: {
-      headings: ['pf id', 'wager', 'winnings', 'difficulty', 'rows', 'result'],
+      headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
       structure: PlinkoStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_1fr_1fr_1fr_2fr]'
+      grid: 'grid-cols-[5rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
     },
     wheel: {
-      headings: ['pf id', 'wager', 'winnings', 'multiplier', 'result'],
+      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
       structure: WheelStructure,
       grid: 'grid-cols-[5rem_1fr_1fr_1fr_1fr_1.5fr]'
     },
     'pvp-mines': {
-      headings: ['pf id', 'total', 'wager', 'winnings', 'players', 'mode', 'result'],
+      headings: ['Game ID', 'total', 'wager', 'winnings', 'players', 'mode', 'result'],
       structure: PvpminesStructure,
       grid: 'grid-cols-[5rem_1fr_1fr_1fr_4rem_1fr_4rem_1.5fr]'
     },
     upgrader: {
-      headings: ['pf id', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'trade status'],
+      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'trade status'],
       structure: UpgraderStructure,
       grid: 'grid-cols-[5rem_1fr_1fr_4rem_4rem_4rem_6rem_1.5fr]'
     }
