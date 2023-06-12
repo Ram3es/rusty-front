@@ -70,7 +70,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[1].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[4].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
@@ -130,7 +130,7 @@ const NewProfileGameHistory = (props) => {
     mines: {
       headings: ['pf id', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
       structure: MinesStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_4.5rem_5rem_1.25fr_2fr]'
+      grid: 'grid-cols-[5rem_1fr_1fr_8rem_8rem_8rem_1fr]'
     },
     plinko: {
       headings: ['pf id', 'wager', 'winnings', 'difficulty', 'rows', 'result'],
