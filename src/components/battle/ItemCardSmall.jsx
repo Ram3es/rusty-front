@@ -148,7 +148,8 @@ const ItemCardSmall = (props) => {
                 src={
                   props._case?.items
                     ?.filter((val) => val.name == props.drop?.name)?.[0]
-                    ?.image?.replace('{url}', window.origin) || ''
+                    ?.image?.replace('{url}', window.origin)
+                    .replace('.png', '_thumbnail.png') || ''
                 }
                 class='w-full h-full relative z-10'
               />

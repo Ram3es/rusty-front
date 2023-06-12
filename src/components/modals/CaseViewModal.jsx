@@ -36,7 +36,7 @@ const CaseViewModal = (props) => {
                         >
                             <img
                                 class='w-full h-full object-contain'
-                                src={props.item.image?.replace('{url}', window.origin) || ''}
+                                src={props.item.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || ''}
                                 alt={props.item.name}
                             />
                         </div>
@@ -84,7 +84,7 @@ const CaseViewModal = (props) => {
                                 props.item.items.map((item) => {
                                     return {
                                         ...item,
-                                        image: item.image?.replace('{url}', window.origin) || '',
+                                        image: item.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || '',
                                         price: item.item_price
                                     }
                                 }) || []
