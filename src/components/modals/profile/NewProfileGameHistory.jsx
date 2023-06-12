@@ -123,9 +123,9 @@ const NewProfileGameHistory = (props) => {
 
   const data = {
     coinflip: {
-      headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'result', 'results'],
+      headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
       structure: CoinflipStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_1fr_4.5rem_4rem_5.5rem_1.5fr]'
+      grid: 'grid-cols-[5rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
     },
     mines: {
       headings: ['pf id', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
@@ -273,13 +273,13 @@ const NewProfileGameHistory = (props) => {
             />
           </svg>
         </RoundedButton>
-        <div
+        {/* <div
           class={`bg-dark-20 text-gray-47 w-7 h-7 ${
             pages().length > 5 && page() < pages().length - 3 ? 'center' : 'hidden'
           } cursor-pointer`}
         >
           <p class='text-current text-14 font-bold font-SpaceGrotesk'>...</p>
-        </div>
+        </div> */}
       </div>
     </div>
   )
