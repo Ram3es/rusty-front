@@ -121,10 +121,10 @@ const NewProfileAccount = (props) => {
                 }}
               />
             </div>
-            <div class='absolute left-0'>
+            <div class='absolute -left-2'>
               <Ranks width='8' rank={userObject?.user?.level?.league} />
             </div>
-            <div class='absolute right-0'>
+            <div class='absolute -right-2'>
               <Ranks width='8' rank={userObject?.user?.level?.next} />
             </div>
           </div>
