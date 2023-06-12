@@ -1,4 +1,4 @@
-import { setIsAutoMode, isAutoMode } from "../../components/PlinkoContainer";
+import { setIsAutoMode, isAutoMode } from "../../../components/plinko/PlinkoContainer";
 
 const ManualAutoSwitch = () => {
   return (

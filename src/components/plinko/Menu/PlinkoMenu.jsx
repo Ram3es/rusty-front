@@ -10,6 +10,7 @@ import {
   isAutoMode,
   setIsAutoDropping,
   isAutoDropping,
+  difficulty
 } from "../PlinkoContainer";
 
 import { dropBall } from "../PlayArea/Plinko/Plinko";
@@ -20,8 +21,31 @@ import {
 } from "../utils/tools";
 
 import { downloadLogFile } from "../PlayArea/Plinko/Plinko";
+import injector from "../../../injector/injector";
+import { onCleanup, onMount } from "solid-js";
 
 const TilesMenu = () => {
+  const {socket, toastr} = injector;
+
+  const bet = () => {
+    socket.emit("plinko:bet", {
+        rows: rowsAmount(), 
+        bet:  betAmount(),
+        mode: difficulty(),
+    }, (data) => {
+        if(data.msg) {
+            toastr(data)
+        }
+        if(data.error) {
+          setIsAutoDropping(false);
+          toastr({
+              error: true,
+              msg:"Autobet canceled!"
+          });
+        }
+    })
+  }
+  
   const handleClick = () => {
     // const pegs = getLeftAndRightPegs(rowsAmount());
 
@@ -40,20 +64,34 @@ const TilesMenu = () => {
     // }
     // dropBall(getBallPosition(rowsAmount()));
     // dropBall(441.58525895481233);
+    
+
     if (!isAutoMode()) {
-      dropBall(getBallPositionFromServer(rowsAmount(), betAmount()));
+      bet();
     } else {
       setIsAutoDropping(true);
-      dropBall(getBallPositionFromServer(rowsAmount(), betAmount()));
+      bet();
       const interval = setInterval(() => {
         if (isAutoDropping()) {
-          dropBall(getBallPositionFromServer(rowsAmount(), betAmount()));
+          bet();
         } else {
           clearInterval(interval);
         }
       }, 500);
     }
   };
+
+  onMount(() => {
+    socket.on("plinko:create", (data) => {
+        if(data?.data?.path) {
+          dropBall(getBallPositionFromServer(rowsAmount(), betAmount(), data.data.path));
+        }
+    })
+  })
+
+  onCleanup(() => {
+    socket.off('plinko:create')
+  })
   return (
     <div
       class="relative min-w-[384px] h-full border-r-[#1a16160a] border-r flex flex-col p-7 pt-12 items-center gap-6"

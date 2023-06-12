@@ -1,6 +1,6 @@
 import { createEffect, createSignal } from "solid-js";
 import RailPiece from "./RailPiece";
-import CannonImg from "../../../assets/plinko/new/Cannon.png";
+import CannonImg from "../../../../assets/img/plinko/new/Cannon.png";
 
 import { ballDroppedXPos } from "../../PlinkoContainer";
 

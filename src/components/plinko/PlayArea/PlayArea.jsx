@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from "solid-js";
-import TriangleBg from "../../assets/plinko/TriangleBg.svg";
-import TriangleCap from "../../assets/plinko/TriangleCap.svg";
+import TriangleBg from "../../../assets/img/plinko/new/TriangleBg.svg";
+import TriangleCap from "../../../assets/img/plinko/new/TriangleCap.svg";
 
 import Plinko from "./Plinko/Plinko";
 import PlinkoBins from "./Plinko/PlinkoBins";

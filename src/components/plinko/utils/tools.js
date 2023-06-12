@@ -96,9 +96,9 @@ export const getLeftAndRightPegs = (rowsAmount) => {
   return [leftX, rightX];
 };
 
-export const getBallPositionFromServer = (rowsAmount, betAmount) => {
-  const path = createRandomPath(rowsAmount);
+export const getBallPositionFromServer = (rowsAmount, betAmount, path) => {
   const finalEndPointIndex = getFinalEndPointIndex(rowsAmount, path);
+  console.log('finalEndPointIndex', finalEndPointIndex);
   // const finalEndPointIndex = 2;
   let pathData = [];
 
@@ -342,7 +342,7 @@ export const getBallPositionFromServer = (rowsAmount, betAmount) => {
   const randomIndex = Math.floor(Math.random() * pathData.length);
   const randomPath = pathData[randomIndex];
   console.log(
-    `Dropping at ${randomPath.x} | Index: ${finalEndPointIndex} | Bet Amount ${betAmount}`
+    `Dropping at ${randomPath.x} | Index: ${finalEndPointIndex} | Bet Amount ${betAmount}`, pathData[0]
   );
   return randomPath.x;
 };
@@ -361,14 +361,10 @@ const createRandomPath = (rowsAmount) => {
 };
 
 const getFinalEndPointIndex = (rowsAmount, path) => {
-  let finalEndPointIndex = Math.floor(rowsAmount / 2);
-
+  let finalEndPointIndex = 0;
+  console.log('rowsAmount', rowsAmount, finalEndPointIndex);
   for (let i = 0; i < path.length; i++) {
-    if (path[i] === "L") {
-      finalEndPointIndex--;
-    } else if (path[i] === "R") {
-      finalEndPointIndex++;
-    }
+    finalEndPointIndex += path[i];
   }
 
   return finalEndPointIndex;
