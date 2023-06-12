@@ -109,7 +109,7 @@ const SubHeader = (props) => {
     { name: 'Affiliates', url: `${props.pathname()}?affiliates=true` },
     { name: 'Leaderboard', url: URL.LEADERBOARD },
     { name: 'Rewards', url: URL.REWARDS },
-    { name: 'Free Cases', url: '/case?id=1' },
+    { name: 'Free Coins', url: `${props.pathname()}?free=true` },
     { name: 'Fairness', url: URL.FAIRNESS }
   ]
 
