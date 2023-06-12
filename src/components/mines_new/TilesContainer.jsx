@@ -93,7 +93,6 @@ export const cashOut = () => {
     }
 
     if (!data.error) {
-      console.log('here')
       setIsPlaying(false)
       playCashoutSound()
     }

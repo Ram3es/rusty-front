@@ -68,7 +68,6 @@ export const checkIfMine = (x, y) => {
 // used for debugging
 export const getKnownMinesInit = (clearedMines = []) => {
   const positions = clearedMines.map(pos => ({x: (pos - 1) % 5, y: Math.floor((pos - 1) / 5)}))
-  console.log(positions, clearedMines);
   const initPositions = [
     [
       { revealed: false, isMine: false },
@@ -137,7 +136,6 @@ const factorial = (n, to) => {
 
 // this will need to be adjusted to reflect the actual odds
 export const calculateMultiplier = (mines, cleared) => {
-  console.log('calculateMultiplier', mines, cleared);
   if (cleared === 0) return 1
   const multiplier =  Number((1 / (factorial(25 - mines, 25 - mines - cleared) / factorial(25, 25 - cleared)) * 0.90).toFixed(2));
         
@@ -147,7 +145,6 @@ export const calculateMultiplier = (mines, cleared) => {
 // calculates the amount to be added to the player's winnings
 export const calculateAddition = (betAmount, multiplier) => {
   let addition = betAmount * multiplier;
-  console.log('multiplier', multiplier, addition);
   // addition = Math.ceil(addition * 100) / 100;
   return addition;
 };
@@ -164,7 +161,6 @@ export const calculateNextAddition = (
   squaresRemaining,
   betAmount
 ) => {
-  console.log(console.log('mines:connect', squaresRemaining));
   const multiplier = calculateMultiplier(minesAmount, 25 - squaresRemaining - minesAmount + 1, 'calculateNextAddition');
   const addition = calculateAddition(betAmount, multiplier);
   return addition;
