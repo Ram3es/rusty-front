@@ -60,7 +60,7 @@ const navigationGameModes = [
   },
   {
     name: { en: 'PVP Mines', es: 'Minas PVP', ru: 'PVP Бомбы' },
-    value: 'pvp_mines',
+    value: 'pvp-mines',
     svg: <PVPMinesIcon />
   }
 ]
@@ -70,7 +70,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[2].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[7].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
@@ -125,32 +125,32 @@ const NewProfileGameHistory = (props) => {
     coinflip: {
       headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
       structure: CoinflipStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
+      grid: 'grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
     },
     mines: {
       headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
       structure: MinesStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_8rem_8rem_8rem_1fr]'
+      grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
     },
     plinko: {
       headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
       structure: PlinkoStructure,
-      grid: 'grid-cols-[5rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
+      grid: 'grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
     },
     wheel: {
       headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
       structure: WheelStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_1fr_1fr_1.5fr]'
+      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
     },
     'pvp-mines': {
-      headings: ['Game ID', 'total', 'wager', 'winnings', 'players', 'mode', 'result'],
+      headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
       structure: PvpminesStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_1fr_4rem_1fr_4rem_1.5fr]'
+      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
     },
     upgrader: {
       headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
       structure: UpgraderStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
+      grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
     }
   }
 
