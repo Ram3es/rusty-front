@@ -27,7 +27,7 @@ const PlinkoStructure = (props) => {
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto'>
         {props?.val?.info}
       </p>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto'>
+      <p class='text-16 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto'>
         {props?.val?.extra_data} rows
       </p>
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>

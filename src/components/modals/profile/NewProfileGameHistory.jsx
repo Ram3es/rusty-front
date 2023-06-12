@@ -70,7 +70,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[5].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[3].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
