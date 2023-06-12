@@ -2453,6 +2453,7 @@ text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   -moz-text-fill-color: transparent;
   color: transparent;
 }
+
 .gold-text-originals {
   background: 
      linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.16) 41.3%, rgba(0, 0, 0, 0.16) 68.93%, rgba(255, 255, 255, 0.16) 100%),
@@ -2462,6 +2463,7 @@ text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   background-clip: text;
   text-fill-color: transparent;
 }
+
 
 .pvp-game-card,
 .game-active,
@@ -2947,5 +2949,89 @@ text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.12);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
+
+.leaderbord-table--row {
+  position: relative;
+  border-radius: 6px;
+  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.04) 41.3%, rgba(0, 0, 0, 0.04) 68.93%, rgba(255, 255, 255, 0.04) 100%), 
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
+    radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%);
+}
+
+.leaderbord-table--row::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.leaderboard-tile {
+  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
+    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+}
+.leaderboard-tile.spot {
+  border-radius: 0 6px 6px 0;
+}
+
+.leaderboard-tile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 2px solid transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%) border-box,
+  linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)) ;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.leaderboard-tile.spot::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 6px 6px 0;
+  border: 2px solid transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%) border-box,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)) ;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.text-gradient--leaderboard-gold {
+  background: linear-gradient(83.13deg, rgba(255, 255, 255, 0) 7.58%, rgba(255, 255, 255, 0.56) 69.99%, rgba(0, 0, 0, 0.56) 106.13%, rgba(255, 255, 255, 0.56) 119.6%), #FFC467;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+
+}
+.text-gradient--leaderboard-amount {
+  background: linear-gradient(80.22deg, rgba(255, 255, 255, 0) 18.87%, rgba(255, 255, 255, 0.16) 42.17%, rgba(0, 0, 0, 0.16) 72.5%, rgba(255, 255, 255, 0.16) 106.6%), 
+    radial-gradient(72.06% 104.53% at 50.54% 86.25%, #FFB436 0%, #FFD58F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+
+}
+
 
 

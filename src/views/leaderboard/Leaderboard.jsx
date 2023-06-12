@@ -17,6 +17,7 @@ import injector from "../../injector/injector";
 import Fallback from "../Fallback";
 import Ranks from "../../utilities/Ranks";
 import Coin from "../../utilities/Coin";
+import TableLeaderboard from "./TableLeaderboard";
 
 const Leaderboard = () => {
   const { leaderboards } = injector;
@@ -362,6 +363,7 @@ const Leaderboard = () => {
               )}
             </For>
           </div>
+          <TableLeaderboard players={leaderboards[type()]?.players} />
           <div class="w-full flex flex-col items-center bet-info-bg p-5">
             <div class="w-11/12 h-12 hidden sm:grid gap-2 sm:gap-0 sm:grid-cols-leaderboard">
               <div class="flex items-center gap-2">
@@ -382,7 +384,7 @@ const Leaderboard = () => {
               </div>
             </div>
             <div class="w-full">
-              <For each={leaderboards?.[type()]?.players?.slice(3)}>
+              <For each={leaderboards?.[type()]?.players}>
                 {(val, i) => (
                   <div class="w-full sm:h-12 relative cursor-pointer center group mb-2">
                     <div class="w-full h-full flex items-center justify-center bg-dark-26/30 group-hover:bg-none transition transform hover:scale-x-sm duration-200">
