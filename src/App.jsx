@@ -349,7 +349,7 @@ const App = () => {
                             />
                           </Match>
                           <Match
-                            when={searchParams.profile && !searchParams.benefits}
+                            when={1}
                           >
                             <NewProfile
                               pathname={pathname}
