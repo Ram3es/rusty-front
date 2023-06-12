@@ -91,10 +91,10 @@ const RankLabel = (props) => {
                 getCurrentLabelStyleByRank(!staff() || staff() < 3 ? rank() : 'Staff').textStyle
             }`}
             style={{
-                'text-shadow': `0px 0px 12px ${
+                'text-shadow': !props.withOutShadow ? `0px 0px 12px ${
                     getCurrentLabelStyleByRank(!staff() || staff() < 3 ? rank() : 'Staff')
                         .boxShadowColor
-                }`
+                }` : ''
             }}
         >
             {!staff() || staff() < 3 ? convertLastDigitToRoman(rank()) : 'Staff'}
