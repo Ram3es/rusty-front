@@ -1,4 +1,4 @@
-import { createSignal, For, onMount, Show } from "solid-js";
+import { createSignal, For, Show } from "solid-js";
 import ribbed from './img/ribbed.png'
 import welcomeBg from './img/welcome-bg-image.png'
 import coinsStack from './img/green-coins-stack.png'
@@ -17,9 +17,8 @@ import Banner1 from "./img/banner-1.png"
 import Banner2 from "./img/banner-2.png"
 import Banner3 from "./img/banner-3.png"
 import injector from "../../injector/injector";
-import { NavLink } from "solid-app-router";
-import { URL } from "../../libraries/url";
 import { playCashoutSound } from "../../utilities/Sounds/SoundButtonClick";
+import FreeCasesSwiper from "./freeCasesSwiper";
 
 
 export const RoundedBtn = (props) => {
@@ -54,8 +53,7 @@ const banners = [
  
  const BannerSection = () => {
     const [activeBanner, setActiveBanner] = createSignal(0);
-    const [activeCase, setActiveCase] = createSignal(0);
-    const [cases, setCases] = createSignal([]);
+    
     const { userObject, socket, toastr, setUserObject } = injector;
 
     let rakebackClaim = () => {
@@ -73,14 +71,6 @@ const banners = [
           }
         });
       };
-
-    onMount(() => {
-        console.log("userObject", userObject);
-        socket.emit("rewards:cases", {}, (data) => {
-            setCases(data.cases);
-          });
-          
-    })
 
     return  (
         <div class="grid grid-cols-3 gap-5 w-full h-full ">
@@ -151,43 +141,9 @@ const banners = [
                             </>
                         </Show>
                     </div>
-                    <div class=' relative home-daily--bg min-h-[200px]'>
-                        <div class='h-full flex flex-col items-center justify-between p-3 '>
-                        <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
-                            {cases()[activeCase()]?.name}
-                        </span>
-                        {cases()[activeCase()]?.id ? <NavLink class="relative z-10" href={`${URL.CASE}?id=${cases()[activeCase()]?.id}`}>
-                            <CaseGradientButton callbackFn={() => {}}>
-                                <span class='text-yellow-ffb  font-SpaceGrotesk font-bold text-sm '>
-                                Open Daily Case
-                                </span>
-                            </CaseGradientButton>
-                        </NavLink> : ''}
-                        </div>
-                       <img src={ribbed} alt='bg' class='absolute inset-0 h-full w-full' />
-                       <img src={cases()[activeCase()]?.image} alt={cases()[activeCase()]?.name} class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"/>
-                       <RoundedBtn
-                            handleClick={() => {
-                                if (activeCase() === 0) {
-                                    setActiveCase(cases().length - 1)
-                                } else {
-                                    setActiveCase(prev => prev - 1)
-                                }
-                            }}
-                            additionalClasses='absolute top-[40%] left-2 text-gray-9a' >
-                                <ArrowSliderStyle additionalClasses='rotate-180' /> 
-                        </RoundedBtn>
-                        <RoundedBtn
-                            handleClick={() => {
-                                if (activeCase() === cases().length - 1) {
-                                    setActiveCase(0)
-                                } else {
-                                    setActiveCase(prev => prev + 1)
-                                }
-                            }}
-                            additionalClasses='absolute top-[40%] right-2 text-gray-9a' >
-                                <ArrowSliderStyle />   
-                        </RoundedBtn>
+                    <div class='relative grid home-daily--bg min-h-[200px]'>
+                        <img src={ribbed} alt='bg' class='absolute inset-0 h-full w-full' />
+                        <FreeCasesSwiper />
                     </div>
                     <div class=' flex flex-col items-center justify-between p-3 relative home-rakeback--bg'>
                         <span class='text-gradient-green-secondary  font-SpaceGrotesk font-bold text-base '>

@@ -10,7 +10,16 @@ const socket = io(API, {
   upgrade: true,
 });
 
+const [freeCases, setFreeCases] = createSignal([]);
+
+
 const SNOWMODE = false;
+
+onMount(() => {
+  socket.emit("rewards:cases", {}, (data) => {
+    setFreeCases(data.cases);
+    });  
+})
 
 const soundError = new Audio(errorSound);
 const createUserObject = () => {
@@ -100,6 +109,7 @@ const createUserObject = () => {
     toastrs,
     setToastrs,
     SNOWMODE,
+    freeCases,
     toastr: (data) => {
       if (data.error) {
         soundError.currentTime = 0;
