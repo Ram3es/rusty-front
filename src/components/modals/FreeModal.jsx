@@ -4,17 +4,11 @@ import { API, URL } from "../../libraries/url";
 import Modal from "./Modal";
 import { NavLink } from "solid-app-router";
 import { useI18n } from "../../i18n/context";
-import FreecoinsBanner from "../../assets/img/modals/FreecoinsBanner.png";
-import FreeCoinsModalSocialsBg from "../../assets/img/modals/FreeCoinsModalSocialsBg.png";
-import HeaderBg from "../../assets/img/modals/ModalHeaderBg.png";
 import BgMainVector from "../../assets/img/coinflip/bgItemsRL.png";
 import freeCoinceCasesBg from "../../assets/img/modals/freeCoinceCasesBg.png";
-import FreeDailyCase from "../../assets/img/modals/FreeDailyCase.png";
-import DiscordIcon from "../../assets/img/modals/discordIcon.png";
-import TwiterIcon from "../../assets/img/modals/twiterIcon.png";
 import TooltipIcon from "../icons/TooltipIcon";
 import CloseButton from "../elements/CloseButton";
-import FreeCasesSwiper from "../new_home/freeCasesSwiper";
+import FreeCasesSwiper from "../new-home/FreeCasesSwiper";
 
 const FreeModal = (props) => {
   const i18n = useI18n();

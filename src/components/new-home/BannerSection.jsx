@@ -18,7 +18,7 @@ import Banner2 from "./img/banner-2.png"
 import Banner3 from "./img/banner-3.png"
 import injector from "../../injector/injector";
 import { playCashoutSound } from "../../utilities/Sounds/SoundButtonClick";
-import FreeCasesSwiper from "./freeCasesSwiper";
+import FreeCasesSwiper from "./FreeCasesSwiper";
 
 
 export const RoundedBtn = (props) => {
