@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For } from 'solid-js'
+import { createSignal, For } from 'solid-js'
 import { createStore } from 'solid-js/store'
 
 import injector from '../../../injector/injector'
@@ -7,7 +7,6 @@ import Modal from '../Modal'
 import { NavLink } from 'solid-app-router'
 
 import TransparentButton from '../../elements/TransparentButton'
-import GoldRay from '../../icons/GoldRay'
 import Ranks from '../../../utilities/Ranks'
 import RankLabel from '../../chat/RankLabel'
 import affiliatesTotalDepositored from '../../../assets/img/affilates/affiliatesTotalDepositored.png'
@@ -16,6 +15,7 @@ import BgMainVector from '../../../assets/img/coinflip/bgItemsRL.png'
 
 import { useI18n } from '../../../i18n/context'
 import Coin from '../../../utilities/Coin'
+import { createEffect } from 'solid-js'
 
 const tabVariants = [
   {
@@ -42,15 +42,37 @@ const NewProfile = (props) => {
   const i18n = useI18n()
 
   const { socket, setToggles, toastr, userObject } = injector
-  const [affiliate, setAffiliates] = createStore({})
 
+  const [account, setAccount] = createStore({})
   const [currentTab, setCurrentTab] = createSignal(tabVariants[0].name)
+
+  createEffect(() => {
+    if (props.searchParams?.profile && userObject?.authenticated) {
+      console.log('FETCHING SYSTEM DATa!')
+      socket.emit('system:account', {}, (data) => {
+        console.log(data, 'system data fetched! ')
+        const pfIds = {}
+        for (const val of data.data.history) {
+          if (!pfIds?.[val.pf_id] || Number(pfIds?.[val.pf_id].t_id) < Number(val.t_id))
+            pfIds[val.pf_id] = val
+        }
+        data.data.history = Object.values(pfIds).sort((a, b) => b.id - a.id)
+
+        // console.log("new data", data.data.history);
+
+        setAccount(data.data)
+
+        if (data.msg) {
+          toastr(data)
+        }
+      })
+    }
+  })
 
   const stats = [
     {
       type: 'total_deposited',
-      name: { en: 'total deposited', es: 'total depositado', ru: 'суммарный депозит' },
-      value: () => affiliate?.users?.length
+      name: { en: 'total deposited', es: 'total depositado', ru: 'суммарный депозит' }
     },
     {
       type: 'total_won',
@@ -58,13 +80,11 @@ const NewProfile = (props) => {
         en: 'total won',
         es: 'total ganado',
         ru: 'всего выиграно'
-      },
-      value: () => affiliate?.wager
+      }
     },
     {
       type: 'profit',
-      name: { en: 'profit', es: 'beneficio', ru: 'заработано' },
-      value: () => affiliate?.earnings
+      name: { en: 'profit', es: 'beneficio', ru: 'заработано' }
     }
   ]
 
@@ -78,7 +98,7 @@ const NewProfile = (props) => {
       <NavLink href={props.pathname()} class='w-full h-full absolute left-0 top-0' />
 
       <div
-        class='rounded-xl flex flex-col absolute top-32 lg:w-[830px] max-h-[600px] overflow-x-scroll'
+        class='rounded-xl flex flex-col absolute lg:top-32 w-[85%] md:w-[650px] lg:w-[830px] max-h-[600px] overflow-x-scroll'
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -115,7 +135,7 @@ const NewProfile = (props) => {
             class='absolute inset-0 z-0 h-[326px] mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
           />
-          <div class='flex gap-2 items-center capitalize'>
+          <div class='flex gap-2 items-center capitalize flex-wrap'>
             <For each={tabVariants}>
               {(tab) => (
                 <TransparentButton
@@ -128,7 +148,7 @@ const NewProfile = (props) => {
             </For>
           </div>
           <div class='flex flex-col items-center pt-9 gap-6'>
-            <div class='flex items-center justify-center'>
+            <div class='scale-75 sm:scale-100 flex items-center justify-center'>
               <svg
                 width='135'
                 height='5'
@@ -205,8 +225,8 @@ const NewProfile = (props) => {
               <span class='text-gray-9aa truncate max-w-[116x]'>{userObject?.user?.username}</span>
             </div>
             <div class='flex flex-col items-center justify-center gap-3'>
-              <div class='flex justify-center items-center relative h-8 w-[497px]'>
-                <div class='w-[484px] h-2 rounded-[1px] overflow-hidden home-progress-bg'>
+              <div class='flex justify-center items-center relative h-8 w-[220px] md:w-[497px]'>
+                <div class='w-[220px] md:w-[484px] h-2 rounded-[1px] overflow-hidden home-progress-bg'>
                   <div
                     class='h-full rounded-[1px] duration-200'
                     style={{
@@ -242,7 +262,7 @@ const NewProfile = (props) => {
               </div>
             </div>
           </div>
-          <div class='pt-[32px] w-full grid grid-cols-2 sm:grid-cols-3 gap-[18px]'>
+          <div class='pt-[32px] w-full grid place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[18px]'>
             <For each={stats}>
               {(item) => (
                 <div class='w-[244px] h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22'>
@@ -270,7 +290,12 @@ const NewProfile = (props) => {
                               }
                                font-SpaceGrotesk font-bold relative`}
                         >
-                          {Number(item.value() || 0).toLocaleString()}
+                          {Number(
+                            item.type === 'profit'
+                              ? (props.account?.transactions?.withdraw || 0) -
+                                  (props.account?.transactions?.deposit || 0)
+                              : props.account?.transactions?.[item.type] || 0
+                          ).toLocaleString()}
                         </p>
                       </div>
                       <p
