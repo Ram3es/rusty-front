@@ -24,14 +24,14 @@ const WheelStructure = (props) => {
         </p>
       </div>
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
-        {(props?.val?.winnings / props?.val?.bet_value || 0).toFixed(2)}x{' '}
+        {(props?.val?.winnings / props?.val?.bet_value || 0).toFixed(2)}x
       </p>
       <div
         class={`flex items-center gap-2 ${
           props?.val?.winnings <= 0 ? 'text-gray-9aa' : 'text-gradient-green-secondary'
         }`}
       >
-        <p class='text-current text-14 font-medium font-Oswald uppercase'>
+        <p class='text-current text-14 font-bold font-SpaceGrotesk uppercase'>
           {props?.val?.winnings > 0 ? 'win' : 'loss'}
         </p>
       </div>

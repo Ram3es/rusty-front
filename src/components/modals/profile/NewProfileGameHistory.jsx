@@ -70,7 +70,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[3].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[2].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
@@ -148,9 +148,9 @@ const NewProfileGameHistory = (props) => {
       grid: 'grid-cols-[5rem_1fr_1fr_1fr_4rem_1fr_4rem_1.5fr]'
     },
     upgrader: {
-      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'trade status'],
+      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
       structure: UpgraderStructure,
-      grid: 'grid-cols-[5rem_1fr_1fr_4rem_4rem_4rem_6rem_1.5fr]'
+      grid: 'grid-cols-[5rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
     }
   }
 
