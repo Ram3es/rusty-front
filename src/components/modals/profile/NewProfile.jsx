@@ -132,7 +132,7 @@ const NewProfile = (props) => {
         </div>
         <div class='relative px-[33px] pt-[23px] pb-9'>
           <div
-            class='absolute inset-0 z-0 h-[326px] mix-blend-luminosity'
+            class='absolute inset-0 z-0 h-[326px] bg-repeat-x mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
           />
           <div class='flex gap-2 items-center capitalize flex-wrap'>
