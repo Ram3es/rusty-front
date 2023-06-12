@@ -91,19 +91,19 @@ const GameCaseBattle = (props) => {
       : 'gray'
   }
 
-  const generateSpinList = () => {
+  const generateSpinList = (playerIndex) => {
     setSpinOffsets([])
     const newSpinList = []
     for (let i = 0; i < 35; i++) {
-      newSpinList.push(rollItems()[Math.floor(Math.random() * rollItems().length)])
+      newSpinList.push(rollItems()[Math.floor(createRandomFunction(game().id, game().currentRound, playerIndex) * rollItems().length)])
     }
     return newSpinList
   }
 
-  const getRandomIndex = () => {
+  const getRandomIndex = (playerIndex) => {
     return (
       Math.floor(
-        Math.random() * (otherOptions.verticalEndBound - otherOptions.verticalStartBound + 1)
+      createRandomFunction(game().id, game().currentRound, playerIndex) * (otherOptions.verticalEndBound - otherOptions.verticalStartBound + 1)
       ) + otherOptions.verticalStartBound
     )
   }
@@ -117,7 +117,7 @@ const GameCaseBattle = (props) => {
     if (inputGame.status === 'playing') {
       setTimeout(() => {
         setWinnings(inputGame.players)
-        setDashesYellow(prev => prev + 1);
+        setDashesYellow(inputGame.currentRound);
       }, 5500)
     } else {
       setWinnings(inputGame.players)
@@ -155,8 +155,8 @@ const GameCaseBattle = (props) => {
       const newSpinLists = []
 
       for (let i = 0; i < game().playersQty; i++) {
-        const spinIndex = getRandomIndex()
-        let spinList = generateSpinList()
+        const spinIndex = getRandomIndex(i)
+        let spinList = generateSpinList(i)
         spinList[spinIndex] = spinnerOptions()[i].winningItem
         if (spinnerOptions()[i].isBigWin) {
           setContainsBigWin(true)
