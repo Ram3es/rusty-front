@@ -1,10 +1,10 @@
 
 import Bg from "../../assets/img/home/homepage_bg.png";
 import Fallback from "../Fallback";
-import RustyOriginals from '../../components/new_home/RustyOriginals'
-import FreeRewards from '../../components/new_home/FreeRewards'
-import RewardsTable from '../../components/new_home/RewardsTable'
-import BannerSection from '../../components/new_home/BannerSection'
+import RustyOriginals from '../../components/new-home/RustyOriginals'
+import FreeRewards from '../../components/new-home/FreeRewards'
+import RewardsTable from '../../components/new-home/RewardsTable'
+import BannerSection from '../../components/new-home/BannerSection'
 
 const Home = () => {
  

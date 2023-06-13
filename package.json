@@ -30,6 +30,7 @@
     "dayjs": "^1.11.7",
     "dragula": "^3.7.3",
     "emoji-mart": "^5.2.2",
+    "esbuild-linux-64": "^0.15.18",
     "gsap": "^3.11.5",
     "i18next": "^22.0.8",
     "i18next-browser-languagedetector": "^7.0.1",

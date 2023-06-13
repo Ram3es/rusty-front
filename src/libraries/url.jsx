@@ -50,6 +50,7 @@ export const URL = {
         PLINKO: "/plinko",
         WHEEL: "/wheel",
         UPGRADER: "/upgrader",
+        UPGRADER_OLD: "/upgrader-old",
         PVP_MINES: "/pvpmines",
         UNBOX: "/unbox",
         CASE_BATTLES: "/case-battles/games",

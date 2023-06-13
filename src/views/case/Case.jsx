@@ -7,7 +7,7 @@ import Bg from '../../assets/img/case/bg.png'
 import YellowButtonBg from '../../assets/img/animatedButtonBg.jpg'
 import GrayButtonBg from '../../assets/img/animatedGrayButtonBg.jpg'
 import ItemSpinnerBg from '../../components/ItemSpinnerBg'
-import ItemSplash from '../upgrader/itemSplash.svg'
+import ItemSplash from '../old-upgrader/itemSplash.svg'
 import Coin from '../../utilities/Coin'
 
 import PotentialDropItem from './PotentialDropItem'
