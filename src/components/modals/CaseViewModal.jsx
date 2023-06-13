@@ -90,8 +90,7 @@ const CaseViewModal = (props) => {
                       ...item,
                       image:
                         item.image
-                          ?.replace("{url}", window.origin)
-                          .replace(".png", "_thumbnail.png") || "",
+                          ?.replace("{url}", window.origin) || "",
                       price: item.item_price,
                     };
                   }) || []

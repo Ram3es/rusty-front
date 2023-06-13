@@ -127,7 +127,7 @@ const GameCaseBattle = (props) => {
     if (inputGame.status === 'playing' && isNumber(inputGame.currentRound)) {
       setRollItems(() =>
         inputGame.cases[inputGame.currentRound].items.map((item) => ({
-          img: item.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || '',
+          img: item.image?.replace('{url}', window.origin) || '',
           price: item.item_price,
           name: item.name,
           rarity: getColor(item.item_price)
