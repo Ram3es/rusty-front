@@ -193,7 +193,7 @@ const CaseBattles = (props) => {
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
               return calculations
-            })}>
+            }).filter(g => !games[g].private || games[g].owner === userObject.user.id)}>
             {(id) => (<div
                 class="flex flex-col sm:flex-row w-full items-stretch min-h-[116px] bg-opacity-40 gap-2 case-battle-card"
                 classList={{
@@ -476,7 +476,7 @@ const CaseBattles = (props) => {
                         </div>
                       </div>
                     )}
-                    <NavLink href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}`}>
+                    <NavLink href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}${games[id].urlKey ? `&key=${games[id].urlKey}` : ""}`}>
                       <GrayGradientButton callbackFn={() => {}}>
                         <svg
                           width='20'
