@@ -42,7 +42,8 @@ import TosModal from "./components/modals/TosModal";
 import Tos from "./views/tos/Tos";
 import TOAST_MANAGER from "./utilities/solid-toast/main.toast";
 import Pvpmines from "./views/pvpmines/Pvpmines";
-import Upgrader from "./views/upgrader/Upgrader";
+import OldUpgrader from "./views/old-upgrader/Upgrader";
+import Upgrader from "./views/upgrader/Upgrader"
 import ChatRulesModal from "./components/modals/ChatRulesModal";
 
 import PvpModal from "./components/modals/PvpModal";
@@ -212,6 +213,10 @@ const App = () => {
                                     element={<Pvpmines loaded={loaded} pathname={pathname} />}
                                   />
 
+                                  <Route
+                                    path={`${URL.GAMEMODES.UPGRADER_OLD}/*`}
+                                    element={<OldUpgrader loaded={loaded} />}
+                                  />
                                   <Route
                                     path={`${URL.GAMEMODES.UPGRADER}/*`}
                                     element={<Upgrader loaded={loaded} />}
