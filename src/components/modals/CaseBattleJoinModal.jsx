@@ -19,6 +19,7 @@ import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg
 
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
+import { URL } from '../../libraries/url'
 
 const CaseBattleJoinModal = (props) => {
   const { socket, userObject } = injector
@@ -40,9 +41,10 @@ const CaseBattleJoinModal = (props) => {
         team: setup().team,
         player_index: setup().team,
         borrowMoney: setup().borrowMoney,
-        borrowPercent: setup().borrowPercent
+        borrowPercent: Math.floor(setup().borrowPercent * 0.8)
       },
       (data) => {
+        console.log(data);
         if (!data.error) {
           navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
           props?.handleClose()
