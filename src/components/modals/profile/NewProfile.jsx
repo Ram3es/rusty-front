@@ -14,6 +14,7 @@ import { useI18n } from '../../../i18n/context'
 import { createEffect } from 'solid-js'
 import NewProfileAccount from './NewProfileAccount'
 import NewProfileHistory from './NewProfileHistory'
+import ProfileSettings from './ProfileSettings'
 
 const tabVariants = [
   {
@@ -84,9 +85,9 @@ const NewProfile = (props) => {
         class={`rounded-xl flex flex-col absolute lg:top-32 overflow-x-scroll`}
         classList={{
           'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab() === 'game history',
-          'md:w-[650px] lg:w-[830px] w-[85%] h-[870px]': currentTab() === 'transactions',
-          'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]':
-            currentTab() !== 'game history' && currentTab() !== 'transactions'
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[870px]': currentTab() === 'transactions',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[580px]': currentTab() === 'settings',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab() === 'profile'
         }}
         style={{
           background:
@@ -143,6 +144,7 @@ const NewProfile = (props) => {
           {currentTab() === 'transactions' && (
             <NewProfileHistory account={account} type='transaction' />
           )}
+          {currentTab() === 'settings' && <ProfileSettings changeLang={props.changeLang} />}
         </div>
       </div>
     </Modal>
