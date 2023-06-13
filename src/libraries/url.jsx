@@ -1,7 +1,7 @@
 export const TESTMODE = true;
-// const PATH = TESTMODE ? "https://3641-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
+const PATH = TESTMODE ? "https://3641-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
 // const PATH = TESTMODE ? "http://localhost:1337" : "https://rustyloot.gg";
-const PATH = TESTMODE ? "http://161.35.166.37" : "https://rustyloot.gg";
+// const PATH = TESTMODE ? "http://161.35.166.37" : "https://rustyloot.gg";
 
 export const API = `${PATH}`;
 
@@ -50,6 +50,7 @@ export const URL = {
         PLINKO: "/plinko",
         WHEEL: "/wheel",
         UPGRADER: "/upgrader",
+        UPGRADER_OLD: "/upgrader-old",
         PVP_MINES: "/pvpmines",
         UNBOX: "/unbox",
         CASE_BATTLES: "/case-battles/games",
