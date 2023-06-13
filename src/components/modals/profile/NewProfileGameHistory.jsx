@@ -185,8 +185,8 @@ const NewProfileGameHistory = (props) => {
   }
 
   return (
-    <div class='flex flex-col gap-9'>
-      <div class='flex gap-2 items-center capitalize flex-wrap pt-6'>
+    <div class='flex flex-col gap-6'>
+      <div class='flex gap-2 items-center capitalize flex-wrap pt-6 pb-3'>
         <For each={navigationGameModes}>
           {(mode) => (
             <div

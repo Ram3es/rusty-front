@@ -82,8 +82,8 @@ const NewProfile = (props) => {
 
       <div
         class={`rounded-xl flex flex-col absolute lg:top-32  ${
-          currentTab() !== 'profile' ? 'w-[1208px] h-[935px]' : 'md:w-[650px] lg:w-[830px] w-[85%]'
-        } max-h-[600px] overflow-x-scroll`}
+          currentTab() !== 'profile' ? 'w-[1208px] h-[935px]' : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
+        } overflow-x-scroll`}
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -115,7 +115,7 @@ const NewProfile = (props) => {
             </svg>
           </NavLink>
         </div>
-        <div class='relative px-[33px] pt-[23px] pb-9'>
+        <div class={`relative px-[33px] pt-[23px] ${ currentTab() !== 'profile' ? 'pb-6' : 'pb-9'}`}>
           <div
             class='absolute inset-0 -z-10 h-[326px] bg-repeat-x mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
