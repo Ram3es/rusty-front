@@ -67,17 +67,34 @@ const navigationGameModes = [
   }
 ]
 
+const navigationTransactionTypes = [
+  {
+    name: { en: 'Steam Items', es: 'Steam Items', ru: 'Steam Items' },
+    value: 'skins'
+  },
+  {
+    name: { en: 'Crypto', es: 'Crypto', ru: 'Криптовалюта' },
+    value: 'crypto'
+  },
+  {
+    name: { en: 'Fiat', es: 'Fiat', ru: 'Fiat' },
+    value: 'fiat'
+  }
+]
+
 const NewProfileGameHistory = (props) => {
   const size = 9
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[0].value)
+  const [currentHistory, setCurrentHistory] = createSignal(navigationGameModes[0].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
 
-  const [currentTransaction, setCurrentTransaction] = createSignal('skins')
+  const [currentTransaction, setCurrentTransaction] = createSignal(
+    navigationTransactionTypes[0].value
+  )
 
   const [descending, setDescending] = createSignal(true)
 
@@ -86,14 +103,14 @@ const NewProfileGameHistory = (props) => {
   createEffect(() => {
     setLoaded(
       (
-        (props.type == 'transaction'
+        (props.type === 'transaction'
           ? [...(props.account?.transactionHistory?.[currentTransaction()] || [])].sort(
               (a, b) => (new Date(b.timestamp) - new Date(a.timestamp)) * (descending() ? 1 : -1)
             )
           : props.type == 'oldSeeds'
           ? props.account?.oldSeeds
           : props.account?.history
-              ?.filter((item) => item.mode === currentTab())
+              ?.filter((item) => item.mode === currentHistory())
               .sort(
                 (a, b) => (new Date(b.timestamp) - new Date(a.timestamp)) * (descending() ? 1 : -1)
               )) || []
@@ -108,11 +125,11 @@ const NewProfileGameHistory = (props) => {
       i <
       Math.ceil(
         (
-          (props.type == 'transaction'
+          (props.type === 'transaction'
             ? props.account?.transactions?.transactions
-            : props.type == 'oldSeeds'
+            : props.type === 'oldSeeds'
             ? props.account?.oldSeeds
-            : props.account?.history?.filter((item) => item.mode === currentTab())) || []
+            : props.account?.history?.filter((item) => item.mode === currentHistory())) || []
         ).length / size
       );
       i++
@@ -168,9 +185,9 @@ const NewProfileGameHistory = (props) => {
 
   const transactionData = {
     skins: {
-      headings: ['type', 'id', 'amount', 'status'],
+      headings: ['type', 'Transaction ID', 'amount', 'status'],
       structure: SkinsStructure,
-      grid: 'grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
+      grid: 'grid-cols-[2fr_1.5fr_1.5fr_1.5fr_1fr]'
     },
     fiat: {
       headings: ['type', 'order id', 'amount', 'status'],
@@ -187,42 +204,79 @@ const NewProfileGameHistory = (props) => {
   return (
     <div class='flex flex-col gap-6'>
       <div class='flex gap-2 items-center capitalize flex-wrap pt-6 pb-3'>
-        <For each={navigationGameModes}>
-          {(mode) => (
-            <div
-              class={`h-[42px] relative transition-colors rounded-4 transition-shadows duration-200 cursor-pointer group ${
-                currentTab() === mode.value ? 'profile-game--item__yellow' : 'profile-game--item'
-              }`}
-              onClick={() => {
-                setCurrentTab(mode.value)
-              }}
-            >
-              <div class='px-3 py-2.5 flex gap-2 items-center relative h-full z-10'>
-                <div
-                  class={`${
-                    currentTab() === mode.value ? 'text-yellow-ffb' : 'text-gray-55'
-                  } group-hover:text-yellow-ffb`}
-                >
-                  {mode.svg}
+        {props?.type === 'history' && (
+          <For each={navigationGameModes}>
+            {(mode) => (
+              <div
+                class={`h-[42px] relative transition-colors rounded-4 transition-shadows duration-200 cursor-pointer group ${
+                  currentHistory() === mode.value
+                    ? 'profile-game--item__yellow'
+                    : 'profile-game--item'
+                }`}
+                onClick={() => {
+                  setCurrentHistory(mode.value)
+                }}
+              >
+                <div class='px-3 py-2.5 flex gap-2 items-center relative h-full z-10'>
+                  <div
+                    class={`${
+                      currentHistory() === mode.value ? 'text-yellow-ffb' : 'text-gray-55'
+                    } group-hover:text-yellow-ffb`}
+                  >
+                    {mode.svg}
+                  </div>
+                  <p
+                    class={`text-14 font-bold font-SpaceGrotesk  ${
+                      currentHistory() === mode.value ? 'text-yellow-ffb' : 'text-gray-9b'
+                    } group-hover:text-yellow-ffb`}
+                  >
+                    {mode.name[i18n.language]}
+                  </p>
                 </div>
-                <p
-                  class={`text-14 font-bold font-SpaceGrotesk  ${
-                    currentTab() === mode.value ? 'text-yellow-ffb' : 'text-gray-9b'
-                  } group-hover:text-yellow-ffb`}
-                >
-                  {mode.name[i18n.language]}
-                </p>
               </div>
-            </div>
-          )}
-        </For>
+            )}
+          </For>
+        )}
+        {props?.type === 'transaction' && (
+          <For each={navigationTransactionTypes}>
+            {(mode) => (
+              <div
+                class={`h-[42px] relative transition-colors rounded-4 transition-shadows duration-200 cursor-pointer group ${
+                  currentTransaction() === mode.value
+                    ? 'profile-game--item__yellow'
+                    : 'profile-game--item'
+                }`}
+                onClick={() => {
+                  setCurrentTransaction(mode.value)
+                }}
+              >
+                <div class='px-3 py-2.5 flex gap-2 items-center relative h-full z-10'>
+                  <div
+                    class={`${
+                      currentTransaction() === mode.value ? 'text-yellow-ffb' : 'text-gray-55'
+                    } group-hover:text-yellow-ffb`}
+                  >
+                    {mode.svg}
+                  </div>
+                  <p
+                    class={`text-14 font-bold font-SpaceGrotesk  ${
+                      currentTransaction() === mode.value ? 'text-yellow-ffb' : 'text-gray-9b'
+                    } group-hover:text-yellow-ffb`}
+                  >
+                    {mode.name[i18n.language]}
+                  </p>
+                </div>
+              </div>
+            )}
+          </For>
+        )}
       </div>
       <Bulk
         descending={descending}
         setDescending={setDescending}
         loaded={loaded}
         data={
-          props?.type === 'history' ? data[currentTab()] : transactionData[currentTransaction()]
+          props?.type === 'history' ? data[currentHistory()] : transactionData[currentTransaction()]
         }
         resendTrades={props.account?.resendTrades}
       />

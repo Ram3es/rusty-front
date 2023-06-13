@@ -82,7 +82,9 @@ const NewProfile = (props) => {
 
       <div
         class={`rounded-xl flex flex-col absolute lg:top-32  ${
-          currentTab() !== 'profile' ? 'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]' : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
+          currentTab() === 'game history'
+            ? 'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]'
+            : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
         } overflow-x-scroll`}
         style={{
           background:
@@ -115,7 +117,7 @@ const NewProfile = (props) => {
             </svg>
           </NavLink>
         </div>
-        <div class={`relative px-[33px] pt-[23px] ${ currentTab() !== 'profile' ? 'pb-6' : 'pb-9'}`}>
+        <div class={`relative px-[33px] pt-[23px] ${currentTab() !== 'profile' ? 'pb-6' : 'pb-9'}`}>
           <div
             class='absolute inset-0 -z-10 h-[326px] bg-repeat-x mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
@@ -135,6 +137,9 @@ const NewProfile = (props) => {
           {currentTab() === 'profile' && <NewProfileAccount account={account} />}
           {currentTab() === 'game history' && (
             <NewProfileGameHistory account={account} type='history' />
+          )}
+          {currentTab() === 'transactions' && (
+            <NewProfileGameHistory account={account} type='transaction' />
           )}
         </div>
       </div>
