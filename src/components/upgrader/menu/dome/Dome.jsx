@@ -23,6 +23,8 @@ const Dome = () => {
         }}
         autoPlay
         loop
+        playsinline
+        muted
       />
     </div>
   );
