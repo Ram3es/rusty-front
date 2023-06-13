@@ -13,7 +13,7 @@ import BgMainVector from '../../../assets/img/coinflip/bgItemsRL.png'
 import { useI18n } from '../../../i18n/context'
 import { createEffect } from 'solid-js'
 import NewProfileAccount from './NewProfileAccount'
-import NewProfileGameHistory from './NewProfileGameHistory'
+import NewProfileHistory from './NewProfileHistory'
 
 const tabVariants = [
   {
@@ -136,10 +136,10 @@ const NewProfile = (props) => {
           </div>
           {currentTab() === 'profile' && <NewProfileAccount account={account} />}
           {currentTab() === 'game history' && (
-            <NewProfileGameHistory account={account} type='history' />
+            <NewProfileHistory account={account} type='history' />
           )}
           {currentTab() === 'transactions' && (
-            <NewProfileGameHistory account={account} type='transaction' />
+            <NewProfileHistory account={account} type='transaction' />
           )}
         </div>
       </div>

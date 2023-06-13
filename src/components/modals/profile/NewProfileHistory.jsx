@@ -82,7 +82,7 @@ const navigationTransactionTypes = [
   }
 ]
 
-const NewProfileGameHistory = (props) => {
+const NewProfileHistory = (props) => {
   const size = 9
 
   const i18n = useI18n()
@@ -189,15 +189,15 @@ const NewProfileGameHistory = (props) => {
       structure: SkinsStructure,
       grid: 'grid-cols-[2fr_1.5fr_1.5fr_1.5fr_1fr]'
     },
+    crypto: {
+      headings: ['type', 'amount', 'Transaction ID'],
+      structure: CryptoStructure,
+      grid: 'grid-cols-[2fr_1fr_2fr_1fr]'
+    },
     fiat: {
       headings: ['type', 'order id', 'amount', 'status'],
       structure: FiatStructure,
       grid: 'grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
-    },
-    crypto: {
-      headings: ['type', 'amount', 'txid'],
-      structure: CryptoStructure,
-      grid: 'grid-cols-[2fr_1fr_2fr_1.25fr]'
     }
   }
 
@@ -353,4 +353,4 @@ const NewProfileGameHistory = (props) => {
   )
 }
 
-export default NewProfileGameHistory
+export default NewProfileHistory
