@@ -22,6 +22,7 @@ import CryptoStructure from './structure/Crypto'
 import RoundedButton from '../../elements/RoundedButton'
 import TransparentButton from '../../elements/TransparentButton'
 import CaseBattlesStructure from './structure/CaseBattles'
+import CasesStructure from './structure/Cases'
 
 const navigationGameModes = [
   {
@@ -157,7 +158,12 @@ const NewProfileGameHistory = (props) => {
       headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
       structure: CaseBattlesStructure,
       grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
-    }
+    },
+    'cases': {
+      headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
+      structure: CasesStructure,
+      grid: 'grid-cols-[8rem_1.3fr_1.3fr_1.3fr_1.3fr_1.7fr_2fr]'
+    },
   }
 
   const transactionData = {
