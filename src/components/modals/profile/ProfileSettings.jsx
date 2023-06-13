@@ -3,7 +3,6 @@ import injector from '../../../injector/injector'
 import { URL } from '../../../libraries/url'
 import { useI18n } from '../../../i18n/context'
 import roomStore from '../../chat/RoomStore'
-import YellowButtonBg from '../../../assets/img/animatedButtonBg.jpg'
 import EnFlag from '../../../assets/img/header/enFlag.svg'
 import EsFlag from '../../../assets/img/header/esFlag.svg'
 import RuFlag from '../../../assets/img/header/ruFlag.svg'
@@ -117,7 +116,6 @@ const ProfileSettings = (props) => {
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Steam trade URL')}
         </p>
-
         <div class='center w-full gap-4'>
           <div
             class='w-[624px] p-[2px] rounded-[4px] h-10'
@@ -289,33 +287,41 @@ const ProfileSettings = (props) => {
           </div>
         </div>
       </div>
-
-      <div class='flex flex-col w-full'>
-        <p class='text-18 text-white font-bold font-Oswald uppercase mb-2'>
+      <div class='flex flex-col w-full gap-2'>
+        <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Hash server seed')}
         </p>
-        <div class='center w-full gap-12'>
+        <div class='center w-full gap-4'>
           <div
-            class='flex-1 h-10 text-14 rounded-4 text-gray-8c placeholder-gray-8c border border-dark-20 px-4 font-normal overflow-hidden flex items-center'
-            placeholder='No tradeurl'
-            onInput={(e) => setClientSeed(e.currentTarget.value)}
-            value={clientSeed()}
+            class='w-[624px] p-[2px] rounded-[4px] h-10'
+            style={{
+              background:
+                'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
+            }}
           >
-            <p class='text-14 text-gray-6a font-medium truncate'>{userObject?.user?.server_seed}</p>
+            <div
+              class='flex w-full rounded-[4px] items-center h-full pl-4 pr-1 py-1'
+              style={{
+                background:
+                  'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02))'
+              }}
+            >
+              <p class='text-14 text-gray-6a font-medium w-[339px] truncate'>
+                {userObject?.user?.server_seed}
+              </p>
+            </div>
           </div>
-          <div
-            class='w-24 h-10 rounded-2 bg-dark-20 center hover'
-            style={{ filter: 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))' }}
-            onClick={regenServerSeed}
+
+          <GrayGradientButton
+            additionalClass='w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+            callbackFn={regenServerSeed}
           >
-            <p class='text-14 text-gray-8c font-black capitalize'>
-              {i18n.t('profile_true.settings.Regen')}
-            </p>
-          </div>
+            <span>{i18n.t('profile_true.settings.Refresh')}</span>
+          </GrayGradientButton>
         </div>
       </div>
 
-      <div class='flex items-center gap-6 mt-4'>
+      {/* <div class='flex items-center gap-6 mt-4'>
         <div class='flex hover' onClick={save}>
           <div
             class='cursor-pointer relative center hover w-20 sm:w-40 h-10 overflow-hidden rounded-2 bg-cover group scrolling-btn-wrapper'
@@ -342,7 +348,7 @@ const ProfileSettings = (props) => {
             </p>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }
