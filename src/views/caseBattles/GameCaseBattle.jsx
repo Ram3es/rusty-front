@@ -95,7 +95,9 @@ const GameCaseBattle = (props) => {
     setSpinOffsets([])
     const newSpinList = []
     for (let i = 0; i < 35; i++) {
-      newSpinList.push(rollItems()[Math.floor(createRandomFunction(game().id, game().currentRound, playerIndex) * rollItems().length)])
+      const r = Math.floor(createRandomFunction(game().id, game().currentRound, playerIndex)() * rollItems().length)
+      console.log('r!!!!!', r, rollItems());
+      newSpinList.push(rollItems()[r])
     }
     return newSpinList
   }
@@ -103,7 +105,7 @@ const GameCaseBattle = (props) => {
   const getRandomIndex = (playerIndex) => {
     return (
       Math.floor(
-      createRandomFunction(game().id, game().currentRound, playerIndex) * (otherOptions.verticalEndBound - otherOptions.verticalStartBound + 1)
+      createRandomFunction(game().id, game().currentRound, playerIndex) * (otherOptions.verticalEndBound - otherOptions.verticalStartBound + 1)()
       ) + otherOptions.verticalStartBound
     )
   }
@@ -150,10 +152,10 @@ const GameCaseBattle = (props) => {
           isBigWin: true
         }))
       )
-      // console.log(spinnerOptions())
+      console.log('spinnerOptions()', spinnerOptions())
       const newSpinIndexes = []
       const newSpinLists = []
-
+        console.log("game()", game());
       for (let i = 0; i < game().playersQty; i++) {
         const spinIndex = getRandomIndex(i)
         let spinList = generateSpinList(i)
@@ -167,6 +169,7 @@ const GameCaseBattle = (props) => {
         newSpinLists.push(spinList)
         newSpinIndexes.push(spinIndex)
       }
+      console.log('newSpinLists', newSpinLists);
       setSpinIndexes(() => newSpinIndexes)
       setSpinLists(() => newSpinLists)
       setReelsSpinning(() => true)
@@ -740,7 +743,7 @@ const GameCaseBattle = (props) => {
                                 <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                                   <span class='w-max'>Join</span>
                                   <Coin width='5' />
-                                  <span class='text-gradient'>{game().totalValue}</span>
+                                  <span class='text-gradient'>{game().fundBattle ? game().totalValue - (game().totalValue * (game().fundPercent / 100)) : game().totalValue}</span>
                                 </div>
                               </YellowGradientButton>
                             </div>

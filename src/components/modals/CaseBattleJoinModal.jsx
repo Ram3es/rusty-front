@@ -246,7 +246,7 @@ const CaseBattleJoinModal = (props) => {
                   Join
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{props.game?.totalValue}</span>
+                <span class='text-gradient'>{props.game?.fundBattle ? props.game?.totalValue - (props.game?.totalValue * (props.game?.fundPercent / 100)) : props.game?.totalValue}</span>
               </div>
             </CaseGradientButton>
           </div>

@@ -193,8 +193,8 @@ const CaseUnboxing = (props) => {
               </div> */}
             </div>
             <div
-              class={`rounded-4 ${
-                pendingNum() === 1 ? 'case-opening-wrapper' : 'case-opening-wrapper-horizontal'
+              class={`rounded-4 relative ${
+                pendingNum() === 1 ? 'case-opening-wrapper' : 'case-opening-wrapper-horizontal-yellow horisontal-borders'
               } overflow-hidden`}
             >
               <div

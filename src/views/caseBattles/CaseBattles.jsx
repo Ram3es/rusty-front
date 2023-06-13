@@ -431,7 +431,7 @@ const CaseBattles = (props) => {
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                           <span class='w-max'>Join</span>
                           <Coin width='5' />
-                          <span class='text-gradient'>{games[id]?.totalValue}</span>
+                          <span class='text-gradient'>{games[id]?.fundBattle ? games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100)) : games[id]?.totalValue}</span>
                         </div>
                       </YellowGradientButton>
                     ) : games[id].status === 'playing' ? (
