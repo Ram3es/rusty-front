@@ -159,11 +159,11 @@ const NewProfileGameHistory = (props) => {
       structure: CaseBattlesStructure,
       grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
     },
-    'cases': {
+    cases: {
       headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
       structure: CasesStructure,
       grid: 'grid-cols-[8rem_1.3fr_1.3fr_1.3fr_1.3fr_1.7fr_2fr]'
-    },
+    }
   }
 
   const transactionData = {
@@ -247,7 +247,16 @@ const NewProfileGameHistory = (props) => {
             />
           </svg>
         </RoundedButton>
-        <For each={pages()}>
+        <For
+          each={pages().slice(
+            pages().length - 5 < 0 || page() <= 2
+              ? 0
+              : pages().length - 3 < page()
+              ? pages().length - 5
+              : page() - 2,
+            page() <= 2 ? 5 : page() + 3
+          )}
+        >
           {(nr) => (
             <TransparentButton
               callbackFn={() => setCurrentPage(nr)}
@@ -285,13 +294,6 @@ const NewProfileGameHistory = (props) => {
             />
           </svg>
         </RoundedButton>
-        {/* <div
-          class={`bg-dark-20 text-gray-47 w-7 h-7 ${
-            pages().length > 5 && page() < pages().length - 3 ? 'center' : 'hidden'
-          } cursor-pointer`}
-        >
-          <p class='text-current text-14 font-bold font-SpaceGrotesk'>...</p>
-        </div> */}
       </div>
     </div>
   )
