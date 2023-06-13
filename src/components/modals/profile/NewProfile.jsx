@@ -82,7 +82,7 @@ const NewProfile = (props) => {
 
       <div
         class={`rounded-xl flex flex-col absolute lg:top-32  ${
-          currentTab() !== 'profile' ? 'w-[1208px] h-[935px]' : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
+          currentTab() !== 'profile' ? 'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]' : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
         } overflow-x-scroll`}
         style={{
           background:

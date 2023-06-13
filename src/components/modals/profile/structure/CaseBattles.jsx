@@ -20,8 +20,6 @@ const CaseBattlesStructure = (props) => {
       : 'blue'
   }
 
-  console.log(props.val)
-
   return (
     <>
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
@@ -80,23 +78,27 @@ const CaseBattlesStructure = (props) => {
           'text-[#5AC3FF]': getModeColor() === 'blue'
         }}
       >
-        {Number(props?.val?.info) &&
-          (props?.val?.extra_data === 'royal' ||
-            props?.val?.extra_data === 'group' ||
-            props?.val?.extra_data === 'team') &&
-          (getModeColor() === 'yellow' ? (
-            <BattleRoyaleIcon additionClasses='w-[14px]' />
-          ) : getModeColor() === 'green' ? (
-            <BattleCursedIcon additionClasses='w-[14px]' />
-          ) : (
-            <BattleGroupIcon additionClasses='w-[14px]' />
-          ))}
-        {(props?.val?.extra_data === 'royal' || props?.val?.extra_data === 'team') &&
-        props?.val?.cursed !== 1
-          ? 'Battle Royale'
-          : props?.val?.cursed === 1
-          ? 'Cursed'
-          : 'Group'}
+        <span>
+          {Number(props?.val?.info) &&
+            (props?.val?.extra_data === 'royal' ||
+              props?.val?.extra_data === 'group' ||
+              props?.val?.extra_data === 'team') &&
+            (getModeColor() === 'yellow' ? (
+              <BattleRoyaleIcon additionClasses='w-[14px]' />
+            ) : getModeColor() === 'green' ? (
+              <BattleCursedIcon additionClasses='w-[14px]' />
+            ) : (
+              <BattleGroupIcon additionClasses='w-[14px]' />
+            ))}
+        </span>
+        <span>
+          {(props?.val?.extra_data === 'royal' || props?.val?.extra_data === 'team') &&
+          props?.val?.cursed !== 1
+            ? 'Battle Royale'
+            : props?.val?.cursed === 1
+            ? 'Cursed'
+            : 'Group'}
+        </span>
       </div>
       <div
         class={`flex items-center gap-2 ${
