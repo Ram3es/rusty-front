@@ -21,6 +21,7 @@ import FiatStructure from './structure/Fiat'
 import CryptoStructure from './structure/Crypto'
 import RoundedButton from '../../elements/RoundedButton'
 import TransparentButton from '../../elements/TransparentButton'
+import CaseBattlesStructure from './structure/CaseBattles'
 
 const navigationGameModes = [
   {
@@ -70,7 +71,7 @@ const NewProfileGameHistory = (props) => {
 
   const i18n = useI18n()
 
-  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[7].value)
+  const [currentTab, setCurrentTab] = createSignal(navigationGameModes[0].value)
 
   const [page, setCurrentPage] = createSignal(0)
   const [pages, setPages] = createSignal([1])
@@ -151,6 +152,11 @@ const NewProfileGameHistory = (props) => {
       headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
       structure: UpgraderStructure,
       grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
+    },
+    'case-battles': {
+      headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
+      structure: CaseBattlesStructure,
+      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
     }
   }
 
