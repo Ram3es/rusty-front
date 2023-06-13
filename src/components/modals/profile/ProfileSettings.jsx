@@ -23,6 +23,8 @@ const ProfileSettings = (props) => {
   const [clientSeed, setClientSeed] = createSignal(
     userObject?.user?.client_seed ? userObject.user.client_seed : ''
   )
+  const [toggleSeed, setToggleSeed] = createSignal(true)
+
   const [isLangModalOpen, setLangModalOpen] = createSignal(false)
   const [availableLocales, setAvailableLocales] = createSignal([])
   const [setRoom] = roomStore
@@ -240,32 +242,50 @@ const ProfileSettings = (props) => {
             </For>
           </ul>
         </div>
-        {/* <Dropdown
-          activeName={availableLocales().find(item => item.active).title}
-          itemsList={availableLocales()}
-          submitItem={() => toggleActiveLang(1)}
-        /> */}
       </div>
 
-      <div class='flex flex-col w-full'>
-        <p class='text-18 text-white font-bold font-Oswald uppercase mb-2'>
+      <div class='flex flex-col w-full gap-2'>
+        <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Client seed')}
         </p>
-        <div class='center w-full gap-12'>
-          <input
-            class='flex-1 h-10 text-14 rounded-4 text-gray-8c placeholder-gray-8c border border-dark-20 px-4 font-normal'
-            placeholder='No tradeurl'
-            onInput={(e) => setClientSeed(e.currentTarget.value)}
-            value={clientSeed()}
-          />
+        <div
+          class='w-[436px] p-[2px] rounded-[4px] h-10'
+          style={{
+            background:
+              'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
+          }}
+        >
           <div
-            class='w-24 h-10 rounded-2 bg-dark-20 center hover'
-            style={{ filter: 'drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.25))' }}
-            onClick={changeClientSeed}
+            class='flex w-full rounded-[4px] justify-between items-center h-full'
+            style={{
+              background:
+                'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02))'
+            }}
           >
-            <p class='text-14 text-gray-8c font-black capitalize'>
-              {i18n.t('profile_true.settings.Change')}
-            </p>
+            <div class='flex items-center gap-2 justify-between pl-4 pr-1 py-1 w-full'>
+              <input
+                class={`text-gray-92 text-14 font-medium font-SpaceGrotesk w-full sm:w-[340px] ${
+                  toggleSeed() ? '' : 'hidden'
+                }`}
+                placeholder={i18n.t('coinflip.affiliates_true.Enter code')}
+                onInput={(e) => setClientSeed(e.currentTarget.value)}
+                value={clientSeed()}
+              />
+              <p
+                class={`text-gray-92 w-full sm:w-44 ${
+                  toggleSeed() ? 'hidden' : ''
+                } text-14 font-medium uppercase`}
+                onClick={() => setToggleSeed((prev) => !prev)}
+              >
+                {clientSeed()}
+              </p>
+              <div
+                class='flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
+                onClick={changeClientSeed}
+              >
+                Save
+              </div>
+            </div>
           </div>
         </div>
       </div>
