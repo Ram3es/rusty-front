@@ -195,7 +195,7 @@ const NewProfileHistory = (props) => {
       grid: 'grid-cols-[2fr_1fr_2fr_1fr]'
     },
     fiat: {
-      headings: ['type', 'order id', 'amount', 'status'],
+      headings: ['type', 'Transaction ID', 'amount', 'status'],
       structure: FiatStructure,
       grid: 'grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
     }

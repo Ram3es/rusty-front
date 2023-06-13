@@ -145,7 +145,7 @@ const SkinsStructure = (props) => {
         </p>
       </div>
       <div class='w-full flex items-center justify-end overflow-hidden relative cursor-pointer'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate max-w-full'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
           {date}
         </p>
       </div>
