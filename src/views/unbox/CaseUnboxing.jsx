@@ -25,7 +25,7 @@ export const [isFastAnimation, setIsFastAnimation] = createSignal(false)
 export const [isRolling, setIsRolling] = createSignal(false)
 
 const CaseUnboxing = (props) => {
-  const { socket, toastr } = injector
+  const { socket, toastr, userObject } = injector
 
   const [rollCase, setRollCase] = createSignal()
   const [rollItems, setRollItems] = createSignal([])
@@ -35,6 +35,7 @@ const CaseUnboxing = (props) => {
   const [countOfCases, setCountOfCases] = createSignal(1)
   const [pendingNum, setPendingNum] = createSignal(1)
   const [spinnerOptions, setSpinnerOptions] = createSignal([])
+  const [fairnessHash, setFairnessHash] = createSignal([])
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -166,6 +167,7 @@ const CaseUnboxing = (props) => {
               isBigWin: true
             }))
           )
+          setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash))
           console.log(spinnerOptions())
           setIsCaseAlreadyOpened(() => true)
           setCountOfCases(pendingNum())
@@ -181,15 +183,22 @@ const CaseUnboxing = (props) => {
       {rollCase() && (
         <div class='w-full h-full flex flex-col gap-8 overflow-y-scroll relative min-h-screen pt-8'>
           <div class='px-4 xl:px-8 xxl:px-14 flex flex-col gap-8'>
-            <div class='flex justify-between'>
+            <div class='flex justify-between flex-col md:flex-row'>
               <NavLink href={URL.UNBOXING}>
                 <div class='flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max'>
                   <ArrowBack />
                   <span class='font-SpaceGrotesk text-14 text-gray-9a'>Return to Cases</span>
                 </div>
               </NavLink>
-              <div className="flex flex-col items-end">
-                {rollCase()?.hash}
+              <div class="flex flex-col items-end font-SpaceGrotesk text-11 text-gray-9a">
+                <For each={fairnessHash()}>
+                  {(hash) => (
+                    <p>
+                      Server Seed Hash: {hash}
+                    </p>
+                  )}
+                </For>
+                <p>Client Seed: {userObject.user.client_seed}</p>
               </div>
             </div>
             <div
