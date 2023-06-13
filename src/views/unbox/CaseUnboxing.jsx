@@ -188,9 +188,9 @@ const CaseUnboxing = (props) => {
                   <span class='font-SpaceGrotesk text-14 text-gray-9a'>Return to Cases</span>
                 </div>
               </NavLink>
-              {/* <div className="flex flex-col items-end">
+              <div className="flex flex-col items-end">
                 {rollCase()?.hash}
-              </div> */}
+              </div>
             </div>
             <div
               class={`rounded-4 relative ${

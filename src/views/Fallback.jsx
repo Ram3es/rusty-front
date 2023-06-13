@@ -19,7 +19,6 @@ const Fallback = ({ children, loaded, type, ignoreItems }) => {
                 if (!isLoaded) images.forEach(image => {
                     if (!image.complete) console.log(image, image.complete)
                 })
-                console.log('setIsItemsLoaded', isLoaded);
                 return isLoaded
             });
             if (isItemsLoaded()) {
