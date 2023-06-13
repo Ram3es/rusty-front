@@ -311,7 +311,7 @@ const CaseBattles = (props) => {
                                       ? ''
                                       : 'opacity-20'
                                   }`}
-                                  src={caseItem?.image?.replace('{url}', window.origin) || ''}
+                                  src={caseItem?.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || ''}
                                 />
                                 <div class='absolute right-3 top-3'>
                                   <DarkWrapperdWithBorders isActive={true} classes='rounded-3'>
@@ -368,7 +368,7 @@ const CaseBattles = (props) => {
                                 <img
                                   alt={caseItem.name}
                                   class='h-[101px] w-[138px]'
-                                  src={caseItem?.image?.replace('{url}', window.origin) || ''}
+                                  src={caseItem?.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || ''}
                                 />
                               </div>
                             )}

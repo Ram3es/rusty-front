@@ -34,7 +34,7 @@ const CaseCardToAdd = (props) => {
       }}
     />
     <div class={`relative grow z-10 px-4 ${!props.isAdded && "pb-5"} pb-2 pt-0 flex flex-col justify-end items-center`}>
-      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} 
+      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin).replace('.png', '_thumbnail.png') : ''} alt={props.item.name} 
         style={{
           filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
           transition: isMounting() ? `none` : `all 0.15s ease-in-out`  // dynamically adjust transition

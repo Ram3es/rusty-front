@@ -70,6 +70,7 @@ import CaseBattles from "./views/caseBattles/CaseBattles";
 import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
+import PlinkoContainer from "./components/plinko/PlinkoContainer";
 
 const App = () => {
 
@@ -200,7 +201,7 @@ const App = () => {
                                   <Route
                                     exact
                                     path={`${URL.GAMEMODES.PLINKO}`}
-                                    element={<Plinko loaded={loaded} pathname={pathname} />}
+                                    element={<PlinkoContainer loaded={loaded} pathname={pathname} />}
                                   />
                                   <Route
                                     path={`${URL.GAMEMODES.COINFLIP}/*`}

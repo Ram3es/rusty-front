@@ -1,5 +1,5 @@
 import { Engine, World, Bodies, Events } from "matter-js";
-import RustyGlowBall from "../../../assets/plinko/new/PlinkoGlowBall.svg";
+import RustyGlowBall from "../../../../assets/img/plinko/new/PlinkoGlowBall.svg";
 import { createEffect, onCleanup, createSignal } from "solid-js";
 import P5 from "p5";
 
