@@ -814,7 +814,7 @@ const CreateCaseBattle = (props) => {
                   <p class="text-center font-SpaceGrotesk text-11 font-bold text-white">
                     On win you receive{" "}
                     <span class="text-green-27">
-                      {Math.floor(modeToCreate().borrowPercent * 0.8)}%
+                      {100 - Math.floor(modeToCreate().borrowPercent * 0.8)}%
                     </span>{" "}
                     of total win amount!
                   </p>

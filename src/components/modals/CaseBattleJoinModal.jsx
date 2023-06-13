@@ -162,7 +162,7 @@ const CaseBattleJoinModal = (props) => {
                     <>
                       <div
                         onClick={() => {
-                          if (player !== null || player.id === userObject.user?.id) return
+                          if (player !== null || player?.id === userObject.user?.id) return
                           setSetup((prevState) => ({
                             ...prevState,
                             team: setup().team === index() + 1 ? null : index() + 1
@@ -363,7 +363,7 @@ const CaseBattleJoinModal = (props) => {
                 >
                   <p class='text-center font-SpaceGrotesk text-11 font-bold text-white'>
                     On win you receive{' '}
-                    <span class='text-green-27'>{Math.floor(setup().borrowPercent * 0.8)}%</span> of
+                    <span class='text-green-27'>{100 - Math.floor(setup().borrowPercent * 0.8)}%</span> of
                     total win amount!
                   </p>
                 </div>
