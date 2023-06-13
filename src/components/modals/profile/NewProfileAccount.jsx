@@ -148,7 +148,7 @@ const NewProfileAccount = (props) => {
       <div class='pt-[32px] w-full grid place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[18px]'>
         <For each={stats}>
           {(item) => (
-            <div class='w-[244px] h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22'>
+            <div class='w-[244px] h-24 xll:h-24 flex justify-center items-center relative rounded-4 bg-dark-22'>
               <div
                 class={`w-full h-full absolute left-0 top-0 rounded-4 backdrop-blur-sm ${
                   item.type === 'profit' ? 'green-borders' : ''

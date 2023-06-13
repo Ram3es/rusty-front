@@ -81,11 +81,13 @@ const NewProfile = (props) => {
       <NavLink href={props.pathname()} class='w-full h-full absolute left-0 top-0' />
 
       <div
-        class={`rounded-xl flex flex-col absolute lg:top-32  ${
-          currentTab() === 'game history'
-            ? 'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]'
-            : 'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]'
-        } overflow-x-scroll`}
+        class={`rounded-xl flex flex-col absolute lg:top-32 overflow-x-scroll`}
+        classList={{
+          'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab() === 'game history',
+          'md:w-[650px] lg:w-[830px] w-[85%] h-[870px]': currentTab() === 'transactions',
+          'md:w-[650px] lg:w-[830px] w-[85%] max-h-[600px]':
+            currentTab() !== 'game history' && currentTab() !== 'transactions'
+        }}
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
