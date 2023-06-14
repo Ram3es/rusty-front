@@ -117,7 +117,7 @@ const CoinflipGameSide = (props) => {
                   (getSideCreator() ? RedCoin : BlackCoin)
             }
           />
-          {Object.keys(props.data()?.[props.left ? 'creator' : 'opponent']).length !== 0 && (
+          {Object.keys(props.data()?.[props.left ? 'creator' : 'opponent'] ?? {}).length !== 0 && (
             <img
               alt='coin'
               class={`w-6 h-6 absolute ${props.left ? 'right-0' : 'left-0'} top-8`}
