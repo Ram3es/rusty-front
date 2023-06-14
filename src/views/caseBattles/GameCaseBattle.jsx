@@ -10,16 +10,16 @@ import {
 } from "solid-js";
 import HoveredButton from "../../components/elements/HoveredButton";
 import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel";
-import {otherOptions} from "../../libraries/caseSpinConfig";
-import {isNumber} from "chart.js/helpers";
+import { otherOptions } from "../../libraries/caseSpinConfig";
+import { isNumber } from "chart.js/helpers";
 import Coin from "../../utilities/Coin";
 import Logo from "../../assets/smallLogo.svg";
 import Ranks from "../../utilities/Ranks";
 import RankLabel from "../../components/chat/RankLabel";
 import ItemPlaceholder from "../../assets/img/case/ItemPlaceholder.png";
-import {NavLink} from "solid-app-router";
+import { NavLink } from "solid-app-router";
 import ArrowBack from "../../components/icons/ArrowBack";
-import {URL} from "../../libraries/url";
+import { URL } from "../../libraries/url";
 import BattleRoyaleIcon from "../../components/icons/BattleRoyaleIcon";
 import BattleCursedIcon from "../../components/icons/BattleCursedIcon";
 import BattleGroupIcon from "../../components/icons/BattleGroupIcon";
@@ -34,10 +34,10 @@ import Spiner from "../../components/battle/Spiner";
 import YellowGradientButton from "../../components/elements/CaseGradientButton";
 import GrayGradientButton from "../../components/elements/GrayGradientButton";
 import EmojiIcon from "../../components/icons/EmojiIcon";
-import {getRandomFunction} from "../../utilities/Random/randomGen";
+import { getRandomFunction } from "../../utilities/Random/randomGen";
 import WinningsDisplay from "../../components/battle/WinningsDisplay";
 import LosingDisplay from "../../components/battle/LosingDisplay";
-import {getCurrencyString} from "../../components/mines_new/utils/tools";
+import { getCurrencyString } from "../../components/mines_new/utils/tools";
 
 export const [containerRef, setContainerRef] = createSignal();
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -57,8 +57,8 @@ export const playEndAudio = () => {
 const GameCaseBattle = (props) => {
   createEffect(() => {
     console.log(game());
-  })
-  const {socket, userObject} = injector;
+  });
+  const { socket, userObject } = injector;
 
   const [game, setGame] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -106,17 +106,20 @@ const GameCaseBattle = (props) => {
   const generateSpinList = (playerIndex) => {
     // console.log("CHECKING VALUES");
     // console.log(game().id, game().currentRound, playerIndex);
-   
+
     // console.log("RANDOM FUNCTEST");
     // console.log(randomFunction());
     setSpinOffsets([]);
     const newSpinList = [];
     for (let i = 0; i < 35; i++) {
-      const r = Math.floor(createRandomFunction(game().id, game().currentRound, playerIndex, i)() * rollItems().length);
+      const r = Math.floor(
+        createRandomFunction(game().id, game().currentRound, playerIndex, i)() *
+          rollItems().length
+      );
       // console.log('r!!!!!', r, rollItems());
       newSpinList.push(rollItems()[r]);
     }
-    console.log('newSpinList', newSpinList)
+    console.log("newSpinList", newSpinList);
     return newSpinList;
   };
 
@@ -134,7 +137,7 @@ const GameCaseBattle = (props) => {
     setRollItems([]);
     setSpinnerOptions([]);
     setGame(() => inputGame);
-    
+
     // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
     if (inputGame.status === "playing") {
       setTimeout(() => {
@@ -147,7 +150,7 @@ const GameCaseBattle = (props) => {
     if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
       setRollItems(() =>
         inputGame.cases[inputGame.currentRound].items.map((item) => ({
-          img: item.image?.replace('{url}', window.origin) || '',
+          img: item.image?.replace("{url}", window.origin) || "",
           price: item.item_price,
           name: item.name,
           rarity: getColor(item.item_price),
@@ -320,7 +323,12 @@ const GameCaseBattle = (props) => {
     );
   };
 
-  const createRandomFunction = (gameId, currentRound, playerIndex = 2, i = 0) => {
+  const createRandomFunction = (
+    gameId,
+    currentRound,
+    playerIndex = 2,
+    i = 0
+  ) => {
     const rng = getRandomFunction(
       `${gameId.toString()}${currentRound.toString()}${playerIndex.toString()}${i.toString()}}`
     );
@@ -404,7 +412,7 @@ const GameCaseBattle = (props) => {
                       : "Group"}
                   </div>
                 </div>
-                <div class="h-11 rounded-4 flex items-center px-3 border border-gray-9a text-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
+                <div class="h-10 rounded-4 flex items-center px-3 border border-gray-9a text-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
                   <FairnessShieldIcon />
                   <span>Fairness</span>
                 </div>
@@ -673,31 +681,40 @@ const GameCaseBattle = (props) => {
                                     </div>
                                   ))}
                                 <Switch>
-                                  <Match when={game().status === "playing" && spinLists().length > 0 && game().players["1"].round_0.id !== null}>
-                                  {() => {
-                                      const randomFunction = createRandomFunction(
-                                        game().id,
-                                        game().currentRound,
-                                        playerIndex
+                                  <Match
+                                    when={
+                                      game().status === "playing" &&
+                                      spinLists().length > 0 &&
+                                      game().players["1"].round_0.id !== null
+                                    }
+                                  >
+                                    {() => {
+                                      const randomFunction =
+                                        createRandomFunction(
+                                          game().id,
+                                          game().currentRound,
+                                          playerIndex
+                                        );
+                                      return !!spinnerOptions()[playerIndex] &&
+                                        !!spinLists()[playerIndex] ? (
+                                        <BattleSpinnerReel
+                                          spinnerIndex={playerIndex}
+                                          isConfettiWin={
+                                            spinnerOptions()[playerIndex]
+                                              .isConfettiWin
+                                          }
+                                          isBigWin={
+                                            spinnerOptions()[playerIndex]
+                                              .isBigWin
+                                          }
+                                          isFastSpin={false}
+                                          lineColor={getModeColor()}
+                                          randomFunction={randomFunction}
+                                        />
+                                      ) : (
+                                        <Spiner classes="w-9 text-yellow-ffb" />
                                       );
-                                    return (!!spinnerOptions()[playerIndex] &&
-                                    !!spinLists()[playerIndex] ? (
-                                      <BattleSpinnerReel
-                                        spinnerIndex={playerIndex}
-                                        isConfettiWin={
-                                          spinnerOptions()[playerIndex]
-                                            .isConfettiWin
-                                        }
-                                        isBigWin={
-                                          spinnerOptions()[playerIndex].isBigWin
-                                        }
-                                        isFastSpin={false}
-                                        lineColor={getModeColor()}
-                                        randomFunction={randomFunction}
-                                      />
-                                    ) : (
-                                      <Spiner classes="w-9 text-yellow-ffb" />
-                                    ))}}
+                                    }}
                                   </Match>
                                   <Match when={game().status === "open"}>
                                     {game().players[playerIndex + 1] ? (
