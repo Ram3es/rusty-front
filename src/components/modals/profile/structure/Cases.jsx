@@ -1,6 +1,6 @@
 import Coin from '../../../../utilities/Coin'
 
-const UpgraderStructure = (props) => {
+const CasesStructure = (props) => {
   const splitted = props?.val?.timestamp?.split('T')?.[0].split('-')
 
   const date = `${splitted[1]}/${splitted[2]}/${splitted[0]} ${
@@ -15,32 +15,23 @@ const UpgraderStructure = (props) => {
       <div class='flex items-center gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient font-bold font-SpaceGrotesk uppercase my-auto'>
-          {Number(props?.val?.bet_value).toLocaleString()}
+          {Number(props?.val?.bet_value).toLocaleString() ?? 1000}
         </p>
       </div>
       <div class='flex items-center gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient-green-secondary font-bold font-SpaceGrotesk uppercase my-auto'>
-          {Number(props?.val?.winnings).toLocaleString()}
+          {Number(props?.val?.winnings).toLocaleString() ?? 1000}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
-        {(props?.val?.winnings / props?.val?.bet_value || 0)?.toFixed(2)}x
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto truncate'>
+        {props?.val?.info.split('_')[0]}
       </p>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
-        {props?.val?.info || 0}%
-      </p>
-      <div
-        class={`flex items-center gap-2 ${
-          props?.val?.winnings <= 0 ? 'text-gray-9aa' : 'text-gradient-green-secondary'
-        }`}
-      >
-        <p class='text-current text-14 font-bold font-SpaceGrotesk uppercase'>
-          {props?.val?.winnings > 0 ? 'win' : 'loss'}
-        </p>
-      </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-16 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto truncate'>
         {props?.val?.extra_data}
+      </p>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        {props?.val?.info.split('_')[1]}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
@@ -51,4 +42,4 @@ const UpgraderStructure = (props) => {
   )
 }
 
-export default UpgraderStructure
+export default CasesStructure
