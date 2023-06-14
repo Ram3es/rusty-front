@@ -136,7 +136,7 @@ const SkinsStructure = (props) => {
         </p>
       </div>
       <div
-        class={`flex items-center gap-2 ${
+        class={`flex items-center gap-2 z-10 ${
           props?.val?.status !== 'ACCEPTED' ? 'text-gray-9a' : 'text-gradient-green-secondary'
         } ${resentTrade()?.process_id ? 'cursor-pointer underline text-white' : ''}`}
       >
