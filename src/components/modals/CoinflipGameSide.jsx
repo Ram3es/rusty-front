@@ -18,6 +18,7 @@ import CaseGradientButton from '../elements/CaseGradientButton'
 import Spiner from '../battle/Spiner'
 import RankLabel from '../chat/RankLabel'
 import EmojiIcon from '../icons/EmojiIcon'
+import { createEffect } from 'solid-js'
 
 const CoinflipGameSide = (props) => {
   const i18n = useI18n()
@@ -52,6 +53,10 @@ const CoinflipGameSide = (props) => {
       (!props.left && props.data()?.creator?.side === 2)
     )
   }
+
+  createEffect(() => {
+    console.log('side', props.data());
+  })
 
   return (
     <div class='w-full flex flex-col z-10 h-full relative'>
@@ -102,8 +107,8 @@ const CoinflipGameSide = (props) => {
             class={`w-full h-full rounded-full ${
               props.data()?.status === 'pending' &&
               !props.left &&
-              props.counter() <= 10 &&
-              'opacity-25'
+              props.counter() <= 10 ?
+              'opacity-25' : ''
             }`}
             src={
               props.data()?.[props.left ? 'creator' : 'opponent']?.bot
@@ -112,7 +117,7 @@ const CoinflipGameSide = (props) => {
                   (getSideCreator() ? RedCoin : BlackCoin)
             }
           />
-          {props.data()?.[props.left ? 'creator' : 'opponent']?.side && (
+          {Object.keys(props.data()?.[props.left ? 'creator' : 'opponent']).length !== 0 && (
             <img
               alt='coin'
               class={`w-6 h-6 absolute ${props.left ? 'right-0' : 'left-0'} top-8`}
