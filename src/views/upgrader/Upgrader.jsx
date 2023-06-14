@@ -14,6 +14,9 @@ import PageLoadState from "../../libraries/PageLoadState";
 
 export const [betAmount, setBetAmount] = createSignal(100);
 
+export const [currentGameId, setCurrentGameId] = createSignal("");
+export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
+
 const Upgrader = ({loaded}) => {
   const {socket, toastr, userObject} = injector;
   let upgraderAnimation;
@@ -34,8 +37,6 @@ const Upgrader = ({loaded}) => {
 
   const [search, setSearch] = createSignal("");
   const [descending, setDescending] = createSignal(false);
-  const [currentGameId, setCurrentGameId] = createSignal("");
-  const [currentGameRoll, setCurrentGameRoll] = createSignal("");
   const [itemsLimit, setItemsLimit] = createSignal(48);
   const {upgraderPageLoaded, onUpgraderPageLoad} = PageLoadState;
 

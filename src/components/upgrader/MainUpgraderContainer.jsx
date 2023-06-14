@@ -1,7 +1,7 @@
 import {createSignal} from "solid-js";
 
 import UpgraderMenu from "./menu/UpgraderMenu";
-import DomeContainer from "./menu/dome/DomeContainer";
+import DomeContainer from "./dome/DomeContainer";
 import CurrentItemContainer from "./CurrentItemContainer";
 
 export const [betAmount, setBetAmount] = createSignal(607);
