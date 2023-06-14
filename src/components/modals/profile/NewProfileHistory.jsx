@@ -139,8 +139,6 @@ const NewProfileHistory = (props) => {
     }
     setCurrentPage(1)
     setPages(indices)
-
-    console.log(indices)
   })
 
   const gamesData = {
