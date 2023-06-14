@@ -65,6 +65,8 @@ const GameCaseBattle = (props) => {
   const [containsBigWin, setContainsBigWin] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
   const [battleCases, setBattleCases] = createSignal([]);
+  let counter = 0;
+  let intervalId;
 
   const getModeColor = () => {
     return (game().mode === "royal" || game().mode === "team") &&
@@ -131,79 +133,79 @@ const GameCaseBattle = (props) => {
   };
 
   const updateGame = (inputGame) => {
-    // console.log('inputGame', inputGame)
+    console.log('inputGame', inputGame)
     setRollItems([]);
     setSpinnerOptions([]);
-    setGame(() => inputGame);
 
     // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
-    if (inputGame.status === "playing") {
-      setTimeout(() => {
+      setGame(() => inputGame);
+      if (inputGame.status === "playing") {
+        setTimeout(() => {
+          setWinnings(inputGame.players);
+        }, 5500);
+      } else {
         setWinnings(inputGame.players);
-      }, 5500);
-    } else {
-      setWinnings(inputGame.players);
-    }
-    if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
-      setRollItems(() =>
-        inputGame.cases[inputGame.currentRound].items.map((item) => ({
-          img: item.image?.replace("{url}", window.origin) || "",
-          price: item.item_price,
-          name: item.name,
-          rarity: getColor(item.item_price),
-        }))
-      );
-      setSpinnerOptions(() =>
-        Array.from(Array(inputGame.playersQty).keys()).map((playerIndex) => ({
-          winningItem: {
-            img:
-              inputGame.players[playerIndex + 1][
-                `round_${inputGame.currentRound}`
-              ].image?.replace("{url}", window.origin) || "",
-            price:
-              inputGame.players[playerIndex + 1][
-                `round_${inputGame.currentRound}`
-              ].item_price,
-            name: inputGame.players[playerIndex + 1][
-              `round_${inputGame.currentRound}`
-            ].name,
-            rarity: getColor(
-              inputGame.players[playerIndex + 1][
-                `round_${inputGame.currentRound}`
-              ].item_price
-            ),
-          },
-          isConfettiWin:
-            inputGame.players[playerIndex + 1][
-              `round_${inputGame.currentRound}`
-            ].isWinner,
-          isBigWin: true,
-        }))
-      );
-      console.log("spinnerOptions()", spinnerOptions());
-      const newSpinIndexes = [];
-      const newSpinLists = [];
-      console.log("game()", game());
-      for (let i = 0; i < game().playersQty; i++) {
-        const spinIndex = getRandomIndex(i);
-        let spinList = generateSpinList(i);
-        spinList[spinIndex] = spinnerOptions()[i].winningItem;
-        if (spinnerOptions()[i].isBigWin) {
-          setContainsBigWin(true);
-        }
-        if (spinnerOptions()[i].isConfettiWin) {
-          setContainsConfettiWin(true);
-        }
-        newSpinLists.push(spinList);
-        newSpinIndexes.push(spinIndex);
       }
-      console.log("newSpinLists", newSpinLists);
-      console.log("newSpinIndexes", newSpinIndexes);
-      setSpinIndexes(() => newSpinIndexes);
-      setSpinLists(() => newSpinLists);
-      setReelsSpinning(() => true);
-      // console.log('srinList!!!!!!', spinLists)
-    }
+      if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
+        setRollItems(() =>
+          inputGame.cases[inputGame.currentRound].items.map((item) => ({
+            img: item.image?.replace("{url}", window.origin) || "",
+            price: item.item_price,
+            name: item.name,
+            rarity: getColor(item.item_price),
+          }))
+        );
+        setSpinnerOptions(() =>
+          Array.from(Array(inputGame.playersQty).keys()).map((playerIndex) => ({
+            winningItem: {
+              img:
+                inputGame.players[playerIndex + 1][
+                  `round_${inputGame.currentRound}`
+                ].image?.replace("{url}", window.origin) || "",
+              price:
+                inputGame.players[playerIndex + 1][
+                  `round_${inputGame.currentRound}`
+                ].item_price,
+              name: inputGame.players[playerIndex + 1][
+                `round_${inputGame.currentRound}`
+              ].name,
+              rarity: getColor(
+                inputGame.players[playerIndex + 1][
+                  `round_${inputGame.currentRound}`
+                ].item_price
+              ),
+            },
+            isConfettiWin:
+              inputGame.players[playerIndex + 1][
+                `round_${inputGame.currentRound}`
+              ].isWinner,
+            isBigWin: true,
+          }))
+        );
+        console.log("spinnerOptions()", spinnerOptions());
+        const newSpinIndexes = [];
+        const newSpinLists = [];
+        console.log("game()", game());
+        for (let i = 0; i < game().playersQty; i++) {
+          const spinIndex = getRandomIndex(i);
+          let spinList = generateSpinList(i);
+          spinList[spinIndex] = spinnerOptions()[i].winningItem;
+          if (spinnerOptions()[i].isBigWin) {
+            setContainsBigWin(true);
+          }
+          if (spinnerOptions()[i].isConfettiWin) {
+            setContainsConfettiWin(true);
+          }
+          newSpinLists.push(spinList);
+          newSpinIndexes.push(spinIndex);
+        }
+        console.log("newSpinLists", newSpinLists);
+        console.log("newSpinIndexes", newSpinIndexes);
+        setSpinIndexes(() => newSpinIndexes);
+        setSpinLists(() => newSpinLists);
+        setReelsSpinning(() => true);
+        // console.log('srinList!!!!!!', spinLists)
+      }
     // console.log(document.querySelectorAll('[data-spiner-row]'))
     // console.log(document.querySelectorAll('[data-won-item]'))
   };
@@ -249,23 +251,64 @@ const GameCaseBattle = (props) => {
     return game().cases[game().currentRound > 0 ? game().currentRound - 1 : 0];
   };
 
+  function mapAndRemoveRound(obj) {
+    const newObj = Object.fromEntries(
+      Object.entries(obj).reduce((acc, [key, value]) => {
+        
+        const val = Object.fromEntries(Object.entries(value).reduce((g, [key, value]) => {
+          if (!key.includes("round") ) {
+            g.push([key, value]);
+          } else {
+            const roundIndex = parseInt(key.split('_')[1]);
+            if (isNaN(roundIndex) || roundIndex <= counter) {
+              g.push([key, value]);
+            }
+          }
+          return g;
+        }, []))
+        
+        acc.push([key, val]);
+        return acc;
+      }, [])
+    );
+  
+    return newObj;
+  }
+
   createEffect(() => {
     if (props.loaded()) {
       if (props.searchParams.id) {
-        socket.emit(
-          "battle:get",
-          {
-            gameId: Number(props.searchParams.id),
-            urlKey: props.searchParams.key,
-          },
-          (data) => {
-            // console.log(data)
-            if (data.data?.game) {
-              updateGame(data.data.game);
-              setBattleCases(data.data.game.cases);
+        
+          socket.emit(
+            "battle:get",
+            {
+              gameId: Number(props.searchParams.id),
+              urlKey: props.searchParams.key,
+            },
+            (data) => {
+              console.log(data)
+              if (data.data?.game) {
+                setBattleCases(data.data.game.cases);
+                if (!props.searchParams.reply) {
+                  updateGame(data.data.game);
+                } else {
+                  updateGame({...data.data.game, status: "playing", currentRound: counter, players: mapAndRemoveRound(data.data.game.players), winners: undefined});
+                  counter++;
+                  intervalId = setInterval(() => {
+                    if (counter < data.data.game.cases.length) {
+                      const t = {...data.data.game, status: "playing", currentRound: counter, players: mapAndRemoveRound(data.data.game.players), winners: undefined }
+                      updateGame(t);
+                      counter++;
+                    } else {
+                      updateGame({...data.data.game, status: "ended" });
+                      clearInterval(intervalId);
+                    }
+                  }, 5500)
+                }
+              }
             }
-          }
-        );
+          );
+        
       }
     }
   });
@@ -285,6 +328,8 @@ const GameCaseBattle = (props) => {
     setSpinOffsets([]);
     setGame(undefined);
     socket.off(`battles:update`);
+    counter = 0;
+    clearInterval(intervalId);
   });
 
   const isWinner = (winnersArray, playerIndex) => {
