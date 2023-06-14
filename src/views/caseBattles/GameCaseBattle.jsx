@@ -620,19 +620,10 @@ const GameCaseBattle = (props) => {
                       >
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
-                            class='absolute w-full bg-center inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
+                            class='absolute w-full  inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
                             style={{
-                              // 'background-image': `url('${footerLogoBgVector}')`,
-                              'background-image': `url('${bgVectorCaseBattle}')`
-                              // 'background-size': '250%',
-                              // 'background-position': 'center'
-                            }}
-                          />
-                          <div
-                            class='absolute top-0 inset-0 w-full rotate-[-180deg] bg-red-ff'
-                            style={{
-                              // background:
-                              //   'linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
+                              'background-image': `url('${bgVectorCaseBattle}')`,
+                              opacity: 0.002
                             }}
                           />
                           <div
@@ -651,7 +642,8 @@ const GameCaseBattle = (props) => {
                             class='absolute left-0 top-0 w-full h-[68px]'
                             style={{
                               background:
-                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)'
+                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)',
+                                opacity: 0.5
                             }}
                           />
                           <div
