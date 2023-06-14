@@ -1,4 +1,4 @@
-import { createEffect, createSignal, For } from "solid-js";
+import { createEffect, createMemo, createSignal, For } from "solid-js";
 import { useI18n } from "../../i18n/context";
 
 import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
@@ -17,10 +17,20 @@ import injector from "../../injector/injector";
 import Fallback from "../Fallback";
 import Ranks from "../../utilities/Ranks";
 import Coin from "../../utilities/Coin";
-import TableLeaderboard from "./TableLeaderboard";
+import TableLeaderboard from "../../components/leaderbord/TableLeaderboard";
+import LeaderbordTopCard from "../../components/leaderbord/LeaderbordTopCard"
+import LeaderbordBanner from "../../components/leaderbord/LeaderbordBanner"
+
+
+const intersectColors = {
+  0 : "#FFC467",
+  1 : "white",
+  2 : "#C73200"
+ }
 
 const Leaderboard = () => {
   const { leaderboards } = injector;
+
   const [type, setType] = createSignal("daily");
   const [timeLeft, setTimeLeft] = createSignal("00:00:00:00");
   const [timeLimit, setTimeLimit] = createSignal(0);
@@ -205,6 +215,9 @@ const Leaderboard = () => {
             </p>
           </div>
         </div>
+        <div> 
+          
+        </div>
 
         <div class="w-full flex flex-col gap-8 mt-20">
           <div class="w-full grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-4">
@@ -363,7 +376,43 @@ const Leaderboard = () => {
               )}
             </For>
           </div>
-          <TableLeaderboard players={leaderboards[type()]?.players} />
+
+
+          <LeaderbordBanner />
+          <div class=" flex items-center gap-4 mb-20 center scale-80 sm:scale-100">
+            <svg width="135" height="3" viewBox="0 0 135 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M135 0L0 1.5V1.5L135 3V0Z" fill="url(#paint0_linear_2668_143059)"/>
+              <defs>
+                <linearGradient id="paint0_linear_2668_143059" x1="135" y1="1.5" x2="-8.17195e-07" y2="1.50007" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FFC467"/>
+                  <stop offset="1" stop-color="#FFC467" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <h1 class='text-gradient--leaderboard-gold text-2xl font-SpaceGrotesk font-bold text-center '>TOP 20 PLACES</h1>
+            <svg class='rotate-180' width="135" height="3" viewBox="0 0 135 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M135 0L0 1.5V1.5L135 3V0Z" fill="url(#paint0_linear_2668_143059)"/>
+              <defs>
+                <linearGradient id="paint0_linear_2668_143059" x1="135" y1="1.5" x2="-8.17195e-07" y2="1.50007" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FFC467"/>
+                  <stop offset="1" stop-color="#FFC467" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-4 md:gap-8">
+            <For each={leaderboards?.weekly?.players.slice(0, 3)} >
+              {(player, idx) => 
+                <LeaderbordTopCard 
+                  id={String(player.userId)} 
+                  variant={idx()}
+                  color={intersectColors[idx()]}
+                  player={player}
+                />
+              }
+            </For>
+          </div>
+          <TableLeaderboard players={leaderboards?.weekly?.players} />
           <div class="w-full flex flex-col items-center bet-info-bg p-5">
             <div class="w-11/12 h-12 hidden sm:grid gap-2 sm:gap-0 sm:grid-cols-leaderboard">
               <div class="flex items-center gap-2">

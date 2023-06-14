@@ -1,8 +1,8 @@
 import { For } from 'solid-js'
 
 import Ranks from "../../utilities/Ranks"
-import RankLabel from '../../components/chat/RankLabel'
-import AmountWithCoin from '../../components/AmountWithCoin'
+import RankLabel from '../chat/RankLabel'
+import AmountWithCoin from '../AmountWithCoin'
 
 
 const tableHeaders = [
