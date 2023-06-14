@@ -139,6 +139,8 @@ const NewProfileHistory = (props) => {
     }
     setCurrentPage(1)
     setPages(indices)
+
+    console.log(indices)
   })
 
   const gamesData = {
@@ -304,75 +306,77 @@ const NewProfileHistory = (props) => {
             : 'oldSeeds'
         }
       />
-      <div class='flex gap-2 items-center justify-center w-full'>
-        <RoundedButton
-          onClick={() => {
-            if (page() - 1 >= 1) setCurrentPage(page() - 1)
-          }}
-        >
-          <svg
-            width='9'
-            height='15'
-            viewBox='0 0 9 15'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
+      {pages().length > 1 && (
+        <div class='flex gap-2 items-center justify-center w-full'>
+          <RoundedButton
+            onClick={() => {
+              if (page() - 1 >= 1) setCurrentPage(page() - 1)
+            }}
           >
-            <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
-              d='M1.41421 5.65683L0 7.07104L1.41421 8.48526L7.07107 14.1421L8.48528 12.7279L2.82843 7.07104L8.48528 1.41419L7.07107 -2.2769e-05L1.41421 5.65683Z'
-              fill='#9A9EC8'
-            />
-          </svg>
-        </RoundedButton>
-        <For
-          each={pages().slice(
-            pages().length - 5 < 0 || page() <= 2
-              ? 0
-              : pages().length - 3 < page()
-              ? pages().length - 5
-              : page() - 2,
-            page() <= 2 ? 5 : page() + 3
-          )}
-        >
-          {(nr) => (
-            <TransparentButton
-              callbackFn={() => setCurrentPage(nr)}
-              isActive={page() == nr}
-              style={{
-                padding: '0px',
-                width: '40px',
-                height: '40px'
-              }}
+            <svg
+              width='9'
+              height='15'
+              viewBox='0 0 9 15'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
             >
-              {nr}
-            </TransparentButton>
-          )}
-        </For>
-        <RoundedButton
-          onClick={() => {
-            if (pages().length >= page() + 1) {
-              setCurrentPage(page() + 1)
-            }
-          }}
-        >
-          <svg
-            class='rotate-180 translate-x-0.5'
-            width='9'
-            height='15'
-            viewBox='0 0 9 15'
-            fill='none'
-            xmlns='http://www.w3.org/2000/svg'
+              <path
+                fill-rule='evenodd'
+                clip-rule='evenodd'
+                d='M1.41421 5.65683L0 7.07104L1.41421 8.48526L7.07107 14.1421L8.48528 12.7279L2.82843 7.07104L8.48528 1.41419L7.07107 -2.2769e-05L1.41421 5.65683Z'
+                fill='#9A9EC8'
+              />
+            </svg>
+          </RoundedButton>
+          <For
+            each={pages().slice(
+              pages().length - 5 < 0 || page() <= 2
+                ? 0
+                : pages().length - 3 < page()
+                ? pages().length - 5
+                : page() - 2,
+              page() <= 2 ? 5 : page() + 3
+            )}
           >
-            <path
-              fill-rule='evenodd'
-              clip-rule='evenodd'
-              d='M1.41421 5.65683L0 7.07104L1.41421 8.48526L7.07107 14.1421L8.48528 12.7279L2.82843 7.07104L8.48528 1.41419L7.07107 -2.2769e-05L1.41421 5.65683Z'
-              fill='#9A9EC8'
-            />
-          </svg>
-        </RoundedButton>
-      </div>
+            {(nr) => (
+              <TransparentButton
+                callbackFn={() => setCurrentPage(nr)}
+                isActive={page() == nr}
+                style={{
+                  padding: '0px',
+                  width: '40px',
+                  height: '40px'
+                }}
+              >
+                {nr}
+              </TransparentButton>
+            )}
+          </For>
+          <RoundedButton
+            onClick={() => {
+              if (pages().length >= page() + 1) {
+                setCurrentPage(page() + 1)
+              }
+            }}
+          >
+            <svg
+              class='rotate-180 translate-x-0.5'
+              width='9'
+              height='15'
+              viewBox='0 0 9 15'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                fill-rule='evenodd'
+                clip-rule='evenodd'
+                d='M1.41421 5.65683L0 7.07104L1.41421 8.48526L7.07107 14.1421L8.48528 12.7279L2.82843 7.07104L8.48528 1.41419L7.07107 -2.2769e-05L1.41421 5.65683Z'
+                fill='#9A9EC8'
+              />
+            </svg>
+          </RoundedButton>
+        </div>
+      )}
     </div>
   )
 }
