@@ -353,7 +353,7 @@ const CaseUnboxing = (props) => {
                   </div>
                   <span
                     class={`shrink-0 ${
-                      isFastAnimation() ? "opacity-75" : "opacity-50"
+                      isFastAnimation() ? "opacity-100" : "opacity-50"
                     }`}
                   >
                     Fast Open

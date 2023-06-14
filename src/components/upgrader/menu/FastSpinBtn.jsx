@@ -1,6 +1,6 @@
 import LightningIcon from "../../icons/LightningIcon";
 
-import {isFastAnimation, setIsFastAnimation} from "../MainUpgraderContainer";
+import { isFastAnimation, setIsFastAnimation } from "../MainUpgraderContainer";
 
 const FastSpinBtn = () => {
   return (
@@ -27,7 +27,7 @@ const FastSpinBtn = () => {
         {isFastAnimation() && <LightningIcon />}
       </div>
       <span
-        class={`shrink-0 ${isFastAnimation() ? "opacity-75" : "opacity-50"}`}
+        class={`shrink-0 ${isFastAnimation() ? "opacity-100" : "opacity-50"}`}
       >
         Fast Spin
       </span>
