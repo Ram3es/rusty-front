@@ -20,7 +20,6 @@ import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
 import { tippy, useTippy } from 'solid-tippy';
 import CaseToolTip from "../../components/battle/CaseToolTip"
-import { isWinner } from '../../utilities/games/caseBattles'
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -50,36 +49,36 @@ const CaseBattles = (props) => {
     }
   })
 
-  const getJoinTeam = (playerIndex, mode) => {
-    if (mode === 'group') {
-      return 1
-    } else if (mode === 'royal') {
-      return playerIndex
-    } else if (playerIndex <= 2) {
-      return 1
-    } else {
-      return 2
-    }
-  }
+  // const getJoinTeam = (playerIndex, mode) => {
+  //   if (mode === 'group') {
+  //     return 1
+  //   } else if (mode === 'royal') {
+  //     return playerIndex
+  //   } else if (playerIndex <= 2) {
+  //     return 1
+  //   } else {
+  //     return 2
+  //   }
+  // }
 
-  const joinGame = (gameId) => {
-    const gameToJoin = games[gameId]
-    const freeIndexes = Array.from({ length: gameToJoin.playersQty }, (_, i) => i + 1).filter(
-      (index) => !gameToJoin.players[index]
-    )
+  // const joinGame = (gameId) => {
+  //   const gameToJoin = games[gameId]
+  //   const freeIndexes = Array.from({ length: gameToJoin.playersQty }, (_, i) => i + 1).filter(
+  //     (index) => !gameToJoin.players[index]
+  //   )
 
-    socket.emit(
-      'battles:join',
-      {
-        gameId: gameId,
-        team: getJoinTeam(freeIndexes[0], gameToJoin.mode),
-        player_index: freeIndexes[0]
-      },
-      (data) => {
-        console.log(data)
-      }
-    )
-  }
+  //   socket.emit(
+  //     'battles:join',
+  //     {
+  //       gameId: gameId,
+  //       team: getJoinTeam(freeIndexes[0], gameToJoin.mode),
+  //       player_index: freeIndexes[0]
+  //     },
+  //     (data) => {
+  //       console.log(data)
+  //     }
+  //   )
+  // }
 
   // const replyGame = (gameId) => {
   //   const gameToReply = games[gameId]
@@ -397,8 +396,8 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
-                            widthClasses={games[id]?.status !== 'ended' || isWinner(games[id]?.winners || [], userIndex) ? 'w-9 h-9' : 'w-6 h-6'}
-                            opacityClasses={games[id]?.status !== 'ended' || !isWinner(games[id]?.winners || [], userIndex) && 'opacity-20'}
+                            widthClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex]?.winner && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
                             <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
