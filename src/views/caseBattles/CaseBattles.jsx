@@ -396,8 +396,8 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
-                            widthClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
-                            opacityClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex]?.winner && 'opacity-20'}
+                            widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex + 1]?.winner && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
                             <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
