@@ -12,7 +12,8 @@ const CaseBattlesStructure = (props) => {
   }`
 
   const getModeColor = () => {
-    return (props?.val?.extra_data === 'royal' || props?.val?.extra_data === 'team') &&
+    return (props?.val?.extra_data.split('_')[0] === 'royal' ||
+      props?.val?.extra_data.split('_')[0] === 'team') &&
       props?.val?.cursed !== 1
       ? 'yellow'
       : props?.val?.cursed === 1
@@ -56,9 +57,11 @@ const CaseBattlesStructure = (props) => {
                 />
               </svg>
               {index() + 1 !== Number(props?.val?.info) &&
-                (props?.val?.extra_data === 'royal' ||
-                  props?.val?.extra_data === 'group' ||
-                  (props?.val?.extra_data === 'team' && index() !== 0 && index() !== 2)) &&
+                (props?.val?.extra_data.split('_')[0] === 'royal' ||
+                  props?.val?.extra_data.split('_')[0] === 'group' ||
+                  (props?.val?.extra_data.split('_')[0] === 'team' &&
+                    index() !== 0 &&
+                    index() !== 2)) &&
                 (getModeColor() === 'yellow' ? (
                   <BattleRoyaleIcon additionClasses='w-[14px]' />
                 ) : getModeColor() === 'green' ? (
@@ -80,9 +83,9 @@ const CaseBattlesStructure = (props) => {
       >
         <span>
           {Number(props?.val?.info) &&
-            (props?.val?.extra_data === 'royal' ||
-              props?.val?.extra_data === 'group' ||
-              props?.val?.extra_data === 'team') &&
+            (props?.val?.extra_data.split('_')[0] === 'royal' ||
+              props?.val?.extra_data.split('_')[0] === 'group' ||
+              props?.val?.extra_data.split('_')[0] === 'team') &&
             (getModeColor() === 'yellow' ? (
               <BattleRoyaleIcon additionClasses='w-[14px]' />
             ) : getModeColor() === 'green' ? (
@@ -92,7 +95,8 @@ const CaseBattlesStructure = (props) => {
             ))}
         </span>
         <span>
-          {(props?.val?.extra_data === 'royal' || props?.val?.extra_data === 'team') &&
+          {(props?.val?.extra_data.split('_')[0] === 'royal' ||
+            props?.val?.extra_data.split('_')[0] === 'team') &&
           props?.val?.cursed !== 1
             ? 'Battle Royale'
             : props?.val?.cursed === 1
@@ -112,7 +116,7 @@ const CaseBattlesStructure = (props) => {
         </p>
       </div>
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
-        {props?.val?.borrowMoney ? 'yes' : 'no'}
+        {Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>

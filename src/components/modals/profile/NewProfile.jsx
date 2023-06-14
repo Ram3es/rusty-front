@@ -40,7 +40,7 @@ const tabVariants = [
 const NewProfile = (props) => {
   const i18n = useI18n()
 
-  const { socket, setToggles, toastr, userObject } = injector
+  const { socket, toastr, userObject } = injector
 
   const [account, setAccount] = createStore({})
   const [currentTab, setCurrentTab] = createSignal(tabVariants[0].name)
@@ -66,10 +66,6 @@ const NewProfile = (props) => {
         }
       })
     }
-  })
-
-  createEffect(() => {
-    console.log(currentTab(), 'CurrentTAB')
   })
 
   return (
