@@ -10,12 +10,14 @@ const Header = (props) => {
           </div>
         )}
       </For>
-      <div
-        class='flex items-center justify-end text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize text-right'
-        onClick={() => props?.setDescending((prev) => !prev)}
-      >
-        Date
-      </div>
+      {props?.type !== 'oldSeeds' && (
+        <div
+          class='flex items-center justify-end text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize text-right'
+          onClick={() => props?.setDescending((prev) => !prev)}
+        >
+          Date
+        </div>
+      )}
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import { createEffect, createSignal, For } from "solid-js";
 import History from "./History";
 import Transactions from "./Transactions";
-import OldSeeds from "./OldSeeds";
 
 import Config from "../../../injector/config";
 import Bulk from "./Feed/Bulk";
@@ -190,7 +189,6 @@ const ProfileHistory = (props) => {
                 <For each={loaded()}>
                   {(val) => (
                     <div class="w-full h-11 grid grid-cols-[10rem_1fr_5rem]">
-                      <OldSeeds val={val} />
                     </div>
                   )}
                 </For>

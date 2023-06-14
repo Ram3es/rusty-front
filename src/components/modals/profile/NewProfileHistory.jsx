@@ -23,6 +23,7 @@ import RoundedButton from '../../elements/RoundedButton'
 import TransparentButton from '../../elements/TransparentButton'
 import CaseBattlesStructure from './structure/CaseBattles'
 import CasesStructure from './structure/Cases'
+import OldSeedsStructure from './structure/OldSeeds'
 
 const navigationGameModes = [
   {
@@ -140,7 +141,7 @@ const NewProfileHistory = (props) => {
     setPages(indices)
   })
 
-  const data = {
+  const gamesData = {
     coinflip: {
       headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
       structure: CoinflipStructure,
@@ -201,9 +202,21 @@ const NewProfileHistory = (props) => {
     }
   }
 
+  const seedsData = {
+    oldSeeds: {
+      headings: ['old seeds'],
+      structure: OldSeedsStructure,
+      grid: 'grid-cols-[4fr_1fr]'
+    }
+  }
+
   return (
     <div class='flex flex-col gap-6'>
-      <div class='flex gap-2 items-center capitalize flex-wrap pt-6 pb-3'>
+      <div
+        class={`flex gap-2 items-center capitalize flex-wrap pb-3 ${
+          props?.type !== 'oldSeeds' ? 'pt-6' : ''
+        }`}
+      >
         {props?.type === 'history' && (
           <For each={navigationGameModes}>
             {(mode) => (
@@ -276,9 +289,20 @@ const NewProfileHistory = (props) => {
         setDescending={setDescending}
         loaded={loaded}
         data={
-          props?.type === 'history' ? data[currentHistory()] : transactionData[currentTransaction()]
+          props?.type === 'history'
+            ? gamesData[currentHistory()]
+            : props?.type === 'transaction'
+            ? transactionData[currentTransaction()]
+            : seedsData['oldSeeds']
         }
         resendTrades={props.account?.resendTrades}
+        type={
+          props?.type === 'history'
+            ? 'history'
+            : props?.type === 'transaction'
+            ? 'transaction '
+            : 'oldSeeds'
+        }
       />
       <div class='flex gap-2 items-center justify-center w-full'>
         <RoundedButton

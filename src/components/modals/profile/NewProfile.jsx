@@ -144,6 +144,9 @@ const NewProfile = (props) => {
           {currentTab() === 'transactions' && (
             <NewProfileHistory account={account} type='transaction' />
           )}
+          {currentTab() === 'old seeds' && (
+            <NewProfileHistory account={account} type='oldSeeds' />
+          )}
           {currentTab() === 'settings' && <ProfileSettings changeLang={props.changeLang} />}
         </div>
       </div>
