@@ -146,7 +146,7 @@ const CaseBattles = (props) => {
           >
             <div class='text-13 font-SpaceGrotesk text-gray-a2 font-bold w-max'>Case Battles</div>
             <div class='text-gradient-green-secondary w-max font-SpaceGrotesk font-bold text-14'>
-              {Object.values(games).length} Active Battles
+              {Object.values(games).filter(g => g.status === "open" && (!g.private || g.owner == userObject.user?.id)).length} Active Battles
             </div>
           </div>
           <div class=" col-span-3 sm:col-span-2 md:col-span-1 w-full flex flex-wrap-reverse py-0 md:py-2 gap-3 justify-center md:justify-end">

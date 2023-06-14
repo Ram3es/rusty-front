@@ -14,11 +14,6 @@ import {
 } from "../PlinkoContainer";
 
 import { dropBall } from "../PlayArea/Plinko/Plinko";
-import {
-  getBallPosition,
-  getLeftAndRightPegs,
-  getBallPositionFromServer,
-} from "../utils/tools";
 
 import { downloadLogFile } from "../PlayArea/Plinko/Plinko";
 import injector from "../../../injector/injector";
@@ -83,8 +78,8 @@ const TilesMenu = () => {
 
   onMount(() => {
     socket.on("plinko:create", (data) => {
-        if(data?.data?.path) {
-          dropBall(getBallPositionFromServer(rowsAmount(), betAmount(), data.data.path));
+        if(data?.data?.ballPosition) {
+          dropBall(data?.data?.ballPosition);
         }
     })
   })

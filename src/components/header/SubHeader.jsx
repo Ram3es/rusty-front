@@ -200,7 +200,11 @@ const SubHeader = (props) => {
                     <NavLink
                       href={`${toggle.url}`}
                       class={`center gap-3 cursor-pointer group relative`}
-                      onClick={() => {
+                      onClick={(e) => {
+                        if (toggle.url == URL.FAIRNESS) {
+                            e.preventDefault();
+                            setToggles("provablyFairModal", true);
+                        }
                         setTimeout(() => {
                           setCurrPath(() => window.location.pathname)
                         }, 100)
