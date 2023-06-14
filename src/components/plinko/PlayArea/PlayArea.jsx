@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from "solid-js";
-import TriangleBg from "../../assets/plinko/TriangleBg.svg";
-import TriangleCap from "../../assets/plinko/TriangleCap.svg";
+import TriangleBg from "../../../assets/img/plinko/new/TriangleBg.svg";
+import TriangleCap from "../../../assets/img/plinko/new/TriangleCap.svg";
 
 import Plinko from "./Plinko/Plinko";
 import PlinkoBins from "./Plinko/PlinkoBins";
@@ -13,7 +13,7 @@ export const [color, setColor] = createSignal("");
 const PlayArea = () => {
   return (
     <div
-      class="relative bg-red h-full w-full flex items-center justify-center z-10 "
+      class="relative h-full w-full flex items-center justify-center z-10 "
       style={`background: radial-gradient(100% 200% at 50% 0%, rgba(${color()}, 0.1) 0%, rgba(${color()}, 0.05) 20%, rgba(${color()}, 0) 50%)`}
     >
       <Cannon />

@@ -287,7 +287,7 @@ const CoinflipGameSide = (props) => {
           <div
             class={`flex flex-col ${
               props.left ? 'items-start' : 'items-end'
-            } gap-4 px-6 md:px-8 lg:pl-9 lg:pr-[46px] pb-2 pt-2 lg:pt-[42px]`}
+            } gap-4 px-6 md:px-8 lg:pl-9 lg:pr-[46px] pb-2 pt-2 lg:pt-5`}
           >
             <div
               class='flex items-center justify-center px-1.5 py-0.5 rounded-4 border border-transparent'

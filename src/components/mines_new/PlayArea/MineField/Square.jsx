@@ -22,6 +22,7 @@ import {
   betAmount,
   minesAmount,
   setIsRumbling,
+  betAdditions,
 } from "../../TilesContainer";
 
 const Square = ({ x, y }) => {
@@ -35,7 +36,6 @@ const Square = ({ x, y }) => {
     setInputLocked(true);
     setStartAnimation(true);
     const isMine = await checkIfMine(x, y);
-    console.log(isMine);
     setKnownMines((prev) => {
       const newMines = [...prev];
       newMines[x][y].revealed = true;
@@ -44,13 +44,12 @@ const Square = ({ x, y }) => {
     });
   };
 
-  const handleClick = () => {
-    if (isClicked()) return;
+  const handleClick = async () => {
+    if (isClicked() || hasLost()) return;
     setIsClicked(true);
-    checkMineHit();
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 200);
+    await checkMineHit();
+    await handleResult()
+    setIsClicked(false);
   };
 
   const handleResult = async () => {
@@ -114,7 +113,6 @@ const Square = ({ x, y }) => {
                 
                 `}
         onClick={handleClick}
-        onTransitionEnd={handleResult}
       >
         <div
           class={`w-full h-full absolute 

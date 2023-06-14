@@ -26,7 +26,7 @@ import {getCurrencyString} from "../../components/mines_new/utils/tools"
 // let typingTimer;
 const filterByTagList = [
   {
-    tags: ['popular', 'VIP', 'High Risk', '50/50', '10%', '1%'],
+    tags: [],
     name: 'All Cases'
   },
   {
@@ -191,7 +191,9 @@ const Unbox = (props) => {
           </div>
         </div>
         <div class='grid mt-6 grid-cols-box-open gap-2'>
-          <For each={cases().filter((c) => c.name.toLowerCase().includes(search().toLowerCase()))}>
+          <For each={cases()
+            .filter((c) => c.name.toLowerCase().includes(search().toLowerCase()))
+            .filter((c) => tagsToFilter().length === 0 || tagsToFilter().some(item => c.tags.includes(item)))}>
             {(item) => (
               // <div>{item.name}</div>
               <NavLink

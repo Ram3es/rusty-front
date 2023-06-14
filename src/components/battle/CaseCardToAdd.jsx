@@ -1,4 +1,4 @@
-import {createSignal} from "solid-js";
+import {createSignal, onMount} from "solid-js";
 import headerLogoBgVector from "../../assets/img/header/headerLogoBgVector.png"
 import Coin from "../../utilities/Coin"
 import GradientButton from "../elements/GradientButton"
@@ -8,6 +8,14 @@ import { getCurrencyString } from "../mines_new/utils/tools"
 
 const CaseCardToAdd = (props) => {
   const [isHovering, setIsHovering] = createSignal(false);
+  const [isMounting, setIsMounting] = createSignal(true);
+
+  onMount(() => {
+    setTimeout(() => {
+      setIsMounting(false);
+    }, 10);
+  });
+
   return (
     <div class={`case-card-background border border-opacity-5 group h-[256px] w-[216px] flex flex-col  ${
       props.isAdded && props.isActiveBorderShown ? 'border-yellow-ffb border-1 border-opacity-100' : 'border-transparent'
@@ -26,10 +34,10 @@ const CaseCardToAdd = (props) => {
       }}
     />
     <div class={`relative grow z-10 px-4 ${!props.isAdded && "pb-5"} pb-2 pt-0 flex flex-col justify-end items-center`}>
-      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''} alt={props.item.name} 
+      <img class={`absolute h-[110px] group-hover:rotate-6 top-4 ${props.isAdded ? "scale-[1.4]" :  "scale-150" }`} src={props.item.image ? props.item.image.replace('{url}', window.origin).replace('.png', '_thumbnail.png') : ''} alt={props.item.name} 
         style={{
           filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
-          transition: `all 0.15s ease-in-out`
+          transition: isMounting() ? `none` : `all 0.15s ease-in-out`  // dynamically adjust transition
         }}
       />
       <div class="h-[110px] w-full relative" />
