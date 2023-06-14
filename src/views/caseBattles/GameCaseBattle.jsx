@@ -136,78 +136,75 @@ const GameCaseBattle = (props) => {
     console.log('inputGame', inputGame)
     setRollItems([]);
     setSpinnerOptions([]);
+    setGame(() => inputGame);
 
-    // inputGame.winners[0][`round_${inputGame.currentRound}`] need to add
-      setGame(() => inputGame);
-      if (inputGame.status === "playing") {
-        setTimeout(() => {
-          setWinnings(inputGame.players);
-        }, 5500);
-      } else {
+    if (inputGame.status === "playing") {
+      setTimeout(() => {
         setWinnings(inputGame.players);
-      }
-      if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
-        setRollItems(() =>
-          inputGame.cases[inputGame.currentRound].items.map((item) => ({
-            img: item.image?.replace("{url}", window.origin) || "",
-            price: item.item_price,
-            name: item.name,
-            rarity: getColor(item.item_price),
-          }))
-        );
-        setSpinnerOptions(() =>
-          Array.from(Array(inputGame.playersQty).keys()).map((playerIndex) => ({
-            winningItem: {
-              img:
-                inputGame.players[playerIndex + 1][
-                  `round_${inputGame.currentRound}`
-                ].image?.replace("{url}", window.origin) || "",
-              price:
-                inputGame.players[playerIndex + 1][
-                  `round_${inputGame.currentRound}`
-                ].item_price,
-              name: inputGame.players[playerIndex + 1][
-                `round_${inputGame.currentRound}`
-              ].name,
-              rarity: getColor(
-                inputGame.players[playerIndex + 1][
-                  `round_${inputGame.currentRound}`
-                ].item_price
-              ),
-            },
-            isConfettiWin:
+      }, 5500);
+    } else {
+      setWinnings(inputGame.players);
+    }
+    if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
+      setRollItems(() =>
+        inputGame.cases[inputGame.currentRound].items.map((item) => ({
+          img: item.image?.replace("{url}", window.origin) || "",
+          price: item.item_price,
+          name: item.name,
+          rarity: getColor(item.item_price),
+        }))
+      );
+      setSpinnerOptions(() =>
+        Array.from(Array(inputGame.playersQty).keys()).map((playerIndex) => ({
+          winningItem: {
+            img:
               inputGame.players[playerIndex + 1][
                 `round_${inputGame.currentRound}`
-              ].isWinner,
-            isBigWin: true,
-          }))
-        );
-        console.log("spinnerOptions()", spinnerOptions());
-        const newSpinIndexes = [];
-        const newSpinLists = [];
-        console.log("game()", game());
-        for (let i = 0; i < game().playersQty; i++) {
-          const spinIndex = getRandomIndex(i);
-          let spinList = generateSpinList(i);
-          spinList[spinIndex] = spinnerOptions()[i].winningItem;
-          if (spinnerOptions()[i].isBigWin) {
-            setContainsBigWin(true);
-          }
-          if (spinnerOptions()[i].isConfettiWin) {
-            setContainsConfettiWin(true);
-          }
-          newSpinLists.push(spinList);
-          newSpinIndexes.push(spinIndex);
+              ].image?.replace("{url}", window.origin) || "",
+            price:
+              inputGame.players[playerIndex + 1][
+                `round_${inputGame.currentRound}`
+              ].item_price,
+            name: inputGame.players[playerIndex + 1][
+              `round_${inputGame.currentRound}`
+            ].name,
+            rarity: getColor(
+              inputGame.players[playerIndex + 1][
+                `round_${inputGame.currentRound}`
+              ].item_price
+            ),
+          },
+          isConfettiWin:
+            inputGame.players[playerIndex + 1][
+              `round_${inputGame.currentRound}`
+            ].isWinner,
+          isBigWin: true,
+        }))
+      );
+      console.log("spinnerOptions()", spinnerOptions());
+      const newSpinIndexes = [];
+      const newSpinLists = [];
+      console.log("game()", game());
+      for (let i = 0; i < game().playersQty; i++) {
+        const spinIndex = getRandomIndex(i);
+        let spinList = generateSpinList(i);
+        spinList[spinIndex] = spinnerOptions()[i].winningItem;
+        if (spinnerOptions()[i].isBigWin) {
+          setContainsBigWin(true);
         }
-        console.log("newSpinLists", newSpinLists);
-        console.log("newSpinIndexes", newSpinIndexes);
-        setSpinIndexes(() => newSpinIndexes);
-        setSpinLists(() => newSpinLists);
-        setReelsSpinning(() => true);
-        // console.log('srinList!!!!!!', spinLists)
+        if (spinnerOptions()[i].isConfettiWin) {
+          setContainsConfettiWin(true);
+        }
+        newSpinLists.push(spinList);
+        newSpinIndexes.push(spinIndex);
       }
-    // console.log(document.querySelectorAll('[data-spiner-row]'))
-    // console.log(document.querySelectorAll('[data-won-item]'))
+      console.log("newSpinLists", newSpinLists);
+      console.log("newSpinIndexes", newSpinIndexes);
+      setSpinIndexes(() => newSpinIndexes);
+      setSpinLists(() => newSpinLists);
+      setReelsSpinning(() => true);
+      // console.log('srinList!!!!!!', spinLists)
+    }
   };
 
   const getJoinTeam = (playerIndex) => {
@@ -286,7 +283,6 @@ const GameCaseBattle = (props) => {
               urlKey: props.searchParams.key,
             },
             (data) => {
-              console.log(data)
               if (data.data?.game) {
                 setBattleCases(data.data.game.cases);
                 if (!props.searchParams.reply) {
