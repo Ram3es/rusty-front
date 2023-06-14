@@ -89,7 +89,9 @@ const NewProfile = (props) => {
           'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab().name === 'game history',
           'md:w-[650px] lg:w-[833px] w-[85%] h-[870px]': currentTab().name === 'transactions',
           'md:w-[650px] lg:w-[833px] w-[85%] h-[580px]': currentTab().name === 'settings',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab().name === 'profile'
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab().name === 'profile',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[85%] ': currentTab().name === 'oldSeeds'
+
         }}
         style={{
           background:

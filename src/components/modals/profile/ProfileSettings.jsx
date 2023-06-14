@@ -116,9 +116,9 @@ const ProfileSettings = (props) => {
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Steam trade URL')}
         </p>
-        <div class='center w-full gap-4'>
+        <div class='flex items-center justify-between w-full gap-4'>
           <div
-            class='w-[624px] p-[2px] rounded-[4px] h-10'
+            class='lg:w-[624px] p-[2px] rounded-[4px] h-10'
             style={{
               background:
                 'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
@@ -133,7 +133,7 @@ const ProfileSettings = (props) => {
             >
               <div class='flex items-center gap-2 justify-between pl-4 pr-1 py-1 w-full'>
                 <input
-                  class={`text-gray-92 text-14 font-medium font-SpaceGrotesk w-full sm:w-[552px] ${
+                  class={`text-gray-92 text-14 font-medium font-SpaceGrotesk w-full lg:w-[552px] ${
                     toggleUrl() ? '' : 'hidden'
                   }`}
                   placeholder={i18n.t('coinflip.affiliates_true.Enter code')}
@@ -247,7 +247,7 @@ const ProfileSettings = (props) => {
           {i18n.t('profile_true.settings.Client seed')}
         </p>
         <div
-          class='w-[436px] p-[2px] rounded-[4px] h-10'
+          class='lg:w-[436px] p-[2px] rounded-[4px] h-10'
           style={{
             background:
               'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
@@ -291,9 +291,9 @@ const ProfileSettings = (props) => {
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Hash server seed')}
         </p>
-        <div class='center w-full gap-4'>
+        <div class='flex items-center justify-between w-full gap-4'>
           <div
-            class='w-[624px] p-[2px] rounded-[4px] h-10'
+            class='md:w-[624px] p-[2px] rounded-[4px] h-10'
             style={{
               background:
                 'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
@@ -306,14 +306,14 @@ const ProfileSettings = (props) => {
                   'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02))'
               }}
             >
-              <p class='text-14 text-gray-6a font-medium w-[339px] truncate'>
+              <p class='text-14 text-gray-6a font-medium w-[180px] md:w-[339px] truncate'>
                 {userObject?.user?.server_seed}
               </p>
             </div>
           </div>
 
           <GrayGradientButton
-            additionalClass='w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+            additionalClass='lg:w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
             callbackFn={regenServerSeed}
           >
             <span>{i18n.t('profile_true.settings.Refresh')}</span>
