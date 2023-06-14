@@ -19,6 +19,8 @@ import FairnessShieldIcon from '../../components/icons/cases/FairnessShield'
 import GrayWrapperdWithBorders from '../../components/battle/GrayWrapperdWithBorders'
 import ArrowDownWithGradient from '../../components/icons/ArrowDownWithGradient'
 import footerLogoBgVector from '../../assets/img/footer/footerLogoBgVector.png'
+import bgVectorCaseBattle from '../../assets/img/case-battles/bgVectorCaseBattle.png'
+
 import RecentDropsItem from '../case/RecentDropsItem'
 import ItemCardSmall from '../../components/battle/ItemCardSmall'
 import UserGameAvatar from '../../components/battle/UserGameAvatar'
@@ -618,11 +620,19 @@ const GameCaseBattle = (props) => {
                       >
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
-                            class='absolute w-full h-[326px] inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter opacity-40 rounded-b-4'
+                            class='absolute w-full bg-center inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
                             style={{
-                              'background-image': `url('${footerLogoBgVector}')`,
-                              'background-size': '250%',
-                              'background-position': 'center'
+                              // 'background-image': `url('${footerLogoBgVector}')`,
+                              'background-image': `url('${bgVectorCaseBattle}')`
+                              // 'background-size': '250%',
+                              // 'background-position': 'center'
+                            }}
+                          />
+                          <div
+                            class='absolute top-0 inset-0 w-full rotate-[-180deg] bg-red-ff'
+                            style={{
+                              // background:
+                              //   'linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
                             }}
                           />
                           <div
