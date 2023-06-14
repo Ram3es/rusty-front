@@ -171,6 +171,7 @@ module.exports = {
         "gray-2d": "#2D3660",
         "gray-26": "#262D4D",
         "gray-32": "#323543",
+        "gray-64": "#646683",
 
         "gray-17": "#171B27",
 
@@ -202,6 +203,7 @@ module.exports = {
         "green-2b": "#2BF67C",
         "green-60": "#60870C",
         "green-27": "#27F278",
+        "green-67": "#67F9A2",
         "red": "#E22842",
         "red-fe": "#FE4A4A",
         "red-ff": "#FF4A59",

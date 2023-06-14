@@ -20,7 +20,6 @@ import Dropdown from '../../components/elements/Dropdown'
 import CaseBattleJoinModal from '../../components/modals/CaseBattleJoinModal'
 import { tippy, useTippy } from 'solid-tippy';
 import CaseToolTip from "../../components/battle/CaseToolTip"
-import { isWinner } from '../../utilities/games/caseBattles'
 
 const sortByOptions = ['ASC', 'DESC']
 
@@ -50,62 +49,62 @@ const CaseBattles = (props) => {
     }
   })
 
-  const getJoinTeam = (playerIndex, mode) => {
-    if (mode === 'group') {
-      return 1
-    } else if (mode === 'royal') {
-      return playerIndex
-    } else if (playerIndex <= 2) {
-      return 1
-    } else {
-      return 2
-    }
-  }
+  // const getJoinTeam = (playerIndex, mode) => {
+  //   if (mode === 'group') {
+  //     return 1
+  //   } else if (mode === 'royal') {
+  //     return playerIndex
+  //   } else if (playerIndex <= 2) {
+  //     return 1
+  //   } else {
+  //     return 2
+  //   }
+  // }
 
-  const joinGame = (gameId) => {
-    const gameToJoin = games[gameId]
-    const freeIndexes = Array.from({ length: gameToJoin.playersQty }, (_, i) => i + 1).filter(
-      (index) => !gameToJoin.players[index]
-    )
+  // const joinGame = (gameId) => {
+  //   const gameToJoin = games[gameId]
+  //   const freeIndexes = Array.from({ length: gameToJoin.playersQty }, (_, i) => i + 1).filter(
+  //     (index) => !gameToJoin.players[index]
+  //   )
 
-    socket.emit(
-      'battles:join',
-      {
-        gameId: gameId,
-        team: getJoinTeam(freeIndexes[0], gameToJoin.mode),
-        player_index: freeIndexes[0]
-      },
-      (data) => {
-        console.log(data)
-      }
-    )
-  }
+  //   socket.emit(
+  //     'battles:join',
+  //     {
+  //       gameId: gameId,
+  //       team: getJoinTeam(freeIndexes[0], gameToJoin.mode),
+  //       player_index: freeIndexes[0]
+  //     },
+  //     (data) => {
+  //       console.log(data)
+  //     }
+  //   )
+  // }
 
-  const replyGame = (gameId) => {
-    const gameToReply = games[gameId]
-    const data = {
-      mode: gameToReply.mode,
-      players: gameToReply.playersQty,
-      cases:
-        gameToReply.cases?.reduce((prev, cur) => {
-          const ind = prev.findIndex((item) => item.caseId === cur.id)
-          if (ind >= 0) {
-            prev[ind].qty++
-          } else {
-            prev.push({
-              caseId: cur.id,
-              qty: 1
-            })
-          }
-          return prev
-        }, []) || [],
-      cursed: gameToReply.cursed,
-      private: gameToReply.private
-    }
-    socket.emit('battles:create', data, (data) => {
-      console.log(data)
-    })
-  }
+  // const replyGame = (gameId) => {
+  //   const gameToReply = games[gameId]
+  //   const data = {
+  //     mode: gameToReply.mode,
+  //     players: gameToReply.playersQty,
+  //     cases:
+  //       gameToReply.cases?.reduce((prev, cur) => {
+  //         const ind = prev.findIndex((item) => item.caseId === cur.id)
+  //         if (ind >= 0) {
+  //           prev[ind].qty++
+  //         } else {
+  //           prev.push({
+  //             caseId: cur.id,
+  //             qty: 1
+  //           })
+  //         }
+  //         return prev
+  //       }, []) || [],
+  //     cursed: gameToReply.cursed,
+  //     private: gameToReply.private
+  //   }
+  //   socket.emit('battles:create', data, (data) => {
+  //     console.log(data)
+  //   })
+  // }
 
   const toggleCaseViewModal = () => {
     setCaseViewModal(!caseViewModal())
@@ -147,7 +146,7 @@ const CaseBattles = (props) => {
           >
             <div class='text-13 font-SpaceGrotesk text-gray-a2 font-bold w-max'>Case Battles</div>
             <div class='text-gradient-green-secondary w-max font-SpaceGrotesk font-bold text-14'>
-              {Object.values(games).length} Active Battles
+              {Object.values(games).filter(g => g.status === "open" && (!g.private || g.owner == userObject.user?.id)).length} Active Battles
             </div>
           </div>
           <div class=" col-span-3 sm:col-span-2 md:col-span-1 w-full flex flex-wrap-reverse py-0 md:py-2 gap-3 justify-center md:justify-end">
@@ -193,7 +192,7 @@ const CaseBattles = (props) => {
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
               return calculations
-            })}>
+            }).filter(g => !games[g].private || games[g].owner === userObject.user.id)}>
             {(id) => (<div
                 class="flex flex-col sm:flex-row w-full items-stretch min-h-[116px] bg-opacity-40 gap-2 case-battle-card"
                 classList={{
@@ -311,7 +310,7 @@ const CaseBattles = (props) => {
                                       ? ''
                                       : 'opacity-20'
                                   }`}
-                                  src={caseItem?.image?.replace('{url}', window.origin) || ''}
+                                  src={caseItem?.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || ''}
                                 />
                                 <div class='absolute right-3 top-3'>
                                   <DarkWrapperdWithBorders isActive={true} classes='rounded-3'>
@@ -368,7 +367,7 @@ const CaseBattles = (props) => {
                                 <img
                                   alt={caseItem.name}
                                   class='h-[101px] w-[138px]'
-                                  src={caseItem?.image?.replace('{url}', window.origin) || ''}
+                                  src={caseItem?.image?.replace('{url}', window.origin).replace('.png', '_thumbnail.png') || ''}
                                 />
                               </div>
                             )}
@@ -397,8 +396,8 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
-                            widthClasses={games[id]?.status !== 'ended' || isWinner(games[id]?.winners || [], userIndex) ? 'w-9 h-9' : 'w-6 h-6'}
-                            opacityClasses={games[id]?.status !== 'ended' || !isWinner(games[id]?.winners || [], userIndex) && 'opacity-20'}
+                            widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
+                            opacityClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex + 1]?.winner && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty ? (
                             <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
@@ -431,7 +430,7 @@ const CaseBattles = (props) => {
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                           <span class='w-max'>Join</span>
                           <Coin width='5' />
-                          <span class='text-gradient'>{games[id]?.totalValue}</span>
+                          <span class='text-gradient'>{games[id]?.fundBattle ? games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100)) : games[id]?.totalValue}</span>
                         </div>
                       </YellowGradientButton>
                     ) : games[id].status === 'playing' ? (
@@ -449,34 +448,35 @@ const CaseBattles = (props) => {
                         </div>
                       </div>
                     ) : (
-                      <div
-                        class={`h-10 px-4 rounded-4 flex center cursor-pointer w-full border border-white border-opacity-5 `}
-                        style={{
-                          'box-shadow':
-                            '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
-                        }}
-                        onClick={() => replyGame(id)}
-                      >
-                        <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
-                          <svg
-                            width='16'
-                            height='17'
-                            viewBox='0 0 16 17'
-                            fill='none'
-                            xmlns='http://www.w3.org/2000/svg'
-                          >
-                            <path
-                              fill-rule='evenodd'
-                              clip-rule='evenodd'
-                              d='M7.53845 0.385498C9.69274 0.385498 11.7591 1.23993 13.2843 2.76139C14.0388 3.51594 14.6373 4.41172 15.0457 5.39759C15.4541 6.38345 15.6642 7.4401 15.6642 8.50719C15.6642 9.57429 15.4541 10.6309 15.0457 11.6168C14.6373 12.6027 14.0388 13.4984 13.2843 14.253C12.5297 15.0075 11.6339 15.6061 10.6481 16.0144C9.66219 16.4228 8.60554 16.633 7.53845 16.633C6.47136 16.633 5.41471 16.4228 4.42885 16.0144C3.44298 15.6061 2.5472 15.0075 1.79265 14.253C1.73295 14.1953 1.68533 14.1264 1.65258 14.0501C1.61982 13.9738 1.60258 13.8918 1.60185 13.8088C1.60113 13.7258 1.61695 13.6435 1.64838 13.5667C1.6798 13.4899 1.72622 13.4201 1.7849 13.3614C1.84359 13.3027 1.91338 13.2563 1.9902 13.2249C2.06701 13.1935 2.14932 13.1776 2.23232 13.1784C2.31531 13.1791 2.39733 13.1963 2.47359 13.2291C2.54985 13.2618 2.61882 13.3095 2.67648 13.3692C3.63807 14.3307 4.86318 14.9855 6.1969 15.2507C7.53061 15.516 8.91303 15.3798 10.1693 14.8593C11.4257 14.3389 12.4994 13.4577 13.2549 12.327C14.0104 11.1963 14.4136 9.86703 14.4136 8.50719C14.4136 7.14736 14.0104 5.81805 13.2549 4.68738C12.4994 3.55671 11.4257 2.67545 10.1693 2.15504C8.91303 1.63462 7.53061 1.49843 6.1969 1.76368C4.86318 2.02893 3.63807 2.68371 2.67648 3.64522L1.91579 4.40653H4.37537C4.54114 4.40653 4.70013 4.47239 4.81735 4.58961C4.93457 4.70683 5.00042 4.86581 5.00042 5.03159C5.00042 5.19736 4.93457 5.35634 4.81735 5.47356C4.70013 5.59078 4.54114 5.65664 4.37537 5.65664H0.625053C0.459279 5.65664 0.300294 5.59078 0.183074 5.47356C0.0658537 5.35634 0 5.19736 0 5.03159V1.28127C0 1.11549 0.0658537 0.956509 0.183074 0.839288C0.300294 0.722068 0.459279 0.656215 0.625053 0.656215C0.790827 0.656215 0.949812 0.722068 1.06703 0.839288C1.18425 0.956509 1.25011 1.11549 1.25011 1.28127V3.30456L1.79265 2.76139C3.31782 1.23993 5.38416 0.385498 7.53845 0.385498ZM6.57245 11.6553C6.47524 11.7137 6.36397 11.7446 6.25054 11.7446C6.08477 11.7446 5.92578 11.6788 5.80856 11.5616C5.69134 11.4443 5.62549 11.2854 5.62549 11.1196V6.44419C5.62518 6.3334 5.65432 6.22452 5.70993 6.1287C5.76554 6.03287 5.84562 5.95355 5.94197 5.89886C6.03832 5.84416 6.14748 5.81606 6.25827 5.81743C6.36905 5.8188 6.47748 5.84959 6.57245 5.90665L10.4678 8.24622C10.5602 8.30179 10.6367 8.38032 10.6897 8.47419C10.7428 8.56805 10.7707 8.67406 10.7707 8.78189C10.7707 8.88973 10.7428 8.99573 10.6897 9.08959C10.6367 9.18346 10.5602 9.26199 10.4678 9.31756L6.57245 11.6553Z'
-                              fill='#9A9EC8'
-                            />
-                          </svg>
-                          <span class='w-max'>Replay</span>
+                      <NavLink class='w-full' href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}${games[id].urlKey ? `&key=${games[id].urlKey}` : ""}&reply=true`}>
+                        <div
+                          class={`h-10 px-4 rounded-4 flex center cursor-pointer w-full border border-white border-opacity-5 `}
+                          style={{
+                            'box-shadow':
+                              '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                          }}
+                        >
+                          <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
+                            <svg
+                              width='16'
+                              height='17'
+                              viewBox='0 0 16 17'
+                              fill='none'
+                              xmlns='http://www.w3.org/2000/svg'
+                            >
+                              <path
+                                fill-rule='evenodd'
+                                clip-rule='evenodd'
+                                d='M7.53845 0.385498C9.69274 0.385498 11.7591 1.23993 13.2843 2.76139C14.0388 3.51594 14.6373 4.41172 15.0457 5.39759C15.4541 6.38345 15.6642 7.4401 15.6642 8.50719C15.6642 9.57429 15.4541 10.6309 15.0457 11.6168C14.6373 12.6027 14.0388 13.4984 13.2843 14.253C12.5297 15.0075 11.6339 15.6061 10.6481 16.0144C9.66219 16.4228 8.60554 16.633 7.53845 16.633C6.47136 16.633 5.41471 16.4228 4.42885 16.0144C3.44298 15.6061 2.5472 15.0075 1.79265 14.253C1.73295 14.1953 1.68533 14.1264 1.65258 14.0501C1.61982 13.9738 1.60258 13.8918 1.60185 13.8088C1.60113 13.7258 1.61695 13.6435 1.64838 13.5667C1.6798 13.4899 1.72622 13.4201 1.7849 13.3614C1.84359 13.3027 1.91338 13.2563 1.9902 13.2249C2.06701 13.1935 2.14932 13.1776 2.23232 13.1784C2.31531 13.1791 2.39733 13.1963 2.47359 13.2291C2.54985 13.2618 2.61882 13.3095 2.67648 13.3692C3.63807 14.3307 4.86318 14.9855 6.1969 15.2507C7.53061 15.516 8.91303 15.3798 10.1693 14.8593C11.4257 14.3389 12.4994 13.4577 13.2549 12.327C14.0104 11.1963 14.4136 9.86703 14.4136 8.50719C14.4136 7.14736 14.0104 5.81805 13.2549 4.68738C12.4994 3.55671 11.4257 2.67545 10.1693 2.15504C8.91303 1.63462 7.53061 1.49843 6.1969 1.76368C4.86318 2.02893 3.63807 2.68371 2.67648 3.64522L1.91579 4.40653H4.37537C4.54114 4.40653 4.70013 4.47239 4.81735 4.58961C4.93457 4.70683 5.00042 4.86581 5.00042 5.03159C5.00042 5.19736 4.93457 5.35634 4.81735 5.47356C4.70013 5.59078 4.54114 5.65664 4.37537 5.65664H0.625053C0.459279 5.65664 0.300294 5.59078 0.183074 5.47356C0.0658537 5.35634 0 5.19736 0 5.03159V1.28127C0 1.11549 0.0658537 0.956509 0.183074 0.839288C0.300294 0.722068 0.459279 0.656215 0.625053 0.656215C0.790827 0.656215 0.949812 0.722068 1.06703 0.839288C1.18425 0.956509 1.25011 1.11549 1.25011 1.28127V3.30456L1.79265 2.76139C3.31782 1.23993 5.38416 0.385498 7.53845 0.385498ZM6.57245 11.6553C6.47524 11.7137 6.36397 11.7446 6.25054 11.7446C6.08477 11.7446 5.92578 11.6788 5.80856 11.5616C5.69134 11.4443 5.62549 11.2854 5.62549 11.1196V6.44419C5.62518 6.3334 5.65432 6.22452 5.70993 6.1287C5.76554 6.03287 5.84562 5.95355 5.94197 5.89886C6.03832 5.84416 6.14748 5.81606 6.25827 5.81743C6.36905 5.8188 6.47748 5.84959 6.57245 5.90665L10.4678 8.24622C10.5602 8.30179 10.6367 8.38032 10.6897 8.47419C10.7428 8.56805 10.7707 8.67406 10.7707 8.78189C10.7707 8.88973 10.7428 8.99573 10.6897 9.08959C10.6367 9.18346 10.5602 9.26199 10.4678 9.31756L6.57245 11.6553Z'
+                                fill='#9A9EC8'
+                              />
+                            </svg>
+                            <span class='w-max'>Replay</span>
+                          </div>
                         </div>
-                      </div>
+                      </NavLink>
                     )}
-                    <NavLink href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}`}>
+                    <NavLink href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}${games[id].urlKey ? `&key=${games[id].urlKey}` : ""}`}>
                       <GrayGradientButton callbackFn={() => {}}>
                         <svg
                           width='20'

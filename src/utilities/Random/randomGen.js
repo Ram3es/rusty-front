@@ -1,6 +1,7 @@
 export const getRandomFunction = (seedString) => {
     const seed = cyrb128(seedString);
-    return sfc32(seed[0], seed[1], seed[2], seed[3])
+    const res = sfc32(seed[0], seed[1], seed[2], seed[3])
+    return res
 }
 
 

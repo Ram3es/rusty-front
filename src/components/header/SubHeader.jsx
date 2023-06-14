@@ -109,7 +109,7 @@ const SubHeader = (props) => {
     { name: 'Affiliates', url: `${props.pathname()}?affiliates=true` },
     { name: 'Leaderboard', url: URL.LEADERBOARD },
     { name: 'Rewards', url: URL.REWARDS },
-    { name: 'Free Cases', url: '/case?id=1' },
+    { name: 'Free Coins', url: `${props.pathname()}?free=true` },
     { name: 'Fairness', url: URL.FAIRNESS }
   ]
 
@@ -200,7 +200,11 @@ const SubHeader = (props) => {
                     <NavLink
                       href={`${toggle.url}`}
                       class={`center gap-3 cursor-pointer group relative`}
-                      onClick={() => {
+                      onClick={(e) => {
+                        if (toggle.url == URL.FAIRNESS) {
+                            e.preventDefault();
+                            setToggles("provablyFairModal", true);
+                        }
                         setTimeout(() => {
                           setCurrPath(() => window.location.pathname)
                         }, 100)

@@ -1,89 +1,89 @@
-import { createEffect, createSignal, For } from 'solid-js'
-import injector from '../../injector/injector'
-import { URL } from '../../libraries/url'
-import Coin from '../../utilities/Coin'
-import Modal from './Modal'
+import { createEffect, createSignal, For } from "solid-js";
+import injector from "../../injector/injector";
+import { URL } from "../../libraries/url";
+import Coin from "../../utilities/Coin";
+import Modal from "./Modal";
 
-import { NavLink, useNavigate } from 'solid-app-router'
-import Items from './Items'
-import { useI18n } from '../../i18n/context'
+import { NavLink, useNavigate } from "solid-app-router";
+import Items from "./Items";
+import { useI18n } from "../../i18n/context";
 
-import RedCoin from '../../assets/img/coinflip/redcoin.svg'
-import BlackCoin from '../../assets/img/coinflip/blackcoin.svg'
-import YellowButtonBg from '../../assets/img/animatedButtonBg.jpg'
-import HeaderBg from '../../assets/img/modals/ModalHeaderBg.png'
-import YellowGradientButton from '../../components/elements/CaseGradientButton'
+import RedCoin from "../../assets/img/coinflip/redcoin.svg";
+import BlackCoin from "../../assets/img/coinflip/blackcoin.svg";
+import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
+import HeaderBg from "../../assets/img/modals/ModalHeaderBg.png";
+import YellowGradientButton from "../../components/elements/CaseGradientButton";
 
-import clickDepositSound from '../../assets/sounds/deposit.wav'
-const soundClickDeposit = new Audio(clickDepositSound)
+import clickDepositSound from "../../assets/sounds/deposit.wav";
+const soundClickDeposit = new Audio(clickDepositSound);
 
-import { playSelectItemSound } from '../../utilities/Sounds/ItemsSound'
-import CloseButton from '../elements/CloseButton'
-import CaseSearchInput from '../../views/case/CaseSearchInput'
-import Dropdown from '../elements/Dropdown'
-import RoundedButton from '../elements/RoundedButton'
-import PotentialDropItem from '../../views/case/PotentialDropItem'
+import { playSelectItemSound } from "../../utilities/Sounds/ItemsSound";
+import CloseButton from "../elements/CloseButton";
+import CaseSearchInput from "../../views/case/CaseSearchInput";
+import Dropdown from "../elements/Dropdown";
+import RoundedButton from "../elements/RoundedButton";
+import PotentialDropItem from "../../views/case/PotentialDropItem";
 
-const sortOptions = ['ASC', 'DESC']
+const sortOptions = ["ASC", "DESC"];
 
 const CoinflipCreateModal = (props) => {
-  const { socket, setUserObject, setToggles, toastr, userObject } = injector
+  const { socket, setUserObject, setToggles, toastr, userObject } = injector;
 
-  const i18n = useI18n()
+  const i18n = useI18n();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [search, setSearch] = createSignal('')
+  const [search, setSearch] = createSignal("");
 
-  const [items, setItems] = createSignal([])
-  const [itemCache, setItemCache] = createSignal([])
-  const [activeItems, setActiveItems] = createSignal([])
-  const [descending, setDescending] = createSignal(true)
+  const [items, setItems] = createSignal([]);
+  const [itemCache, setItemCache] = createSignal([]);
+  const [activeItems, setActiveItems] = createSignal([]);
+  const [descending, setDescending] = createSignal(true);
   const [settings, setSettings] = createSignal({
     value: 0,
-    amount: 0
-  })
+    amount: 0,
+  });
 
   createEffect(() => {
     let temp = {
       value: 0,
-      amount: 0
-    }
+      amount: 0,
+    };
 
     for (const item of activeItems()) {
-      temp.amount++
-      temp.value += item.price
+      temp.amount++;
+      temp.value += item.price;
     }
-    setSettings(temp)
-  })
+    setSettings(temp);
+  });
 
-  const [side, setSide] = createSignal(1)
+  const [side, setSide] = createSignal(1);
 
   createEffect(() => {
     if (
       props.pathname() == URL.GAMEMODES.COINFLIP_CREATE ||
       props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
     ) {
-      socket.emit('steam:inventory', {}, (data) => {
+      socket.emit("steam:inventory", {}, (data) => {
         if (data.msg) {
-          toastr(data)
+          toastr(data);
         }
 
         if (!data.error) {
-          setItems(data.data.items)
-          setActiveItems([])
+          setItems(data.data.items);
+          setActiveItems([]);
         }
-      })
+      });
     }
-  })
+  });
 
   const deposit = () => {
-    const selectedItems = activeItems()
+    const selectedItems = activeItems();
     if (selectedItems.length > 0 && selectedItems.length < 30) {
       if (userObject?.user?.sounds) {
-        soundClickDeposit.currentTime = 0
-        soundClickDeposit.volume = userObject.user.sounds
-        soundClickDeposit.play()
+        soundClickDeposit.currentTime = 0;
+        soundClickDeposit.volume = userObject.user.sounds;
+        soundClickDeposit.play();
       }
 
       // toastr({
@@ -92,179 +92,195 @@ const CoinflipCreateModal = (props) => {
       // })
 
       socket.emit(
-        'coinflip:deposit',
+        "coinflip:deposit",
         {
           items: selectedItems.map((item) => item.id),
-          side: side()
+          side: side(),
         },
         (data) => {
           if (data.msg) {
-            toastr(data)
+            toastr(data);
           }
 
           if (!data.error && data?.data?.link) {
-            navigate(URL.GAMEMODES.COINFLIP_GAME, { replace: true })
+            navigate(URL.GAMEMODES.COINFLIP_GAME, { replace: true });
 
-            setToggles('tradeModal', true)
-            setUserObject('trades', (prev) => [
+            setToggles("tradeModal", true);
+            setUserObject("trades", (prev) => [
               ...prev,
-              { link: data.data.link, type: 'deposit', expires: Date.now() + 1000 * 60 * 5 }
-            ])
+              {
+                link: data.data.link,
+                type: "deposit",
+                expires: Date.now() + 1000 * 60 * 5,
+              },
+            ]);
           }
         }
-      )
+      );
     }
-  }
+  };
 
   const join = () => {
-    const id = props.searchParams?.id
-    const selectedItems = activeItems()
+    const id = props.searchParams?.id;
+    const selectedItems = activeItems();
     if (id && selectedItems.length > 0 && selectedItems.length < 30) {
       socket.emit(
-        'coinflip:deposit',
+        "coinflip:deposit",
         {
           items: selectedItems.map((item) => item.id),
           gameId: id,
-          join: true
+          join: true,
         },
         (data) => {
           if (data.msg) {
-            toastr(data)
+            toastr(data);
           }
 
           if (!data.error) {
-            navigate(`${URL.GAMEMODES.COINFLIP_GAME}?id=${id}`, { replace: true })
+            navigate(`${URL.GAMEMODES.COINFLIP_GAME}?id=${id}`, {
+              replace: true,
+            });
           }
 
           if (!data.error && data?.data?.link) {
-            setToggles('tradeModal', true)
-            setUserObject('trades', (prev) => [
+            setToggles("tradeModal", true);
+            setUserObject("trades", (prev) => [
               ...prev,
-              { link: data.data.link, type: 'deposit', expires: Date.now() + 1000 * 60 * 5 }
-            ])
+              {
+                link: data.data.link,
+                type: "deposit",
+                expires: Date.now() + 1000 * 60 * 5,
+              },
+            ]);
           }
         }
-      )
+      );
     }
-  }
+  };
 
-  let spinArrow
-  let id = null
+  let spinArrow;
+  let id = null;
 
   const refresh = () => {
-    let pos = 0
-    clearInterval(id)
-    id = setInterval(frame, 10)
+    let pos = 0;
+    clearInterval(id);
+    id = setInterval(frame, 10);
     function frame() {
       if (pos == 360) {
-        clearInterval(id)
+        clearInterval(id);
       } else {
-        pos += 10
-        spinArrow.style.transform = `rotate(-${pos}deg)`
+        pos += 10;
+        spinArrow.style.transform = `rotate(-${pos}deg)`;
       }
     }
 
-    setItems([])
+    setItems([]);
 
-    socket.emit('steam:inventory:refresh', {}, (data) => {
+    socket.emit("steam:inventory:refresh", {}, (data) => {
       if (data.msg) {
-        toastr(data)
+        toastr(data);
       }
 
       if (data.error) {
-        setItems(itemCache())
+        setItems(itemCache());
       }
 
       if (
-        (!data.error && props.searchParams?.deposit && props.searchParams?.items) ||
+        (!data.error &&
+          props.searchParams?.deposit &&
+          props.searchParams?.items) ||
         props.pathname() == URL.GAMEMODES.COINFLIP_CREATE
       ) {
-        setItems(data.data.items)
-        setItemCache(data.data.items)
-        setActiveItems([])
+        setItems(data.data.items);
+        setItemCache(data.data.items);
+        setActiveItems([]);
       }
-    })
-  }
+    });
+  };
 
   const toggle = (item) => {
     // setItems((prev) => prev.map((item) => (item.id == itemId ? {...item, active: !item.active} : item)));
     setActiveItems((prev) => {
       const index = prev.findIndex((i) => {
-        return item.id === i.id
-      })
-      if (index === -1) return [...prev, item]
-      const copy = [...prev]
-      copy.splice(index, 1)
-      return copy
-    })
-    playSelectItemSound()
-  }
+        return item.id === i.id;
+      });
+      if (index === -1) return [...prev, item];
+      const copy = [...prev];
+      copy.splice(index, 1);
+      return copy;
+    });
+    playSelectItemSound();
+  };
 
   const autoSelect = () => {
     const limits = {
       upper: Math.round(props.searchParams.value * 1.02),
-      lower: Math.round(props.searchParams.value * 0.98)
-    }
+      lower: Math.round(props.searchParams.value * 0.98),
+    };
     const temp = {
       items: items()
         .filter((item) => item.price <= limits.upper)
         .sort((a, b) => b.price - a.price),
       value: 0,
-      selectedIds: []
-    }
+      selectedIds: [],
+    };
 
     for (const item of temp.items) {
       if (item.price <= limits.upper - temp.value) {
-        temp.value += item.price
-        temp.selectedIds.push(item.id)
+        temp.value += item.price;
+        temp.selectedIds.push(item.id);
         if (temp.value >= limits.lower) {
-          return setActiveItems(() => items().filter((item) => temp.selectedIds.includes(item.id)))
+          return setActiveItems(() =>
+            items().filter((item) => temp.selectedIds.includes(item.id))
+          );
         }
       }
     }
-  }
+  };
 
   const changeDescending = () => {
-    setDescending((prev) => !prev)
-    setItems((prev) => [...prev].sort((a, b) => (b.price - a.price) * (descending() ? 1 : -1)))
-  }
+    setDescending((prev) => !prev);
+    setItems((prev) =>
+      [...prev].sort((a, b) => (b.price - a.price) * (descending() ? 1 : -1))
+    );
+  };
 
   const sorting = {
     descending: {
-      en: 'Descending',
-      es: 'Descendiendo',
-      ru: 'по убыванию'
+      en: "Descending",
+      es: "Descendiendo",
+      ru: "по убыванию",
     },
     ascending: {
-      en: 'Ascending',
-      es: 'Ascendente',
-      ru: 'по возрастанию'
-    }
-  }
+      en: "Ascending",
+      es: "Ascendente",
+      ru: "по возрастанию",
+    },
+  };
 
   const game = {
     createGame: {
-      en: 'CREATING COINFLIP',
-      es: 'Unete al',
-      ru: 'Создать'
+      en: "CREATING COINFLIP",
+      es: "Unete al",
+      ru: "Создать",
     },
     joinGame: {
-      en: 'JOIN COINFLIP',
-      es: 'Unirse',
-      ru: 'Присоединиться'
-    }
-  }
+      en: "JOIN COINFLIP",
+      es: "Unirse",
+      ru: "Присоединиться",
+    },
+  };
 
   return (
     <Modal
       open={() => {
-        return true
+        return true;
       }}
       handler={() => {}}
       noContainer={true}
     >
       <NavLink
-        class='w-full h-full absolute left-0 cursor-default top-0'
+        class="w-full h-full absolute left-0 cursor-default top-0"
         onClick={() => setItems([])}
         href={URL.GAMEMODES.COINFLIP}
       />
@@ -273,48 +289,52 @@ const CoinflipCreateModal = (props) => {
           props.open ||
           props.pathname() == URL.GAMEMODES.COINFLIP_CREATE ||
           props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
-            ? '-translate-y-0'
-            : ''
+            ? "-translate-y-0"
+            : ""
         } duration-100 ease-out`}
         style={{
-          'max-width': '1496px',
-          'max-height': '90vh'
+          "max-width": "1496px",
+          "max-height": "90vh",
         }}
       >
         <div
-          class='w-full flex-1 overflow-hidden overflow-y-scroll relative flex flex-col'
+          class="w-full flex-1 overflow-hidden overflow-y-scroll relative flex flex-col rounded-12"
           style={{
             background:
-              'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
-            'backdrop-filter': 'blur(8px)'
+              "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
+            "backdrop-filter": "blur(8px)",
           }}
         >
           <div
-            class='flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12'
+            class="flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12"
             style={{
               background:
-                'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
+                "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)",
             }}
           >
-            <div class='w-full flex justify-between items-center'>
-              <p class='text-20 text-white font-bold font-SpaceGrotesk uppercase truncate'>
+            <div class="w-full flex justify-between items-center">
+              <p class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
                 {props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
-                  ? i18n.t('coinflip.Join coinflip')
-                  : i18n.t('coinflip.Create')}
+                  ? i18n.t("coinflip.Join coinflip")
+                  : i18n.t("coinflip.Create")}
               </p>
             </div>
-            <NavLink href={URL.GAMEMODES.COINFLIP} onClick={() => setItems([])} class='center'>
+            <NavLink
+              href={URL.GAMEMODES.COINFLIP}
+              onClick={() => setItems([])}
+              class="center"
+            >
               <CloseButton />
             </NavLink>
           </div>
-          <div class='flex w-full flex-col xl:flex-row min-h-full justify-between'>
+          <div class="flex w-full flex-col xl:flex-row min-h-full justify-between">
             <div class={`w-full px-8 flex flex-col grow gap-8 py-4`}>
-              <div class='w-full h-20 sm:h-10 flex flex-col-reverse items-end sm:flex-row justify-between gap-2 relative z-10'>
-                <div class='flex gap-2 h-full'>
-                  <div class='w-full sm:w-80'>
+              <div class="w-full h-20 sm:h-10 flex flex-col-reverse items-end sm:flex-row justify-between gap-2 relative z-10">
+                <div class="flex gap-2 h-full">
+                  <div class="w-full sm:w-80">
                     <CaseSearchInput
                       search={search()}
-                      onReset={() => setSearch('')}
+                      onReset={() => setSearch("")}
                       onInput={(text) => setSearch(text)}
                       isFullWidth
                     />
@@ -323,20 +343,22 @@ const CoinflipCreateModal = (props) => {
                     activeName={descending() ? sortOptions[0] : sortOptions[1]}
                     itemsList={sortOptions}
                     submitItem={() => changeDescending()}
-                    label=' Sort by Price:'
+                    label=" Sort by Price:"
                   />
                 </div>
-                <div class='center gap-2'>
-                  <div class='balance-bg rounded-4 flex items-center drop-shadow-dark'>
-                    <div class='bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5 '>
-                      <div class=' w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold'>
-                        <Coin width='6' />
-                        <p class='text-gradient text-16 font-medium font-Oswald'>
+                <div class="center gap-2">
+                  <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
+                    <div class="bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5 ">
+                      <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                        <Coin width="6" />
+                        <p class="text-gradient text-16 font-medium font-Oswald">
                           {items()
                             .reduce((prev, cur) => (prev += cur.price), 0)
                             .toLocaleString()}
                         </p>
-                        <p class='text-gradient text-14 uppercase'>Inventory Value</p>
+                        <p class="text-gradient text-14 uppercase">
+                          Inventory Value
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -345,22 +367,22 @@ const CoinflipCreateModal = (props) => {
                       props.searchParams?.deposit ||
                       props.pathname() == URL.GAMEMODES.COINFLIP_CREATE ||
                       props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
-                        ? 'center'
-                        : 'hidden'
+                        ? "center"
+                        : "hidden"
                     }`}
                     onClick={refresh}
                   >
                     <svg
                       ref={spinArrow}
-                      width='16'
-                      height='16'
-                      viewBox='0 0 16 16'
-                      fill='none'
-                      xmlns='http://www.w3.org/2000/svg'
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        d='M13.9597 5.18935C13.8128 4.95467 13.4993 4.90051 13.2808 5.06301L11.7596 6.20423C11.5692 6.34751 11.5161 6.6112 11.6369 6.81673C12.0228 7.47363 12.2188 8.17676 12.2188 8.90688C12.2188 11.2333 10.3263 13.1875 8 13.1875C5.67366 13.1875 3.78125 11.2333 3.78125 8.90688C3.78125 6.73892 5.42462 4.94813 7.53125 4.71423V6.09438C7.53125 6.48295 7.97706 6.69929 8.28106 6.46929L12.0311 3.65679C12.2812 3.46963 12.2809 3.09385 12.0311 2.90698L8.28106 0.0944781C7.97597 -0.136553 7.53125 0.0820719 7.53125 0.469384V1.8912C3.87188 2.13335 0.96875 5.18754 0.96875 8.90688C0.96875 12.7842 4.12275 16 8 16C11.8772 16 15.0312 12.7842 15.0312 8.90688C15.0312 7.59495 14.6605 6.30954 13.9597 5.18935Z'
-                        fill='#9A9EC8'
+                        d="M13.9597 5.18935C13.8128 4.95467 13.4993 4.90051 13.2808 5.06301L11.7596 6.20423C11.5692 6.34751 11.5161 6.6112 11.6369 6.81673C12.0228 7.47363 12.2188 8.17676 12.2188 8.90688C12.2188 11.2333 10.3263 13.1875 8 13.1875C5.67366 13.1875 3.78125 11.2333 3.78125 8.90688C3.78125 6.73892 5.42462 4.94813 7.53125 4.71423V6.09438C7.53125 6.48295 7.97706 6.69929 8.28106 6.46929L12.0311 3.65679C12.2812 3.46963 12.2809 3.09385 12.0311 2.90698L8.28106 0.0944781C7.97597 -0.136553 7.53125 0.0820719 7.53125 0.469384V1.8912C3.87188 2.13335 0.96875 5.18754 0.96875 8.90688C0.96875 12.7842 4.12275 16 8 16C11.8772 16 15.0312 12.7842 15.0312 8.90688C15.0312 7.59495 14.6605 6.30954 13.9597 5.18935Z"
+                        fill="#9A9EC8"
                       />
                     </svg>
                   </div>
@@ -372,8 +394,10 @@ const CoinflipCreateModal = (props) => {
                   return items().filter(
                     (item) =>
                       !search() ||
-                      String(item.name).toLowerCase().includes(String(search()).toLowerCase())
-                  )
+                      String(item.name)
+                        .toLowerCase()
+                        .includes(String(search()).toLowerCase())
+                  );
                 }}
                 descending={descending}
                 toggle={toggle}
@@ -383,30 +407,31 @@ const CoinflipCreateModal = (props) => {
             <div
               class={`min-w-[288px] flex flex-col justify-center sm:justify-end items-center border border-white/[0.04]`}
               style={{
-                background: 'linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)'
+                background:
+                  "linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)",
               }}
             >
               <div
                 class={`flex w-full flex-row flex-wrap xl:flex-col items-stretch gap-2 sm:gap-4 md:gap-8 h-full`}
               >
-                <div class='flex flex-col gap-2 pt-4 max-h-full overflow-y-scroll border-b border-black/10 h-full px-8 '>
+                <div class="flex flex-col gap-2 pt-4 max-h-full overflow-y-scroll border-b border-black/10 h-full px-8 ">
                   <For each={activeItems()}>
                     {(item, index) => (
-                      <div class='relative'>
-                        <div class='absolute right-0.5 top-0.5 z-10'>
+                      <div class="relative">
+                        <div class="absolute right-0.5 top-0.5 z-10">
                           <RoundedButton onClick={() => toggle(item)}>
                             <svg
-                              width='10'
-                              height='10'
-                              viewBox='0 0 10 10'
-                              fill='none'
-                              xmlns='http://www.w3.org/2000/svg'
+                              width="10"
+                              height="10"
+                              viewBox="0 0 10 10"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
-                                fill-rule='evenodd'
-                                clip-rule='evenodd'
-                                d='M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z'
-                                fill='#9A9EC8'
+                                fill-rule="evenodd"
+                                clip-rule="evenodd"
+                                d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z"
+                                fill="#9A9EC8"
                               />
                             </svg>
                           </RoundedButton>
@@ -417,68 +442,86 @@ const CoinflipCreateModal = (props) => {
                   </For>
                 </div>
               </div>
-              <div class='w-full px-8 py-4 flex flex-row md:flex-col justify-center md:justify-between items-center gap-3'>
+              <div class="w-full px-8 py-4 flex flex-row md:flex-col justify-center md:justify-between items-center gap-3">
                 <div
                   class={`${
-                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'flex' : 'hidden'
+                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
+                      ? "flex"
+                      : "hidden"
                   } text-gray-a2 pt-0.5 text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed rounded-4`}
                 >
-                  {Math.round(props.searchParams.value * 0.98)} -{' '}
+                  {Math.round(props.searchParams.value * 0.98)} -{" "}
                   {Math.round(props.searchParams.value * 1.02)}
                 </div>
                 <div
                   class={`${
-                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'hidden' : 'center'
+                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
+                      ? "hidden"
+                      : "center"
                   } gap-3`}
                 >
                   <div
                     class={`p-1 rounded-full ${
-                      side() == 1 ? 'border border-0.5 border-yellow-ffb' : ''
+                      side() == 1 ? "border border-0.5 border-yellow-ffb" : ""
                     }`}
                     onClick={() => {
-                      setSide(1)
+                      setSide(1);
                     }}
                   >
-                    <img alt='red-coin' src={RedCoin} class={`h-9 cursor-pointer`} />
+                    <img
+                      alt="red-coin"
+                      src={RedCoin}
+                      class={`h-9 cursor-pointer`}
+                    />
                   </div>
                   <div
                     class={`p-1 rounded-full ${
-                      side() == 2 ? 'border border-0.5 border-yellow-ffb' : ''
+                      side() == 2 ? "border border-0.5 border-yellow-ffb" : ""
                     }`}
                     onClick={() => {
-                      setSide(2)
+                      setSide(2);
                     }}
                   >
-                    <img alt='black-coin' src={BlackCoin} class={`h-9 cursor-pointer`} />
+                    <img
+                      alt="black-coin"
+                      src={BlackCoin}
+                      class={`h-9 cursor-pointer`}
+                    />
                   </div>
                 </div>
-                <div class='center gap-2 p-3 w-full border rounded-4 border-white/10'>
-                  <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
-                    <span class='text-white'>{settings().amount} / 20 items</span>
+                <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
+                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                    <span class="text-white">
+                      {settings().amount} / 20 items
+                    </span>
                     <span>worth</span>
-                    <Coin width='5' />
-                    <span class='text-gradient'>{Number(settings().value).toLocaleString()}</span>
+                    <Coin width="5" />
+                    <span class="text-gradient">
+                      {Number(settings().value).toLocaleString()}
+                    </span>
                   </div>
                 </div>
                 <YellowGradientButton
                   isFullWidth={true}
                   callbackFn={() => {
                     if (props.pathname() == URL.GAMEMODES.COINFLIP_JOIN) {
-                      join()
+                      join();
                     } else {
-                      deposit()
+                      deposit();
                     }
                   }}
                 >
-                  <div class='flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
+                  <div class="flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
                     {props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
-                      ? 'Join Coinflip'
-                      : 'Create Coinflip'}
+                      ? "Join Coinflip"
+                      : "Create Coinflip"}
                   </div>
                 </YellowGradientButton>
                 <div
                   class={`w-full bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
-                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'center' : 'hidden'
+                    props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
+                      ? "center"
+                      : "hidden"
                   }`}
                   onClick={autoSelect}
                 >
@@ -490,7 +533,7 @@ const CoinflipCreateModal = (props) => {
         </div>
       </div>
     </Modal>
-  )
-}
+  );
+};
 
-export default CoinflipCreateModal
+export default CoinflipCreateModal;

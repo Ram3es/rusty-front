@@ -1,61 +1,62 @@
 export const TESTMODE = true;
-// const PATH = TESTMODE ? "https://d74e-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
+// const PATH = TESTMODE ? "https://b246-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
 // const PATH = TESTMODE ? "http://localhost:1337" : "https://rustyloot.gg";
 const PATH = TESTMODE ? "http://161.35.166.37" : "https://rustyloot.gg";
 
 export const API = `${PATH}`;
 
 export const URL = {
-    HOME: "/",
-   
-    FAIRNESS: "/fairness",
-    FAQ: "/faq",
-    TOS: "/tos",
-    SUPPORT: "/support",
-    AFFILIATES: "/affiliates",
-    CASE: "/case",
-    UNBOXING: "/unbox",
-    CASE_UNBOXING: "/case-unboxing",
-    CASES: "/cases",
-    LEADERBOARD: "/leaderboard",
+  HOME: "/",
 
-    SIGNIN: `${API}/steam/auth`,
-    SIGNOUT: `${API}/steam/logout`,
+  FAIRNESS: "/fairness",
+  FAQ: "/faq",
+  TOS: "/tos",
+  SUPPORT: "/support",
+  AFFILIATES: "/affiliates",
+  CASE: "/case",
+  UNBOXING: "/unbox",
+  CASE_UNBOXING: "/case-unboxing",
+  CASES: "/cases",
+  LEADERBOARD: "/leaderboard",
 
-    DEPOSIT: {
-      MAIN: "/deposit",
-      ITEMS: "/deposit/items",
-      CRYPTO: "/deposit/crypto"
-    },
-    WITHDRAW: {
-      MAIN: "/withdraw",
-      ITEMS: "/withdraw/items",
-      CRYPTO: "/withdraw/crypto"
-    },
+  SIGNIN: `${API}/steam/auth`,
+  SIGNOUT: `${API}/steam/logout`,
 
-    PROFILE: {
-      SETTINGS: "/profile/settings"
-    },
+  DEPOSIT: {
+    MAIN: "/deposit",
+    ITEMS: "/deposit/items",
+    CRYPTO: "/deposit/crypto",
+  },
+  WITHDRAW: {
+    MAIN: "/withdraw",
+    ITEMS: "/withdraw/items",
+    CRYPTO: "/withdraw/crypto",
+  },
 
-    REWARDS: "/rewards",
+  PROFILE: {
+    SETTINGS: "/profile/settings",
+  },
 
-    GAMEMODES: {
-        JACKPOT: "/jackpot",
-        JACKPOT_DEPOSIT: "/jackpot/deposit",
-        COINFLIP: "/coinflip",
-        COINFLIP_GAME: "/coinflip/game",
-        COINFLIP_CREATE: "/coinflip/create",
-        COINFLIP_JOIN: "/coinflip/join",
-        MINES: "/mines",
-        PLINKO: "/plinko",
-        WHEEL: "/wheel",
-        UPGRADER: "/upgrader",
-        PVP_MINES: "/pvpmines",
-        UNBOX: "/unbox",
-        CASE_BATTLES: "/case-battles/games",
-        CASE_BATTLES_CREATE: "/case-battles/create",
-        CASE_BATTLES_GAME: "/case-battles/play",
-    },
+  REWARDS: "/rewards",
+
+  GAMEMODES: {
+    JACKPOT: "/jackpot",
+    JACKPOT_DEPOSIT: "/jackpot/deposit",
+    COINFLIP: "/coinflip",
+    COINFLIP_GAME: "/coinflip/game",
+    COINFLIP_CREATE: "/coinflip/create",
+    COINFLIP_JOIN: "/coinflip/join",
+    MINES: "/mines",
+    PLINKO: "/plinko",
+    WHEEL: "/wheel",
+    UPGRADER: "/upgrader",
+    UPGRADER_OLD: "/upgrader-old",
+    PVP_MINES: "/pvpmines",
+    UNBOX: "/unbox",
+    CASE_BATTLES: "/case-battles/games",
+    CASE_BATTLES_CREATE: "/case-battles/create",
+    CASE_BATTLES_GAME: "/case-battles/play",
+  },
 };
 
 export const SOCIAL = {
@@ -66,7 +67,8 @@ export const SOCIAL = {
 };
 
 export const STEAM = {
-  TRADEURL: "https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url",
-  IMAGE_ENDPOINT: "https://community.cloudflare.steamstatic.com/economy/image/"
+  TRADEURL:
+    "https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url",
+  IMAGE_ENDPOINT: "https://community.cloudflare.steamstatic.com/economy/image/",
   // IMAGE_ENDPOINT: "https://steamcommunity-a.akamaihd.net/economy/image/"
 };

@@ -250,7 +250,13 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
                     src={item.img}
                     ref={setImgItem}
                     alt={item.name}
-                    class="h-24 z-20"
+                    class={`${
+                      spinComplete()
+                        ? index() === spinIndexes()[spinnerIndex]
+                          ? "animate-bounce"
+                          : ""
+                        : null
+                    } h-24 z-20`}
                   />
                   <img
                     src={`assets/glow_${item.rarity}.png`}

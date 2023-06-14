@@ -1,4 +1,4 @@
-import ItemSplash from "../views/upgrader/itemSplash.svg";
+import ItemSplash from "../views/old-upgrader/itemSplash.svg";
 import LazyImage from "./LazyImage";
 import Coin from "../utilities/Coin";
 import { Show, mergeProps } from "solid-js";

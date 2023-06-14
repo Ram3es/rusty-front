@@ -19,6 +19,7 @@ import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg
 
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
+import { URL } from '../../libraries/url'
 
 const CaseBattleJoinModal = (props) => {
   const { socket, userObject } = injector
@@ -40,9 +41,10 @@ const CaseBattleJoinModal = (props) => {
         team: setup().team,
         player_index: setup().team,
         borrowMoney: setup().borrowMoney,
-        borrowPercent: setup().borrowPercent
+        borrowPercent: Math.floor(setup().borrowPercent * 0.8)
       },
       (data) => {
+        console.log(data);
         if (!data.error) {
           navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
           props?.handleClose()
@@ -162,7 +164,7 @@ const CaseBattleJoinModal = (props) => {
                     <>
                       <div
                         onClick={() => {
-                          if (player !== null || player.id === userObject.user?.id) return
+                          if (player !== null || player?.id === userObject.user?.id) return
                           setSetup((prevState) => ({
                             ...prevState,
                             team: setup().team === index() + 1 ? null : index() + 1
@@ -246,7 +248,7 @@ const CaseBattleJoinModal = (props) => {
                   Join
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{props.game?.totalValue}</span>
+                <span class='text-gradient'>{props.game?.fundBattle ? props.game?.totalValue - (props.game?.totalValue * (props.game?.fundPercent / 100)) : props.game?.totalValue}</span>
               </div>
             </CaseGradientButton>
           </div>
@@ -363,7 +365,7 @@ const CaseBattleJoinModal = (props) => {
                 >
                   <p class='text-center font-SpaceGrotesk text-11 font-bold text-white'>
                     On win you receive{' '}
-                    <span class='text-green-27'>{Math.floor(setup().borrowPercent * 0.8)}%</span> of
+                    <span class='text-green-27'>{100 - Math.floor(setup().borrowPercent * 0.8)}%</span> of
                     total win amount!
                   </p>
                 </div>

@@ -16,10 +16,9 @@ const Fallback = ({ children, loaded, type, ignoreItems }) => {
         const updateStatus = (images) => {
             setIsItemsLoaded(() => {
                 const isLoaded = images.map((image) => image.complete || image.src.includes('avatar')).every((item) => item === true);
-                if (!isLoaded) images.forEach(image => {
-                    if (!image.complete) console.log(image, image.complete)
-                })
-                console.log('setIsItemsLoaded', isLoaded);
+                // if (!isLoaded) images.forEach(image => {
+                //     if (!image.complete) console.log(image, image.complete)
+                // })
                 return isLoaded
             });
             if (isItemsLoaded()) {

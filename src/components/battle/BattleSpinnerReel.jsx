@@ -253,10 +253,16 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
               >
                 <div class="relative z-10 flex">
                   <img
+                    class={`${
+                      spinComplete()
+                        ? index() === spinIndexes()[spinnerIndex]
+                          ? "animate-bounce"
+                          : ""
+                        : null
+                    } h-24 z-20`}
                     src={item.img}
                     ref={setImgItem}
                     alt={item.name}
-                    class="h-24 z-20"
                   />
                   <img
                     src={`/assets/glow_${item.rarity}.png`}
