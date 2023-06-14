@@ -10,20 +10,10 @@ import PVPMinesIcon from '../../icons/PVPMinesIcon'
 import { useI18n } from '../../../i18n/context'
 import Bulk from './Feed/Bulk'
 
-import CoinflipStructure from './structure/Coinflip'
-import MinesStructure from './structure/Mines'
-import PlinkoStructure from './structure/Plinko'
-import WheelStructure from './structure/Wheel'
-import PvpminesStructure from './structure/Pvpmines'
-import UpgraderStructure from './structure/Upgrader'
-import SkinsStructure from './structure/Skins'
-import FiatStructure from './structure/Fiat'
-import CryptoStructure from './structure/Crypto'
 import RoundedButton from '../../elements/RoundedButton'
 import TransparentButton from '../../elements/TransparentButton'
-import CaseBattlesStructure from './structure/CaseBattles'
-import CasesStructure from './structure/Cases'
-import OldSeedsStructure from './structure/OldSeeds'
+
+import { PROFILE_GAMES_STRUCTURE, PROFILE_SEEDS_STRUCTURE, PROFILE_TRANSACTION_STRUCTURE } from '../../../libraries/constants'
 
 const navigationGameModes = [
   {
@@ -141,75 +131,6 @@ const NewProfileHistory = (props) => {
     setPages(indices)
   })
 
-  const gamesData = {
-    coinflip: {
-      headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
-      structure: CoinflipStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
-    },
-    mines: {
-      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
-      structure: MinesStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
-    },
-    plinko: {
-      headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
-      structure: PlinkoStructure,
-      grid: 'grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
-    },
-    wheel: {
-      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
-      structure: WheelStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
-    },
-    'pvp-mines': {
-      headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
-      structure: PvpminesStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
-    },
-    upgrader: {
-      headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
-      structure: UpgraderStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
-    },
-    'case-battles': {
-      headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
-      structure: CaseBattlesStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
-    },
-    cases: {
-      headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
-      structure: CasesStructure,
-      grid: 'grid-cols-[8rem_1fr_1fr_1.5fr_2fr_1.5fr_1.5fr]'
-    }
-  }
-
-  const transactionData = {
-    skins: {
-      headings: ['type', 'Transaction ID', 'amount', 'status'],
-      structure: SkinsStructure,
-      grid: 'grid-cols-[2fr_1.5fr_1.5fr_1.5fr_1fr]'
-    },
-    crypto: {
-      headings: ['type', 'amount', 'Transaction ID'],
-      structure: CryptoStructure,
-      grid: 'grid-cols-[2fr_1fr_2fr_1fr]'
-    },
-    fiat: {
-      headings: ['type', 'Transaction ID', 'amount', 'status'],
-      structure: FiatStructure,
-      grid: 'grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
-    }
-  }
-
-  const seedsData = {
-    oldSeeds: {
-      headings: ['old seeds'],
-      structure: OldSeedsStructure,
-      grid: 'grid-cols-[4fr_1fr]'
-    }
-  }
-
   return (
     <div class='flex flex-col gap-6'>
       <div
@@ -290,10 +211,10 @@ const NewProfileHistory = (props) => {
         loaded={loaded}
         data={
           props?.type === 'history'
-            ? gamesData[currentHistory()]
+            ? PROFILE_GAMES_STRUCTURE[currentHistory()]
             : props?.type === 'transaction'
-            ? transactionData[currentTransaction()]
-            : seedsData['oldSeeds']
+            ? PROFILE_TRANSACTION_STRUCTURE[currentTransaction()]
+            : PROFILE_SEEDS_STRUCTURE['oldSeeds']
         }
         resendTrades={props.account?.resendTrades}
         type={
