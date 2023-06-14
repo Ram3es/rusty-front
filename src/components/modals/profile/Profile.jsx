@@ -84,17 +84,17 @@ const Profile = (props) => {
       <NavLink href={props.pathname()} class='w-full h-full absolute left-0 top-0' />
 
       <div
-        class={`rounded-xl flex flex-col absolute lg:top-32 overflow-x-scroll`}
+        class={`rounded-xl flex flex-col absolute`}
         classList={{
-          'xxl:w-[1208px] xl:h-[935px] h-[570px] w-[85%]': currentTab().name === 'game history',
+          'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-[85%] overflow-scroll': currentTab().name === 'game history',
           'md:w-[650px] lg:w-[833px] w-[85%]': currentTab().name !== 'game history',
           'h-[570px]':
             currentTab().name === 'transactions' ||
             currentTab().name === 'old seeds' ||
             currentTab().name === 'profile',
-          'xl:h-[935px]': currentTab().name === 'transactions',
+          'fourk:h-[935px] overflow-scroll': currentTab().name === 'transactions',
           'h-[580px]': currentTab().name === 'settings',
-          'xl:h-[870px]': currentTab().name === 'old seeds'
+          'fourk:h-[870px] overflow-scroll': currentTab().name === 'old seeds'
         }}
         style={{
           background:
@@ -102,7 +102,7 @@ const Profile = (props) => {
           'backdrop-filter': 'blur(8px)'
         }}
       >
-        <div class='border border-black/20 w-full px-8 py-6 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
+        <div class='rounded-t-xl border border-black/10 w-full px-8 py-6 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
           <div class='text-white font-SpaceGrotesk text-20 flex flex-col'>
             <span class='uppercase'>{currentTab().name}</span>
             <span class='text-gray-64 text-12'>{currentTab().subHeader}</span>
