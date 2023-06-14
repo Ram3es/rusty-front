@@ -18,22 +18,28 @@ import ProfileSettings from './ProfileSettings'
 
 const tabVariants = [
   {
-    name: 'profile'
+    name: 'profile',
+    subHeader: 'Overview of your RustyLoot stats.'
   },
   {
-    name: 'game history'
+    name: 'game history',
+    subHeader: 'View your past games.'
   },
   {
-    name: 'transactions'
+    name: 'transactions',
+    subHeader: 'Check the status of your deposits & withdrawals'
   },
   {
-    name: 'settings'
+    name: 'settings',
+    subHeader: 'Set your RustyLoot Account settings'
   },
   {
-    name: 'old seeds'
+    name: 'old seeds',
+    subHeader: 'View your recently used seeds'
   },
   {
-    name: 'current trades'
+    name: 'current trades',
+    subHeader: ''
   }
 ]
 
@@ -43,7 +49,7 @@ const NewProfile = (props) => {
   const { socket, toastr, userObject } = injector
 
   const [account, setAccount] = createStore({})
-  const [currentTab, setCurrentTab] = createSignal(tabVariants[0].name)
+  const [currentTab, setCurrentTab] = createSignal(tabVariants[0])
 
   createEffect(() => {
     if (props.searchParams?.profile && userObject?.authenticated) {
@@ -80,10 +86,10 @@ const NewProfile = (props) => {
       <div
         class={`rounded-xl flex flex-col absolute lg:top-32 overflow-x-scroll`}
         classList={{
-          'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab() === 'game history',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[870px]': currentTab() === 'transactions',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[580px]': currentTab() === 'settings',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab() === 'profile'
+          'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab().name === 'game history',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[870px]': currentTab().name === 'transactions',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[580px]': currentTab().name === 'settings',
+          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab().name === 'profile'
         }}
         style={{
           background:
@@ -93,8 +99,8 @@ const NewProfile = (props) => {
       >
         <div class='border border-black/20 w-full px-8 py-6 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
           <div class='text-white font-SpaceGrotesk text-20 flex flex-col'>
-            <span class='uppercase'>profile</span>
-            <span class='text-gray-64 text-12'>Overview of your RustyLoot stats.</span>
+            <span class='uppercase'>{currentTab().name}</span>
+            <span class='text-gray-64 text-12'>{currentTab().subHeader}</span>
           </div>
           <NavLink
             href={props.pathname()}
@@ -116,7 +122,11 @@ const NewProfile = (props) => {
             </svg>
           </NavLink>
         </div>
-        <div class={`relative px-[33px] pt-[23px] ${currentTab() !== 'profile' ? 'pb-6' : 'pb-9'}`}>
+        <div
+          class={`relative px-[33px] pt-[23px] ${
+            currentTab().name !== 'profile' ? 'pb-6' : 'pb-9'
+          }`}
+        >
           <div
             class='absolute inset-0 -z-10 h-[326px] bg-repeat-x mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
@@ -125,25 +135,25 @@ const NewProfile = (props) => {
             <For each={tabVariants}>
               {(tab) => (
                 <TransparentButton
-                  callbackFn={() => setCurrentTab(tab.name)}
-                  isActive={currentTab() === tab.name}
+                  callbackFn={() => (tab.name !== 'current trades' ? setCurrentTab(tab) : null)}
+                  isActive={currentTab().name === tab.name}
                 >
                   {tab.name}
                 </TransparentButton>
               )}
             </For>
           </div>
-          {currentTab() === 'profile' && <NewProfileAccount account={account} />}
-          {currentTab() === 'game history' && (
+          {currentTab().name === 'profile' && <NewProfileAccount account={account} />}
+          {currentTab().name === 'game history' && (
             <NewProfileHistory account={account} type='history' />
           )}
-          {currentTab() === 'transactions' && (
+          {currentTab().name === 'transactions' && (
             <NewProfileHistory account={account} type='transaction' />
           )}
-          {currentTab() === 'old seeds' && (
+          {currentTab().name === 'old seeds' && (
             <NewProfileHistory account={account} type='oldSeeds' />
           )}
-          {currentTab() === 'settings' && <ProfileSettings changeLang={props.changeLang} />}
+          {currentTab().name === 'settings' && <ProfileSettings changeLang={props.changeLang} />}
         </div>
       </div>
     </Modal>
