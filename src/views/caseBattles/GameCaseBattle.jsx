@@ -37,7 +37,8 @@ import EmojiIcon from "../../components/icons/EmojiIcon";
 import { getRandomFunction } from "../../utilities/Random/randomGen";
 import WinningsDisplay from "../../components/battle/WinningsDisplay";
 import LosingDisplay from "../../components/battle/LosingDisplay";
-import { getCurrencyString } from "../../components/mines_new/utils/tools";
+import {getCurrencyString} from "../../components/mines_new/utils/tools";
+import StackedCasesBar from "../../components/battle/StackedCasesBar";
 
 export const [containerRef, setContainerRef] = createSignal();
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -55,10 +56,7 @@ export const playEndAudio = () => {
 };
 
 const GameCaseBattle = (props) => {
-  createEffect(() => {
-    console.log(game());
-  });
-  const { socket, userObject } = injector;
+  const {socket, userObject} = injector;
 
   const [game, setGame] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -66,7 +64,7 @@ const GameCaseBattle = (props) => {
   const [winnings, setWinnings] = createSignal([]);
   const [containsBigWin, setContainsBigWin] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
-  const [dashesYellow, setDashesYellow] = createSignal(0);
+  const [battleCases, setBattleCases] = createSignal([]);
 
   const getModeColor = () => {
     return (game().mode === "royal" || game().mode === "team") &&
@@ -142,7 +140,6 @@ const GameCaseBattle = (props) => {
     if (inputGame.status === "playing") {
       setTimeout(() => {
         setWinnings(inputGame.players);
-        setDashesYellow(inputGame.currentRound);
       }, 5500);
     } else {
       setWinnings(inputGame.players);
@@ -265,6 +262,7 @@ const GameCaseBattle = (props) => {
             // console.log(data)
             if (data.data?.game) {
               updateGame(data.data.game);
+              setBattleCases(data.data.game.cases);
             }
           }
         );
@@ -418,31 +416,48 @@ const GameCaseBattle = (props) => {
                 </div>
               </div>
             </div>
-            <div class=" mx-auto flex flex-col">
-              <div class="center gap-1 py-3">
-                <For each={Array.from(Array(game().cases.length).keys())}>
+            <div class="mx-auto flex flex-col">
+              <div
+                class={`flex items-center justify-center gap-[${
+                  battleCases().length <= 25
+                    ? "4"
+                    : battleCases().length <= 40
+                    ? "2"
+                    : battleCases().length <= 70
+                    ? "1"
+                    : "0"
+                }px] py-3 max-w-[300px]`}
+              >
+                <For each={Array.from(Array(battleCases().length).keys())}>
                   {(i) => (
                     <div
                       class={`w-2 h-1 ${
-                        dashesYellow() > i || game().status === "ended"
+                        game().currentRound + 1 > i || game().status === "ended"
                           ? "bg-yellow-ffb"
                           : "bg-[#3B3D4D]"
                       }`}
                       style={{
-                        transition: "color 0.3s ease-in-out",
+                        transition: "all 0.3s ease-in-out",
+                        "box-sizing": "border-box",
                       }}
                     />
                   )}
                 </For>
               </div>
-              <GrayWrapperdWithBorders classes="rounded-t-4 w-max">
-                <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12">
-                  <span class="w-max">{getCurrentRollItem().name}</span>
-                  <Coin width="5" />
-                  <span class="text-gradient text-shadow-gold-secondary">
-                    {getCurrencyString(getCurrentRollItem().price)}
-                  </span>
-                </div>
+              <GrayWrapperdWithBorders classes="rounded-t-4 min-w-[300px]">
+                {game().status !== "ended" ? (
+                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12">
+                    <span class="w-max">{getCurrentRollItem().name}</span>
+                    <Coin width="5" />
+                    <span class="text-gradient text-shadow-gold-secondary">
+                      {getCurrencyString(getCurrentRollItem().price)}
+                    </span>
+                  </div>
+                ) : (
+                  <div class="w-full flex justify-center text-14 font-SpaceGrotesk font-bold text-gray-9a py-1">
+                    Battle Over
+                  </div>
+                )}
               </GrayWrapperdWithBorders>
             </div>
             <div class="overflow-auto">
@@ -451,25 +466,33 @@ const GameCaseBattle = (props) => {
                   <div
                     class="relative w-full flex items-center justify-center p-[1px] rounded-t-8"
                     style={{
-                      background: `radial-gradient(circle at center, rgba(${getModeColorRgb()}, 1) 6%, rgba(255, 255, 255, 0.05) 8%)`,
+                      background: `radial-gradient(circle at center, rgba(${
+                        game().status !== "ended"
+                          ? `${getModeColorRgb()}, 1`
+                          : `255, 255, 255, 0.05`
+                      }) 6%, rgba(255, 255, 255, 0.05) 8%)`,
                     }}
                   >
-                    <div
-                      class={`absolute left-1/2 top-0 -translate-x-1/2 rotate-180
+                    {game().status !== "ended" && (
+                      <>
+                        <div
+                          class={`absolute left-1/2 top-0 -translate-x-1/2 rotate-180
                                 border-x-[8px] border-b-[4px]
                                 border-x-transparent`}
-                      style={{
-                        "border-bottom-color": getModeColorHex(),
-                      }}
-                    />
-                    <div
-                      class={`absolute left-1/2 bottom-0 -translate-x-1/2
+                          style={{
+                            "border-bottom-color": getModeColorHex(),
+                          }}
+                        />
+                        <div
+                          class={`absolute left-1/2 bottom-0 -translate-x-1/2
                                 border-x-[8px] border-b-[4px]
                                 border-x-transparent`}
-                      style={{
-                        "border-bottom-color": getModeColorHex(),
-                      }}
-                    />
+                          style={{
+                            "border-bottom-color": getModeColorHex(),
+                          }}
+                        />
+                      </>
+                    )}
                     <div class="w-full bg-[#15162C] rounded-t-8">
                       <div class="w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)] p-[1px]">
                         <div class="w-full bg-[#15162C] rounded-t-8">
@@ -483,79 +506,85 @@ const GameCaseBattle = (props) => {
                               radial-gradient(220.05% 24.97% at 39.62% 51.7%, rgba(31, 35, 68, 0.36) 0%, rgba(35, 37, 61, 0.36) 100%)`,
                             }}
                           >
+                            {(game().status === "playing" ||
+                              game().status === "open" ||
+                              game().status === "pending") && (
+                              <div
+                                class="absolute left-1/2 top-1/2 h-full w-[64px] -translate-x-1/2 -translate-y-1/2"
+                                style={{
+                                  background:
+                                    getModeColor() === "yellow"
+                                      ? "linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)"
+                                      : getModeColor() === "blue"
+                                      ? "linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)"
+                                      : "linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)",
+                                }}
+                              />
+                            )}
                             <div
-                              class="flex items-center w-max relative transition-transform duration-75 "
+                              class="flex items-center w-max relative transition-all duration-500 ease-in-out "
                               style={{
                                 transform: `translateX(${
                                   game().status === "playing" ||
-                                  game().status === "open"
+                                  game().status === "open" ||
+                                  game().status === "pending"
                                     ? 32 * (game().cases.length - 1) -
                                       64 * (game().currentRound ?? 0)
                                     : 0
                                 }px)`,
+                                transition: "all 0.4s ease-in-out",
                               }}
                             >
-                              {(game().status === "playing" ||
-                                game().status === "open") && (
-                                <div
-                                  class="absolute left-0 top-0 h-full w-[64px] transition-transform duration-200 "
-                                  style={{
-                                    background:
-                                      getModeColor() === "yellow"
-                                        ? "linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)"
-                                        : getModeColor() === "blue"
-                                        ? "linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)"
-                                        : "linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)",
-                                    // transform: `translateX(${64 * (game()?.currentRound ?? 0)}px)`
-                                  }}
-                                />
-                              )}
-                              <For each={game()?.cases || []}>
-                                {(caseItem, index) => (
-                                  <div
-                                    class={`relative  py-1 cursor-pointer
+                              {game().status !== "ended" ? (
+                                <For each={battleCases() || []}>
+                                  {(caseItem, index) => (
+                                    <div
+                                      class={`relative py-1 
                                     ${
-                                      game().status === "open" && index() > 4
-                                        ? "opacity-0"
-                                        : "opacity-20"
-                                    }
+                                      (game().status === "open" ||
+                                        game().status === "pending") &&
+                                      (index() === 0
+                                        ? "scale-[120%]"
+                                        : "scale-[90%]") +
+                                        (index() > 4 ? " opacity-0" : "")
+                                    } 
                                     ${
-                                      game().status !== "open" ||
-                                      game().status !== "closed"
-                                        ? `${
-                                            index() >= game().currentRound + 5
-                                              ? "scale-0 opacity-0"
-                                              : index() > game().currentRound
-                                              ? "scale-95 opacity-100"
-                                              : index() <=
-                                                game().currentRound - 5
-                                              ? "scale-0 opacity-0"
-                                              : "scale-95 opacity-20"
-                                          }}`
-                                        : ""
-                                    }
-                                    ${
-                                      index() === game().currentRound &&
-                                      "scale-125 opacity-100"
+                                      game().status === "playing" &&
+                                      (index() < game().currentRound
+                                        ? index() < game().currentRound - 4
+                                          ? "opacity-0"
+                                          : "opacity-50 scale-[90%]"
+                                        : index() === game().currentRound
+                                        ? "scale-[120%]"
+                                        : index() > game().currentRound
+                                        ? index() > game().currentRound + 4
+                                          ? "opacity-0"
+                                          : "opacity-100 scale-[90%]"
+                                        : "")
                                     }
                                     `}
-                                    style={{
-                                      transition: "all 0.2s ease-in-out",
-                                    }}
-                                  >
-                                    <img
-                                      alt={caseItem.name}
-                                      class="h-[48px] w-[64px]"
-                                      src={
-                                        caseItem?.image
-                                          ?.replace("{url}", window.origin)
-                                          .replace(".png", "_thumbnail.png") ||
-                                        ""
-                                      }
-                                    />
-                                  </div>
-                                )}
-                              </For>
+                                      style={{
+                                        transition: "transform 0.4s ease-in",
+                                      }}
+                                    >
+                                      <img
+                                        alt={caseItem.name}
+                                        class="h-[48px] min-w-[64px]"
+                                        src={
+                                          caseItem?.image
+                                            ?.replace("{url}", window.origin)
+                                            .replace(
+                                              ".png",
+                                              "_thumbnail.png"
+                                            ) || ""
+                                        }
+                                      />
+                                    </div>
+                                  )}
+                                </For>
+                              ) : (
+                                <StackedCasesBar cases={battleCases()} />
+                              )}
                             </div>
                           </div>
                         </div>
