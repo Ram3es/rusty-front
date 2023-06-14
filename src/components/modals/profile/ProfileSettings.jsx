@@ -69,6 +69,13 @@ const ProfileSettings = (props) => {
         if (data.msg) {
           toastr(data)
         }
+
+        if(!data.error) {
+          setUserObject('user', (prev) => ({
+            ...prev,
+            client_seed: clientSeed()
+          }))
+        }
       }
     )
   }

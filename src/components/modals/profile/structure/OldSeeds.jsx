@@ -2,7 +2,7 @@ import injector from '../../../../injector/injector'
 import GrayGradientButton from '../../../elements/GrayGradientButton'
 
 const OldSeedsStructure = (props) => {
-  const { socket, toastr } = injector
+  const { socket, toastr, setUserObject } = injector
 
   const changeClientSeed = () => {
     socket.emit(
@@ -13,6 +13,12 @@ const OldSeedsStructure = (props) => {
       (data) => {
         if (data.msg) {
           toastr(data)
+        }
+        if (!data.error) {
+          setUserObject('user', (prev) => ({
+            ...prev,
+            client_seed: props.val.client_seed
+          }))
         }
       }
     )
