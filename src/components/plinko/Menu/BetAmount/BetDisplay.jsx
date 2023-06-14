@@ -3,7 +3,7 @@ import GoldText from "../../MISC/GoldText";
 import AdjustBtn from "../../MISC/AdjustBtn";
 
 import { betAmount, setBetAmount } from "../../PlinkoContainer";
-import { getCurrencyString } from "../../utils/tools";
+import { getCurrencyString } from "../../../../utilities/tools";
 
 const BetDisplay = () => {
   const halveBet = () => {

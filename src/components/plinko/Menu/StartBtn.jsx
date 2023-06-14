@@ -1,7 +1,7 @@
 import CoinLogo from "../MISC/CoinLogo";
 import GoldText from "../MISC/GoldText";
 
-import { getCurrencyString } from "../utils/tools";
+import { getCurrencyString } from "../../../utilities/tools";
 import {
   betAmount,
   isAutoDropping,

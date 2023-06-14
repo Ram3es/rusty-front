@@ -3,7 +3,6 @@ import CoinLogo from "../../MISC/CoinLogo";
 import GoldText from "../../MISC/GoldText";
 import AdjustBtn from "../../MISC/AdjustBtn";
 import { getCurrencyString } from "../../utils/tools";
-
 const BetDisplay = (props) => {
   const [isActive, setActive] = createSignal(false)
   let inputRef;
