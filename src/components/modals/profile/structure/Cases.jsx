@@ -24,14 +24,14 @@ const CasesStructure = (props) => {
           {Number(props?.val?.winnings).toLocaleString() ?? 1000}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto'>
-        Punishment Case
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto truncate'>
+        {props?.val?.info.split('_')[0]}
       </p>
-      <p class='text-16 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto'>
-        0.994423454
+      <p class='text-16 font-bold font-SpaceGrotesk text-gray-9aa capitalize my-auto truncate'>
+        {props?.val?.extra_data}
       </p>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
-        AK47 | Alien Red
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        {props?.val?.info.split('_')[1]}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>

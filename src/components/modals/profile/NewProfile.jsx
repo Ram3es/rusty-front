@@ -86,12 +86,15 @@ const NewProfile = (props) => {
       <div
         class={`rounded-xl flex flex-col absolute lg:top-32 overflow-x-scroll`}
         classList={{
-          'xl:w-[1208px] xl:h-[935px] h-[80%] w-[80%]': currentTab().name === 'game history',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[870px]': currentTab().name === 'transactions',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[580px]': currentTab().name === 'settings',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[571px]': currentTab().name === 'profile',
-          'md:w-[650px] lg:w-[833px] w-[85%] h-[85%] ': currentTab().name === 'oldSeeds'
-
+          'xxl:w-[1208px] xl:h-[935px] h-[570px] w-[85%]': currentTab().name === 'game history',
+          'md:w-[650px] lg:w-[833px] w-[85%]': currentTab().name !== 'game history',
+          'h-[570px]':
+            currentTab().name === 'transactions' ||
+            currentTab().name === 'old seeds' ||
+            currentTab().name === 'profile',
+          'xl:h-[935px]': currentTab().name === 'transactions',
+          'h-[580px]': currentTab().name === 'settings',
+          'xl:h-[870px]': currentTab().name === 'old seeds'
         }}
         style={{
           background:
