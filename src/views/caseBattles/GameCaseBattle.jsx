@@ -1054,7 +1054,7 @@ const GameCaseBattle = (props) => {
                             </div>
                           )}
                         </div>
-                        <div class="border-r border-black border-opacity-20" />
+                        <div class="border-r border-black border-opacity-5" />
                       </>
                     )}
                   </For>
