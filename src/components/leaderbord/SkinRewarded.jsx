@@ -59,7 +59,7 @@ const SkinRewarded = (props) => {
                     widthCoin='6'
                     fontSize='14'
                     gradient='text-gradient--leaderboard-amount' 
-                    amount={ITEMS[props.variant].price} 
+                    amount={props.reward} 
                 />
             </div>
         </div>

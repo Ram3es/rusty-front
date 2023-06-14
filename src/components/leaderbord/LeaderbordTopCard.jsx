@@ -46,7 +46,7 @@ const LeaderbordTopCard = (props) => {
                 </svg>
                 <div class='absolute w-full h-full flex flex-col gap-3 items-center pt-8 pb-4 px-4'>
                     <UserInfo player={props.player} color={props.color}  id={props.id}  />
-                    <SkinRewarded variant={props.variant} />
+                    <SkinRewarded reward={props.player.reward} variant={props.variant} />
                 </div>
             </div>
         </div>
