@@ -16,6 +16,7 @@ export const [betAmount, setBetAmount] = createSignal(100);
 
 export const [currentGameId, setCurrentGameId] = createSignal("");
 export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
+export const [items, setItems] = createSignal([]);
 
 const Upgrader = ({loaded}) => {
   const {socket, toastr, userObject} = injector;
@@ -25,7 +26,6 @@ const Upgrader = ({loaded}) => {
 
   const [betValue, setBetValue] = createSignal("");
 
-  const [items, setItems] = createSignal([]);
   const [globalHistory, setGlobalHistory] = createSignal([]);
   const [isGameStarted, setIsGameStarted] = createSignal(false);
 
