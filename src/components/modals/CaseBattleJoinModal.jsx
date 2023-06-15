@@ -16,6 +16,7 @@ import BattleGroupIcon from '../icons/BattleGroupIcon'
 import UserPlaceholderIcon from '../icons/UserPlaceholderIcon'
 
 import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg.png'
+import Logo from "../../assets/smallLogo.svg";
 
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
@@ -196,7 +197,7 @@ const CaseBattleJoinModal = (props) => {
                         }}
                       >
                         {player ? (
-                          <img class='rounded-full' src={player.avatar} alt='steam-avatar' />
+                          <img class='rounded-full' src={player.avatar ?? Logo} alt='steam-avatar' />
                         ) : userObject.authenticated && setup().player_index === index() + 1 ? (
                           <img
                             class='rounded-full'
