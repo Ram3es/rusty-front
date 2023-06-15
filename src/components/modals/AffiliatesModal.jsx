@@ -326,7 +326,7 @@ const AffiliatesModal = (props) => {
                   
                   <div class="flex items-center relative w-full h-10">
                   <div
-                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
@@ -389,7 +389,7 @@ const AffiliatesModal = (props) => {
                   </p>
                   <div class="flex items-center relative w-full h-10">
                   <div
-                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),

@@ -149,7 +149,7 @@ body::after {
     user-select: none;
   }
 
-  .sentence:first-letter {
+  .sentence:first-line {
     text-transform: capitalize;
   }
 
