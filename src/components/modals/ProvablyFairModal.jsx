@@ -2,7 +2,7 @@ import { createSignal, For } from 'solid-js'
 import injector from '../../injector/injector'
 import Modal from './Modal'
 import { useI18n } from '../../i18n/context'
-import GrayGradientButton from '../elements/GrayGradientButton'
+import BgMainVector from '../../assets/img/coinflip/bgItemsRL.png'
 
 const ProvablyFairModal = () => {
   const i18n = useI18n()
@@ -126,7 +126,11 @@ const ProvablyFairModal = () => {
               </svg>
             </div>
           </div>
-          <div class='ml-[33px] mr-16 flex flex-col mt-14 gap-[23px]'>
+          <div class='pl-[33px] pr-16 flex flex-col pt-14 gap-[23px] relative'>
+            <div
+              class='absolute inset-0 -z-10 bg-repeat mix-blend-luminosity'
+              style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
+            />
             <p class='font-medium text-16 text-blue-60 font-SpaceGrotesk'>
               {i18n.t('provably_fair.We use the popular')}
             </p>
@@ -147,7 +151,11 @@ const ProvablyFairModal = () => {
               {i18n.t('provably_fair.When updating')}
             </p>
           </div>
-          <div class='flex flex-col gap-6 mt-[25px] ml-[33px] mr-16 mb-9'>
+          <div class='flex flex-col gap-6 pt-[25px] pl-[33px] pr-16 pb-9 relative'>
+            <div
+              class='absolute inset-0 -z-10 mb-2 bg-repeat mix-blend-luminosity'
+              style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
+            />
             <div class='flex flex-col gap-2.5'>
               <p class='text-white text-20 font-bold font-SpaceGrotesk'>
                 {i18n.t('provably_fair.Plinko')}
