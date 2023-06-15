@@ -47,7 +47,7 @@ const TableLeaderboard = (props) => {
                                         class='rounded-full w-8 h-8' 
                                     />
                                    <div
-                                        class="flex flex-wrap center gap-x-2 text-sm font-bold h-fit max-w-[214px] whitespace-nowrap px-2.5 py-1 rounded"
+                                        class="flex flex-wrap center gap-x-2 text-sm font-bold h-fit max-w-[214px] whitespace-nowrap px-2.5 py-1 rounded lg:flex-nowrap"
                                         style={{ 
                                             background: "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
                                             "box-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)"
