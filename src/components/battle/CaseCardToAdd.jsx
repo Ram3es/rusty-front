@@ -32,7 +32,7 @@ const CaseCardToAdd = (props) => {
       onMouseOut={() => setIsHovering(false)}
     >
       <div
-        class=" absolute left-0 top-0 w-full h-full z-0 opacity-60 group-hover:opacity-100"
+        class=" absolute left-0 top-0 w-full h-full z-0"
         style={{
           "background-image": `url('${headerLogoBgVector}')`,
         }}

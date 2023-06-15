@@ -925,7 +925,7 @@ const GameCaseBattle = (props) => {
                                   <span class='text-gradient'>
                                     {game().fundBattle
                                       ? game().totalValue -
-                                        game().totalValue * (game().fundPercent / 100)
+                                        (game().totalValue * (game().fundPercent / 100)).toFixed()
                                       : game().totalValue}
                                   </span>
                                 </div>
