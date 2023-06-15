@@ -2,6 +2,7 @@ import { createSignal, For } from 'solid-js'
 import injector from '../../injector/injector'
 import Modal from './Modal'
 import { useI18n } from '../../i18n/context'
+import GrayGradientButton from '../elements/GrayGradientButton'
 
 const ProvablyFairModal = () => {
   const i18n = useI18n()
@@ -9,6 +10,7 @@ const ProvablyFairModal = () => {
   const { socket, toggles, setToggles, toastr } = injector
 
   const [text, setText] = createSignal('')
+  const [toggleSearch, setToggleSearch] = createSignal(true)
 
   const [data, setData] = createSignal({})
 
@@ -177,148 +179,75 @@ const ProvablyFairModal = () => {
             </div>
           </div>
 
-          <div class='w-full h-10 px-4 bg-dark-20 relative center'>
-            <div class='absolute w-full h-full flex justify-between items-center'>
-              <svg
-                width='4'
-                height='16'
-                viewBox='0 0 4 16'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path d='M4 7.57895L0 16L0 0L4 7.57895Z' fill='#161B2A' />
-              </svg>
-              <svg
-                width='4'
-                height='16'
-                viewBox='0 0 4 16'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path d='M0 7.57895L4 16L4 0L0 7.57895Z' fill='#161B2A' />
-              </svg>
-              <svg
-                class='absolute left-16 top-0'
-                width='32'
-                height='4'
-                viewBox='0 0 32 4'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path d='M23.619 2L16 0H32L23.619 2Z' fill='#161B2A' />
-                <path d='M7.89474 4L0 0H15L7.89474 4Z' fill='#161B2A' />
-              </svg>
-            </div>
-            <div class='w-full flex items-center'>
-              <p class='text-gray-8c text-14 font-medium truncate select-text'>
-                {'sha256({secret}{roll}{signature})'}
-              </p>
-            </div>
-          </div>
-
-          <p class='text-24 text-white font-medium font-Oswald uppercase'>
-            {i18n.t('provably_fair.Round information')}
-          </p>
-          <div class='flex flex-col gap-4 w-full'>
-            <div class='w-full h-10 px-4 bg-dark-20 relative center'>
-              <div class='absolute w-full h-full flex justify-between items-center'>
-                <svg
-                  width='4'
-                  height='16'
-                  viewBox='0 0 4 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M4 7.57895L0 16L0 0L4 7.57895Z' fill='#161B2A' />
-                </svg>
-                <svg
-                  width='4'
-                  height='16'
-                  viewBox='0 0 4 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M0 7.57895L4 16L4 0L0 7.57895Z' fill='#161B2A' />
-                </svg>
-                <svg
-                  class='absolute left-16 top-0'
-                  width='32'
-                  height='4'
-                  viewBox='0 0 32 4'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M23.619 2L16 0H32L23.619 2Z' fill='#161B2A' />
-                  <path d='M7.89474 4L0 0H15L7.89474 4Z' fill='#161B2A' />
-                </svg>
-              </div>
-              <input
-                class='w-full h-full text-white text-12 sm:text-14 font-medium font-Oswald uppercase placeholder-gray-8c z-10'
-                placeholder={i18n.t('provably_fair.Search for ID')}
-                type='number'
-                value={text()}
-                onInput={(e) => {
-                  setText(e.currentTarget.value)
-                }}
-              />
+          <div class='flex flex-col gap-5 ml-[33px] mr-16 mb-6'>
+            <p class='text-white text-20 font-bold font-SpaceGrotesk'>
+              {i18n.t('provably_fair.Round information')}
+            </p>
+            <div class='flex flex-col gap-[15px] w-full'>
               <div
-                class={`absolute right-4 w-24 h-6 duration-200 gap-2 text-gray-47 bg-dark-2d hover:text-white hover center z-10`}
-                onClick={searchPF}
+                class='flex w-full rounded-[4px] justify-between items-center h-10'
+                style={{
+                  background:
+                    'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)',
+                  border: '1px solid rgba(255, 255, 255, 0.03)',
+                  'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)',
+                  'backdrop-filter': 'blur(1.5px)'
+                }}
               >
-                <p class='text-12 sm:text-14 text-current font-bold sentence'>
-                  {i18n.t('provably_fair.Search')}
-                </p>
+                <div class='flex items-center gap-2 justify-between pl-4 pr-1 py-1 w-full'>
+                  <input
+                    class={`text-gray-92 text-14 font-medium font-SpaceGrotesk w-full ${
+                      toggleSearch() ? '' : 'hidden'
+                    }`}
+                    placeholder={i18n.t('provably_fair.Search for ID')}
+                    type='number'
+                    value={text()}
+                    onInput={(e) => {
+                      setText(e.currentTarget.value)
+                    }}
+                  />
+                  <p
+                    class={`text-gray-92 w-full sm:w-44 ${
+                      toggleSearch() ? 'hidden' : ''
+                    } text-14 font-medium uppercase`}
+                    onClick={() => setToggleSearch((prev) => !prev)}
+                  >
+                    text()
+                  </p>
+                  <div
+                    class='flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
+                    onClick={searchPF}
+                  >
+                    {i18n.t('provably_fair.Search')}
+                  </div>
+                </div>
               </div>
-            </div>
 
-            <div class='w-full grid grid-cols-2 gap-x-6 gap-y-2'>
-              <For each={['gamemode', 'hash', 'roll', 'secret', 'random', 'signature']}>
-                {(name) => (
-                  <div class='w-full flex flex-col gap-1'>
-                    <p class='text-12 sm:text-14 text-gray-8c font-normal sentence'>
-                      {roundInfo[name][i18n.language]}
-                    </p>
-                    <div class='w-full h-10 px-4 bg-dark-20 relative center'>
-                      <div class='absolute w-full h-full flex justify-between items-center'>
-                        <svg
-                          width='4'
-                          height='16'
-                          viewBox='0 0 4 16'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path d='M4 7.57895L0 16L0 0L4 7.57895Z' fill='#161B2A' />
-                        </svg>
-                        <svg
-                          width='4'
-                          height='16'
-                          viewBox='0 0 4 16'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path d='M0 7.57895L4 16L4 0L0 7.57895Z' fill='#161B2A' />
-                        </svg>
-                        <svg
-                          class='absolute left-16 top-0'
-                          width='32'
-                          height='4'
-                          viewBox='0 0 32 4'
-                          fill='none'
-                          xmlns='http://www.w3.org/2000/svg'
-                        >
-                          <path d='M23.619 2L16 0H32L23.619 2Z' fill='#161B2A' />
-                          <path d='M7.89474 4L0 0H15L7.89474 4Z' fill='#161B2A' />
-                        </svg>
-                      </div>
-                      <div class='w-full flex items-center'>
-                        <p class='text-whitetext-12 sm: text-14 font-medium font-Oswald truncate select-text'>
+              <div class='w-full grid grid-cols-2 gap-x-[27px] gap-y-[15px]'>
+                <For each={['gamemode', 'hash', 'roll', 'secret', 'random', 'signature']}>
+                  {(name) => (
+                    <div class='w-full flex flex-col gap-[7px]'>
+                      <p class='text-12 font-bold text-gray-64 font-SpaceGrotesk capitalize'>
+                        {roundInfo[name][i18n.language]}
+                      </p>
+                      <div
+                        class='w-full h-10 px-4 rounded-4 flex items-center'
+                        style={{
+                          background:
+                            'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)',
+                          border: '1px solid rgba(255, 255, 255, 0.03)',
+                          'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)',
+                          'backdrop-filter': 'blur(1.5px)'
+                        }}
+                      >
+                        <p class='text-gray-92 text-12 font-medium font-SpaceGrotesk truncate select-text'>
                           {data()?.[name]}
                         </p>
                       </div>
                     </div>
-                  </div>
-                )}
-              </For>
+                  )}
+                </For>
+              </div>
             </div>
           </div>
         </div>
