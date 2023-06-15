@@ -76,16 +76,10 @@ const ProvablyFairModal = () => {
       handler={() => {}}
     >
       <div
-        class='w-full h-full absolute left-0 cursor-default top-0'
+        class='w-full h-full bg-transparent absolute left-0 top-0'
         onClick={() => setToggles('provablyFairModal', false)}
       />
-      <div
-        class='flex flex-col absolute top-32 w-11/12 overflow-y-scroll'
-        style={{
-          'max-width': '56rem',
-          height: '40rem'
-        }}
-      >
+      <div class='flex flex-col absolute overflow-y-scroll h-[550px] fourk:h-[846px] max-w-[348px] md:max-w-[608px] lg:max-w-[708px] xl:max-w-[1208px]'>
         <div
           class={`w-full relative flex flex-col rounded-xl transition-all transform -translate-y-1/4 ${
             !toggles.provablyFairModal ? '' : '-translate-y-0'
