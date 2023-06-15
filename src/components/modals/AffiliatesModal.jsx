@@ -267,7 +267,7 @@ const AffiliatesModal = (props) => {
         }}
       >
         <div
-          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-6 overflow-hidden transform -translate-y-1/4 h-[44rem] ${
+          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-[44rem] ${
             !props.searchParams?.affiliates ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
