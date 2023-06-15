@@ -267,7 +267,7 @@ const AffiliatesModal = (props) => {
         }}
       >
         <div
-          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-6 overflow-hidden transform -translate-y-1/4 h-[44rem] ${
+          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-[44rem] ${
             !props.searchParams?.affiliates ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
@@ -296,7 +296,7 @@ const AffiliatesModal = (props) => {
                 <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
                   {i18n.t("coinflip.affiliates_true.Affiliates")}
                 </h2>
-                <div class="font-SpaceGrotesk text-12 text-[#646683]">
+                <div class="font-SpaceGrotesk font-bold text-xs text-gray-64">
                   Invite people to RustyLoot and earn commission
                 </div>
               </div>
@@ -320,13 +320,13 @@ const AffiliatesModal = (props) => {
             >
               <div class="w-full flex flex-col sm:flex-row">
                 <div class="w-full sm:w-2/5 flex flex-col gap-0.5 pr-8">
-                  <p class="text-14 text-gray-8c font-normal sentence font-SpaceGrotesk">
+                  <p class="text-14 text-gray-9a font-medium sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
                   
                   <div class="flex items-center relative w-full h-10">
                   <div
-                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
@@ -349,7 +349,7 @@ const AffiliatesModal = (props) => {
                         >
                       <div class="flex items-center gap-4 pl-2 pr-1 w-full">
                         <input
-                          class={`text-white text-14 font-bold font-SpaceGrotesk w-full sm:w-44 ${
+                          class={`text-white  text-14 font-bold font-SpaceGrotesk w-full sm:w-44 placeholder:text-gray-92 placeholder:font-medium ${
                             toggleCode() ? "" : "hidden"
                           }`}
                           placeholder={i18n.t(
@@ -384,12 +384,12 @@ const AffiliatesModal = (props) => {
                   </div>
                 </div>
                 <div class="flex-1 flex flex-col gap-0.5 pr-8">
-                  <p class="text-14 text-gray-8c font-normal sentence font-SpaceGrotesk">
+                  <p class="text-14 text-gray-9a font-medium sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate link")}
                   </p>
                   <div class="flex items-center relative w-full h-10">
                   <div
-                       class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                       class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
@@ -446,7 +446,7 @@ const AffiliatesModal = (props) => {
                   <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
                     DASHBOARD
                   </h2>
-                  <div class="font-SpaceGrotesk text-12 text-[#646683]">
+                  <div class="font-SpaceGrotesk font-bold text-12 text-gray-64">
                     Overview of your Affiliate Stats
                   </div>
                 </div>
@@ -475,7 +475,7 @@ const AffiliatesModal = (props) => {
                                 {Number(item.value() || 0).toLocaleString()}
                               </p>
                             </div>
-                            <p class={`${item.type === 'earned' ? "text-gradient-green-secondary" : "text-yellow-ffb"} text-14 font-SpaceGrotesk font-normal sentence leading-none`}>
+                            <p class={`${item.type === 'earned' ? "text-green-27" : "text-yellow-ffb"} text-14 font-SpaceGrotesk font-bold sentence leading-none`}>
                               {item?.name[i18n.language]}
                             </p>
                           </div>
