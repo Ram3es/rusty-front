@@ -55,6 +55,18 @@ export const playEndAudio = () => {
   // console.log("playEndAudio' ")
 };
 
+export const getJoinTeam = (mode, playerIndex) => {
+  if (mode === "group") {
+    return 1;
+  } else if (mode === "royal") {
+    return playerIndex;
+  } else if (playerIndex <= 2) {
+    return 1;
+  } else {
+    return 2;
+  }
+};
+
 const GameCaseBattle = (props) => {
   const {socket, userObject} = injector;
 
@@ -207,24 +219,12 @@ const GameCaseBattle = (props) => {
     }
   };
 
-  const getJoinTeam = (playerIndex) => {
-    if (game().mode === "group") {
-      return 1;
-    } else if (game().mode === "royal") {
-      return playerIndex;
-    } else if (playerIndex <= 2) {
-      return 1;
-    } else {
-      return 2;
-    }
-  };
-
   const callBot = (player_index) => {
     socket.emit(
       "battles:callbot",
       {
         gameId: Number(props.searchParams.id),
-        team: getJoinTeam(player_index),
+        team: getJoinTeam(game().mode, player_index),
         player_index,
       },
       () => {}
@@ -236,7 +236,7 @@ const GameCaseBattle = (props) => {
       "battles:join",
       {
         gameId: Number(props.searchParams.id),
-        team: getJoinTeam(player_index),
+        team: getJoinTeam(game().mode, player_index),
         player_index,
         urlKey: props.searchParams.key,
       },

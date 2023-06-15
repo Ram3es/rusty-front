@@ -20,11 +20,13 @@ import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
 import { URL } from '../../libraries/url'
+import { getJoinTeam } from '../../views/caseBattles/GameCaseBattle'
 
 const CaseBattleJoinModal = (props) => {
-  const { socket, userObject } = injector
+  const { socket, userObject, toastr } = injector
 
   const [setup, setSetup] = createSignal({
+    player_index: null,
     team: null,
     urlKey: null,
     borrowMoney: 0,
@@ -34,23 +36,26 @@ const CaseBattleJoinModal = (props) => {
   const navigate = useNavigate()
 
   const joinGame = (gameId) => {
-    socket.emit(
-      'battles:join',
-      {
-        gameId,
-        team: setup().team,
-        player_index: setup().team,
-        borrowMoney: setup().borrowMoney,
-        borrowPercent: Math.floor(setup().borrowPercent * 0.8)
-      },
-      (data) => {
-        console.log(data);
-        if (!data.error) {
-          navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
-          props?.handleClose()
+    if (setup().player_index) {
+      socket.emit(
+        'battles:join',
+        {
+          gameId,
+          team: getJoinTeam(props.game?.mode, setup().player_index),
+          player_index: setup().player_index,
+          borrowMoney: setup().borrowMoney,
+          borrowPercent: Math.floor(setup().borrowPercent * 0.8)
+        },
+        (data) => {
+          if (!data.error) {
+            navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
+            props?.handleClose()
+          } else {
+            toastr({error: data.error, msg: data.message})
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   const modeColor = () => getColorByModeAndCursed(props.game?.mode, props.game?.cursed)
@@ -167,11 +172,11 @@ const CaseBattleJoinModal = (props) => {
                           if (player !== null || player?.id === userObject.user?.id) return
                           setSetup((prevState) => ({
                             ...prevState,
-                            team: setup().team === index() + 1 ? null : index() + 1
+                            player_index: setup().player_index === index() + 1 ? null : index() + 1
                           }))
                         }}
                         class={`cursor-pointer rounded-full flex items-center justify-center w-12 h-12 grow bg-blue-282 ${
-                          !player && setup().team !== index() + 1 && 'text-gray-9a'
+                          !player && setup().player_index !== index() + 1 && 'text-gray-9a'
                         } ${
                           !player
                             ? modeColor() === 'yellow'
@@ -183,16 +188,16 @@ const CaseBattleJoinModal = (props) => {
                         }`}
                         classList={{
                           'border border-yellow-ffb text-yellow-ffb':
-                            setup().team === index() + 1 && modeColor() === 'yellow',
+                            setup().player_index === index() + 1 && modeColor() === 'yellow',
                           'border border-[#DAFD09] text-[#DAFD09]':
-                            setup().team === index() + 1 && modeColor() === 'green',
+                            setup().player_index === index() + 1 && modeColor() === 'green',
                           'border border-[#5AC3FF] text-[#5AC3FF]':
-                            setup().team === index() + 1 && modeColor() === 'blue'
+                            setup().player_index === index() + 1 && modeColor() === 'blue'
                         }}
                       >
                         {player ? (
                           <img class='rounded-full' src={player.avatar} alt='steam-avatar' />
-                        ) : userObject.authenticated && setup().team === index() + 1 ? (
+                        ) : userObject.authenticated && setup().player_index === index() + 1 ? (
                           <img
                             class='rounded-full'
                             src={
