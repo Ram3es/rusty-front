@@ -1,38 +1,38 @@
-import injector from '../../injector/injector'
-import { createEffect, createSignal, For, Match, onCleanup, Switch, onMount } from 'solid-js'
-import HoveredButton from '../../components/elements/HoveredButton'
-import BattleSpinnerReel from '../../components/battle/BattleSpinnerReel'
-import { otherOptions } from '../../libraries/caseSpinConfig'
-import { isNumber } from 'chart.js/helpers'
-import Coin from '../../utilities/Coin'
-import Logo from '../../assets/smallLogo.svg'
-import Ranks from '../../utilities/Ranks'
-import RankLabel from '../../components/chat/RankLabel'
-import ItemPlaceholder from '../../assets/img/case/ItemPlaceholder.png'
-import { NavLink } from 'solid-app-router'
-import ArrowBack from '../../components/icons/ArrowBack'
-import { URL } from '../../libraries/url'
-import BattleRoyaleIcon from '../../components/icons/BattleRoyaleIcon'
-import BattleCursedIcon from '../../components/icons/BattleCursedIcon'
-import BattleGroupIcon from '../../components/icons/BattleGroupIcon'
-import FairnessShieldIcon from '../../components/icons/cases/FairnessShield'
-import GrayWrapperdWithBorders from '../../components/battle/GrayWrapperdWithBorders'
-import ArrowDownWithGradient from '../../components/icons/ArrowDownWithGradient'
-import footerLogoBgVector from '../../assets/img/footer/footerLogoBgVector.png'
-import bgVectorCaseBattle from '../../assets/img/case-battles/bgVectorCaseBattle.png'
+import injector from "../../injector/injector"
+import { createEffect, createSignal, For, Match, onCleanup, Switch, onMount } from "solid-js"
+import HoveredButton from "../../components/elements/HoveredButton"
+import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel"
+import { otherOptions } from "../../libraries/caseSpinConfig"
+import { isNumber } from "chart.js/helpers"
+import Coin from "../../utilities/Coin"
+import Logo from "../../assets/smallLogo.svg"
+import Ranks from "../../utilities/Ranks"
+import RankLabel from "../../components/chat/RankLabel"
+import ItemPlaceholder from "../../assets/img/case/ItemPlaceholder.png"
+import { NavLink } from "solid-app-router"
+import ArrowBack from "../../components/icons/ArrowBack"
+import { URL } from "../../libraries/url"
+import BattleRoyaleIcon from "../../components/icons/BattleRoyaleIcon"
+import BattleCursedIcon from "../../components/icons/BattleCursedIcon"
+import BattleGroupIcon from "../../components/icons/BattleGroupIcon"
+import FairnessShieldIcon from "../../components/icons/cases/FairnessShield"
+import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBorders"
+import ArrowDownWithGradient from "../../components/icons/ArrowDownWithGradient"
+import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png"
+import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle.png"
 
-import RecentDropsItem from '../case/RecentDropsItem'
-import ItemCardSmall from '../../components/battle/ItemCardSmall'
-import UserGameAvatar from '../../components/battle/UserGameAvatar'
-import Spiner from '../../components/battle/Spiner'
-import YellowGradientButton from '../../components/elements/CaseGradientButton'
-import GrayGradientButton from '../../components/elements/GrayGradientButton'
-import EmojiIcon from '../../components/icons/EmojiIcon'
-import { getRandomFunction } from '../../utilities/Random/randomGen'
-import WinningsDisplay from '../../components/battle/WinningsDisplay'
-import LosingDisplay from '../../components/battle/LosingDisplay'
-import { getCurrencyString } from '../../components/mines_new/utils/tools'
-import StackedCasesBar from '../../components/battle/StackedCasesBar'
+import RecentDropsItem from "../case/RecentDropsItem"
+import ItemCardSmall from "../../components/battle/ItemCardSmall"
+import UserGameAvatar from "../../components/battle/UserGameAvatar"
+import Spiner from "../../components/battle/Spiner"
+import YellowGradientButton from "../../components/elements/CaseGradientButton"
+import GrayGradientButton from "../../components/elements/GrayGradientButton"
+import EmojiIcon from "../../components/icons/EmojiIcon"
+import { getRandomFunction } from "../../utilities/Random/randomGen"
+import WinningsDisplay from "../../components/battle/WinningsDisplay"
+import LosingDisplay from "../../components/battle/LosingDisplay"
+import { getCurrencyString } from "../../components/mines_new/utils/tools"
+import StackedCasesBar from "../../components/battle/StackedCasesBar"
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -51,27 +51,15 @@ export const playEndAudio = () => {
 
 export const getJoinTeam = (mode, playerIndex) => {
   if (mode === "group") {
-    return 1;
+    return 1
   } else if (mode === "royal") {
-    return playerIndex;
+    return playerIndex
   } else if (playerIndex <= 2) {
-    return 1;
+    return 1
   } else {
-    return 2;
+    return 2
   }
-};
-
-export const getJoinTeam = (mode, playerIndex) => {
-  if (mode === "group") {
-    return 1;
-  } else if (mode === "royal") {
-    return playerIndex;
-  } else if (playerIndex <= 2) {
-    return 1;
-  } else {
-    return 2;
-  }
-};
+}
 
 const GameCaseBattle = (props) => {
   const { socket, userObject } = injector
@@ -87,37 +75,37 @@ const GameCaseBattle = (props) => {
   let intervalId
 
   const getModeColor = () => {
-    return (game().mode === 'royal' || game().mode === 'team') && game().cursed !== 1
-      ? 'yellow'
+    return (game().mode === "royal" || game().mode === "team") && game().cursed !== 1
+      ? "yellow"
       : game().cursed === 1
-      ? 'green'
-      : 'blue'
+      ? "green"
+      : "blue"
   }
 
   const getModeColorRgb = () => {
     const color = getModeColor()
-    if (color === 'yellow') return '255, 180, 54'
-    if (color === 'green') return '218, 253, 9'
-    if (color === 'blue') return '90, 195, 255'
+    if (color === "yellow") return "255, 180, 54"
+    if (color === "green") return "218, 253, 9"
+    if (color === "blue") return "90, 195, 255"
   }
 
   const getModeColorHex = () => {
     const color = getModeColor()
-    if (color === 'yellow') return '#ffb436'
-    if (color === 'green') return '#DAFD09'
-    if (color === 'blue') return '#5ac3ff'
+    if (color === "yellow") return "#ffb436"
+    if (color === "green") return "#DAFD09"
+    if (color === "blue") return "#5ac3ff"
   }
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
-      ? 'gold'
+      ? "gold"
       : item_price > 1000 * 30
-      ? 'red'
+      ? "red"
       : item_price > 1000 * 10
-      ? 'purple'
+      ? "purple"
       : item_price > 1000 * 2
-      ? 'blue'
-      : 'gray'
+      ? "blue"
+      : "gray"
   }
 
   const generateSpinList = (playerIndex) => {
@@ -135,7 +123,7 @@ const GameCaseBattle = (props) => {
       // console.log('r!!!!!', r, rollItems());
       newSpinList.push(rollItems()[r])
     }
-    console.log('newSpinList', newSpinList)
+    console.log("newSpinList", newSpinList)
     return newSpinList
   }
 
@@ -149,22 +137,22 @@ const GameCaseBattle = (props) => {
   }
 
   const updateGame = (inputGame) => {
-    console.log('inputGame', inputGame)
+    console.log("inputGame", inputGame)
     setRollItems([])
     setSpinnerOptions([])
     setGame(() => inputGame)
 
-    if (inputGame.status === 'playing') {
+    if (inputGame.status === "playing") {
       setTimeout(() => {
         setWinnings(inputGame.players)
       }, 5500)
     } else {
       setWinnings(inputGame.players)
     }
-    if (inputGame.status === 'playing' && isNumber(inputGame.currentRound)) {
+    if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
       setRollItems(() =>
         inputGame.cases[inputGame.currentRound].items.map((item) => ({
-          img: item.image?.replace('{url}', window.origin) || '',
+          img: item.image?.replace("{url}", window.origin) || "",
           price: item.item_price,
           name: item.name,
           rarity: getColor(item.item_price)
@@ -175,9 +163,9 @@ const GameCaseBattle = (props) => {
           winningItem: {
             img:
               inputGame.players[playerIndex + 1][`round_${inputGame.currentRound}`].image?.replace(
-                '{url}',
+                "{url}",
                 window.origin
-              ) || '',
+              ) || "",
             price: inputGame.players[playerIndex + 1][`round_${inputGame.currentRound}`].item_price,
             name: inputGame.players[playerIndex + 1][`round_${inputGame.currentRound}`].name,
             rarity: getColor(
@@ -189,10 +177,10 @@ const GameCaseBattle = (props) => {
           isBigWin: true
         }))
       )
-      console.log('spinnerOptions()', spinnerOptions())
+      console.log("spinnerOptions()", spinnerOptions())
       const newSpinIndexes = []
       const newSpinLists = []
-      console.log('game()', game())
+      console.log("game()", game())
       for (let i = 0; i < game().playersQty; i++) {
         const spinIndex = getRandomIndex(i)
         let spinList = generateSpinList(i)
@@ -206,8 +194,8 @@ const GameCaseBattle = (props) => {
         newSpinLists.push(spinList)
         newSpinIndexes.push(spinIndex)
       }
-      console.log('newSpinLists', newSpinLists)
-      console.log('newSpinIndexes', newSpinIndexes)
+      console.log("newSpinLists", newSpinLists)
+      console.log("newSpinIndexes", newSpinIndexes)
       setSpinIndexes(() => newSpinIndexes)
       setSpinLists(() => newSpinLists)
       setReelsSpinning(() => true)
@@ -217,23 +205,23 @@ const GameCaseBattle = (props) => {
 
   const getJoinTeam = (playerIndex) => {
     if (game().mode === "group") {
-      return 1;
+      return 1
     } else if (game().mode === "royal") {
-      return playerIndex;
+      return playerIndex
     } else if (playerIndex <= 2) {
-      return 1;
+      return 1
     } else {
-      return 2;
+      return 2
     }
-  };
+  }
 
   const callBot = (player_index) => {
     socket.emit(
-      'battles:callbot',
+      "battles:callbot",
       {
         gameId: Number(props.searchParams.id),
         team: getJoinTeam(game().mode, player_index),
-        player_index,
+        player_index
       },
       () => {}
     )
@@ -241,7 +229,7 @@ const GameCaseBattle = (props) => {
 
   const joinGame = (player_index) => {
     socket.emit(
-      'battles:join',
+      "battles:join",
       {
         gameId: Number(props.searchParams.id),
         team: getJoinTeam(game().mode, player_index),
@@ -261,10 +249,10 @@ const GameCaseBattle = (props) => {
       Object.entries(obj).reduce((acc, [key, value]) => {
         const val = Object.fromEntries(
           Object.entries(value).reduce((g, [key, value]) => {
-            if (!key.includes('round')) {
+            if (!key.includes("round")) {
               g.push([key, value])
             } else {
-              const roundIndex = parseInt(key.split('_')[1])
+              const roundIndex = parseInt(key.split("_")[1])
               if (isNaN(roundIndex) || roundIndex <= counter) {
                 g.push([key, value])
               }
@@ -285,7 +273,7 @@ const GameCaseBattle = (props) => {
     if (props.loaded()) {
       if (props.searchParams.id) {
         socket.emit(
-          'battle:get',
+          "battle:get",
           {
             gameId: Number(props.searchParams.id),
             urlKey: props.searchParams.key
@@ -298,7 +286,7 @@ const GameCaseBattle = (props) => {
               } else {
                 updateGame({
                   ...data.data.game,
-                  status: 'playing',
+                  status: "playing",
                   currentRound: counter,
                   players: mapAndRemoveRound(data.data.game.players),
                   winners: undefined
@@ -308,7 +296,7 @@ const GameCaseBattle = (props) => {
                   if (counter < data.data.game.cases.length) {
                     const t = {
                       ...data.data.game,
-                      status: 'playing',
+                      status: "playing",
                       currentRound: counter,
                       players: mapAndRemoveRound(data.data.game.players),
                       winners: undefined
@@ -316,7 +304,7 @@ const GameCaseBattle = (props) => {
                     updateGame(t)
                     counter++
                   } else {
-                    updateGame({ ...data.data.game, status: 'ended' })
+                    updateGame({ ...data.data.game, status: "ended" })
                     clearInterval(intervalId)
                   }
                 }, 5500)
@@ -359,17 +347,17 @@ const GameCaseBattle = (props) => {
       isWinner(winnersArray, playerIndex) &&
       (playerQty === 2
         ? `radial-gradient(100% 126.02% at ${
-            playerIndex + 1 === 1 ? '0%' : '100%'
+            playerIndex + 1 === 1 ? "0%" : "100%"
           } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
         : playerQty === 4
         ? `radial-gradient(100% 126.02% at ${
-            playerIndex + 1 === 1 || playerIndex + 1 === 2 ? '0%' : '100%'
+            playerIndex + 1 === 1 || playerIndex + 1 === 2 ? "0%" : "100%"
           } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
         : playerQty === 3
-        ? `radial-gradient(${playerIndex + 1 === 2 ? '40%' : '100%'} 126.02% at ${
-            playerIndex + 1 === 1 ? '0%' : playerIndex + 1 === 2 ? '50%' : '100%'
+        ? `radial-gradient(${playerIndex + 1 === 2 ? "40%" : "100%"} 126.02% at ${
+            playerIndex + 1 === 1 ? "0%" : playerIndex + 1 === 2 ? "50%" : "100%"
           } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
-        : '')
+        : "")
     )
   }
 
@@ -423,12 +411,12 @@ const GameCaseBattle = (props) => {
                           />
                         </svg>
                         {index() + 1 !== game().playersQty &&
-                          (game().mode === 'royal' ||
-                            game().mode === 'group' ||
-                            (game().mode === 'team' && index() !== 0 && index() !== 2)) &&
-                          (getModeColor() === 'yellow' ? (
+                          (game().mode === "royal" ||
+                            game().mode === "group" ||
+                            (game().mode === "team" && index() !== 0 && index() !== 2)) &&
+                          (getModeColor() === "yellow" ? (
                             <BattleRoyaleIcon additionClasses='w-3' />
-                          ) : getModeColor() === 'green' ? (
+                          ) : getModeColor() === "green" ? (
                             <BattleCursedIcon additionClasses='w-4' />
                           ) : (
                             <BattleGroupIcon additionClasses='w-4' />
@@ -438,16 +426,16 @@ const GameCaseBattle = (props) => {
                   </For>
                   <div
                     classList={{
-                      'text-yellow-ffb': getModeColor() === 'yellow',
-                      'text-[#DAFD09]': getModeColor() === 'green',
-                      'text-[#5AC3FF]': getModeColor() === 'blue'
+                      "text-yellow-ffb": getModeColor() === "yellow",
+                      "text-[#DAFD09]": getModeColor() === "green",
+                      "text-[#5AC3FF]": getModeColor() === "blue"
                     }}
                   >
-                    {(game().mode === 'royal' || game().mode === 'team') && game().cursed !== 1
-                      ? 'Battle Royale'
+                    {(game().mode === "royal" || game().mode === "team") && game().cursed !== 1
+                      ? "Battle Royale"
                       : game().cursed === 1
-                      ? 'Cursed'
-                      : 'Group'}
+                      ? "Cursed"
+                      : "Group"}
                   </div>
                 </div>
                 <div class='h-10 rounded-4 flex items-center px-3 border border-gray-9a text-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm '>
@@ -460,32 +448,32 @@ const GameCaseBattle = (props) => {
               <div
                 class={`flex items-center justify-center gap-[${
                   battleCases().length <= 25
-                    ? '4'
+                    ? "4"
                     : battleCases().length <= 40
-                    ? '2'
+                    ? "2"
                     : battleCases().length <= 70
-                    ? '1'
-                    : '0'
+                    ? "1"
+                    : "0"
                 }px] py-3 max-w-[300px]`}
               >
                 <For each={Array.from(Array(battleCases().length).keys())}>
                   {(i) => (
                     <div
                       class={`w-2 h-1 ${
-                        game().currentRound + 1 > i || game().status === 'ended'
-                          ? 'bg-yellow-ffb'
-                          : 'bg-[#3B3D4D]'
+                        game().currentRound + 1 > i || game().status === "ended"
+                          ? "bg-yellow-ffb"
+                          : "bg-[#3B3D4D]"
                       }`}
                       style={{
-                        transition: 'all 0.3s ease-in-out',
-                        'box-sizing': 'border-box'
+                        transition: "all 0.3s ease-in-out",
+                        "box-sizing": "border-box"
                       }}
                     />
                   )}
                 </For>
               </div>
               <GrayWrapperdWithBorders classes='rounded-t-4 min-w-[300px]'>
-                {game().status !== 'ended' ? (
+                {game().status !== "ended" ? (
                   <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12'>
                     <span class='w-max'>{getCurrentRollItem().name}</span>
                     <Coin width='5' />
@@ -507,20 +495,20 @@ const GameCaseBattle = (props) => {
                     class='relative w-full flex items-center justify-center p-[1px] rounded-t-8'
                     style={{
                       background: `radial-gradient(circle at center, rgba(${
-                        game().status !== 'ended'
+                        game().status !== "ended"
                           ? `${getModeColorRgb()}, 1`
                           : `255, 255, 255, 0.05`
                       }) 6%, rgba(255, 255, 255, 0.05) 8%)`
                     }}
                   >
-                    {game().status !== 'ended' && (
+                    {game().status !== "ended" && (
                       <>
                         <div
                           class={`absolute left-1/2 top-0 -translate-x-1/2 rotate-180
                                 border-x-[8px] border-b-[4px]
                                 border-x-transparent`}
                           style={{
-                            'border-bottom-color': getModeColorHex()
+                            "border-bottom-color": getModeColorHex()
                           }}
                         />
                         <div
@@ -528,7 +516,7 @@ const GameCaseBattle = (props) => {
                                 border-x-[8px] border-b-[4px]
                                 border-x-transparent`}
                           style={{
-                            'border-bottom-color': getModeColorHex()
+                            "border-bottom-color": getModeColorHex()
                           }}
                         />
                       </>
@@ -546,18 +534,18 @@ const GameCaseBattle = (props) => {
                               radial-gradient(220.05% 24.97% at 39.62% 51.7%, rgba(31, 35, 68, 0.36) 0%, rgba(35, 37, 61, 0.36) 100%)`
                             }}
                           >
-                            {(game().status === 'playing' ||
-                              game().status === 'open' ||
-                              game().status === 'pending') && (
+                            {(game().status === "playing" ||
+                              game().status === "open" ||
+                              game().status === "pending") && (
                               <div
                                 class='absolute left-1/2 top-1/2 h-full w-[64px] -translate-x-1/2 -translate-y-1/2'
                                 style={{
                                   background:
-                                    getModeColor() === 'yellow'
-                                      ? 'linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)'
-                                      : getModeColor() === 'blue'
-                                      ? 'linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)'
-                                      : 'linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)'
+                                    getModeColor() === "yellow"
+                                      ? "linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)"
+                                      : getModeColor() === "blue"
+                                      ? "linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)"
+                                      : "linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)"
                                 }}
                               />
                             )}
@@ -565,43 +553,43 @@ const GameCaseBattle = (props) => {
                               class='flex items-center w-max relative transition-all duration-500 ease-in-out '
                               style={{
                                 transform: `translateX(${
-                                  game().status === 'playing' ||
-                                  game().status === 'open' ||
-                                  game().status === 'pending'
+                                  game().status === "playing" ||
+                                  game().status === "open" ||
+                                  game().status === "pending"
                                     ? 32 * (game().cases.length - 1) -
                                       64 * (game().currentRound ?? 0)
                                     : 0
                                 }px)`,
-                                transition: 'all 0.4s ease-in-out'
+                                transition: "all 0.4s ease-in-out"
                               }}
                             >
-                              {game().status !== 'ended' ? (
+                              {game().status !== "ended" ? (
                                 <For each={battleCases() || []}>
                                   {(caseItem, index) => (
                                     <div
                                       class={`relative py-1 
                                     ${
-                                      (game().status === 'open' || game().status === 'pending') &&
-                                      (index() === 0 ? 'scale-[120%]' : 'scale-[90%]') +
-                                        (index() > 4 ? ' opacity-0' : '')
+                                      (game().status === "open" || game().status === "pending") &&
+                                      (index() === 0 ? "scale-[120%]" : "scale-[90%]") +
+                                        (index() > 4 ? " opacity-0" : "")
                                     } 
                                     ${
-                                      game().status === 'playing' &&
+                                      game().status === "playing" &&
                                       (index() < game().currentRound
                                         ? index() < game().currentRound - 4
-                                          ? 'opacity-0'
-                                          : 'opacity-50 scale-[90%]'
+                                          ? "opacity-0"
+                                          : "opacity-50 scale-[90%]"
                                         : index() === game().currentRound
-                                        ? 'scale-[120%]'
+                                        ? "scale-[120%]"
                                         : index() > game().currentRound
                                         ? index() > game().currentRound + 4
-                                          ? 'opacity-0'
-                                          : 'opacity-100 scale-[90%]'
-                                        : '')
+                                          ? "opacity-0"
+                                          : "opacity-100 scale-[90%]"
+                                        : "")
                                     }
                                     `}
                                       style={{
-                                        transition: 'transform 0.4s ease-in'
+                                        transition: "transform 0.4s ease-in"
                                       }}
                                     >
                                       <img
@@ -609,8 +597,8 @@ const GameCaseBattle = (props) => {
                                         class='h-[48px] min-w-[64px]'
                                         src={
                                           caseItem?.image
-                                            ?.replace('{url}', window.origin)
-                                            .replace('.png', '_thumbnail.png') || ''
+                                            ?.replace("{url}", window.origin)
+                                            .replace(".png", "_thumbnail.png") || ""
                                         }
                                       />
                                     </div>
@@ -629,16 +617,16 @@ const GameCaseBattle = (props) => {
                     class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
                     style={{
                       background: `linear-gradient(0deg, rgba(255, 255, 255, 0.05) 30%, rgba(${
-                        game().status === 'ended' ? '154, 158, 200' : `${getModeColorRgb()}`
+                        game().status === "ended" ? "154, 158, 200" : `${getModeColorRgb()}`
                       },0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${
-                        game().status === 'ended' ? '154, 158, 200' : `${getModeColorRgb()}`
+                        game().status === "ended" ? "154, 158, 200" : `${getModeColorRgb()}`
                       },0.6) 54.5%, rgba(255, 255, 255, 0.05) 70%`
                     }}
                   >
                     <div class='bg-[#13152A] rounded-b-4'>
                       <div
                         class={`rounded-b-4 ${
-                          game().status !== 'ended' &&
+                          game().status !== "ended" &&
                           `case-opening-wrapper-horizontal-${getModeColor()}`
                         }`}
                       >
@@ -646,19 +634,19 @@ const GameCaseBattle = (props) => {
                           <div
                             class='absolute w-full  inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
                             style={{
-                              'background-image': `url('${bgVectorCaseBattle}')`,
+                              "background-image": `url('${bgVectorCaseBattle}')`,
                               opacity: 0.002
                             }}
                           />
                           <div
                             class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${
-                              game().status === 'ended' ? 'gray' : `${getModeColor()}`
+                              game().status === "ended" ? "gray" : `${getModeColor()}`
                             }
                             transition-colors duration-200`}
                           />
                           <div
                             class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${
-                              game().status === 'ended' ? 'gray' : `${getModeColor()}`
+                              game().status === "ended" ? "gray" : `${getModeColor()}`
                             }
                             transition-colors duration-200`}
                           />
@@ -666,28 +654,28 @@ const GameCaseBattle = (props) => {
                             class='absolute left-0 top-0 w-full h-[68px]'
                             style={{
                               background:
-                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)',
-                                opacity: 0.5
+                                "linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)",
+                              opacity: 0.5
                             }}
                           />
                           <div
                             class='absolute left-0 bottom-0 w-full h-[68px]'
                             style={{
                               background:
-                                'linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)',
-                              transform: 'matrix(-1, 0, 0, -1, 0, 0)'
+                                "linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)",
+                              transform: "matrix(-1, 0, 0, -1, 0, 0)"
                             }}
                           />
                           <For each={Array.from(Array(game().playersQty).keys())}>
                             {(playerIndex) => (
                               <div class='relative w-full center'>
                                 {playerIndex + 1 !== game().playersQty &&
-                                  (game().mode === 'royal' ||
-                                    game().mode === 'group' ||
-                                    (game().mode === 'team' &&
+                                  (game().mode === "royal" ||
+                                    game().mode === "group" ||
+                                    (game().mode === "team" &&
                                       playerIndex !== 0 &&
                                       playerIndex !== 2)) &&
-                                  (getModeColor() === 'yellow' ? (
+                                  (getModeColor() === "yellow" ? (
                                     <div class='absolute z-40 text-yellow-ffb center right-0 top-0 h-full border-r border-black border-opacity-10'>
                                       <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
                                         <GrayWrapperdWithBorders
@@ -696,12 +684,12 @@ const GameCaseBattle = (props) => {
                                         >
                                           <BattleRoyaleIcon
                                             additionClasses='w-6 m-2'
-                                            glowColor={'255, 180, 54'}
+                                            glowColor={"255, 180, 54"}
                                           />
                                         </GrayWrapperdWithBorders>
                                       </div>
                                     </div>
-                                  ) : getModeColor() === 'green' ? (
+                                  ) : getModeColor() === "green" ? (
                                     <div class='absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10'>
                                       <div class='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
                                         <GrayWrapperdWithBorders
@@ -710,7 +698,7 @@ const GameCaseBattle = (props) => {
                                         >
                                           <BattleCursedIcon
                                             additionClasses='w-7 m-2'
-                                            glowColor={'218, 253, 9'}
+                                            glowColor={"218, 253, 9"}
                                           />
                                         </GrayWrapperdWithBorders>
                                       </div>
@@ -733,9 +721,9 @@ const GameCaseBattle = (props) => {
                                 <Switch>
                                   <Match
                                     when={
-                                      game().status === 'playing' &&
+                                      game().status === "playing" &&
                                       spinLists().length > 0 &&
-                                      game().players['1'].round_0.id !== null
+                                      game().players["1"].round_0.id !== null
                                     }
                                   >
                                     {() => {
@@ -761,12 +749,12 @@ const GameCaseBattle = (props) => {
                                       )
                                     }}
                                   </Match>
-                                  <Match when={game().status === 'open'}>
+                                  <Match when={game().status === "open"}>
                                     {game().players[playerIndex + 1] ? (
                                       <div
                                         class='w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold'
                                         style={{
-                                          'text-shadow': `0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)`
+                                          "text-shadow": `0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)`
                                         }}
                                       >
                                         Ready
@@ -778,35 +766,35 @@ const GameCaseBattle = (props) => {
                                 </Switch>
                                 <div
                                   class={`w-full center transition-all duration-200 ${
-                                    game().status === 'ended' ? 'scale-100' : 'absolute scale-0'
+                                    game().status === "ended" ? "scale-100" : "absolute scale-0"
                                   }`}
                                 >
-                                  {game().status === 'ended' ? (
+                                  {game().status === "ended" ? (
                                     isWinner(game().winners, playerIndex) ? (
                                       <div class='w-full h-full center flex-col gap-2 relative z-10'>
                                         <div
                                           class={`absolute w-[64px] h-[50px] z-0`}
                                           style={{
-                                            background: 'rgba(43, 246, 124, 0.56)',
-                                            filter: 'blur(50px)',
-                                            'border-radius': '100px'
+                                            background: "rgba(43, 246, 124, 0.56)",
+                                            filter: "blur(50px)",
+                                            "border-radius": "100px"
                                           }}
                                         />
                                         <div
                                           class='text-gradient-green font-SpaceGrotesk text-28 font-bold'
                                           style={{
-                                            'text-shadow':
-                                              '0px 0px 20px rgba(43, 246, 124, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)'
+                                            "text-shadow":
+                                              "0px 0px 20px rgba(43, 246, 124, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)"
                                           }}
                                         >
                                           Winner
                                         </div>
                                         <div class='flex gap-2 items-center justify-center'>
-                                          <Coin width='11' />{' '}
+                                          <Coin width='11' />{" "}
                                           <span
                                             class={`text-gradient font-SpaceGrotesk text-28 font-bold transition-all duration-1000
                                              ${
-                                               game().status === 'ended' ? 'scale-100' : 'scale-50'
+                                               game().status === "ended" ? "scale-100" : "scale-50"
                                              }`}
                                           >
                                             {
@@ -827,13 +815,13 @@ const GameCaseBattle = (props) => {
                                         <div
                                           class='absolute w-[64px] h-[50px] z-0 '
                                           style={{
-                                            background: 'rgba(185, 0, 0, 0.6)',
-                                            filter: 'blur(50px)',
-                                            'border-radius': '100px'
+                                            background: "rgba(185, 0, 0, 0.6)",
+                                            filter: "blur(50px)",
+                                            "border-radius": "100px"
                                           }}
                                         />
                                         <div class='flex gap-2 opacity-20 grayscale'>
-                                          <Coin width='11' />{' '}
+                                          <Coin width='11' />{" "}
                                           <span class='text-gradient font-SpaceGrotesk text-28 font-bold'>
                                             <LosingDisplay game={game} />
                                           </span>
@@ -856,7 +844,7 @@ const GameCaseBattle = (props) => {
                   }`}
                   style={{
                     background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, ${
-                      game().status === 'ended' ? 0 : '0.07'
+                      game().status === "ended" ? 0 : "0.07"
                     }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
                   }}
                 >
@@ -864,16 +852,16 @@ const GameCaseBattle = (props) => {
                     {(playerIndex, index) => (
                       <div
                         class={`center relative llg:h-20 ${
-                          game().status !== 'ended' || isWinner(game().winners, playerIndex)
+                          game().status !== "ended" || isWinner(game().winners, playerIndex)
                             ? `opacity-100 ${
                                 playerIndex === 0
-                                  ? 'rounded-l-8'
+                                  ? "rounded-l-8"
                                   : playerIndex ===
                                     Array.from(Array(game().playersQty).keys()).at(-1)
-                                  ? 'rounded-r-8'
-                                  : ''
+                                  ? "rounded-r-8"
+                                  : ""
                               }`
-                            : 'opacity-30'
+                            : "opacity-30"
                         }`}
                         style={{
                           background: `${getGradientForWinners(
@@ -890,10 +878,10 @@ const GameCaseBattle = (props) => {
                                 <UserGameAvatar
                                   mode={
                                     game()?.cursed === 1
-                                      ? 'cursed'
-                                      : game()?.mode === 'group' && game()?.cursed !== 1
-                                      ? 'group'
-                                      : 'royal'
+                                      ? "cursed"
+                                      : game()?.mode === "group" && game()?.cursed !== 1
+                                      ? "group"
+                                      : "royal"
                                   }
                                   isBot={
                                     game().players[playerIndex + 1] &&
@@ -908,21 +896,21 @@ const GameCaseBattle = (props) => {
                                   class='flex flex-wrap center  gap-2 text-sm font-bold h-wit max-w-[214px] whitespace-nowrap pl-2 py-1 pr-3 rounded'
                                   style={{
                                     background:
-                                      'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)',
-                                    'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+                                      "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
+                                    "box-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)"
                                   }}
                                 >
                                   <Ranks
                                     width={5}
                                     staff={game().players[playerIndex + 1].rank || 7}
-                                    rank={game().players[playerIndex + 1].level?.league || 'bronze'}
+                                    rank={game().players[playerIndex + 1].level?.league || "bronze"}
                                   />
                                   <RankLabel
                                     staff={game().players[playerIndex + 1].rank || 7}
-                                    rank={game().players[playerIndex + 1].level?.league || 'bronze'}
+                                    rank={game().players[playerIndex + 1].level?.league || "bronze"}
                                   />
                                   <span class='text-gray-9aa truncate max-w-[100px]'>
-                                    {game().players[playerIndex + 1].username || 'Terry'}
+                                    {game().players[playerIndex + 1].username || "Terry"}
                                   </span>
                                 </div>
                               </div>
