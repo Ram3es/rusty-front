@@ -85,7 +85,7 @@ const ProvablyFairModal = () => {
         }}
       >
         <div
-          class={`w-full relative flex flex-col gap-6 rounded-xl transition-all transform -translate-y-1/4 ${
+          class={`w-full relative flex flex-col rounded-xl transition-all transform -translate-y-1/4 ${
             !toggles.provablyFairModal ? '' : '-translate-y-0'
           } duration-100 ease-out`}
           style={{
@@ -96,7 +96,7 @@ const ProvablyFairModal = () => {
         >
           <div class='rounded-t-xl border border-black/10 w-full pl-8 pr-6 py-6 relative flex justify-between items-center h-[88px]'>
             <div class='flex flex-col'>
-              <p class='font-bold text-20 font-SpaceGrotesk text-white '>
+              <p class='font-bold text-20 font-SpaceGrotesk text-white'>
                 {i18n.t('provably_fair.Provably fair')}
               </p>
               <span class='text-12 font-SpaceGrotesk font-bold text-gray-64'>
@@ -124,90 +124,98 @@ const ProvablyFairModal = () => {
               </svg>
             </div>
           </div>
-          <div class='flex flex-col gap-4'>
-            <p class='text-14 sm:text-16 text-gray-47 font-normal'>
+          <div class='ml-[33px] mr-16 flex flex-col mt-14 gap-[23px]'>
+            <p class='font-medium text-16 text-blue-60 font-SpaceGrotesk'>
               {i18n.t('provably_fair.We use the popular')}
             </p>
-            <p class='text-14 sm:text-16 text-gray-47 font-normal'>
+            <p class='font-medium text-16 text-blue-60 font-SpaceGrotesk'>
               {i18n.t('provably_fair.When a round')}{' '}
               <a
                 href='https://api.random.org/signatures/form'
                 target='_blank'
                 rel='noreferrer'
-                class='text-white'
+                class=' underline cursor-pointer text-white'
               >
                 {i18n.t('provably_fair.Link')}
               </a>{' '}
               {i18n.t('provably_fair.To verify all')}
             </p>
 
-            <p class='text-14 sm:text-16 text-white font-medium'>
+            <p class='font-medium text-16 text-blue-60 font-SpaceGrotesk'>
               {i18n.t('provably_fair.When updating')}
             </p>
+          </div>
+          <div class='flex flex-col gap-6 mt-[25px] ml-[33px] mr-16 mb-9'>
+            <div class='flex flex-col gap-2.5'>
+              <p class='text-white text-20 font-bold font-SpaceGrotesk'>
+                {i18n.t('provably_fair.Plinko')}
+              </p>
+              <p class='text-16 font-SpaceGrotesk font-medium text-blue-60'>
+                hash = sha256(client_seed + ":" +server_seed + ":" + nonce) <br />
+                seedr = seedrandom(hash); <br />
+                rows = count the amount of values in roll array in PF popup <br />
+                {`roll = Array.from({length: rows}, () => Math.floor(seedr() * 2))`} <br />
+                round = roll.slice(0, rows)
+                <br />
+                {`rights = round.filter((val) => val == 1).length`}
+                <br />
+                <b>{i18n.t('provably_fair.Rights should be')}</b>
+              </p>
+            </div>
 
-            <p class='text-14 sm:text-16 text-gray-47 font-normal'>
-              <b>{i18n.t('provably_fair.Plinko')}</b>
-              <br />
-              hash = sha256(client_seed + ":" +server_seed + ":" + nonce) <br />
-              seedr = seedrandom(hash); <br />
-              rows = count the amount of values in roll array in PF popup <br />
-              {`roll = Array.from({length: rows}, () => Math.floor(seedr() * 2))`} <br />
-              round = roll.slice(0, rows)
-              <br />
-              {`rights = round.filter((val) => val == 1).length`}
-              <br />
-              <b>{i18n.t('provably_fair.Rights should be')}</b>
-            </p>
-
-            <p class='text-14 sm:text-16 text-gray-47 font-normal'>
-              <b>{i18n.t('provably_fair.Upgrader')}</b>
-              <br />
-              hash = sha256(client_seed + ":" +server_seed + ":" + nonce)
-              <br />
-              seedr = seedrandom(hash) <br />
-              roll = seedr() <br />
-              <b>{i18n.t('provably_fair.Roll should be')}</b>
-            </p>
-
-            <div class='w-full h-10 px-4 bg-dark-20 relative center'>
-              <div class='absolute w-full h-full flex justify-between items-center'>
-                <svg
-                  width='4'
-                  height='16'
-                  viewBox='0 0 4 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M4 7.57895L0 16L0 0L4 7.57895Z' fill='#161B2A' />
-                </svg>
-                <svg
-                  width='4'
-                  height='16'
-                  viewBox='0 0 4 16'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M0 7.57895L4 16L4 0L0 7.57895Z' fill='#161B2A' />
-                </svg>
-                <svg
-                  class='absolute left-16 top-0'
-                  width='32'
-                  height='4'
-                  viewBox='0 0 32 4'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M23.619 2L16 0H32L23.619 2Z' fill='#161B2A' />
-                  <path d='M7.89474 4L0 0H15L7.89474 4Z' fill='#161B2A' />
-                </svg>
-              </div>
-              <div class='w-full flex items-center'>
-                <p class='text-gray-8c text-14 font-medium truncate select-text'>
-                  {'sha256({secret}{roll}{signature})'}
-                </p>
-              </div>
+            <div class='flex flex-col gap-2.5'>
+              <p class='text-white text-20 font-bold font-SpaceGrotesk'>
+                {i18n.t('provably_fair.Upgrader')}
+              </p>
+              <p class='text-16 font-SpaceGrotesk font-medium text-blue-60'>
+                hash = sha256(client_seed + ":" +server_seed + ":" + nonce)
+                <br />
+                seedr = seedrandom(hash) <br />
+                roll = seedr() <br />
+                <b>{i18n.t('provably_fair.Roll should be')}</b>
+              </p>
             </div>
           </div>
+
+          <div class='w-full h-10 px-4 bg-dark-20 relative center'>
+            <div class='absolute w-full h-full flex justify-between items-center'>
+              <svg
+                width='4'
+                height='16'
+                viewBox='0 0 4 16'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path d='M4 7.57895L0 16L0 0L4 7.57895Z' fill='#161B2A' />
+              </svg>
+              <svg
+                width='4'
+                height='16'
+                viewBox='0 0 4 16'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path d='M0 7.57895L4 16L4 0L0 7.57895Z' fill='#161B2A' />
+              </svg>
+              <svg
+                class='absolute left-16 top-0'
+                width='32'
+                height='4'
+                viewBox='0 0 32 4'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path d='M23.619 2L16 0H32L23.619 2Z' fill='#161B2A' />
+                <path d='M7.89474 4L0 0H15L7.89474 4Z' fill='#161B2A' />
+              </svg>
+            </div>
+            <div class='w-full flex items-center'>
+              <p class='text-gray-8c text-14 font-medium truncate select-text'>
+                {'sha256({secret}{roll}{signature})'}
+              </p>
+            </div>
+          </div>
+
           <p class='text-24 text-white font-medium font-Oswald uppercase'>
             {i18n.t('provably_fair.Round information')}
           </p>
