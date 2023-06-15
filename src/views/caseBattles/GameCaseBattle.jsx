@@ -475,10 +475,10 @@ const GameCaseBattle = (props) => {
               <GrayWrapperdWithBorders classes='rounded-t-4 min-w-[300px]'>
                 {game().status !== "ended" ? (
                   <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12'>
-                    <span class='w-max'>{getCurrentRollItem().name}</span>
+                    <span class='w-max'>{getCurrentRollItem() ? getCurrentRollItem().name : 'test'}</span>
                     <Coin width='5' />
                     <span class='text-gradient text-shadow-gold-secondary'>
-                      {getCurrencyString(getCurrentRollItem().price)}
+                      {getCurrencyString(getCurrentRollItem() ? getCurrentRollItem().price : 0)}
                     </span>
                   </div>
                 ) : (
