@@ -348,10 +348,23 @@ const CaseBattles = (props) => {
                                 class={`relative cursor-pointer ${
                                   index() < games[id].currentRound && 'opacity-20'
                                 }`}
-                                onClick={() => {
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   setCaseViewModalItem(caseItem)
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                  props: {
+                                    content: (
+                                      <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                        name={caseItem.name}
+                                      />
+                                    ),
+                                    allowHTML: true,
+                                    duration: 0,
+                                  },
+                                  hidden: true,
+                                    }}
                               >
                                 <img
                                   alt={caseItem.name}
