@@ -241,8 +241,8 @@ const GameCaseBattle = (props) => {
   }
 
   const getCurrentRollItem = () => {
-    return game().cases[game().currentRound > 0 ? game().currentRound - 1 : 0]
-  }
+    return game().cases[game().currentRound > 0 ? game().currentRound : 0];
+  };
 
   function mapAndRemoveRound(obj) {
     const newObj = Object.fromEntries(

@@ -426,6 +426,7 @@ const CaseBattles = (props) => {
                         callbackFn={() => {
                           handleOpenJoinModal(games[id])
                         }}
+                        classList={"flex-1 w-full"}
                       >
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                           <span class='w-max'>Join</span>
