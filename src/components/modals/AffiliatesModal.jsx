@@ -363,7 +363,7 @@ const AffiliatesModal = (props) => {
                           {affiliate?.code}
                         </p>
                         <div
-                          class="px-3 cursor-pointer center h-8 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk"
+                          class="px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
                           onClick={() => {
                             if (affiliate?.code) {
                               changeAffiliateCode();
@@ -540,7 +540,7 @@ const AffiliatesModal = (props) => {
                       </p>
                     </div>
                     <div
-                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient font-bold text-[#27F278] text-14 font-SpaceGrotesk"
+                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
                       onClick={claimReward}
                     >
                       Claim
