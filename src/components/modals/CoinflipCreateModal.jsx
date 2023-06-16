@@ -337,6 +337,7 @@ const CoinflipCreateModal = (props) => {
                       onReset={() => setSearch("")}
                       onInput={(text) => setSearch(text)}
                       isFullWidth
+                      placeholderOverride='Search for items...'
                     />
                   </div>
                   <Dropdown
