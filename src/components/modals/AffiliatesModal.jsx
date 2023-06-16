@@ -261,13 +261,9 @@ const AffiliatesModal = (props) => {
         href={props.pathname()}
       />
       <div
-        class="flex flex-col absolute top-40 w-full"
-        style={{
-          "max-width": "830px",
-        }}
-      >
+        class="flex flex-col absolute top-[5%] w-full max-w-[830px] xll:w-1/2 xll:max-w-full">
         <div
-          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-[44rem] ${
+          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-max ${
             !props.searchParams?.affiliates ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
@@ -282,9 +278,9 @@ const AffiliatesModal = (props) => {
               background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
             }}
           >
-            <div class="flex flex-col sm:flex-row gap-6">
+            <div class="flex flex-col items-start sm:flex-row sm:items-center gap-6">
               {tab() !== "overview" && <div
-                class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max"
+                class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max cursor-pointer h-10"
                 onClick={() => setTab("overview")}
               >
                 <ArrowBack />
@@ -318,13 +314,13 @@ const AffiliatesModal = (props) => {
                 tab() == "overview" ? "flex" : "hidden"
               } flex-col gap-8 w-full overflow-y-scroll`}
             >
-              <div class="w-full flex flex-col sm:flex-row">
-                <div class="w-full sm:w-2/5 flex flex-col gap-0.5 pr-8">
+              <div class="w-full flex flex-col  gap-y-3 md:flex-row">
+                <div class="w-full sm:w-2/5 flex flex-col gap-0.5 pr-0 sm:pr-8">
                   <p class="text-14 text-gray-9a font-medium sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
                   
-                  <div class="flex items-center relative w-full h-10">
+                  <div class="flex items-center relative w-max lg:w-full h-10">
                   <div
                        class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
@@ -347,7 +343,7 @@ const AffiliatesModal = (props) => {
                     
                               "
                         >
-                      <div class="flex items-center gap-4 pl-2 pr-1 w-full">
+                      <div class="flex justify-between items-center  pl-2 pr-1 w-full">
                         <input
                           class={`text-white  text-14 font-bold font-SpaceGrotesk w-full sm:w-44 placeholder:text-gray-92 placeholder:font-medium ${
                             toggleCode() ? "" : "hidden"
@@ -367,7 +363,7 @@ const AffiliatesModal = (props) => {
                           {affiliate?.code}
                         </p>
                         <div
-                          class="px-3 cursor-pointer center h-8 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk"
+                          class="px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
                           onClick={() => {
                             if (affiliate?.code) {
                               changeAffiliateCode();
@@ -383,7 +379,7 @@ const AffiliatesModal = (props) => {
                     </div>
                   </div>
                 </div>
-                <div class="flex-1 flex flex-col gap-0.5 pr-8">
+                <div class="flex-1 flex flex-col gap-0.5 pr-0 sm:pr-8">
                   <p class="text-14 text-gray-9a font-medium sentence font-SpaceGrotesk">
                     {i18n.t("coinflip.affiliates_true.Your affiliate link")}
                   </p>
@@ -455,11 +451,11 @@ const AffiliatesModal = (props) => {
                     {(item) => (
                       <div class="w-full h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22">
                         <div
-                          class={`w-full h-full absolute left-0 top-0 rounded-4 backdrop-blur-sm ${item.type === 'earned' ? "green-borders" : ""}`}
+                          class={`w-full h-full absolute left-0 top-0 rounded-4  backdrop-blur-sm ${item.type === 'earned' ? "green-borders" : ""}`}
                           style={{
-                            background:
-                            item.type !== 'depositors' ? item.type === 'earned' ? `url(${affiliatesTotalEarned})` : `url(${affiliatesTotalDepositored})` : `url(${affiliatesDepositorsBg})`,
-
+                              "background-image": 
+                                  item.type !== 'depositors' ? item.type === 'earned' ? `url(${affiliatesTotalEarned})` : `url(${affiliatesTotalDepositored})` : `url(${affiliatesDepositorsBg})`,
+                              "background-size": 'cover' 
                           }}
                         />
                         <div class="flex gap-1 relative">
@@ -544,7 +540,7 @@ const AffiliatesModal = (props) => {
                       </p>
                     </div>
                     <div
-                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient font-bold text-[#27F278] text-14 font-SpaceGrotesk"
+                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
                       onClick={claimReward}
                     >
                       Claim

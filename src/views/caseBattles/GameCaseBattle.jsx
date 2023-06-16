@@ -510,10 +510,10 @@ const GameCaseBattle = (props) => {
                       </>
                     )}
                     <div class='w-full bg-[#15162C] rounded-t-8'>
-                      <div class='w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)] p-[1px]'>
+                      <div class='w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)]'>
                         <div class='w-full bg-[#15162C] rounded-t-8'>
                           <div
-                            class='flex justify-center w-full overflow-hidden rounded-t-8  '
+                            class='flex justify-center w-full overflow-hidden rounded-t-8'
                             style={{
                               background: `radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.05) 0%, rgba(255, 180, 54, 0) 100%),
                               linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.14) 100%),
@@ -604,11 +604,11 @@ const GameCaseBattle = (props) => {
                   <div
                     class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
                     style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.05) 30%, rgba(${
+                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.02) 15%, rgba(255, 255, 255, 0.06) 30%, rgba(${
                         game().status === "ended" ? "154, 158, 200" : `${getModeColorRgb()}`
                       },0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${
                         game().status === "ended" ? "154, 158, 200" : `${getModeColorRgb()}`
-                      },0.6) 54.5%, rgba(255, 255, 255, 0.05) 70%`
+                      },0.6) 54.5%, rgba(255, 255, 255, 0.035) 70%`
                     }}
                   >
                     <div class='bg-[#13152A] rounded-b-4'>
@@ -620,7 +620,7 @@ const GameCaseBattle = (props) => {
                       >
                         <div class='relative w-full h-[326px] flex' ref={setContainerRef}>
                           <div
-                            class='absolute w-full  inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
+                            class='absolute w-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4'
                             style={{
                               "background-image": `url('${bgVectorCaseBattle}')`,
                               opacity: 0.002

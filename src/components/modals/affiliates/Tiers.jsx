@@ -1,6 +1,7 @@
 import { createSignal, For } from "solid-js";
 
 import Ranks from "../../../utilities/Ranks";
+import ribbedBg from "../../../assets/img/affilates/afffilatesRibbedBg.png"
 
 const AffiliatesTiers = () => {
   const [tiers] = createSignal([
@@ -48,14 +49,18 @@ const AffiliatesTiers = () => {
           <For each={tiers()}>
             {(tier, i) => (
               <div
-                class={`w-full center rounded-6 relative ${i() > 0 ? "opacity-60" : "tear-current-border-gradient"}`}
+                class={`w-full center rounded-6 relative ${i() <= 0 && "tear-current-border-gradient"}`}
                 style={{
                   background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.03) 41.3%, rgba(0, 0, 0, 0.03) 68.93%, rgba(255, 255, 255, 0.03) 100%), radial-gradient(136.7% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
                 }}
               >
-                <div class="w-full center h-full">
-                  <div class="w-32 center">
-                    <div class="center flex-col gap-2">
+                <div class={`w-full center h-full ${i() > 0 && 'opacity-60' }`}>
+                  <div 
+                    class="w-32 h-full center"
+                    style={{ background:`url(${ribbedBg})` }}
+                  >
+                    <div 
+                      class="center flex-col gap-2">
                       <div class="w-13">
                         <Ranks rank={tier.image} width="full" />
                       </div>
@@ -64,29 +69,30 @@ const AffiliatesTiers = () => {
                       </p>
                     </div>
                   </div>
-                  <div class="w-full flex-1 px-6 py-3 flex flex-col justify-end gap-2">
+                  <div class="w-full flex-1 px-6 py-3 flex flex-col justify-end gap-2 mr-16 [&_div_p>span]:text-white">
                     <div class="flex gap-3">
                       <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk">
-                        {tier.deposit}% of your referral’s deposits into shop
+                        <span>{tier.deposit}%</span> of your referral’s deposits into shop
                       </p>
                     </div>
                     <div class="flex gap-3">
                       <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk flex-1">
-                        {tier.tax}% of Rustyloot’s tax per referral’s deposits
+                      <span>{tier.tax}%</span> of Rustyloot’s tax per referral’s deposits
                         into Coinflip (vs bot) and Jackpot
                       </p>
                     </div>
                     <div class="flex gap-3">
                       <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk">
-                        At least {tier.referrals} referrals to be able to claim
+                        At least <span>{tier.referrals} referrals </span> to be able to claim
                       </p>
                     </div>
                   </div>
-                  <div class="center w-16">
+                </div>
+                <div class={`w-16 absolute right-0 top-1/2 -translate-y-1/2 z-[10] ${i() > 0 && 'mix-blend-luminosity ' }`}>
                     {
                       i() > 0 ? (
                         <div
-                          class="w-9 h-9 rounded-4 center grayscale"
+                          class="w-9 h-9 rounded-4 center"
                           style={{
                             background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
                           }}
@@ -98,14 +104,13 @@ const AffiliatesTiers = () => {
                           </svg>
                         </div>                     
                       ) : <div
-                      class={`text-[#3EFF8B] text-12 px-1 py-0.5 rounded-l-2 center`}
+                      class={`text-[#3EFF8B] text-12 font-bold font-Quicksand px-1 py-0.5 rounded-l-2 center`}
                       style={{
                         background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)"
                       }}
                       >CURRENT</div>
                     }
                   </div>
-                </div>
               </div>
             )}
           </For>

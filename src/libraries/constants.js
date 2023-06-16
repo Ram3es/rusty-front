@@ -92,3 +92,69 @@ export const PROFILE_SEEDS_STRUCTURE = {
     grid: 'grid-cols-[4fr_1fr]'
   }
 }
+
+export const CB_GROUP_VARIANTS = [
+  {
+    qty: 2,
+    mode: "group",
+    team: 0
+  },
+  {
+    qty: 3,
+    mode: "group",
+    team: 0
+  },
+  {
+    qty: 4,
+    mode: "group",
+    team: 0
+  },
+]
+
+export const CB_CURSED_VARIANTS = [
+  {
+    qty: 2,
+    mode: "cursed",
+    team: 0
+  },
+  {
+    qty: 4,
+    mode: "cursed",
+    team: 1
+  },
+  {
+    qty: 3,
+    mode: "cursed",
+    team: 0
+  },
+  {
+    qty: 4,
+    mode: "cursed",
+    team: 0
+  },
+]
+
+export const CB_ROYAL_VARIANTS = [
+  {
+    qty: 2,
+    mode: "royal",
+    team: 0
+  },
+  {
+    qty: 4,
+    mode: "royal",
+    team: 1
+  },
+  {
+    qty: 3,
+    mode: "royal",
+    team: 0
+  },
+  {
+    qty: 4,
+    mode: "royal",
+    team: 0
+  },
+]
+
+export const CB_BATTLE_VARIANTS = ['royal','cursed', 'group']
