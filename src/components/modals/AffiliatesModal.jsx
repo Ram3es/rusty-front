@@ -7,7 +7,7 @@ import Modal from "./Modal";
 
 import Bg from "../../assets/img/modals/accountBg.png";
 import Splash from "../../assets/img/modals/accountSplash.svg";
-import BgMainVector from '../../assets/img/coinflip/bgItemsRL.png'
+import Mask from "../../assets/img/affilates/affilatesMaskBg.png"
 
 import Countup from "../../utilities/Countup";
 
@@ -306,8 +306,8 @@ const AffiliatesModal = (props) => {
             </div>
           <div class="px-8 py-8 overflow-y-scroll flex-1 relative">
             <div
-              class='absolute inset-0 z-0 bg-repeat mix-blend-luminosity'
-              style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.005 }}
+              class='absolute inset-0 z-0 bg-cover'
+              style={{ 'background-image': `url('${Mask}')`}}
             />
             <div
               class={`${
