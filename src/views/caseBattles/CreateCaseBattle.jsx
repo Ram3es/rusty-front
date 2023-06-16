@@ -642,20 +642,21 @@ const CreateCaseBattle = (props) => {
                   <div
                     class={`w-max center px-5 py-3 ${
                       option.qty === playersState()[getModeForPlayersState()].players 
-                      && option.team === playersState()[getModeForPlayersState()].team 
+                      && (option.team === playersState()[getModeForPlayersState()].team || option.mode === 'group')
                       && option.mode === getModeForPlayersState()
                         ? "border-yellow-ffb text-white"
                         : "border-white border-opacity-5 text-gray-9a"
                     } border rounded-4 flex gap-1 items-center cursor-pointer`}
                     onClick={() => {                      
                       setPlayersState((prev) => {
-                        return {
-                          ...prev,
-                          [getModeForPlayersState()]: {
-                            players: option.qty,
-                            team: option.team
-                          }
-                        }
+                        const updatedState = { ...prev }
+
+                        Object.keys(updatedState).forEach((key) => {
+                          updatedState[key].players = option.qty
+                          updatedState[key].team = updatedState[key].team === 'group' ? 0 : option.team
+                        })
+
+                        return updatedState
                       })
 
                       setModeToCreate((prev) => ({
