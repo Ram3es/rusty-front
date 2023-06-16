@@ -349,17 +349,22 @@ const CoinflipCreateModal = (props) => {
                 </div>
                 <div class="center gap-2">
                   <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
-                    <div class="bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5 ">
-                      <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                    <div class="bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5">
+                      <div class="w-full h-full px-4 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-[10.3px] items-center font-SpaceGrotesk font-bold">
+                        <div class='flex items-center gap-[9.2px]'>
                         <Coin width="6" />
-                        <p class="text-gradient text-16 font-medium font-Oswald">
+                        <p class="text-gradient text-16 font-bold font-SpaceGrotesk">
                           {items()
                             .reduce((prev, cur) => (prev += cur.price), 0)
-                            .toLocaleString()}
+                            .toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
                         </p>
-                        <p class="text-gradient text-14 uppercase">
+                        </div>
+                        <span class="text-gradient text-14 uppercase ">
                           Inventory Value
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -490,17 +495,22 @@ const CoinflipCreateModal = (props) => {
                     />
                   </div>
                 </div>
-                <div class="center gap-2 p-3 border rounded-4 border-white/10 h-10 w-[260px]">
-                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold items-center">
+                <div class="center gap-2 p-3 border rounded-4 border-white/10  w-[260px]">
+                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold items-center flex-wrap">
                     <p class="text-white truncate">
                       {settings().amount} / 20 items 
                     <span class='text-yellow-ffb'>worth</span>
 
                     </p>
+                    <div class='flex items-center gap-[7.93px]'>
                     <Coin width="5" />
                     <span class="text-gradient">
-                      {Number(settings().value).toLocaleString()}
+                      {Number(settings().value).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
+                      </div>
                   </div>
                 </div>
                 <div class='w-[260px] h-10'>
