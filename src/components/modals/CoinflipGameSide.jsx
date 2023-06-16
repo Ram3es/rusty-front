@@ -167,22 +167,23 @@ const CoinflipGameSide = (props) => {
                 props.left ? 'justify-start' : 'justify-end'
               } flex flex-col md:flex-row md:items-center gap-4`}
             >
-              {props.data()?.status === 'pending' && !props.left && props.counter() <= 10 && (
+              {props.data()?.status === 'pending' && !props.left ? (
                 <span class='coinflip-game--price font-bold text-[14.4px] font-SpaceGrotesk'>
                   Joining...
                 </span>
+              ) : (
+                <div class='hidden md:flex items-center gap-[9px]'>
+                  <Coin width='5' />
+                  <span class='font-bold text-14.4 font-SpaceGrotesk coinflip-game--price'>
+                    {Number(
+                      props.data()?.[props.left ? 'creator' : 'opponent']?.value || 0
+                    ).toLocaleString('en-US', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    })}
+                  </span>
+                </div>
               )}
-              <div class='hidden md:flex items-center gap-[9px]'>
-                <Coin width='5' />
-                <span class='font-bold text-14.4 font-SpaceGrotesk coinflip-game--price'>
-                  {Number(
-                    props.data()?.[props.left ? 'creator' : 'opponent']?.value || 0
-                  ).toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                  })}
-                </span>
-              </div>
               {props.data()?.isDoubleDown && props.left && (
                 <svg
                   class='hidden md:block'

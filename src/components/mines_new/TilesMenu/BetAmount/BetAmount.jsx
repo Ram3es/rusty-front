@@ -11,7 +11,11 @@ const BetAmount = () => {
       }`}
     >
       <div class="text-[#9A9EC8] text-[12px] font-medium">Bet</div>
-      <BetDisplay betAmount={betAmount} callbackFn={setBetAmount} />
+      <BetDisplay
+        betAmount={betAmount}
+        callbackFn={setBetAmount}
+        variant="input"
+      />
       <BetButtons />
     </div>
   );

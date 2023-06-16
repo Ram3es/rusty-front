@@ -203,18 +203,6 @@ const GameCaseBattle = (props) => {
     }
   }
 
-  const getJoinTeam = (playerIndex) => {
-    if (game().mode === "group") {
-      return 1
-    } else if (game().mode === "royal") {
-      return playerIndex
-    } else if (playerIndex <= 2) {
-      return 1
-    } else {
-      return 2
-    }
-  }
-
   const callBot = (player_index) => {
     socket.emit(
       "battles:callbot",
@@ -241,7 +229,7 @@ const GameCaseBattle = (props) => {
   }
 
   const getCurrentRollItem = () => {
-    return game().cases[game().currentRound > 0 && game().cases.length > 1 ? game().currentRound : 0];
+    return game().cases[game().currentRound > 0 ? game().currentRound : 0] ?? game().cases[0];
   };
 
   function mapAndRemoveRound(obj) {
@@ -937,7 +925,7 @@ const GameCaseBattle = (props) => {
                                   <span class='text-gradient'>
                                     {game().fundBattle
                                       ? game().totalValue -
-                                        game().totalValue * (game().fundPercent / 100)
+                                        (game().totalValue * (game().fundPercent / 100)).toFixed()
                                       : game().totalValue}
                                   </span>
                                 </div>

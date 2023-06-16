@@ -201,7 +201,7 @@ const Unbox = (props) => {
                 class='case-card-background border border-white border-opacity-5 group h-[285px] flex flex-col hover:border-yellow-ffb hover:border-2 hover:border-opacity-100 relative rounded-6 overflow-hidden'
               >
                 <div
-                  class=' absolute left-0 top-0 w-full h-full z-0 opacity-60 group-hover:opacity-100'
+                  class=' absolute left-0 top-0 w-full h-full z-0'
                   style={{
                     'background-image': `url('${headerLogoBgVector}')`
                   }}

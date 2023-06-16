@@ -16,6 +16,7 @@ import BattleGroupIcon from '../icons/BattleGroupIcon'
 import UserPlaceholderIcon from '../icons/UserPlaceholderIcon'
 
 import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg.png'
+import Logo from "../../assets/smallLogo.svg";
 
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
 import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
@@ -196,7 +197,7 @@ const CaseBattleJoinModal = (props) => {
                         }}
                       >
                         {player ? (
-                          <img class='rounded-full' src={player.avatar} alt='steam-avatar' />
+                          <img class='rounded-full' src={player.avatar ?? Logo} alt='steam-avatar' />
                         ) : userObject.authenticated && setup().player_index === index() + 1 ? (
                           <img
                             class='rounded-full'
@@ -253,11 +254,18 @@ const CaseBattleJoinModal = (props) => {
                   Join
                 </span>
                 <Coin width='5' />
-                <span class='text-gradient'>{props.game?.fundBattle ? props.game?.totalValue - (props.game?.totalValue * (props.game?.fundPercent / 100)) : props.game?.totalValue}</span>
+                <span class='text-gradient'>{props.game?.fundBattle ? 
+                  props.game?.totalValue - (props.game?.totalValue * (props.game?.fundPercent / 100)) : 
+                  setup().borrowMoney ? 
+                  props.game?.totalValue - getProportionalPartByAmount(
+                    props.game?.totalValue,
+                    Math.floor(setup().borrowPercent * 0.8)
+                  ) :
+                  props.game?.totalValue}</span>
               </div>
             </CaseGradientButton>
           </div>
-          <div class='flex flex-col w-[330px] lg:w-fit lg:min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
+          {!props.game?.fundBattle ? <div class='flex flex-col w-[330px] lg:w-fit lg:min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]'>
             <div
               class='flex items-center justify-between rounded-6 h-[80px] lg:h-[60px]'
               style={{
@@ -376,7 +384,7 @@ const CaseBattleJoinModal = (props) => {
                 </div>
               </div>
             )}
-          </div>
+          </div> : ""}
         </div>
       </div>
     </Modal>

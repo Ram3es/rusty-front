@@ -65,7 +65,7 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
            ?  
            <input
              ref={inputRef}
-             class="max-w-[80px] h-full text-14 text-white font-medium placeholder-white"
+             class="max-w-[80px] h-full gold-text text-[14.3719px] font-SpaceGrotesk font-bold pb-0.5"
              type="number"
              onInput={(e) =>  props.callbackFn(e.target.value)}
              value={props.betAmount()}

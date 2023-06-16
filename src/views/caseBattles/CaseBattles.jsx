@@ -146,21 +146,10 @@ const CaseBattles = (props) => {
           >
             <div class='text-13 font-SpaceGrotesk text-gray-a2 font-bold w-max'>Case Battles</div>
             <div class='text-gradient-green-secondary w-max font-SpaceGrotesk font-bold text-14'>
-              {Object.values(games).filter(g => g.status === "open" && (!g.private || g.owner == userObject.user?.id)).length} Active Battles
+              {Object.values(games).filter(g => g.status !== "ended" && (!g.private || g.owner == userObject.user?.id)).length} Active Battles
             </div>
           </div>
           <div class=" col-span-3 sm:col-span-2 md:col-span-1 w-full flex flex-wrap-reverse py-0 md:py-2 gap-3 justify-center md:justify-end">
-            <GrayGradientButton
-              callbackFn={() => console.log('open history')}
-            >
-              <div class="text-gray-9a center gap-2 text-14 font-bold font-SpaceGrotesk">
-                <svg width="21" height="23" viewBox="0 0 21 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M17.8767 3.96612C15.8751 1.96945 13.1634 0.848145 10.3362 0.848145C7.50907 0.848145 4.79733 1.96945 2.7958 3.96612L2.0838 4.67894V2.0237C2.0838 1.80614 1.99738 1.5975 1.84354 1.44367C1.68971 1.28984 1.48107 1.20342 1.26352 1.20342C1.04597 1.20342 0.837324 1.28984 0.683492 1.44367C0.52966 1.5975 0.443237 1.80614 0.443237 2.0237V6.94538C0.443237 7.16293 0.52966 7.37157 0.683492 7.5254C0.837324 7.67924 1.04597 7.76566 1.26352 7.76566H6.1852C6.40275 7.76566 6.61139 7.67924 6.76522 7.5254C6.91906 7.37157 7.00548 7.16293 7.00548 6.94538C7.00548 6.72783 6.91906 6.51919 6.76522 6.36535C6.61139 6.21152 6.40275 6.1251 6.1852 6.1251H2.9574L3.95568 5.126C5.21761 3.86417 6.82537 3.00488 8.57565 2.65678C10.3259 2.30869 12.1401 2.48742 13.7889 3.17038C15.4376 3.85333 16.8467 5.00985 17.8382 6.49367C18.8296 7.97749 19.3588 9.72198 19.3588 11.5065C19.3588 13.2911 18.8296 15.0356 17.8382 16.5194C16.8467 18.0032 15.4376 19.1598 13.7889 19.8427C12.1401 20.5257 10.3259 20.7044 8.57565 20.3563C6.82537 20.0082 5.21761 19.1489 3.95568 17.8871C3.88001 17.8088 3.78949 17.7463 3.68942 17.7033C3.58934 17.6603 3.4817 17.6376 3.37279 17.6367C3.26387 17.6358 3.15586 17.6565 3.05505 17.6978C2.95424 17.739 2.86265 17.7999 2.78563 17.8769C2.70862 17.9539 2.64771 18.0455 2.60646 18.1463C2.56522 18.2472 2.54446 18.3552 2.54541 18.4641C2.54636 18.573 2.56898 18.6806 2.61197 18.7807C2.65496 18.8808 2.71746 18.9713 2.7958 19.047C3.78602 20.0372 4.96159 20.8227 6.25538 21.3586C7.54917 21.8945 8.93584 22.1703 10.3362 22.1703C11.7366 22.1703 13.1233 21.8945 14.4171 21.3586C15.7109 20.8227 16.8864 20.0372 17.8767 19.047C18.8669 18.0567 19.6524 16.8812 20.1883 15.5874C20.7242 14.2936 21 12.9069 21 11.5065C21 10.1062 20.7242 8.71949 20.1883 7.4257C19.6524 6.13191 18.8669 4.95634 17.8767 3.96612Z" fill="#9A9EC8"/>
-                  <path d="M8.64603 15.7552C8.79488 15.7551 8.94091 15.7146 9.06847 15.6379L14.1805 12.57C14.3017 12.4971 14.4021 12.3941 14.4718 12.2709C14.5414 12.1477 14.578 12.0086 14.578 11.8671C14.578 11.7255 14.5414 11.5864 14.4718 11.4632C14.4021 11.3401 14.3017 11.237 14.1805 11.1641L9.06847 8.09377C8.94384 8.01889 8.80155 7.97848 8.65616 7.97669C8.51078 7.97489 8.36753 8.01177 8.24108 8.08354C8.11464 8.15532 8.00954 8.25942 7.93656 8.38517C7.86358 8.51092 7.82534 8.65382 7.82575 8.79921V14.9349C7.82575 15.1525 7.91217 15.3611 8.066 15.5149C8.21983 15.6688 8.42848 15.7552 8.64603 15.7552Z" fill="#9A9EC8"/>
-                </svg>
-                <span>Battle History</span>
-              </div>
-            </GrayGradientButton>
             <NavLink href={URL.GAMEMODES.CASE_BATTLES_CREATE}>
               <YellowGradientButton callbackFn={() => {}}>
                 <div class='center text-14 font-SpaceGrotesk gap-2 text-yellow-ffb font-bold'>
@@ -359,10 +348,23 @@ const CaseBattles = (props) => {
                                 class={`relative cursor-pointer ${
                                   index() < games[id].currentRound && 'opacity-20'
                                 }`}
-                                onClick={() => {
+                                onContextMenu={(e) => {
+                                  e.preventDefault();
                                   setCaseViewModalItem(caseItem)
                                   toggleCaseViewModal()
                                 }}
+                                use:tippy={{
+                                  props: {
+                                    content: (
+                                      <CaseToolTip price={casesState()[casesState().findIndex((c) => c.id === caseItem.id)].price}
+                                        name={caseItem.name}
+                                      />
+                                    ),
+                                    allowHTML: true,
+                                    duration: 0,
+                                  },
+                                  hidden: true,
+                                    }}
                               >
                                 <img
                                   alt={caseItem.name}
@@ -431,7 +433,7 @@ const CaseBattles = (props) => {
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                           <span class='w-max'>Join</span>
                           <Coin width='5' />
-                          <span class='text-gradient'>{games[id]?.fundBattle ? games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100)) : games[id]?.totalValue}</span>
+                          <span class='text-gradient'>{games[id]?.fundBattle ? (games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100))).toFixed() : games[id]?.totalValue}</span>
                         </div>
                       </YellowGradientButton>
                     ) : games[id].status === 'playing' ? (

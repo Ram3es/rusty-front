@@ -76,7 +76,7 @@ const CaseViewModal = (props) => {
             </svg>
           </div>
         </div>
-        <div class="flex flex-col gap-2 overflow-hidden py-6 px-[22px] bg-dark-secondary">
+        <div class="flex flex-col gap-2 overflow-hidden py-6 px-[22px] bg-dark-secondary overflow-y-auto">
           <p class="text-yellow-ffb font-medium text-base font-SpaceGrotesk">
             You can unbox:
           </p>
