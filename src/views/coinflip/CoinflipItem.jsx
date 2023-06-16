@@ -157,9 +157,9 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-l border-r border-white/5 pl-8 pr-2 w-[320px] llg:w-[380px] xll:w-[500px] overflow-hidden'>
+        <div class='hidden lg:flex h-full border-l border-r border-white/5 pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden'>
           <div class='flex items-center gap-4'>
-            <For each={skinList.length > 5 ? skinList.slice(0, 5) : skinList}>
+            <For each={skinList.length > 6 ? skinList.slice(0, 6) : skinList}>
               {(skin) => (
                 <div class='w-[30px] llg:w-[40px] lg:xll:h-[60px] h-[30px] llg:h-[40px] xll:w-[60px] flex items-center justify-center relative'>
                   <svg
@@ -232,14 +232,14 @@ const CoinflipItem = (props) => {
                 </div>
               )}
             </For>
-            {skinList.length > 5 && (
+            {skinList.length > 6 && (
               <div
                 class='cursor-pointer flex items-center justify-center w-10 h-8 border border-white/5 rounded font-SpaceGrotesk font-bold text-14 text-gray-9a'
                 style={{
                   filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))'
                 }}
               >
-                +{skinList.length - 5}
+                +{skinList.length - 6}
               </div>
             )}
           </div>
