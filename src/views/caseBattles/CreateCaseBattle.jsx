@@ -3,14 +3,12 @@ import {
   createSignal,
   For,
   onCleanup,
-  onMount,
   Show,
 } from "solid-js";
 import PageLoadState from "../../libraries/PageLoadState";
 import injector from "../../injector/injector";
 import Fallback from "../Fallback";
 import Coin from "../../utilities/Coin";
-import { createStore } from "solid-js/store";
 import { URL } from "../../libraries/url";
 import { NavLink, useNavigate } from "solid-app-router";
 import ArrowBack from "../../components/icons/ArrowBack";
@@ -32,12 +30,14 @@ import YellowGradientButton from "../../components/elements/CaseGradientButton";
 import TrashBinIcon from "../../components/icons/TrashBinIcon";
 import RangePercentScale from "../../components/elements/RangePercentScale";
 import { getProportionalPartByAmount } from "../../utilities/Numbers";
-import { tippy, useTippy } from "solid-tippy";
+import { tippy } from "solid-tippy";
 import InfoToolTip from "../../components/battle/InfoToolTip";
 import { getCurrencyString } from "../../components/mines_new/utils/tools";
 import GoldText from "../../components/mines_new/MISC/GoldText";
 
 import dragula from "dragula";
+
+import { CB_BATTLE_VARIANTS, CB_CURSED_VARIANTS, CB_GROUP_VARIANTS, CB_ROYAL_VARIANTS } from "../../libraries/constants";
 
 const minLevelOptions = ["bronze", "silver", "gold1", "platinum1", "diamond"];
 const priceRanges = [
@@ -88,6 +88,23 @@ const CreateCaseBattle = (props) => {
   const [sortBy, setSortBy] = createSignal(sortOptions[0]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null);
+  const [playersState, setPlayersState] = createSignal({
+    royal: {
+      players: 2,
+      team: 0
+    },
+    cursed: {
+      players: 2,
+      team: 0
+    },
+    group: {
+      players: 2,
+      team: 0
+    }
+  })
+
+  const [currentBattle, setCurrentBattle] = createSignal(CB_BATTLE_VARIANTS[0]) 
+
   const [modeToCreate, setModeToCreate] = createSignal({
     mode: "royal",
     players: 2,
@@ -118,25 +135,6 @@ const CreateCaseBattle = (props) => {
     setCasesPrice(cost);
   });
 
-  const [playersOptions, setPlayersOptions] = createStore([
-    {
-      qty: 2,
-      mode: "royal",
-    },
-    {
-      qty: 4,
-      mode: "team",
-    },
-    {
-      qty: 3,
-      mode: "royal",
-    },
-    {
-      qty: 4,
-      mode: "royal",
-    },
-  ]);
-
   const getPlaceholdernumber = () => {
     const columnsTotal = Math.floor(itemsWrapper.offsetWidth / 214); // Adjust the width as needed
     console.log("columnsTotal", columnsTotal);
@@ -154,44 +152,6 @@ const CreateCaseBattle = (props) => {
     setCaseViewModal(!caseViewModal());
   };
 
-  const updatePlayersOptions = (mode) => {
-    if (mode === "group") {
-      setPlayersOptions([
-        {
-          qty: 2,
-          mode: "group",
-        },
-        {
-          qty: 3,
-          mode: "group",
-        },
-        {
-          qty: 4,
-          mode: "group",
-        },
-      ]);
-    } else {
-      setPlayersOptions([
-        {
-          qty: 2,
-          mode: "royal",
-        },
-        {
-          qty: 4,
-          mode: "team",
-        },
-        {
-          qty: 3,
-          mode: "royal",
-        },
-        {
-          qty: 4,
-          mode: "royal",
-        },
-      ]);
-    }
-  };
-
   const getModeColor = () => {
     return (modeToCreate().mode === "royal" ||
       modeToCreate().mode === "team") &&
@@ -201,6 +161,30 @@ const CreateCaseBattle = (props) => {
       ? "green"
       : "blue";
   };
+
+  const getModeForPlayersState = () => {
+    if (modeToCreate().mode === 'royal' && modeToCreate().cursed === 0) {
+      return 'royal';
+    } 
+
+    if (modeToCreate().mode === 'team' && modeToCreate().cursed === 0) {
+      return 'royal';
+    }
+
+    if (modeToCreate().mode === 'royal' && modeToCreate().cursed === 1) {
+      return 'cursed';
+    } 
+
+    if (modeToCreate().mode === 'team' && modeToCreate().cursed === 1) {
+      return 'cursed';
+    } 
+
+    if (modeToCreate().mode === 'group' && modeToCreate().cursed === 0) {
+      return 'group';
+    }  
+
+    return 'group';
+  }
 
   createEffect(() => {
     if (props.loaded()) {
@@ -496,17 +480,26 @@ const CreateCaseBattle = (props) => {
               <div>
                 <CaseGradientButton
                   isFullWidth={true}
-                  callbackFn={() =>
-                    setModeToCreate((prev) => {
-                      updatePlayersOptions("royal");
+                  callbackFn={() => {
+                    setCurrentBattle('royal')
+                    setPlayersState((prev) => {
                       return {
                         ...prev,
-                        mode: "royal",
-                        players: playersOptions[0].qty,
+                        [getModeForPlayersState()]: {
+                          players:  playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
+                        }
+                      }
+                    })
+                    setModeToCreate((prev) => {
+                      return {
+                        ...prev,
+                        mode: playersState().royal.team ? 'team' : 'royal',
+                        players: playersState().royal.players,
                         cursed: 0,
                       };
                     })
-                  }
+                  }                  }
                   selected={
                     (modeToCreate().mode === "royal" ||
                       modeToCreate().mode === "team") &&
@@ -543,17 +536,27 @@ const CreateCaseBattle = (props) => {
                 <CaseGradientButton
                   isFullWidth={true}
                   color="green"
-                  callbackFn={() =>
-                    setModeToCreate((prev) => {
-                      updatePlayersOptions("royal");
+                  callbackFn={() => {
+                    setCurrentBattle('cursed')
+                    setPlayersState((prev) => {
                       return {
                         ...prev,
-                        mode: "royal",
-                        players: playersOptions[0].qty,
+                        [getModeForPlayersState()]: {
+                          players:  playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
+                        }
+                      }
+                    })
+                    setModeToCreate((prev) => {
+                      return {
+                        ...prev,
+                        mode: playersState().cursed.team ? 'team' : 'royal',
+                        players: playersState().cursed.players,
                         cursed: 1,
                       };
                     })
-                  }
+                  }   
+                }
                   selected={modeToCreate().cursed === 1}
                   rgb="218, 253, 9"
                   toggle
@@ -582,17 +585,26 @@ const CreateCaseBattle = (props) => {
                 <CaseGradientButton
                   isFullWidth={true}
                   color="blue"
-                  callbackFn={() =>
-                    setModeToCreate((prev) => {
-                      updatePlayersOptions("group");
+                  callbackFn={() => {
+                    setCurrentBattle('group')
+                    setPlayersState((prev) => {
                       return {
                         ...prev,
-                        mode: "group",
-                        players: playersOptions[0].qty,
-                        cursed: 0,
-                      };
+                        [getModeForPlayersState()]: {
+                          players: playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
+                        }
+                      }
                     })
-                  }
+                    setModeToCreate((prev) => {
+                      return {
+                        ...prev,
+                        mode: 'group',
+                        players: playersState().group.players,
+                        cursed: 0
+                      }
+                    })
+                  }}
                   selected={
                     modeToCreate().mode === "group" &&
                     modeToCreate().cursed !== 1
@@ -625,22 +637,39 @@ const CreateCaseBattle = (props) => {
             </div>
             <div class="w-full border-t border-white border-opacity-5 hidden md:block" />
             <div class=" flex flex-col md:flex-row center gap-2">
-              <For each={playersOptions}>
+              <For each={currentBattle() === 'royal' ? CB_ROYAL_VARIANTS : currentBattle() === 'cursed' ? CB_CURSED_VARIANTS : CB_GROUP_VARIANTS}>
                 {(option) => (
                   <div
                     class={`w-max center px-5 py-3 ${
-                      option.qty === modeToCreate().players &&
-                      option.mode === modeToCreate().mode
+                      option.qty === playersState()[getModeForPlayersState()].players 
+                      && (option.team === playersState()[getModeForPlayersState()].team || option.mode === 'group')
+                      && option.mode === getModeForPlayersState()
                         ? "border-yellow-ffb text-white"
                         : "border-white border-opacity-5 text-gray-9a"
                     } border rounded-4 flex gap-1 items-center cursor-pointer`}
-                    onClick={() =>
+                    onClick={() => {                      
+                      setPlayersState((prev) => {
+                        const updatedState = { ...prev }
+
+                        Object.keys(updatedState).forEach((key) => {
+                          updatedState[key].players = option.qty
+                          updatedState[key].team = updatedState[key].team === 'group' ? 0 : option.team
+                        })
+
+                        return updatedState
+                      })
+
                       setModeToCreate((prev) => ({
                         ...prev,
-                        mode: option.mode,
-                        players: option.qty,
+                        mode:
+                          option.team === 1
+                            ? 'team'
+                            : option.mode === 'cursed'
+                            ? 'royal'
+                            : option.mode,
+                        players: option.qty
                       }))
-                    }
+                    }}
                   >
                     <For each={Array.from(Array(option.qty).keys())}>
                       {(_, index) => (
@@ -661,8 +690,8 @@ const CreateCaseBattle = (props) => {
                           </svg>
                           {index() + 1 !== option.qty &&
                             option.mode !== "group" &&
-                            (option.mode === "royal" ||
-                              (option.mode === "team" &&
+                            (option.mode === "royal" && !option.team ||option.mode === "cursed" && !option.team ||
+                              (option.team &&
                                 index() !== 0 &&
                                 index() !== 2)) && (
                               <BattleRoyaleIcon additionClasses="w-3" />
