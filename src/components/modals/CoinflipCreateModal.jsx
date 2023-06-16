@@ -489,18 +489,20 @@ const CoinflipCreateModal = (props) => {
                     />
                   </div>
                 </div>
-                <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
-                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                    <span class="text-white">
-                      {settings().amount} / 20 items
-                    </span>
-                    <span>worth</span>
+                <div class="center gap-2 p-3 border rounded-4 border-white/10 h-10 w-[260px]">
+                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold items-center">
+                    <p class="text-white truncate">
+                      {settings().amount} / 20 items 
+                    <span class='text-yellow-ffb'>worth</span>
+
+                    </p>
                     <Coin width="5" />
                     <span class="text-gradient">
                       {Number(settings().value).toLocaleString()}
                     </span>
                   </div>
                 </div>
+                <div class='w-[260px] h-10'>
                 <YellowGradientButton
                   isFullWidth={true}
                   callbackFn={() => {
@@ -511,12 +513,13 @@ const CoinflipCreateModal = (props) => {
                     }
                   }}
                 >
-                  <div class="flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                  <div class="w-full h-full flex justify-center capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
                     {props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
                       ? "Join Coinflip"
                       : "Create Coinflip"}
                   </div>
                 </YellowGradientButton>
+                </div>
                 <div
                   class={`w-full bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
