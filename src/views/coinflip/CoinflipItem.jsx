@@ -74,8 +74,8 @@ const CoinflipItem = (props) => {
           'radial-gradient(100% 991.18% at 100% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)'
       }}
     >
-      <div class='flex items-center h-full md:coinflip-list--background__secondary'>
-        <div class='h-full flex items-center gap-5 px-6'>
+      <div class='flex items-center h-full'>
+        <div class='h-full flex items-center border-r border-white border-opacity-5 gap-5 px-6 md:coinflip-list--background__secondary'>
           <div
             class={`relative border rounded-full w-12 h-12 p-[5px] ${
               props.game?.creator?.side === 1 ? 'border-yellow-ffb' : 'border-white'
@@ -157,7 +157,7 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-l border-r border-white/5 pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden'>
+        <div class='hidden lg:flex h-full border-r border-white border-opacity-5 pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
           <div class='flex items-center gap-4'>
             <For each={skinList.length > 6 ? skinList.slice(0, 6) : skinList}>
               {(skin) => (
