@@ -157,7 +157,7 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-l border-r border-white/5 pl-8 pr-2 w-[320px] llg:w-[380px] xll:w-[500px] overflow-hidden'>
+        <div class='hidden lg:flex h-full border-l-2 border-r-2 border-white/5 pl-8 pr-2 w-[320px] llg:w-[380px] xll:w-[500px] overflow-hidden'>
           <div class='flex items-center gap-4'>
             <For each={skinList.length > 5 ? skinList.slice(0, 5) : skinList}>
               {(skin) => (
