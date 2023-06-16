@@ -245,7 +245,7 @@ const CoinflipItem = (props) => {
           </div>
         </div>
       </div>
-      <div class='flex flex-col md:flex-row items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
+      <div class='grid grid-cols-[1fr_1fr_2fr] items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
         <div class='w-[100px]'>
           {props.game?.isDoubleDown && (
             <div
@@ -326,8 +326,8 @@ const CoinflipItem = (props) => {
             </span>
           </div>
         </div>
-        <div class='flex items-center gap-2'>
-          {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
+        <div class='flex items-center gap-2 w-full justify-end'>
+        {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
             <NavLink
               as='div'
               class={`px-4 fourk:w-[195px] h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
@@ -406,13 +406,11 @@ const CoinflipItem = (props) => {
             </div>
           )}
           {props.game?.status === 'open' && (
-            <>
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
-                class='w-[136px] h-10 flex items-center justify-center'
               >
                 <CaseGradientButton isFullWidth>
-                  <div class='flex justify-center items-center'>
+                  <div class='flex justify-center items-center px-4 w-[136px] h-10'>
                     <span
                       class='text-yellow-ffb font-SpaceGrotesk text-16 font-bold'
                       style={{
@@ -424,7 +422,6 @@ const CoinflipItem = (props) => {
                   </div>
                 </CaseGradientButton>
               </NavLink>
-            </>
           )}
           {userObject.user.id !== props.game?.creator?.id &&
             props.game?.status !== 'spinning' &&
