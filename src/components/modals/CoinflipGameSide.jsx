@@ -61,7 +61,7 @@ const CoinflipGameSide = (props) => {
   return (
     <div class='w-full flex flex-col z-10 h-full relative'>
       <div
-        class={`h-[180px] lg:h-22 flex justify-start md:items-center flex-wrap gap-10 md:gap-3 relative pt-4 px-4 md:px-9 ${
+        class={`h-[180px] lg:h-22 flex justify-start md:items-center flex-wrap gap-10 md:gap-3 relative px-4 pt-4 md:pt-0 md:px-9 ${
           !props.left && 'flex-row-reverse'
         } ${isLoser() && props.isEndShow() && 'opacity-40'}`}
         style={{
@@ -126,9 +126,9 @@ const CoinflipGameSide = (props) => {
           )}
         </div>
         {(props.left || props.data()?.status !== 'open') && (
-          <div class='flex flex-col gap-2.5'>
+          <div class='flex flex-col gap-[9px]'>
             <div
-              class={`hidden md:flex items-center shrink-0 ${
+              class={`hidden md:flex items-start shrink-0 ${
                 !props.left && 'justify-end'
               } gap-2 text-sm font-bold h-[26px] ${
                 props.data()?.isDoubleDown && props.left && 'w-[160px]'
@@ -172,7 +172,7 @@ const CoinflipGameSide = (props) => {
                   Joining...
                 </span>
               ) : (
-                <div class='hidden md:flex items-center gap-[9px]'>
+                <div class='hidden md:flex items-center gap-[7.25px]'>
                   <Coin width='5' />
                   <span class='font-bold text-14.4 font-SpaceGrotesk coinflip-game--price'>
                     {Number(

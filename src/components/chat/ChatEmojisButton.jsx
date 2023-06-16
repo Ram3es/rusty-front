@@ -5,7 +5,7 @@ const ChatEmojisButton = (props) => {
 
     return (
         <button
-            class={`w-9 h-9 flex items-center justify-center text-gray-9a hover:text-yellow-ffb border-2 rounded ${
+            class={`w-9 h-9 flex items-center justify-center text-gray-9a hover:text-yellow-ffb border rounded ${
                 props.isActive
                     ? 'button-emojis-secondary text-yellow-ffb border-yellow-ffb/30'
                     : 'button-emojis-primary border-white/5 '

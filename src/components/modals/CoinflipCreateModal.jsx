@@ -337,6 +337,7 @@ const CoinflipCreateModal = (props) => {
                       onReset={() => setSearch("")}
                       onInput={(text) => setSearch(text)}
                       isFullWidth
+                      placeholderOverride='Search for items...'
                     />
                   </div>
                   <Dropdown
@@ -348,17 +349,22 @@ const CoinflipCreateModal = (props) => {
                 </div>
                 <div class="center gap-2">
                   <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
-                    <div class="bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5 ">
-                      <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                    <div class="bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5">
+                      <div class="w-full h-full px-4 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-[10.3px] items-center font-SpaceGrotesk font-bold">
+                        <div class='flex items-center gap-[9.2px]'>
                         <Coin width="6" />
-                        <p class="text-gradient text-16 font-medium font-Oswald">
+                        <p class="text-gradient text-16 font-bold font-SpaceGrotesk">
                           {items()
                             .reduce((prev, cur) => (prev += cur.price), 0)
-                            .toLocaleString()}
+                            .toLocaleString("en-US", {
+                              minimumFractionDigits: 2,
+                              maximumFractionDigits: 2,
+                            })}
                         </p>
-                        <p class="text-gradient text-14 uppercase">
+                        </div>
+                        <span class="text-gradient text-14 uppercase ">
                           Inventory Value
-                        </p>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -448,7 +454,7 @@ const CoinflipCreateModal = (props) => {
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
                       ? "flex"
                       : "hidden"
-                  } text-gray-a2 pt-0.5 text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed rounded-4`}
+                  } text-gray-a2 flex items-center justify-center text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed font-bold rounded-4 font-SpaceGrotesk`}
                 >
                   {Math.round(props.searchParams.value * 0.98)} -{" "}
                   {Math.round(props.searchParams.value * 1.02)}
@@ -489,18 +495,25 @@ const CoinflipCreateModal = (props) => {
                     />
                   </div>
                 </div>
-                <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
-                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                    <span class="text-white">
-                      {settings().amount} / 20 items
-                    </span>
-                    <span>worth</span>
+                <div class="center gap-2 p-3 border rounded-4 border-white/10  w-[260px]">
+                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold items-center flex-wrap">
+                    <p class="text-white truncate">
+                      {settings().amount} / 20 items 
+                    <span class='text-yellow-ffb'>worth</span>
+
+                    </p>
+                    <div class='flex items-center gap-[7.93px]'>
                     <Coin width="5" />
                     <span class="text-gradient">
-                      {Number(settings().value).toLocaleString()}
+                      {Number(settings().value).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
+                      </div>
                   </div>
                 </div>
+                <div class='w-[260px] h-10'>
                 <YellowGradientButton
                   isFullWidth={true}
                   callbackFn={() => {
@@ -511,12 +524,13 @@ const CoinflipCreateModal = (props) => {
                     }
                   }}
                 >
-                  <div class="flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                  <div class="w-full h-full flex justify-center capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
                     {props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
                       ? "Join Coinflip"
                       : "Create Coinflip"}
                   </div>
                 </YellowGradientButton>
+                </div>
                 <div
                   class={`w-full bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN

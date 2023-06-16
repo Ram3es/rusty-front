@@ -3,7 +3,7 @@ const ChatSendButton = (props) => {
 
     return (
         <button
-            class='w-9 h-9 flex items-center justify-center border-2 border-green-1b rounded text-white'
+            class='w-9 h-9 flex items-center justify-center border border-green-1b rounded text-white'
             style={{
                 background:
                     'linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.008125) 93.75%, rgba(118, 124, 255, 0) 100% ), radial-gradient(172.5% 172.5% at 59.05% 18.75%, #0bbd52 0%, #1bdc80 100%)',
