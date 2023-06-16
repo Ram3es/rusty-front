@@ -2059,9 +2059,9 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 8px;
   border: 2px solid transparent;
-  background: radial-gradient(1.74% 21.69% at 1.26% 50%, #FFB436 0%, rgba(255, 180, 54, 0) 100%),
-  radial-gradient(1.89% 23.54% at 98.74% 50%, #FFB436 0%, rgba(255, 180, 54, 0) 100%),
-  linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
+  background: radial-gradient(1.74% 21.69% at 1.26% 50%, #ffb436 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(1.89% 23.54% at 98.74% 50%, #ffb436 0%, rgba(255, 180, 54, 0) 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -2511,7 +2511,6 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   background-clip: text;
   text-fill-color: transparent;
 }
-
 
 .pvp-game-card,
 .game-active,
@@ -3050,12 +3049,18 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 .leaderbord-table--row {
   position: relative;
   border-radius: 6px;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.04) 41.3%, rgba(0, 0, 0, 0.04) 68.93%, rgba(255, 255, 255, 0.04) 100%), 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-    radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%);
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.04) 41.3%,
+      rgba(0, 0, 0, 0.04) 68.93%,
+      rgba(255, 255, 255, 0.04) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, #1d2352 0%, #1d1f30 100%);
 }
 
-.leaderbord-table--row::before{
+.leaderbord-table--row::before {
   content: '';
   position: absolute;
   top: 0;
@@ -3072,9 +3077,19 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 
 .leaderboard-tile {
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
     radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
 }
 .leaderboard-tile.spot {
@@ -3089,8 +3104,9 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   right: 0;
   bottom: 0;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%) border-box,
-  linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)) ;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%)
+      border-box,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -3105,39 +3121,60 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 0 6px 6px 0;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%) border-box,
-    linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)) ;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(0, 0, 0, 0) 100%)
+      border-box,
+    linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
 }
 
 .text-gradient--leaderboard-gold {
-  background: linear-gradient(83.13deg, rgba(255, 255, 255, 0) 7.58%, rgba(255, 255, 255, 0.56) 69.99%, rgba(0, 0, 0, 0.56) 106.13%, rgba(255, 255, 255, 0.56) 119.6%), #FFC467;
+  background: linear-gradient(
+      83.13deg,
+      rgba(255, 255, 255, 0) 7.58%,
+      rgba(255, 255, 255, 0.56) 69.99%,
+      rgba(0, 0, 0, 0.56) 106.13%,
+      rgba(255, 255, 255, 0.56) 119.6%
+    ),
+    #ffc467;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-
 }
 .text-gradient--leaderboard-amount {
-  background: linear-gradient(80.22deg, rgba(255, 255, 255, 0) 18.87%, rgba(255, 255, 255, 0.16) 42.17%, rgba(0, 0, 0, 0.16) 72.5%, rgba(255, 255, 255, 0.16) 106.6%), 
-    radial-gradient(72.06% 104.53% at 50.54% 86.25%, #FFB436 0%, #FFD58F 100%);
+  background: linear-gradient(
+      80.22deg,
+      rgba(255, 255, 255, 0) 18.87%,
+      rgba(255, 255, 255, 0.16) 42.17%,
+      rgba(0, 0, 0, 0.16) 72.5%,
+      rgba(255, 255, 255, 0.16) 106.6%
+    ),
+    radial-gradient(72.06% 104.53% at 50.54% 86.25%, #ffb436 0%, #ffd58f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
 }
-
-
 
 .leader-card.gold {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(65.5% 65.5% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-    radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%);
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(65.5% 65.5% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, #1d2352 0%, #1d1f30 100%);
   border-radius: 8px;
 }
 
@@ -3148,9 +3185,9 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #FFC467 0%, rgba(0, 0, 0, 0) 100%) border-box, 
+  background: linear-gradient(180deg, #ffc467 0%, rgba(0, 0, 0, 0) 100%) border-box,
     linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
@@ -3159,11 +3196,26 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .leader-card.silver {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(65.5% 65.5% at 50% 0%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-    radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%);
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(
+        65.5% 65.5% at 50% 0%,
+        rgba(255, 255, 255, 0.16) 0%,
+        rgba(255, 255, 255, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, #1d2352 0%, #1d1f30 100%);
   border-radius: 8px;
 }
 
@@ -3174,9 +3226,9 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(0, 0, 0, 0) 100%) border-box,
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 0, 0, 0) 100%) border-box,
     linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
@@ -3185,11 +3237,22 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .leader-card.bronze {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(65.5% 65.5% at 50% 0%, rgba(199, 50, 0, 0.16) 0%, rgba(199, 50, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
-    radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%);
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(65.5% 65.5% at 50% 0%, rgba(199, 50, 0, 0.16) 0%, rgba(199, 50, 0, 0) 100%)
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, #1d2352 0%, #1d1f30 100%);
   border-radius: 8px;
 }
 
@@ -3200,9 +3263,9 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   left: 0;
   right: 0;
   bottom: 0;
-  border-radius:8px;
+  border-radius: 8px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #C73200 0%, rgba(0, 0, 0, 0) 100%) border-box,
+  background: linear-gradient(180deg, #c73200 0%, rgba(0, 0, 0, 0) 100%) border-box,
     linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
@@ -3211,13 +3274,33 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .skull-backdrop.gold {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(255, 178, 54, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(255, 178, 54, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), 
-    linear-gradient(180deg, rgba(255, 225, 66, 0) 0%, rgba(255, 225, 66, 0.12) 100%), 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), 
-    radial-gradient(100% 275.07% at 100% 0%, #21243C 0%, #1D1F30 100%)
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(
+        98.73% 114.02% at 100% -37.29%,
+        rgba(255, 178, 54, 0.48) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(
+        99.15% 99.15% at 12.7% 107.2%,
+        rgba(255, 178, 54, 0.48) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+    linear-gradient(180deg, rgba(255, 225, 66, 0) 0%, rgba(255, 225, 66, 0.12) 100%),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.05) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    radial-gradient(100% 275.07% at 100% 0%, #21243c 0%, #1d1f30 100%);
 }
 
 .skull-backdrop.gold::before {
@@ -3229,10 +3312,10 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 4px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #FFC467 0%, rgba(0, 0, 0, 0) 100%) border-box,
-  linear-gradient(180deg, rgba(255, 180, 54, 0.16) 0%, rgba(0, 0, 0, 0) 34.38%),
-  linear-gradient(360deg, rgba(255, 180, 54, 0.16) 0%, rgba(0, 0, 0, 0) 37.5%),
-  linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
+  background: linear-gradient(180deg, #ffc467 0%, rgba(0, 0, 0, 0) 100%) border-box,
+    linear-gradient(180deg, rgba(255, 180, 54, 0.16) 0%, rgba(0, 0, 0, 0) 34.38%),
+    linear-gradient(360deg, rgba(255, 180, 54, 0.16) 0%, rgba(0, 0, 0, 0) 37.5%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
@@ -3240,13 +3323,33 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 
 .skull-backdrop.silver {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(255, 255, 255, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(255, 255, 255, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), 
-    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), 
-    radial-gradient(100% 275.07% at 100% 0%, #21243C 0%, #1D1F30 100%)
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(
+        98.73% 114.02% at 100% -37.29%,
+        rgba(255, 255, 255, 0.48) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(
+        99.15% 99.15% at 12.7% 107.2%,
+        rgba(255, 255, 255, 0.48) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.05) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    radial-gradient(100% 275.07% at 100% 0%, #21243c 0%, #1d1f30 100%);
 }
 
 .skull-backdrop.silver::before {
@@ -3258,7 +3361,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 4px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #FFFFFF 0%, rgba(0, 0, 0, 0) 100%) border-box,
+  background: linear-gradient(180deg, #ffffff 0%, rgba(0, 0, 0, 0) 100%) border-box,
     linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(0, 0, 0, 0) 34.38%),
     linear-gradient(360deg, rgba(255, 255, 255, 0.16) 0%, rgba(0, 0, 0, 0) 37.5%),
     linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
@@ -3268,13 +3371,29 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 .skull-backdrop.bronze {
   position: relative;
-  background: linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), 
-    radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(199, 50, 0, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(199, 50, 0, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, 
-    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), 
+  background: linear-gradient(
+      75.96deg,
+      rgba(255, 255, 255, 0) 20.07%,
+      rgba(255, 255, 255, 0.12) 41.3%,
+      rgba(0, 0, 0, 0.12) 68.93%,
+      rgba(255, 255, 255, 0.12) 100%
+    ),
+    radial-gradient(
+        98.73% 114.02% at 100% -37.29%,
+        rgba(199, 50, 0, 0.48) 0%,
+        rgba(0, 0, 0, 0) 100%
+      )
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(199, 50, 0, 0.48) 0%, rgba(0, 0, 0, 0) 100%)
+      /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+    linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
     linear-gradient(180deg, rgba(199, 50, 0, 0) 0%, rgba(199, 50, 0, 0.12) 100%),
-    radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), 
-    radial-gradient(100% 275.07% at 100% 0%, #21243C 0%, #1D1F30 100%)
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.05) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    radial-gradient(100% 275.07% at 100% 0%, #21243c 0%, #1d1f30 100%);
 }
 
 .skull-backdrop.bronze::before {
@@ -3286,7 +3405,7 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   bottom: 0;
   border-radius: 4px;
   border: 2px solid transparent;
-  background: linear-gradient(180deg, #C73200 0%, rgba(0, 0, 0, 0) 100%) border-box,
+  background: linear-gradient(180deg, #c73200 0%, rgba(0, 0, 0, 0) 100%) border-box,
     linear-gradient(180deg, rgba(199, 50, 0, 0.16) 0%, rgba(0, 0, 0, 0) 34.38%),
     linear-gradient(360deg, rgba(199, 50, 0, 0.16) 0%, rgba(0, 0, 0, 0) 37.5%),
     linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05));
@@ -3296,12 +3415,27 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 
 .leaderbord-banner {
-  background:  radial-gradient(13.13% 66.04% at 100% 50%, rgba(207, 148, 54, 0.36) 0%, rgba(207, 148, 54, 0) 100%), 
-    radial-gradient(16.8% 84.51% at 0% 50%, rgba(207, 148, 54, 0.36) 0%, rgba(207, 148, 54, 0) 100%), 
-    linear-gradient(82.15deg, rgba(255, 255, 255, 0) 20.71%, rgba(255, 255, 255, 0.08) 40.24%, rgba(0, 0, 0, 0.08) 74.38%, rgba(255, 255, 255, 0.08) 101.24%), 
-    radial-gradient(25.72% 64.18% at 50% 0%, rgba(207, 148, 54, 0.36) 0%, rgba(207, 148, 54, 0) 100%), 
-    radial-gradient(40.07% 100% at 50% 100%, rgba(207, 148, 54, 0.2) 0%, rgba(207, 148, 54, 0) 100%), 
-    linear-gradient(180deg, rgba(23, 25, 46, 0) 0%, #17192E 122.95%), linear-gradient(180deg, rgba(30, 33, 54, 0) 0%, #1E2136 95.97%);
+  background: radial-gradient(
+      13.13% 66.04% at 100% 50%,
+      rgba(207, 148, 54, 0.36) 0%,
+      rgba(207, 148, 54, 0) 100%
+    ),
+    radial-gradient(16.8% 84.51% at 0% 50%, rgba(207, 148, 54, 0.36) 0%, rgba(207, 148, 54, 0) 100%),
+    linear-gradient(
+      82.15deg,
+      rgba(255, 255, 255, 0) 20.71%,
+      rgba(255, 255, 255, 0.08) 40.24%,
+      rgba(0, 0, 0, 0.08) 74.38%,
+      rgba(255, 255, 255, 0.08) 101.24%
+    ),
+    radial-gradient(
+      25.72% 64.18% at 50% 0%,
+      rgba(207, 148, 54, 0.36) 0%,
+      rgba(207, 148, 54, 0) 100%
+    ),
+    radial-gradient(40.07% 100% at 50% 100%, rgba(207, 148, 54, 0.2) 0%, rgba(207, 148, 54, 0) 100%),
+    linear-gradient(180deg, rgba(23, 25, 46, 0) 0%, #17192e 122.95%),
+    linear-gradient(180deg, rgba(30, 33, 54, 0) 0%, #1e2136 95.97%);
 }
 
 .leaderbord-banner::before {
@@ -3320,27 +3454,20 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
 }
 
 .bajoonga-prize {
-  background: linear-gradient(83.13deg, rgba(255, 255, 255, 0) 7.58%, rgba(255, 255, 255, 0.56) 69.99%, rgba(0, 0, 0, 0.56) 106.13%, rgba(255, 255, 255, 0.56) 119.6%), 
-    linear-gradient(180deg, #FFFFFF 0%, #EFEFEF 100%);
+  background: linear-gradient(
+      83.13deg,
+      rgba(255, 255, 255, 0) 7.58%,
+      rgba(255, 255, 255, 0.56) 69.99%,
+      rgba(0, 0, 0, 0.56) 106.13%,
+      rgba(255, 255, 255, 0.56) 119.6%
+    ),
+    linear-gradient(180deg, #ffffff 0%, #efefef 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
   text-shadow: 0px 0px 26.3245px rgba(255, 255, 255, 0.36);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .profile-game--item {
   background: radial-gradient(
@@ -3372,6 +3499,46 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   border-radius: 4px;
   padding: 1px;
   background: linear-gradient(180deg, rgba(255, 180, 54, 0) -37.12%, rgba(255, 180, 54, 0.36) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.header-nav-link--mark {
+  background: radial-gradient(
+      99.15% 99.15% at 12.7% 107.2%,
+      rgba(255, 223, 54, 0.08) 0%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+}
+
+.header-nav-link--default {
+  background: radial-gradient(
+      58.03% 60.37% at 50% 29.27%,
+      rgba(118, 124, 255, 0.12) 0%,
+      rgba(118, 124, 255, 0) 100%
+    ),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)),
+    radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.header-nav-link--border__yellow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 1px;
+  background: linear-gradient(32.81deg, rgba(255, 223, 54, 0.16) 0%, rgba(0, 0, 0, 0) 35.12%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
