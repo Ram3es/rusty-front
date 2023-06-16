@@ -330,7 +330,7 @@ const CoinflipItem = (props) => {
           {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
             <NavLink
               as='div'
-              class={`w-[195px] h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
+              class={`px-4 fourk:w-[195px] h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
               href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
               style={{
                 background:
