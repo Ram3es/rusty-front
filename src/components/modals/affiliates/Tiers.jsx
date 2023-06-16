@@ -1,6 +1,7 @@
 import { createSignal, For } from "solid-js";
 
 import Ranks from "../../../utilities/Ranks";
+import ribbedBg from "../../../assets/img/affilates/afffilatesRibbedBg.png"
 
 const AffiliatesTiers = () => {
   const [tiers] = createSignal([
@@ -54,8 +55,12 @@ const AffiliatesTiers = () => {
                 }}
               >
                 <div class={`w-full center h-full ${i() > 0 && 'opacity-60' }`}>
-                  <div class="w-32 center">
-                    <div class="center flex-col gap-2">
+                  <div 
+                    class="w-32 h-full center"
+                    style={{ background:`url(${ribbedBg})` }}
+                  >
+                    <div 
+                      class="center flex-col gap-2">
                       <div class="w-13">
                         <Ranks rank={tier.image} width="full" />
                       </div>
