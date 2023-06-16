@@ -278,9 +278,9 @@ const AffiliatesModal = (props) => {
               background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
             }}
           >
-            <div class="flex flex-col sm:flex-row gap-6">
+            <div class="flex flex-col items-start sm:flex-row sm:items-center gap-6">
               {tab() !== "overview" && <div
-                class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max"
+                class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max cursor-pointer h-10"
                 onClick={() => setTab("overview")}
               >
                 <ArrowBack />
