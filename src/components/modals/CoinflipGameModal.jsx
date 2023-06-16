@@ -102,7 +102,7 @@ const CoinflipGameModal = (props) => {
           'backdrop-filter': 'blur(8px)'
         }}
       >
-        <div class='rounded-t-12 w-full px-9 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]'>
+        <div class='rounded-t-12 border border-[#0000001F] w-full px-9 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]'>
           <div class='flex items-center gap-2.5 text-gray-9a'>
             {userObject?.user?.id === data()?.creator?.id ||
             (userObject?.authenticated && userObject?.user?.id === data()?.opponent?.id) ? (
