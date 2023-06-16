@@ -64,7 +64,7 @@ const AffiliatesTiers = () => {
                       </p>
                     </div>
                   </div>
-                  <div class="w-full flex-1 px-6 py-3 flex flex-col justify-end gap-2">
+                  <div class="w-full flex-1 px-6 py-3 flex flex-col justify-end gap-2 mr-16">
                     <div class="flex gap-3">
                       <p class="text-13 text-gray-a2 font-bold font-SpaceGrotesk">
                         {tier.deposit}% of your referral’s deposits into shop
@@ -82,7 +82,7 @@ const AffiliatesTiers = () => {
                       </p>
                     </div>
                   </div>
-                  <div class="center w-16">
+                  <div class="w-16 absolute right-0 top-1/2 -translate-y-1/2 z-[1] ">
                     {
                       i() > 0 ? (
                         <div
@@ -98,7 +98,7 @@ const AffiliatesTiers = () => {
                           </svg>
                         </div>                     
                       ) : <div
-                      class={`text-[#3EFF8B] text-12 px-1 py-0.5 rounded-l-2 center`}
+                      class={`text-[#3EFF8B] text-12 font-bold font-Quicksand px-1 py-0.5 rounded-l-2 center`}
                       style={{
                         background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)"
                       }}
