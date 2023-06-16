@@ -454,7 +454,7 @@ const CoinflipCreateModal = (props) => {
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN
                       ? "flex"
                       : "hidden"
-                  } text-gray-a2 pt-0.5 text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed rounded-4 font-SpaceGrotesk`}
+                  } text-gray-a2 pt-0.5 text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed font-bold rounded-4 font-SpaceGrotesk`}
                 >
                   {Math.round(props.searchParams.value * 0.98)} -{" "}
                   {Math.round(props.searchParams.value * 1.02)}
