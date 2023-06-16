@@ -340,10 +340,14 @@ const SubHeader = (props) => {
                           mode.url === URL.GAMEMODES.CASE_BATTLES
                             ? 'xxl:w-[136px]'
                             : 'xxl:w-[108px]'
-                        } px-2 llg:px-4 xll:px-7 py-2 relative ${
+                        } px-2 llg:px-4 xll:px-7 py-2 relative rounded-4 shadow-button ${
                           currPath().indexOf(mode.url) >= 0
                             ? 'header-nav-link-active'
-                            : 'header-nav-link'
+                            : mode.mark === 'new' 
+                              ? 'header-nav-link--mark header-nav-link--border__yellow' 
+                              : mode.mark === 'hot' 
+                                ? 'header-nav-link--mark header-nav-link--border__yellow' 
+                                : 'header-nav-link--default'
                         } transition-colors transition-shadows duration-200 pb-0 cursor-pointer group`}
                       >
                         <div class='flex flex-col justify-around py-1 items-center relative h-full z-10'>
