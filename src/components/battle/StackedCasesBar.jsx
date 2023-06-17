@@ -1,5 +1,7 @@
 import {For} from "solid-js";
 import DarkWrapperdWithBorders from "./DarkWrapperdWithBorders";
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
 
 const StackedCasesBar = (props) => {
   return (
@@ -10,19 +12,31 @@ const StackedCasesBar = (props) => {
           if (ind >= 0) {
             prev[ind].count++;
           } else {
-            prev.push({
-              name: cur.name,
-              image: cur.image,
-              id: cur.id,
-              count: 1,
-            });
+            prev.push({ ...cur, count: 1 });
           }
           return prev;
         }, []) || []
       }
     >
       {(caseItem) => (
-        <div class={`relative cursor-pointer pointer-events-auto`}>
+        <div class={`relative cursor-pointer pointer-events-auto`}
+         use:tippy={{
+                      props: {
+                        content: (
+                          <CaseToolTip price={caseItem.price}
+                            name={caseItem.name}
+                          />
+                        ),
+                        allowHTML: true,
+                        duration: 0,
+                      },
+                      hidden: true,
+                        }}
+              onContextMenu={(e) => {
+                              e.preventDefault();
+                              props.setCaseViewModalItem(caseItem)
+                              props.toggleCaseViewModal()
+                            }}>
           <img
             alt={caseItem.name}
             class={`h-[48px] min-w-[64px] opacity-50`}
