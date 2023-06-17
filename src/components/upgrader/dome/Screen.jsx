@@ -1,4 +1,6 @@
-import {createSignal, createEffect, onMount, onCleanup} from "solid-js";
+import {createSignal, onMount, onCleanup} from "solid-js";
+
+import {activeItem, betValue} from "../../../views/upgrader/Upgrader";
 
 import GoldGlowText from "./GoldGlowText";
 const Screen = () => {
@@ -32,7 +34,14 @@ const Screen = () => {
         ref={setScreenDiv}
         class="w-[50%] flex items-center justify-center flex-col"
       >
-        <GoldGlowText text={25} size={textSize()} />
+        <GoldGlowText
+          text={
+            activeItem()
+              ? ((betValue() || 0) / (activeItem().price || 1)) * 90
+              : 0
+          }
+          size={textSize()}
+        />
         <span
           class={`font-SpaceGrotesk font-semibold text-[#EBAC32]`}
           style={{

@@ -4,14 +4,18 @@ import DDome from "./DDome.webm";
 import ScreenWithWire from "./ScreenWithWire.png";
 import Screen from "./Screen";
 
-import {betAmount, activeItem, underOver} from "../MainUpgraderContainer";
+import {
+  activeItem,
+  betValue,
+  underOver,
+} from "../../../views/upgrader/Upgrader";
 
 const Dome = () => {
   return (
     <div class="relative flex items-center justify-center">
       <img src={DomeBg} alt="dome background" class="h-" />
       <Spinner
-        betValue={betAmount}
+        betValue={betValue}
         activeItem={activeItem}
         over={underOver() === "Over"}
       />

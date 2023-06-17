@@ -138,7 +138,7 @@ const App = () => {
   return (
     <I18nProvider i18n={i18nState}>
       <div
-        class={`absolute top-0 left-0 w-full h-full overflow-hidden bg-dark-18`}
+        class={`absolute top-0 left-0 w-full h-full overflow-hidden bg-dark-18 hide-scrollbar`}
       >
         <Fallback loaded={loaded}>
           <div class="w-full transition-all duration-200 relative flex flex-col h-full">

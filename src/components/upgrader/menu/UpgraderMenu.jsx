@@ -4,7 +4,7 @@ import UpgradeBtn from "./UpgradeBtn";
 import FastSpinBtn from "./FastSpinBtn";
 import FairnessBtn from "./FairnessBtn";
 
-import {upgrade} from "../MainUpgraderContainer";
+import {bet} from "../../../views/upgrader/Upgrader";
 
 const UpgraderMenu = () => {
   return (
@@ -17,7 +17,7 @@ const UpgraderMenu = () => {
       <BetAmount />
       <div class="h-[1px] w-[120%] bg-[#14162d]" />
       <UnderOverToggle />
-      <UpgradeBtn onClick={upgrade} />
+      <UpgradeBtn onClick={bet} />
       <div class="flex-1" />
       <div class="flex w-full gap-3">
         <FastSpinBtn />
