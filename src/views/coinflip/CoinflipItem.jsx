@@ -71,11 +71,20 @@ const CoinflipItem = (props) => {
       class='border border-white/5 rounded-6 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 h-full py-3 md:py-0 md:h-[86px]'
       style={{
         background:
-          'radial-gradient(100% 991.18% at 100% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)'
+          `radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), 
+           radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)`
+           
       }}
     >
       <div class='flex items-center h-full'>
-        <div class='h-full flex items-center border-r border-white border-opacity-5 gap-5 px-6 md:coinflip-list--background__secondary'>
+        <div 
+          class='h-full flex items-center border-r-2 border-[#282b57] gap-5 px-6 md:coinflip-list--background__secondary'
+          style={{ 
+            background: 
+              `radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
+               linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
+               radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)`}}
+        >
           <div
             class={`relative border rounded-full w-12 h-12 p-[5px] ${
               props.game?.creator?.side === 1 ? 'border-yellow-ffb' : 'border-white'
@@ -157,7 +166,7 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-r border-white border-opacity-5 pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
+        <div class='hidden lg:flex h-full border-r-2 coinflip-row-items-bg border-[#252741] pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
           <div class='flex items-center gap-4'>
             <For each={skinList.length > 6 ? skinList.slice(0, 6) : skinList}>
               {(skin) => (
