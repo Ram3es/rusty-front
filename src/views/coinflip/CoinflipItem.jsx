@@ -74,8 +74,8 @@ const CoinflipItem = (props) => {
           'radial-gradient(100% 991.18% at 100% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)'
       }}
     >
-      <div class='flex items-center h-full md:coinflip-list--background__secondary'>
-        <div class='h-full flex items-center gap-5 px-6'>
+      <div class='flex items-center h-full'>
+        <div class='h-full flex items-center border-r border-white border-opacity-5 gap-5 px-6 md:coinflip-list--background__secondary'>
           <div
             class={`relative border rounded-full w-12 h-12 p-[5px] ${
               props.game?.creator?.side === 1 ? 'border-yellow-ffb' : 'border-white'
@@ -157,9 +157,9 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-l border-r border-white/5 pl-8 pr-2 w-[320px] llg:w-[380px] xll:w-[500px] overflow-hidden'>
+        <div class='hidden lg:flex h-full border-r border-white border-opacity-5 pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
           <div class='flex items-center gap-4'>
-            <For each={skinList.length > 5 ? skinList.slice(0, 5) : skinList}>
+            <For each={skinList.length > 6 ? skinList.slice(0, 6) : skinList}>
               {(skin) => (
                 <div class='w-[30px] llg:w-[40px] lg:xll:h-[60px] h-[30px] llg:h-[40px] xll:w-[60px] flex items-center justify-center relative'>
                   <svg
@@ -232,20 +232,20 @@ const CoinflipItem = (props) => {
                 </div>
               )}
             </For>
-            {skinList.length > 5 && (
+            {skinList.length > 6 && (
               <div
                 class='cursor-pointer flex items-center justify-center w-10 h-8 border border-white/5 rounded font-SpaceGrotesk font-bold text-14 text-gray-9a'
                 style={{
                   filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))'
                 }}
               >
-                +{skinList.length - 5}
+                +{skinList.length - 6}
               </div>
             )}
           </div>
         </div>
       </div>
-      <div class='flex flex-col md:flex-row items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
+      <div class='grid grid-cols-[1fr_1fr_2fr] items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
         <div class='w-[100px]'>
           {props.game?.isDoubleDown && (
             <div
@@ -326,11 +326,11 @@ const CoinflipItem = (props) => {
             </span>
           </div>
         </div>
-        <div class='flex items-center gap-2'>
-          {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
+        <div class='flex items-center gap-2 w-full justify-end'>
+        {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
             <NavLink
               as='div'
-              class={`w-[195px] h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
+              class={`px-4 fourk:w-[195px] h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
               href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
               style={{
                 background:
@@ -406,13 +406,11 @@ const CoinflipItem = (props) => {
             </div>
           )}
           {props.game?.status === 'open' && (
-            <>
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
-                class='w-[136px] h-10 flex items-center justify-center'
               >
                 <CaseGradientButton isFullWidth>
-                  <div class='flex justify-center items-center'>
+                  <div class='flex justify-center items-center px-4 w-[136px] h-10'>
                     <span
                       class='text-yellow-ffb font-SpaceGrotesk text-16 font-bold'
                       style={{
@@ -424,7 +422,6 @@ const CoinflipItem = (props) => {
                   </div>
                 </CaseGradientButton>
               </NavLink>
-            </>
           )}
           {userObject.user.id !== props.game?.creator?.id &&
             props.game?.status !== 'spinning' &&

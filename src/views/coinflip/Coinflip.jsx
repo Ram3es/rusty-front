@@ -169,7 +169,7 @@ const Coinflip = ({ loaded }) => {
               <span>Players</span>
               <span class='hidden lg:block'>Items</span>
             </div>
-            <div class='hidden md:flex items-center gap-52'>
+            <div class='hidden md:flex items-center gap-72'>
               <span>Amount</span>
               <span>Actions</span>
             </div>
