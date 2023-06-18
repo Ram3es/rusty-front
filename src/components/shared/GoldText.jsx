@@ -1,24 +1,30 @@
 const GoldText = (props) => {
   return (
     <div
-      class=" font-semibold "
-      style={`background: radial-gradient(70% 70% at 50% 80%, #FFB436 0%, #FFD58F 100%),
-linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.16) 41.3%, rgba(0, 0, 0, 0.16) 68.93%, rgba(255, 255, 255, 0.16) 100%);
-
--webkit-background-clip: text;
--moz-background-clip: text;
-background-clip: text;
-
--webkit-text-fill-color: transparent;
--moz-text-fill-color: transparent;
-color: transparent;
-font-size: ${props.size || "14.3719"}px;
-`}
+      class="font-semibold "
+      style={{
+        background: `radial-gradient(70% 70% at 50% 80%, #FFB436 0%, #FFD58F 100%)`,
+        "-webkit-background-clip": "text",
+        "-moz-background-clip": "text",
+        "background-clip": "text",
+        "-webkit-text-fill-color": "transparent",
+        "-moz-text-fill-color": "transparent",
+        color: "transparent",
+        "font-size": `${props.size || "14.3719"}px`,
+        "line-height": `${props.size || "14.3719"}px`,
+      }}
     >
-      {props.text.slice(0, -2)}
-      <span style={`font-size: ${(props.size / 1.2).toString()}px`}>
-        {props.text.slice(-2)}
-      </span>
+      {props.noSmallDecimal ? (
+        props.text
+      ) : (
+        <>
+          {" "}
+          {props.text.slice(0, -2)}
+          <span style={`font-size: ${(props.size / 1.2).toString()}px`}>
+            {props.text.slice(-2)}
+          </span>
+        </>
+      )}
     </div>
   );
 };

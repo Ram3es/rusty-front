@@ -2,9 +2,46 @@ import {onMount, createEffect, createSignal} from "solid-js";
 
 import Chart from "chart.js/auto";
 
-const Spinner = (props) => {
-  let chart = null;
+import {
+  spinning,
+  setSpinning,
+  fastSpinner,
+  setIsGameStarted,
+} from "../../../views/upgrader/Upgrader";
 
+let chart = null;
+
+
+
+export const spin = (ticket, time) => {
+  if (spinning()) return;
+
+  setSpinning(true);
+  const isSpinFast = fastSpinner();
+  setTimeout(
+    () => {
+      setTimeout(() => {
+        if (chart && chart.style) {
+          chart.style.transform = `rotate(${+360 * 4 + 360 * ticket}deg)`;
+          chart.style.transitionTimingFunction = `cubic-bezier(0.12, 0.8, 0.38, 1)`;
+          chart.style.transitionDuration = `${time / 1000}s`;
+
+          setTimeout(() => {
+            setSpinning(false);
+            chart.style.transform = `rotate(${0}deg)`;
+            chart.style.transitionTimingFunction = `cubic-bezier(0.12, 0.8, 0.38, 1)`;
+            chart.style.transitionDuration = `${isSpinFast ? 2 : 2}s`;
+
+            setIsGameStarted(false);
+          }, time + 200);
+        }
+      }, 10);
+    },
+    isSpinFast ? 10 : 10
+  );
+};
+
+const Spinner = (props) => {
   const [doughnut, setDoughnut] = createSignal(null);
 
   onMount(() => {
@@ -57,7 +94,8 @@ const Spinner = (props) => {
     <>
       <canvas
         ref={chart}
-        class="max-w-[81%] max-h-[81%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        class={`max-w-[81%] max-h-[81%] absolute 
+        `}
       />
     </>
   );
