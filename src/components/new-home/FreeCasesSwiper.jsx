@@ -1,4 +1,4 @@
-import { createSignal, onMount } from "solid-js";
+import { createEffect, createSignal, onMount } from "solid-js";
 import injector from "../../injector/injector";
 import { NavLink } from "solid-app-router";
 import CaseGradientButton from "../elements/CaseGradientButton";
@@ -10,7 +10,7 @@ const FreeCasesSwiper = () => {
   const {freeCases} = injector;
   const [activeCase, setActiveCase] = createSignal(0);
 
-  return (
+  return freeCases().length ? (
     <>
     <div class='h-full flex flex-col items-center justify-between p-3 '>
                         <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
@@ -48,7 +48,7 @@ const FreeCasesSwiper = () => {
                                 <ArrowSliderStyle />   
                         </RoundedBtn>
     </>
-  )
+  ) : ""
 }
 
 export default FreeCasesSwiper
