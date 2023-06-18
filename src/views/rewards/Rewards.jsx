@@ -2,6 +2,11 @@ import { onMount, createSignal, For, createEffect } from "solid-js";
 import Coin from "../../utilities/Coin";
 
 import RewardsBanerCases from "../../assets/img/rewards/RewardsBanerCases.png";
+import bannerCenterImage from "../../assets/img/rewards/bannerCenterImage.png";
+import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png"
+import coin1 from "../../assets/img/rewards/coin1.png";
+import coin2 from "../../assets/img/rewards/coin2.png";
+import coin3 from "../../assets/img/rewards/coin3.png";
 import Bg from "../../assets/img/rewards/rewardsBg.png";
 import DiscordBanerBg from "../../assets/img/rewards/DiscordBanerBg.jpg";
 import MainBanerBg from "../../assets/img/rewards/MainBanerBg.jpg";
@@ -10,6 +15,7 @@ import GrayButtonBg from "../../assets/img/animatedGrayButtonBg.jpg";
 import { URL } from "../../libraries/url";
 import { NavLink } from "solid-app-router";
 import injector from "../../injector/injector";
+import ribbed from '../../components/new-home/img/ribbed.png';
 
 import PageLoadState from "../../libraries/PageLoadState";
 import Fallback from "../Fallback";
@@ -64,107 +70,52 @@ const Rewards = ({ loaded }) => {
     <>
     <Fallback loaded={rewardsPageLoaded}>
       <img alt="background" src={Bg} class="absolute left-0 top-0 min-w-full md:min-h-full" />
-      <div class="w-full h-full flex flex-col gap-10 overflow-y-scroll relative ">
+      <div class="center flex-col gap-1">
+        <p class="text-14 text-gray-8c font-normal sentence whitespace-nowrap">
+          Resets in
+        </p>
+        <p class="text-16 text-gray-8c font-bold font-Oswald sentence">
+          {timeLeft()}
+        </p>
+      </div> 
+      <div class="w-full h-full flex flex-col gap-10 overflow-visible relative ">
         <div
-          class="flex flex-col md:flex-row justify-center items-center py-5 mt-4 bg-no-repeat bg-cover lg:bg-full"
-          style={{
-            "background-image": `url(${MainBanerBg})`,
-          }}
+          class="flex flex-col md:flex-row justify-center items-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8"
         >
-          <div class="flex flex-col w-11/12 md:w-5/12">
+          <div
+            class="flex flex-col grow px-16 relative"
+            style={{'background-image': `url('${footerLogoBgVector}')`}}
+          >
             <div class="mb-4 flex flex-row items-end">
-              <h1 class="text-yellow-ff uppercase text-32 font-Oswald font-bold">
-                DAILY CASES
+              <h1 class="rewards-title text-72 font-SpaceGrotesk font-bold leading-none">
+                Rewards
               </h1>
-              <span class="ml-3 mb-3 cursor-pointer relative group text-white hover:text-yellow-ff">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7 0C5.61553 0 4.26215 0.410543 3.11101 1.17971C1.95987 1.94888 1.06266 3.04213 0.532846 4.32122C0.00303304 5.6003 -0.13559 7.00776 0.134506 8.36563C0.404603 9.7235 1.07129 10.9708 2.05026 11.9497C3.02922 12.9287 4.2765 13.5954 5.63437 13.8655C6.99224 14.1356 8.3997 13.997 9.67878 13.4672C10.9579 12.9373 12.0511 12.0401 12.8203 10.889C13.5895 9.73785 14 8.38447 14 7C13.9978 5.14416 13.2596 3.36495 11.9473 2.05267C10.635 0.74039 8.85584 0.00218939 7 0Z"
-                    class="fill-current"
-                  />
-                  <path
-                    d="M9.69137 5.54553C9.69209 5.94223 9.60323 6.33398 9.43144 6.69155C9.25964 7.04912 9.00933 7.36328 8.69918 7.61062L8.69809 7.61149L8.69808 7.61149C8.2357 7.9698 7.92303 8.48721 7.82084 9.06318L7.80619 9.14571H7.72237H6.42928H6.31716L6.32994 9.03432C6.38772 8.53044 6.54582 8.04323 6.7949 7.60143C7.04384 7.15986 7.37862 6.77259 7.77953 6.4624C7.92368 6.34687 8.0385 6.19891 8.11463 6.03058C8.19087 5.862 8.22615 5.67777 8.21757 5.49295C8.20899 5.30813 8.15681 5.12796 8.06528 4.96717C7.97378 4.80642 7.84555 4.6696 7.69108 4.56788C7.51846 4.45509 7.31986 4.38831 7.11416 4.37391C6.90854 4.35952 6.70265 4.39794 6.51605 4.48552C6.31808 4.58049 6.15194 4.73091 6.03781 4.9185C5.92361 5.1062 5.86641 5.32304 5.87315 5.54265L5.87324 5.54571H5.87319C5.87319 5.74101 5.79561 5.92831 5.65752 6.0664C5.51942 6.2045 5.33213 6.28208 5.13683 6.28208C4.94153 6.28208 4.75424 6.2045 4.61614 6.0664C4.47828 5.92854 4.40072 5.74163 4.40047 5.54668C4.39082 5.03827 4.53118 4.53827 4.80404 4.10916C5.07706 3.67979 5.47062 3.34044 5.93548 3.13356C6.34696 2.94969 6.79811 2.87238 7.24733 2.90876C7.69658 2.94515 8.12944 3.09408 8.50597 3.34181L8.50621 3.34197C8.87026 3.58296 9.169 3.91031 9.37579 4.29482C9.58257 4.6793 9.69099 5.10898 9.69137 5.54553ZM9.69137 5.54553C9.69137 5.54557 9.69137 5.5456 9.69137 5.54563L9.59137 5.54571L9.69137 5.54553ZM7.78228 10.0003V9.90026H7.68228H6.40956H6.30956V10.0003V11.273V11.373H6.40956H7.68228H7.78228V11.273V10.0003ZM8.63683 7.53244C8.15483 7.90595 7.8289 8.44531 7.72237 9.04571L8.63683 7.53244Z"
-                    fill="#161B2A"
-                    stroke="#161B2A"
-                    stroke-width="0.2"
-                  />
-                </svg>
-                <svg class="group-hover:block hidden absolute left-1/2 top-full transform -translate-x-1/2 rotate-180" width="23" height="16" viewBox="0 0 23 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2.95305 0.5H20.0469C21.2765 0.5 21.9838 1.89801 21.2554 2.88859L12.7085 14.5124C12.1091 15.3277 10.8909 15.3277 10.2915 14.5124L1.74458 2.88859C1.01622 1.89802 1.72352 0.5 2.95305 0.5Z" fill="#171B27" stroke="#272A3B"/>
-                </svg>
-                <span class="group-hover:flex hidden top-full left-1/2 absolute z-20 transform -translate-x-1/2 translate-y-2 py-3 px-5 bg-dark-17 border border-gray-30 text-gray-8c text-14 shadow-md rounded-2 flex-col w-80">
-                    <p class="text-16 text-white">Rewards</p>
-                    <p class="text-14">
-                    Deposit within the timer to unlock the case rewards. When the
-                    timer resets your cases will be available again! (Your
-                    deposits also reset)
-                    </p>
-                </span>
-              </span>
             </div>
-            <p class="text-white text-18">
-              The daily free case is available for everyone. Deposit throughout
-              the day to open up each deposit-based case.{" "}
-              <i>
-                You can open <b>multiple</b> deposit-based cases daily as long
-                as you're eligible for them.
-              </i>
+            <p class="text-gray-9a text-16 font-SpaceGrotesk">
+              Rank up to be unlock <span class="text-yellow-ffb">higher level cases</span> that can be opened daily!<br />
+              The <span class="text-yellow-ffb">free case</span> is available to everyone.
             </p>
           </div>
-          <img
-            class="w-11/12 md:w-5/12"
-            src={RewardsBanerCases}
-            alt="RewardsBanerCases"
-          />
+          <div
+            class="relative w-[495px] bg-black/30 rounded-8" 
+          >
+            <img src={bannerCenterImage} class='absolute h-[110%] -translate-x-1/2 left-0 bottom-0' />
+            <img src={coin1} class=' absolute right-6 -top-10' />
+            <img src={coin2} class=' absolute -right-10 top-6' />
+            <img src={coin3} class=' absolute left-20 -bottom-10' />
+            
+            <div class="w-full h-full overflow-hidden relative">
+              <img src={ribbed} class=' absolute inset-0 min-h-full min-w-full' />
+              <img
+                class="w-full"
+                src={RewardsBanerCases}
+                alt="RewardsBanerCases"
+              />
+            </div>
+          </div>
+          
         </div>
         <div class="center flex-col w-full gap-2 relative">
-          <div class="w-full center gap-5 sm:gap-10">
-            <div
-              class="flex-1 h-0.5"
-              style={{
-                background:
-                  "linear-gradient(270deg, #434B71 0%, rgba(39, 47, 72, 0) 98.2%)",
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
-            <p class="text-white text-24 sm:text-40 font-semibold font-Oswald uppercase tracking-wide">
-              OPEN CASES
-            </p>
-            <div
-              class="flex-1 h-0.5"
-              style={{
-                background:
-                  "linear-gradient(90deg, #434B71 0%, rgba(39, 47, 72, 0) 98.2%)",
-                filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))",
-              }}
-            />
-          </div>
-          <div class="flex gap-28 mb-5">
-            {/* <div class="center flex-col gap-1">
-              <p class="text-14 text-gray-8c font-normal sentence whitespace-nowrap">
-                Resets in
-              </p>
-              <p class="text-16 text-gray-8c font-bold font-Oswald sentence">
-                {timeLeft()}
-              </p>
-            </div> */}
-            <div class="center flex-col gap-1">
-              <p class="text-14 text-gray-8c font-normal sentence whitespace-nowrap">
-                Deposited Into Shop Today
-              </p>
-              <div class="flex gap-2">
-                <Coin />
-                <p class="text-16 text-gray-8c font-bold font-Oswald sentence">
-                  {userDailyDeposit()}
-                </p>
-              </div>
-            </div>
-          </div>
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mx-auto mb-9 relative">
             <For
               each={items()}
