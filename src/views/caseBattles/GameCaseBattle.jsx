@@ -20,6 +20,8 @@ import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBor
 import ArrowDownWithGradient from "../../components/icons/ArrowDownWithGradient"
 import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png"
 import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle.png"
+import { tippy, useTippy } from 'solid-tippy';
+import CaseToolTip from "../../components/battle/CaseToolTip"
 
 import RecentDropsItem from "../case/RecentDropsItem"
 import ItemCardSmall from "../../components/battle/ItemCardSmall"
@@ -33,6 +35,8 @@ import WinningsDisplay from "../../components/battle/WinningsDisplay"
 import LosingDisplay from "../../components/battle/LosingDisplay"
 import { getCurrencyString } from "../../components/mines_new/utils/tools"
 import StackedCasesBar from "../../components/battle/StackedCasesBar"
+import CaseViewModal from '../../components/modals/CaseViewModal'
+
 
 export const [containerRef, setContainerRef] = createSignal()
 export const [reelsSpinning, setReelsSpinning] = createSignal(false)
@@ -71,6 +75,13 @@ const GameCaseBattle = (props) => {
   const [containsBigWin, setContainsBigWin] = createSignal(false)
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false)
   const [battleCases, setBattleCases] = createSignal([])
+  const [caseViewModal, setCaseViewModal] = createSignal(false)
+  const [caseViewModalItem, setCaseViewModalItem] = createSignal(null)
+
+  const toggleCaseViewModal = () => {
+    setCaseViewModal(!caseViewModal())
+  }
+
   let counter = 0
   let intervalId
 
@@ -588,12 +599,29 @@ const GameCaseBattle = (props) => {
                                             ?.replace("{url}", window.origin)
                                             .replace(".png", "_thumbnail.png") || ""
                                         }
+                                        onContextMenu={(e) => {
+                                                      e.preventDefault();
+                                                      setCaseViewModalItem(caseItem)
+                                                      toggleCaseViewModal()
+                                                    }}
+                                        use:tippy={{
+                                            props: {
+                                              content: (
+                                                <CaseToolTip price={caseItem.price}
+                                                  name={caseItem.name}
+                                                />
+                                              ),
+                                              allowHTML: true,
+                                              duration: 0,
+                                            },
+                                            hidden: true,
+                                              }}
                                       />
                                     </div>
                                   )}
                                 </For>
                               ) : (
-                                <StackedCasesBar cases={battleCases()} />
+                                <StackedCasesBar cases={battleCases()} setCaseViewModalItem={setCaseViewModalItem} toggleCaseViewModal={toggleCaseViewModal}/>
                               )}
                             </div>
                           </div>
@@ -977,7 +1005,11 @@ const GameCaseBattle = (props) => {
           </div>
         </div>
       )}
+      <Show when={caseViewModal()}>
+        <CaseViewModal item={caseViewModalItem()} handleClose={toggleCaseViewModal} />
+      </Show>
     </div>
+    
   )
 }
 

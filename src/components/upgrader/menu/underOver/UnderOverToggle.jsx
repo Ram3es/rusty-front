@@ -1,6 +1,6 @@
 import UnderOverBtn from "./UnderOverBtn";
 
-import {underOver, setUnderOver} from "../../MainUpgraderContainer";
+import {underOver, setUnderOver} from "../../../../views/upgrader/Upgrader";
 
 const UnderOverToggle = () => {
   const toggleUnderOver = (type) => {
