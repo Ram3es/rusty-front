@@ -24,7 +24,7 @@ const SelectedItem = () => {
           <div class="text-14">Multiplier</div>
           <GoldText
             text={`x${
-              betValue() !== 0
+              betValue() !== 0 && betValue()
                 ? ((activeItem()?.price || 0) / (betValue() || 1)).toFixed(2)
                 : 0
             }`}

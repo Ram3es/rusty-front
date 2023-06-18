@@ -4105,3 +4105,25 @@ input[type="range"].borrow-slider::-webkit-slider-thumb {
   mask-composite: exclude;
   pointer-events: none;
 }
+
+
+input.gold-input {
+  background-color: transparent;
+  color:transparent;
+  caret-color: #FFB436;  
+}
+
+input.gold-input::placeholder {
+  background:  radial-gradient(70% 70% at 50% 80%, #FFB436 0%, #FFD58F 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+input.gold-input:not(:placeholder-shown) {
+  background: 
+  radial-gradient(70% 70% at 50% 80%, #FFB436 0%, #FFD58F 100%), transparent;
+  -webkit-background-clip: text, padding-box;
+          background-clip: text, padding-box;
+  -webkit-text-fill-color: transparent;
+}

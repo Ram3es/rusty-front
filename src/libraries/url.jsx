@@ -1,7 +1,7 @@
 export const TESTMODE = true;
-// const PATH = TESTMODE ? "https://b246-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
+// const PATH = TESTMODE ? "https://2b50-2001-8003-442e-4800-5071-8c47-3755-269e.ngrok-free.app" : "https://rustyloot.gg";
 // const PATH = TESTMODE ? "http://localhost:1337" : "https://rustyloot.gg";
-const PATH = TESTMODE ? "http://161.35.166.37" : "https://rustyloot.gg";
+const PATH = TESTMODE ? "http://157.245.38.175" : "https://rustyloot.gg";
 
 export const API = `${PATH}`;
 

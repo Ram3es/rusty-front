@@ -35,7 +35,7 @@ const BetButtons = () => {
     }
   };
   return (
-    <div class="flex items-center justify-between w-full mt-2 gap-2">
+    <div class={`flex items-center justify-between w-full mt-2 gap-2 ${!activeItem() && "pointer-events-none"}`}>
       <AdjustBtn text={"5%"} onClick={() => adjustBet(5)} />
       <AdjustBtn text={"10%"} onClick={() => adjustBet(10)} />
       <AdjustBtn text={"25%"} onClick={() => adjustBet(25)} />

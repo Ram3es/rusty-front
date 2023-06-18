@@ -10,13 +10,15 @@ export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 
 const MainUpgraderContainer = () => {
   return (
-    <div class="flex flex-col w-full relative gap-10">
-      <div class="relative w-full h-[640px] flex rounded-lg">
+    <div class="flex flex-col w-full relative gap-10 items-center">
+      <div class="relative w-full h-[640px] flex rounded-lg justify-center">
         <UpgraderMenu />
         <DomeContainer />
         <CurrentItemContainer />
       </div>
-      <ItemsListContainer />
+      <div class="max-w-[1370px] w-full">
+        <ItemsListContainer />
+      </div>
     </div>
   );
 };

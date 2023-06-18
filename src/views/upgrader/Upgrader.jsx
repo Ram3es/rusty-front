@@ -18,7 +18,7 @@ export const [currentGameId, setCurrentGameId] = createSignal("");
 export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
 export const [items, setItems] = createSignal([]);
 export const [activeItem, setActiveItem] = createSignal();
-export const [betValue, setBetValue] = createSignal(0);
+export const [betValue, setBetValue] = createSignal();
 export const [underOver, setUnderOver] = createSignal("Over");
 export const [fastSpinner, setFastSpinner] = createSignal(false);
 export const [spinning, setSpinning] = createSignal(false);
@@ -27,6 +27,7 @@ export const [isGameStarted, setIsGameStarted] = createSignal(false);
 export const {socket, toastr, userObject} = injector;
 
 export const bet = () => {
+  // spin(0.5, 4000);
   if (betValue() >= -1) {
     setIsGameStarted(true);
     socket.emit(
@@ -35,12 +36,7 @@ export const bet = () => {
         bet: betValue(),
         item: activeItem(),
         type: underOver().toLowerCase(),
-        fastSpinner:
-          window.innerWidth < 551
-            ? true
-            : window.innerWidth > 1299 && window.innerWidth < 1537
-            ? true
-            : fastSpinner(),
+        fastSpinner: fastSpinner(),
       },
       (data) => {
         if (data.msg) {
@@ -64,7 +60,7 @@ export const bet = () => {
   }
 };
 
-const Upgrader = ({loaded}) => {
+const Upgrader = (props) => {
   let upgraderAnimation;
 
   const [globalHistory, setGlobalHistory] = createSignal([]);
@@ -167,7 +163,7 @@ const Upgrader = ({loaded}) => {
   };
 
   createEffect(() => {
-    if (loaded()) {
+    if (props.loaded()) {
       socket.emit("upgrader:connect", {}, (data) => {
         setGlobalHistory(
           data.globalHistory.filter((val) => val.winnings > 0).slice(0, 4)
@@ -195,14 +191,14 @@ const Upgrader = ({loaded}) => {
       }
     });
 
-    setInterval(() => {
-      if (upgraderAnimation) {
-        upgraderAnimation.classList.add("animate");
-        setTimeout(() => {
-          upgraderAnimation.classList.remove("animate");
-        }, 4900);
-      }
-    }, 15000);
+    // setInterval(() => {
+    //   if (upgraderAnimation) {
+    //     upgraderAnimation.classList.add("animate");
+    //     setTimeout(() => {
+    //       upgraderAnimation.classList.remove("animate");
+    //     }, 4900);
+    //   }
+    // }, 15000);
   });
 
   onCleanup(() => {
@@ -248,7 +244,7 @@ const Upgrader = ({loaded}) => {
 
   return (
     <Fallback loaded={upgraderPageLoaded}>
-      <div class="py-12 px-6 h-full">
+      <div class="py-12 px-6 h-full flex w-full justify-center item-center">
         <MainUpgraderContainer />
       </div>
     </Fallback>

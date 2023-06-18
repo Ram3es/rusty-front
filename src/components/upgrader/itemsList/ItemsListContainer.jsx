@@ -43,7 +43,7 @@ const ItemsListContainer = () => {
   });
 
   return (
-    <div class="flex-col flex gap-4">
+    <div class="flex-col flex gap-4 max-w-[1370px] w-full">
       <SearchBar />
       <ItemsContainer items={sortedItems()} />
     </div>
