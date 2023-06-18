@@ -4118,6 +4118,7 @@ input.gold-input::placeholder {
   -webkit-background-clip: text;
           background-clip: text;
   -webkit-text-fill-color: transparent;
+  opacity: 50%;
 }
 
 input.gold-input:not(:placeholder-shown) {
