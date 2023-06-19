@@ -4,6 +4,8 @@ import {
   setLastWinIndex,
 } from "../../PlinkoContainer";
 
+import { playOptionClickSound } from "../../../../utilities/Sounds/SoundButtonClick";
+
 import { updateMultipliers } from "../../PlayArea/Plinko/PlinkoBins";
 
 const RowsAmountBtn = (props) => {
@@ -19,6 +21,7 @@ const RowsAmountBtn = (props) => {
         setLastWinIndex(0);
         setRowsAmount(props.value);
         updateMultipliers();
+        playOptionClickSound();
       }}
     >
       {props.value}
