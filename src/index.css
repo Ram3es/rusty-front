@@ -543,6 +543,24 @@ body::after {
 
   .toastr-animation {
     animation: toastr 0.2s;
+
+    &.sucsess {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0px;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #27F278 0%, rgba(39, 242, 120, 0) 49.93%) border-box;
+      -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: destination-out;
+      mask-composite: exclude;
+    }
+
+
   }
 
   @-webkit-keyframes toastr {
@@ -4259,5 +4277,39 @@ input.gold-input:not(:placeholder-shown) {
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
+}
+
+.toast-countdown {
+  position: relative;
+  height: 36px;
+  width: 36px;
+  text-align: center;
+}
+
+.toast-countdown-svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+.toast-countdown-svg circle {
+  stroke-dasharray: 113px;
+  stroke-dashoffset: 0px;
+  stroke-linecap: round;
+  stroke-width: 2px;
+  fill: none;
+  animation: countdown 3s linear infinite forwards;
+}
+
+@keyframes countdown {
+  from {
+    stroke-dashoffset: 0px;
+  }
+  to {
+    stroke-dashoffset: 113px;
+  }
 }
 
