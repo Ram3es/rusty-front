@@ -145,7 +145,7 @@ const Upgrader = (props) => {
               },
               {threshold: [0]}
             );
-            observer.observe(pageWrapper.childNodes.item(items().length - 9));
+            // observer.observe(pageWrapper.childNodes.item(items().length - 9));
           } else if (iv[0]?.id !== items()[0]?.id) {
             setItems(iv);
           } else {
@@ -154,9 +154,9 @@ const Upgrader = (props) => {
             }
           }
 
-          if (!isItemsLoaded()) {
-            checkImageLoaded();
-          }
+          // if (!isItemsLoaded()) {
+          //   checkImageLoaded();
+          // }
         }
       }
     );
@@ -187,7 +187,7 @@ const Upgrader = (props) => {
 
     socket.on("upgrader:spin", (data) => {
       if (!data.error) {
-        spin(data.data.ticket, 4000);
+        spin(data.data.ticket, 5500);
       }
     });
 

@@ -73,7 +73,7 @@ const PotentialDropItem = (props) => {
     }
   };
 
-  const styles = createMemo(() => getCurrentStylesByPrice(props.skin.price));
+  const styles = createMemo(() => getCurrentStylesByPrice(props.skin?.price));
   // if visible render exisiting div else show blank div
 
   return (
@@ -114,7 +114,7 @@ const PotentialDropItem = (props) => {
                     "text-shadow": `0px 0px 6px ${styles().textShadow}`,
                   }}
                 >
-                  {props.skin.winChance.toFixed(2)}%
+                  {props.skin?.winChance.toFixed(2)}%
                 </span>
               </div>
             )}
@@ -196,7 +196,7 @@ const PotentialDropItem = (props) => {
                   </svg>
                   <img
                     alt="item-image"
-                    src={props.skin.image}
+                    src={props.skin?.image}
                     class={`relative z-10`}
                     loading="lazy"
                     style={{
@@ -213,25 +213,25 @@ const PotentialDropItem = (props) => {
                 }`}
               >
                 <p class="text-13 text-gray-a2 group-hover:text-white font-bold truncate max-w-full">
-                  {props.skin.name}
+                  {props.skin?.name}
                 </p>
                 <div class="flex gap-1.5">
                   <Coin width="5" />
                   <span class="font-bold text-sm potential-drop--price">
-                    {Number(props.skin.price).toLocaleString()}
+                    {Number(props.skin?.price).toLocaleString()}
                   </span>
                 </div>
               </div>
             </div>
           </div>
-          {props.skin.chance && (
+          {props.skin?.chance && (
             <div
               class="absolute top-3 left-3 font-semibold z-50 text-11"
               style={{
                 color: `${styles().chanceColor}`,
               }}
             >
-              {props.skin.chance}%
+              {props.skin?.chance}%
             </div>
           )}
         </div>
