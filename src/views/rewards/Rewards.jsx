@@ -22,7 +22,7 @@ import Fallback from "../Fallback";
 let tomorrow;
 
 const Rewards = ({ loaded }) => {
-  const { socket, toastr } = injector;
+  const { socket, toastr, freeCases } = injector;
 
   const [timeLeft, setTimeLeft] = createSignal("00:00:00:00");
   const [items, setItems] = createSignal([]);
@@ -53,14 +53,15 @@ const Rewards = ({ loaded }) => {
   createEffect(() => {
     if(loaded()) {
       countdown();
-      socket.emit("rewards:cases", {}, (data) => {
-        setItems(data.cases);
-        setUserDailyDeposit(data.userDailyDeposit || 0);
-        tomorrow = new Date(Number(data.counterEnding));
-        setDiscordUserId(data.userDiscordId);
+      onRewardsPageLoaded(true)
+      // socket.emit("rewards:cases", {}, (data) => {
+      //   setItems(data.cases);
+      //   setUserDailyDeposit(data.userDailyDeposit || 0);
+      //   tomorrow = new Date(Number(data.counterEnding));
+      //   setDiscordUserId(data.userDiscordId);
 
-        onRewardsPageLoaded(true)
-      });
+      //   onRewardsPageLoaded(true)
+      // });
     }
   });
 
@@ -118,7 +119,7 @@ const Rewards = ({ loaded }) => {
         <div class="center flex-col w-full gap-2 relative">
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mx-auto mb-9 relative">
             <For
-              each={items()}
+              each={freeCases()}
               fallback={
                 <div class="absolute w-full center left-0 top-0">
                   <p class="text-yellow-ff text-20 font-semibold font-Oswald uppercase">
@@ -143,7 +144,7 @@ const Rewards = ({ loaded }) => {
                   </div>
                   <img
                     class="h-24 no-select relative z-10"
-                    src={item.image}
+                    src={item.image.replace("{url}", window.origin)}
                     alt={item.name}
                   />
                   {item.isCaseOpenedToday ? (
@@ -215,9 +216,9 @@ const Rewards = ({ loaded }) => {
                       </svg>
                       Deposit
                       <Coin />
-                      <span class="font-Oswald">
+                      {/* <span class="font-Oswald">
                         {item.mindeposit.toLocaleString()}
-                      </span>
+                      </span> */}
                     </div>
                   )}
                 </NavLink>
