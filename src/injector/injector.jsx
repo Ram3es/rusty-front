@@ -18,7 +18,9 @@ const SNOWMODE = false;
 onMount(() => {
   socket.emit("rewards:cases", {}, (data) => {
     console.log("rewards:cases",data);
-    setFreeCases(data.cases);
+    if (!data.error) {
+      setFreeCases(data.data.cases);
+    }
     });  
 })
 
