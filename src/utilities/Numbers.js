@@ -5,7 +5,7 @@ export const getProportionalPartByAmount = (num, percent) => {
 export const formatNumber = (num) => num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 
 export const convertRomanToNormal = (input) => {
-  if (!input) input = 'default'
+  if (!input) input = 'daily free case'
 
   const romanMapping = {
     I: '1',

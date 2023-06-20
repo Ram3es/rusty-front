@@ -1,4 +1,4 @@
-import { createMemo, createSignal, onCleanup, onMount } from 'solid-js'
+import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -16,7 +16,7 @@ import {
 } from '../../utilities/rewards-tools'
 
 const STYLES_CONFIG = {
-  'free daily case': {
+  'daily free case': {
     borderColor: 'border-gray-9a/25',
     textColor: 'text-gray-9a'
   },
@@ -84,6 +84,12 @@ const RewardCaseItem = (props) => {
     getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
   )
 
+  createEffect(() => {
+    // console.log(notAvailableCases().slice(1), 'notavalibale slice')
+    // console.log(notAvailableCases()[0], 'notAvailableCases()[0]')
+    console.log(props?.user?.authenticated, 'props?.user?.user?.authenticated')
+  })
+
   return (
     <NavLink
       href={`${URL.CASE}?id=${props?.item?.id}`}
@@ -92,7 +98,7 @@ const RewardCaseItem = (props) => {
       <div
         class={`w-full h-[237px] relative group case-card-background border-t border-x border-white border-opacity-10  flex flex-col rounded-t-6 overflow-hidden ${
           notAvailableCases().includes(convertRomanToNormal(props?.item?.name)) ||
-          (!props?.isJoinedToDiscord && props?.item?.name === 'Free Daily Case')
+          (!props?.isJoinedToDiscord && props?.item?.name === 'Daily Free Case')
             ? 'mix-blend-luminosity'
             : 'mix-blend-normal'
         }`}
@@ -111,30 +117,30 @@ const RewardCaseItem = (props) => {
             alt={props.item.name}
           />
           {notAvailableCases().includes(convertRomanToNormal(props?.item?.name)) ||
-          (!props?.isJoinedToDiscord && props?.item?.name === 'Free Daily Case') ? (
-            <div class='w-9 h-9 flex items-center justify-center absolute top-20 gradient-background-green rounded-4 shadow-button'>
-              <svg
-                width='18'
-                height='18'
-                viewBox='0 0 18 18'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M3.40698 7.51985C4.08708 7.36784 4.90439 7.21417 5.82271 7.09668V5.59294C5.82271 3.841 7.24801 2.41569 8.99995 2.41569C10.7519 2.41569 12.1772 3.841 12.1772 5.59294V7.09668C13.0955 7.21417 13.9128 7.36784 14.5929 7.51985V5.59294C14.5929 2.509 12.0839 0 8.99995 0C5.91598 0 3.40698 2.509 3.40698 5.59297V7.51985Z'
-                  fill='#3EFF8B'
-                />
-                <path
-                  d='M9.00017 11.2264C8.63701 11.2264 8.34155 11.5219 8.34155 11.8851C8.34155 12.2483 8.63701 12.5437 9.00017 12.5437C9.36333 12.5437 9.65879 12.2483 9.65879 11.8851C9.65882 11.5219 9.36333 11.2264 9.00017 11.2264Z'
-                  fill='#3EFF8B'
-                />
-                <path
-                  d='M9.00006 7.94482C5.68546 7.94482 2.92429 8.69611 1.97827 8.98749V16.9571C2.92573 17.2483 5.69288 18 9.00006 18C12.3147 18 15.0758 17.2487 16.0218 16.9574V8.98777C15.0744 8.69661 12.3073 7.94482 9.00006 7.94482ZM9.52741 13.5151V15.2457H8.47272V13.5151C7.78531 13.2921 7.28676 12.6459 7.28676 11.8851C7.28676 10.9404 8.05535 10.1718 9.00006 10.1718C9.94478 10.1718 10.7134 10.9404 10.7134 11.8851C10.7134 12.6459 10.2149 13.2921 9.52741 13.5151Z'
-                  fill='#3EFF8B'
-                />
-              </svg>
-            </div>
-          ) : null}
+            (!props?.isJoinedToDiscord && props?.item?.name === 'Daily Free Case' && (
+              <div class='w-9 h-9 flex items-center justify-center absolute top-20 gradient-background-green rounded-4 shadow-button'>
+                <svg
+                  width='18'
+                  height='18'
+                  viewBox='0 0 18 18'
+                  fill='none'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    d='M3.40698 7.51985C4.08708 7.36784 4.90439 7.21417 5.82271 7.09668V5.59294C5.82271 3.841 7.24801 2.41569 8.99995 2.41569C10.7519 2.41569 12.1772 3.841 12.1772 5.59294V7.09668C13.0955 7.21417 13.9128 7.36784 14.5929 7.51985V5.59294C14.5929 2.509 12.0839 0 8.99995 0C5.91598 0 3.40698 2.509 3.40698 5.59297V7.51985Z'
+                    fill='#3EFF8B'
+                  />
+                  <path
+                    d='M9.00017 11.2264C8.63701 11.2264 8.34155 11.5219 8.34155 11.8851C8.34155 12.2483 8.63701 12.5437 9.00017 12.5437C9.36333 12.5437 9.65879 12.2483 9.65879 11.8851C9.65882 11.5219 9.36333 11.2264 9.00017 11.2264Z'
+                    fill='#3EFF8B'
+                  />
+                  <path
+                    d='M9.00006 7.94482C5.68546 7.94482 2.92429 8.69611 1.97827 8.98749V16.9571C2.92573 17.2483 5.69288 18 9.00006 18C12.3147 18 15.0758 17.2487 16.0218 16.9574V8.98777C15.0744 8.69661 12.3073 7.94482 9.00006 7.94482ZM9.52741 13.5151V15.2457H8.47272V13.5151C7.78531 13.2921 7.28676 12.6459 7.28676 11.8851C7.28676 10.9404 8.05535 10.1718 9.00006 10.1718C9.94478 10.1718 10.7134 10.9404 10.7134 11.8851C10.7134 12.6459 10.2149 13.2921 9.52741 13.5151Z'
+                    fill='#3EFF8B'
+                  />
+                </svg>
+              </div>
+            ))}
           <div class='w-auto h-[127px]' />
           <div
             class={`${
@@ -158,7 +164,7 @@ const RewardCaseItem = (props) => {
             : 'mix-blend-normal'
         }`}
       >
-        {props?.item?.name === 'Free Daily Case' && !props.openTime && (
+        {props?.item?.name === 'Daily Free Case' && !props.openTime && (
           <svg
             width='20'
             height='14'
@@ -209,31 +215,30 @@ const RewardCaseItem = (props) => {
         )}
         <span class={`reward-card--available capitalize font-bold font-SpaceGrotesk text-16`}>
           {(availableCases().includes(convertRomanToNormal(props?.item?.name)) ||
-            props?.item?.name === 'Free Daily Case') &&
-          !props.openTime
-            ? 'open for free'
-            : null}
-          {(notAvailableCases().slice(1).includes(convertRomanToNormal(props?.item?.name)) ||
-            !props.authenticated) &&
-            'locked'}
+            props?.item?.name === 'Daily Free Case') &&
+            !props.openTime &&
+            'open for free'}
+          {(props?.user?.authenticated
+            ? notAvailableCases().slice(1).includes(convertRomanToNormal(props?.item?.name))
+            : notAvailableCases().includes(convertRomanToNormal(props?.item?.name))) && 'locked'}
         </span>
-        {(props?.item?.name === 'Free Daily Case' && props.openTime) ||
-        (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name))) ? (
-          <span class='text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
-            Open in {remainingTime()}
-          </span>
-        ) : null}
+        {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
+          (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name)) && (
+            <span class='text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
+              Open in {remainingTime()}
+            </span>
+          ))}
       </div>
-      {notAvailableCases()[0] ===
-        convertRomanToNormal(props?.item?.name && props.authenticated) && (
-        <span class='absolute bottom-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
-          {(
-            (props.user?.user?.wagered - props.user?.user?.level?.from * 1000) /
-              (props.user?.user?.level?.to * 10) || 99
-          ).toFixed(2)}
-          % till unlock
-        </span>
-      )}
+      {props?.user?.authenticated &&
+        notAvailableCases()[0] === convertRomanToNormal(props?.item?.name) && (
+          <span class='absolute bottom-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
+            {(
+              (props.user?.user?.wagered - props.user?.user?.level?.from * 1000) /
+                (props.user?.user?.level?.to * 10) || 99
+            ).toFixed(2)}
+            % till unlock
+          </span>
+        )}
     </NavLink>
   )
 }

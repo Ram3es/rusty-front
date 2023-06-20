@@ -1,7 +1,7 @@
 import { convertRomanToNormal } from "./Numbers"
 
 export const getConfigByCaseName = (caseName, config) => {
-  if (typeof caseName !== 'string') caseName = 'free daily case'
+  if (typeof caseName !== 'string') caseName = 'daily free case'
 
   for (const settings in config) {
     if (settings.toLowerCase().includes(caseName.toLowerCase().split(' ')[0])) {

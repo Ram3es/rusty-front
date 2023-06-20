@@ -127,7 +127,7 @@ const Rewards = ({ loaded }) => {
                     isJoinedToDiscord={discordUserId()}
                     user={userObject}
                     openTime={
-                      item.name === 'Free Daily Case'
+                      item.name === 'Daily Free Case'
                         ? rewardCases.lastDailyCaseOpening
                         : rewardCases.lastFreeCaseOpening
                     }
