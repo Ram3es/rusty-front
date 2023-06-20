@@ -194,7 +194,7 @@ const CaseUnboxing = (props) => {
         durationInSeconds =
           durationInSeconds * spinnerTimings.fastSpinMultiplier;
       }
-      console.log("durationInSeconds", durationInSeconds);
+      console.log("durationInSeconds", durationInSeconds, props.searchParams.daily);
       if (!props.searchParams.daily) {
         socket.emit(
           "case:open",
@@ -205,13 +205,21 @@ const CaseUnboxing = (props) => {
             spinTime: durationInSeconds * 1000,
           },
           (data) => {
-            rollCases(data)
+            if (!data.error) {
+              rollCases(data)
+            } else {
+              toastr(data)
+            }
           }
         );
       } else {
         socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
-          (data) => {
-            rollCases(data)
+
+          console.log('rewards:case:open', data);
+          if (!data.error) {
+            rollCases({cases: [data]})
+          } else {
+            toastr(data)
           }
         })
       }

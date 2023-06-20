@@ -3,6 +3,7 @@ import Coin from '../../../../utilities/Coin'
 import BattleRoyaleIcon from '../../../icons/BattleRoyaleIcon'
 import BattleCursedIcon from '../../../icons/BattleCursedIcon'
 import BattleGroupIcon from '../../../icons/BattleGroupIcon'
+import { copyToClipboard } from '../../../../utilities/tools'
 
 const CaseBattlesStructure = (props) => {
   const splitted = props?.val?.timestamp?.split('T')?.[0].split('-')
@@ -23,7 +24,12 @@ const CaseBattlesStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p
+        class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'
+        onClick={() => {
+          copyToClipboard(props?.val?.pf_id)
+        }}
+      >
         #{props?.val?.pf_id}
       </p>
       <div class='flex items-center gap-2'>
@@ -115,11 +121,11 @@ const CaseBattlesStructure = (props) => {
           {props?.val?.winnings >= props?.val?.bet_value ? 'win' : 'loss'}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>
       </div>

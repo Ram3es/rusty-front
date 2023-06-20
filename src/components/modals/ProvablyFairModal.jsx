@@ -3,6 +3,7 @@ import injector from '../../injector/injector'
 import Modal from './Modal'
 import { useI18n } from '../../i18n/context'
 import BgMainVector from '../../assets/img/coinflip/bgItemsRL.png'
+import { copyToClipboard } from '../../utilities/tools'
 
 const ProvablyFairModal = () => {
   const i18n = useI18n()
@@ -233,7 +234,7 @@ const ProvablyFairModal = () => {
                         {roundInfo[name][i18n.language]}
                       </p>
                       <div
-                        class='w-full h-10 px-4 rounded-4 flex items-center'
+                        class='w-full min-h-[40px] px-4 rounded-4 flex items-center'
                         style={{
                           background:
                             'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)',
@@ -242,7 +243,10 @@ const ProvablyFairModal = () => {
                           'backdrop-filter': 'blur(1.5px)'
                         }}
                       >
-                        <p class='text-gray-92 text-12 font-medium font-SpaceGrotesk truncate select-text'>
+                        <p
+                          class='text-gray-92 text-12 font-medium font-SpaceGrotesk select-text h-max overflow-hidden center'
+                          onClick={() => copyToClipboard(data()?.[name])}
+                        >
                           {data()?.[name]}
                         </p>
                       </div>
@@ -251,6 +255,13 @@ const ProvablyFairModal = () => {
                 </For>
               </div>
             </div>
+          </div>
+          <div>
+          <iframe height="600" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/TerryLoot/embed/GRwqPGR?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/TerryLoot/pen/GRwqPGR">
+  Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
           </div>
         </div>
       </div>

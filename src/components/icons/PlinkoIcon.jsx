@@ -1,6 +1,6 @@
-const PlinkoIcon = () => {
+const PlinkoIcon = (props) => {
   return (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg class={props.additionClasses} width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path
         d='M2.4 16C2.4 12 6.39799 11.3208 6.39799 8.80118C6.39799 7.03036 3.20002 8.80118 3.20002 8.80118C3.20002 8.80118 6.39998 0 15.1988 0C20.0564 0 24 3.94362 24 8.80118C24 17.602 15.2 20.8 15.2 20.8C15.2 20.8 16.9696 17.602 15.1988 17.602C11.2 17.602 11.2 24 0 24C0 24 4.8 22.2925 4.8 18.4C4.8 16.8 3.99998 16 2.4 16Z'
         fill='currentColor'
