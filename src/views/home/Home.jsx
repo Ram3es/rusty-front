@@ -16,7 +16,7 @@ const Home = () => {
           <BannerSection />
           <RustyOriginals />
           <FreeRewards />
-          <RewardsTable />
+          {/* <RewardsTable /> */}
         </div>
       </div>
     </Fallback>

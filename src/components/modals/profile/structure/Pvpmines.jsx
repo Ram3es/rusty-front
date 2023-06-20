@@ -1,4 +1,5 @@
 import Coin from '../../../../utilities/Coin'
+import { copyToClipboard } from '../../../../utilities/tools'
 
 const PvpminesStructure = (props) => {
   const splitted = props?.val?.timestamp?.split('T')?.[0].split('-')
@@ -8,7 +9,10 @@ const PvpminesStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'
+      onClick={() => {
+        copyToClipboard(props?.val?.pf_id)
+      }}>
         #{props?.val?.pf_id}
       </p>
       <div class='flex items-center gap-2'>
@@ -72,7 +76,7 @@ const PvpminesStructure = (props) => {
         {props?.val?.winnings <= 0 ? 'lose' : 'win'}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden relative cursor-pointer'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate max-w-full'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate max-w-full'>
           {date}
         </p>
       </div>

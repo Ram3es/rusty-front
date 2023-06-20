@@ -1,6 +1,6 @@
-const CaseOpeningIcon = () => {
+const CaseOpeningIcon = (props) => {
   return (
-    <svg width='24' height='18' viewBox='0 0 24 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg class={props.additionClasses} width='24' height='18' viewBox='0 0 24 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
       <path d='M24 3.09675V4.40861H0V3.09675L1.7507 0H22.2493L24 3.09675Z' fill='currentColor' />
       <path d='M10.362 8.64753H13.638L14.0269 5.9087H9.97312L10.362 8.64753Z' fill='currentColor' />
       <path

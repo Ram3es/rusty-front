@@ -75,9 +75,9 @@ const banners = [
       };
 
     return  (
-        <div class="grid grid-cols-3 gap-5 w-full h-full ">
+        <div class="center gap-5 w-full h-full ">
             <div 
-                class=' col-span-3 md:col-span-2 rounded-8 overflow-hidden '
+                class=' col-span-3 md:col-span-2 rounded-8 overflow-hidden w-full max-w-[1152px]'
                 style={{ background: 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)' }}
             >
                 <div class='grid  grid-cols-[1fr_1fr]  md:grid-cols-[1.5fr_1fr_1fr] '>
@@ -167,7 +167,7 @@ const banners = [
                    </div>
                 </div>
             </div>
-            <div class='col-span-3 md:col-span-1 relative min-h-[200px]'>
+            {/* <div class='col-span-3 md:col-span-1 relative min-h-[200px]'>
                 
                 <div class=' rounded-8 h-full w-full overflow-hidden '>
                     <img src={banners[activeBanner()]?.image} alt='banner' class=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 center h-[calc(100%_-_1px)] w-[calc(100%_-_2px)] rounded-8" />
@@ -211,7 +211,7 @@ const banners = [
                         <ArrowSliderStyle />   
                 </RoundedBtn>
 
-            </div>
+            </div> */}
         </div>
     )
 }

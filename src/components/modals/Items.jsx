@@ -17,24 +17,27 @@ const Items = (_props) => {
   let paymentModalWrapper;
 
   const checkImageLoaded = () => {
-    const updateStatus = (images) => {
-        setIsItemsLoaded(
-          images.map((image) => image.complete).every((item) => item === true)
-        );
-      };
 
-      const imagesLoaded = Array.from(paymentModalWrapper.querySelectorAll("img"));
-      if (imagesLoaded.length === 0) {
-        return;
-      }
-      imagesLoaded.forEach((image) => {
-        image.addEventListener("load", () => updateStatus(imagesLoaded), {
-          once: true
-        });
-        image.addEventListener("error", () => updateStatus(imagesLoaded), {
-          once: true
-        });
-      });
+    const updateStatus = (images) => {
+      setIsItemsLoaded(
+        images.map((image) => image.complete).every((item) => item === true)
+      );
+      console.log('isItemsLoaded', isItemsLoaded());
+    };
+
+    const imagesLoaded = Array.from(paymentModalWrapper.querySelectorAll("img"));
+    if (imagesLoaded.length === 0) {
+      return;
+    }
+    console.log("imagesLoaded", imagesLoaded);
+    imagesLoaded.forEach((image) => {
+      image.addEventListener("load", () => updateStatus(imagesLoaded));
+      image.addEventListener("error", () => updateStatus(imagesLoaded));
+    });
+
+    setTimeout(() => {
+      setIsItemsLoaded(true)
+    }, 5000)
   }
 
   
@@ -61,7 +64,7 @@ const Items = (_props) => {
         <div
           id="itemsWrapper"
           ref={paymentModalWrapper}
-          class={`${isItemsLoaded() ? 'grid' : 'hidden'} ${props.itemsClasses ?? 'w-full grid-cols-2 md:grid-cols-skins gap-2 relative'}`}
+          class={`grid ${isItemsLoaded() ? '' : 'opacity-0'} ${props.itemsClasses ?? 'w-full grid-cols-2 md:grid-cols-skins gap-2 relative'}`}
         >
           {/* <div
             class={`w-full h-full ${
@@ -85,8 +88,12 @@ const Items = (_props) => {
               </div>)}
           </For>
           
+          
         </div>
-        <PageLoader size="small" isShown={!isItemsLoaded()} />
+        <div class={`absolute left-0 top-0 w-full h-full ${!isItemsLoaded() ? 'center' : 'hidden'} `}>
+          <PageLoader size="small" isShown={!isItemsLoaded()} />
+        </div>
+        
       </div>
     </>
   );

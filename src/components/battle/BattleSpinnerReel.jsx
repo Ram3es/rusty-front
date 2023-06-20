@@ -1,4 +1,4 @@
-import { For, createSignal, createEffect } from "solid-js";
+import {For, createSignal, createEffect} from "solid-js";
 import {
   containerRef,
   reelsSpinning,
@@ -8,8 +8,17 @@ import {
   playEndAudio,
   playClickAudio,
 } from "../../views/caseBattles/GameCaseBattle";
-import { setIsRolling } from "../../views/caseBattles/GameCaseBattle";
-import { spinnerTimings, otherOptions } from "../../libraries/caseSpinConfig";
+import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
+import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
+import GoldText from "../shared/GoldText"
+import { getCurrencyString } from "../mines_new/utils/tools";
+import Coin from "../../utilities/Coin"
+
+import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png"
+import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png"
+import bglogo_red from "../../assets/img/case-battles/bglogo_red.png"
+import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png"
+import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png"
 
 import confetti from "canvas-confetti";
 // import { Fireworks } from "fireworks-js";
@@ -18,8 +27,21 @@ const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
-const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor, randomFunction }) => {
-  
+const bglogos = {
+  gold: bglogo_gold,
+  blue: bglogo_blue,
+  red: bglogo_red,
+  purple: bglogo_purple,
+  gray: bglogo_gray,
+};
+
+const BattleSpinnerReel = ({
+  spinnerIndex,
+  isConfettiWin,
+  isFastSpin,
+  lineColor,
+  randomFunction,
+}) => {
   createEffect(() => {
     if (isFastSpin) {
       setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
@@ -61,17 +83,17 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
     // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
-      console.log('moveToIndex', spinnerIndex, spinIndexes()[spinnerIndex]);
+      console.log("moveToIndex", spinnerIndex, spinIndexes()[spinnerIndex]);
       moveToIndex(spinIndexes()[spinnerIndex]);
     }
   });
   createEffect(() => {
     if (spinLists()) {
-      console.log('here spin', spinLists());
-      setReelItem(() => document.querySelector("[data-reel-item]"))
+      console.log("here spin", spinLists());
+      setReelItem(() => document.querySelector("[data-reel-item]"));
       // console.log(reelItem());
     }
-  })
+  });
 
   const moveToIndex = (index) => {
     const itemHeight = reelItem().offsetHeight;
@@ -103,7 +125,7 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
     playEndAudio();
     setTimeout(() => {
       setSpinComplete(true);
-      if (isConfettiWin) {
+      if (spinLists()[spinnerIndex][spinIndexes()[spinnerIndex]].rarity !== "gray") {
         createConfetti();
       }
       // createFireworks();
@@ -173,12 +195,12 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
       const spinList = spinLists()[spinnerIndex];
       const color = spinList[spinIndexes()[spinnerIndex]].rarity;
       const ticks = 70;
-
       const confettiInterval = setInterval(() => {
+        
         confetti({
           particleCount,
           spread,
-          origin: { x: xA, y: yA },
+          origin: {x: xA, y: yA},
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
           ticks,
@@ -213,13 +235,13 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
     setLineWidth(reel().offsetWidth - 42);
     // setLineWidth(373 - 60);
     console.log("line width ", lineWidth());
-  })
+  });
 
   return (
     <div
       id="slot-screen"
       class="relative gap-2 w-full h-full flex flex-col 
-      items-center justify-center overflow-hidden"
+      items-center justify-center overflow-hidden font-SpaceGrotesk"
     >
       <div class={`overflow-y-hidden w-full overflow-x-hidden`}>
         <div
@@ -245,44 +267,39 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
                  ${
                    spinComplete()
                      ? index() === spinIndexes()[spinnerIndex]
-                       ? "scale-110 -translate-y-8"
+                       ? "scale-125 -translate-y-8"
                        : "scale-0"
                      : null
                  }`}
-                 data-reel-item
+                data-reel-item
               >
                 <div class="relative z-10 flex">
                   <img
-                    class={`${
-                      spinComplete()
-                        ? index() === spinIndexes()[spinnerIndex]
-                          ? "animate-bounce"
-                          : ""
-                        : null
-                    } h-24 z-20`}
+                    class={`h-24 z-20 transition-all duration-500`}
                     src={item.img}
                     ref={setImgItem}
                     alt={item.name}
                   />
                   <img
-                    src={`/assets/glow_${item.rarity}.png`}
+                    src={bglogos[item.rarity]}
                     alt={item.rarity + " glow"}
-                    class="absolute z-10 scale-[1.6]"
+                    class="absolute z-10 scale-[1.4]"
                   />
                 </div>
                 <div
-                  class={`font-[lato] flex flex-col items-center 
-                  transition-all duration-500 overflow-visible gap-[4px]
+                  class={`flex flex-col items-center justify-center 
+                  transition-all duration-500 overflow-visible h-min
                   ${
                     spinComplete() && index() === spinIndexes()[spinnerIndex]
                       ? "scale-1"
                       : "scale-0"
                   } `}
                 >
-                  <div class="text-[#AADE4E] font-semibold text-2xl">
-                    ${item.price}
+                  <div class="text-[#A2A5C6] text-14 font-semibold">{item.name}</div>
+                  <div class="flex  items-center justify-center gap-1">
+                      <Coin width="5"/>
+                      <GoldText text={getCurrencyString(item.price)} size="13"/>
                   </div>
-                  <div class="text-[#9BA4D6] text-sm">{item.name}</div>
                 </div>
               </div>
             )}
@@ -290,20 +307,26 @@ const BattleSpinnerReel = ({ spinnerIndex, isConfettiWin, isFastSpin, lineColor,
         </div>
       </div>
       <img
-          src={lineColor === 'yellow' ? "/assets/caseLineHorizontal.svg" : lineColor === 'blue' ? "/assets/caseLineHorizontalBlue.svg" : "/assets/caseLineHorizontalGreen.svg"}
-          alt="caseline"
-          class={`absolute h-32  self-center transition-opacity duration-500
+        src={
+          lineColor === "yellow"
+            ? "/assets/caseLineHorizontal.svg"
+            : lineColor === "blue"
+            ? "/assets/caseLineHorizontalBlue.svg"
+            : "/assets/caseLineHorizontalGreen.svg"
+        }
+        alt="caseline"
+        class={`absolute h-32  self-center transition-opacity duration-500
           ${spinComplete() ? "opacity-30" : "opacity-100"}
               `}
-              style={{
-                width: lineWidth() + "px",
-              }}
-        />
+        style={{
+          width: lineWidth() + "px",
+        }}
+      />
       <div
         class={`absolute self-center h-20 w-20
          -bottom-2`}
         ref={setConfettiCannonRefA}
-      ></div>
+      />
       {/* <div
         class={`absolute self-center w-max h-full overflow-visible
          -bottom-2`}

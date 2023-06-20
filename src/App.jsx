@@ -36,6 +36,7 @@ import LevelBenefitsModal from "./components/modals/LevelBenefitsModal";
 import Faq from "./views/faq/Faq";
 import BonusPotModal from "./components/modals/BonusPotModal";
 import WinningsModal from "./components/modals/WinningsModal";
+import WinModal from "./components/upgrader/modal/WinModal";
 import TosModal from "./components/modals/TosModal";
 import Tos from "./views/tos/Tos";
 import TOAST_MANAGER from "./utilities/solid-toast/main.toast";
@@ -412,11 +413,21 @@ const App = () => {
                       </Switch>
 
                       <Switch fallback={<></>}>
-                        <Match when={toggles.winningsModal}>
+                        <Match
+                          when={
+                            toggles.winningModal &&
+                            toggles.winningsModal?.type !== "upgrader"
+                          }
+                        >
                           <WinningsModal
                             pathname={pathname}
                             searchParams={searchParams}
                           />
+                        </Match>
+                        <Match
+                          when={toggles.winningsModal?.type === "upgrader"}
+                        >
+                          <WinModal />
                         </Match>
                         <Match when={toggles.provablyFairModal}>
                           <ProvablyFairModal />

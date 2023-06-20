@@ -1,13 +1,14 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
+import CloseButton from "../../components/elements/CloseButton";
+import ribbed from '../../assets/img/ribbedSmall.png';
 
 const Toast = (props) => {
+  let countdown;
   let lifetime = 3 * 1000; // SECONDS
   const removeFromCountdown = 500;
 
   const [hover, setHover] = createSignal(false);
   const [removed, setRemoved] = createSignal(false);
-
-  let toastr;
 
   const _timer = () => {
     setTimeout(() => {
@@ -33,99 +34,69 @@ const Toast = (props) => {
   const stringToHtml = (text) => {
     let parser = new DOMParser();
     const doc = parser.parseFromString(text, "text/html");
-    return doc.body;
+    return doc.body.innerHTML;
   };
 
   const types = {
     success: {
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10 0C8.02219 0 6.08879 0.58649 4.4443 1.6853C2.79981 2.78412 1.51809 4.3459 0.761209 6.17316C0.00433284 8.00042 -0.1937 10.0111 0.192152 11.9509C0.578004 13.8907 1.53041 15.6725 2.92894 17.0711C4.32746 18.4696 6.10929 19.422 8.0491 19.8078C9.98891 20.1937 11.9996 19.9957 13.8268 19.2388C15.6541 18.4819 17.2159 17.2002 18.3147 15.5557C19.4135 13.9112 20 11.9778 20 10C19.997 7.34876 18.9424 4.80697 17.0677 2.93226C15.193 1.05755 12.6512 0.00301416 10 0Z"
-            fill="#33EBB4"
-          />
-          <path
-            d="M5.61368 9.47431C5.78455 9.46809 5.92399 9.55767 6.05492 9.6743C6.94035 10.4636 7.82468 11.2541 8.7164 12.0365C8.82218 12.1294 8.96087 12.2076 9.09698 12.2394C9.3152 12.2902 9.49975 12.1933 9.64991 12.0285C10.5834 11.0029 11.5188 9.97885 12.4538 8.95478C13.2863 8.04222 14.1185 7.12929 14.9522 6.21782C15.1467 6.00504 15.3967 5.94691 15.6412 6.04891C15.8742 6.14616 16.0344 6.37869 15.9937 6.62731C15.9715 6.76295 15.9042 6.91065 15.8117 7.01302C14.7417 8.19979 13.6632 9.37889 12.5866 10.5602C11.6216 11.619 10.6563 12.6778 9.69097 13.7366C9.38436 14.0726 9.0489 14.0872 8.71936 13.7801C7.55542 12.6964 6.39186 11.612 5.22644 10.5298C5.05594 10.3715 4.96717 10.1891 5.01119 9.95545C5.06445 9.67101 5.30596 9.47358 5.61368 9.47431Z"
-            fill="#00732F"
-          />
+        <svg width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 1C14.6718 1.36923 9.75214 7.15385 6.33333 11L1 6" stroke="#27F278" stroke-width="2"/>
         </svg>
       ),
-      color: "#2EEAB2",
-      name: "success",
+      color: "#27F278",
+      name: "Success",
+      bg: "linear-gradient(90deg, rgba(39, 242, 120, 0.08) 0%, rgba(39, 242, 120, 0) 100%), radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)"
     },
     error: {
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M10 0C8.02219 0 6.08879 0.58649 4.4443 1.6853C2.79981 2.78412 1.51809 4.3459 0.761209 6.17316C0.00433284 8.00042 -0.1937 10.0111 0.192152 11.9509C0.578004 13.8907 1.53041 15.6725 2.92894 17.0711C4.32746 18.4696 6.10929 19.422 8.0491 19.8078C9.98891 20.1937 11.9996 19.9957 13.8268 19.2388C15.6541 18.4819 17.2159 17.2002 18.3147 15.5557C19.4135 13.9112 20 11.9778 20 10C19.997 7.34876 18.9424 4.80697 17.0677 2.93226C15.193 1.05755 12.6512 0.00301416 10 0Z"
-            fill="#E22842"
-          />
-          <path
-            d="M9.99891 14.9456C10.5614 14.9456 11.0173 14.4896 11.0173 13.9271C11.0173 13.3647 10.5614 12.9087 9.99891 12.9087C9.43644 12.9087 8.98047 13.3647 8.98047 13.9271C8.98047 14.4896 9.43644 14.9456 9.99891 14.9456Z"
-            fill="white"
-          />
-          <path
-            d="M9.98358 11.393C9.81603 11.3931 9.65488 11.3287 9.53366 11.213C9.41244 11.0974 9.3405 10.9394 9.33282 10.772L9.10234 5.95479C9.09729 5.83384 9.11679 5.71313 9.15968 5.59994C9.20257 5.48674 9.26795 5.38341 9.35189 5.29619C9.43582 5.20896 9.53655 5.13965 9.64801 5.09244C9.75947 5.04523 9.87935 5.02109 10.0004 5.02149C10.1216 5.0215 10.2416 5.04612 10.3531 5.09386C10.4645 5.1416 10.5651 5.21147 10.6488 5.29924C10.7325 5.38701 10.7974 5.49084 10.8398 5.60446C10.8821 5.71807 10.901 5.8391 10.8952 5.96021L10.6311 10.7764C10.6224 10.9424 10.5504 11.0988 10.43 11.2135C10.3096 11.3281 10.1499 11.3924 9.98358 11.393Z"
-            fill="white"
-          />
+        <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.6713 7L12.4141 12.3356L10.9193 13.6644L6.33334 8.5052L1.74742 13.6644L0.252603 12.3356L4.99539 7L0.252594 1.66436L1.74741 0.335632L6.33334 5.4948L10.9193 0.335632L12.4141 1.66436L7.6713 7Z" fill="#9A9EC8"/>
         </svg>
       ),
-      color: "#E22842",
-      name: "error",
+      color: "#9A9EC8",
+      name: "Error Encountered",
+      bg: "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)"
     },
   };
 
   return (
     <>
       <div
-        class="w-full sm:w-120 h-20 rounded-4 border pl-4 pr-12 flex items-center relative bg-dark-13 toastr-animation"
-        ref={toastr}
-        onMouseOver={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        style={{ "border-color": types?.[props.type]?.color }}
+        class={`w-full relative sm:w-120 rounded-6 p-4 flex gap-4 items-center overflow-hidden toastr-animation ${types?.[props.type] == "success" ? "success" : ""}`}
+        // onMouseOver={() => setHover(true)}
+        // onMouseLeave={() => setHover(false)}
+        style={{
+          background: types?.[props.type]?.bg,
+        }}
       >
-        <svg
-          class="absolute right-5 top-5 cursor-pointer"
-          width="14"
-          height="14"
-          viewBox="0 0 14 14"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => props.remove()}
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M12.6485 1.35147C13.1172 1.8201 13.1172 2.5799 12.6485 3.04853L8.69706 7L12.6485 10.9515C13.1172 11.4201 13.1172 12.1799 12.6485 12.6485C12.1799 13.1172 11.4201 13.1172 10.9515 12.6485L7 8.69706L3.04853 12.6485C2.5799 13.1172 1.8201 13.1172 1.35147 12.6485C0.882843 12.1799 0.882843 11.4201 1.35147 10.9515L5.30294 7L1.35147 3.04853C0.882843 2.5799 0.882843 1.8201 1.35147 1.35147C1.8201 0.882843 2.5799 0.882843 3.04853 1.35147L7 5.30294L10.9515 1.35147C11.4201 0.882843 12.1799 0.882843 12.6485 1.35147Z"
-            fill="#475A76"
-            stroke="#131620"
-            stroke-width="0.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-        <div class="flex gap-4">
+        <img src={ribbed} class=' absolute inset-0 min-h-full min-w-full' />
+        <div class="toast-countdown center relative z-10">
           {types?.[props.type]?.icon}
+          <svg class="toast-countdown-svg">
+            <circle r="16" cx="18" cy="18" stroke={types?.[props.type].color} />
+          </svg>
+        </div>
+        <div class="flex gap-4 grow relative z-10">
           <div class="flex flex-col gap-1.5">
-            <p class="text-16 text-white font-bold font-Oswald uppercase leading-none">
+            <p
+              class="text-16  font-bold font-SpaceGrotesk leading-none"
+              style={{
+                color: types?.[props.type].color
+              }}
+            >
               {types?.[props.type]?.name}
             </p>
-            <p class="text-14 text-gray-8c font-medium font-Oswald">
+            <p class="text-14 text-white font-bold font-SpaceGrotesk">
               {stringToHtml(props.msg)}
             </p>
           </div>
+        </div>
+        <div
+          class="relative z-10"
+          onClick={() => props.remove()}
+        >
+          <CloseButton isRelative={true} />
         </div>
       </div>
     </>

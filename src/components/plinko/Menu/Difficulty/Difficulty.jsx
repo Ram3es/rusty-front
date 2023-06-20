@@ -1,6 +1,7 @@
 import EasyBtn from "./EasyBtn";
 import NormalBtn from "./NormalBtn";
 import HardBtn from "./HardBtn";
+import { playOptionClickSound } from "../../../../utilities/Sounds/SoundButtonClick";
 
 import {
   setDifficulty,
@@ -10,6 +11,7 @@ import {
 
 const Difficulty = () => {
   const changeDifficulty = (newDifficulty) => {
+    playOptionClickSound();
     setLastWinIndex(0);
     setDifficulty(newDifficulty);
   };

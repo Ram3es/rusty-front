@@ -1,6 +1,6 @@
-const CloseButton = () => {
+const CloseButton = (props) => {
   return (
-    <div class="center absolute right-8 top-6 cursor-pointer w-10 h-10 border border-white border-opacity-5 rounded-4">
+    <div class={`center ${props.isRelative ? "" : "absolute right-8 top-6"} cursor-pointer w-10 h-10 border border-white border-opacity-5 rounded-4`}>
       <svg
         width="12"
         height="12"
