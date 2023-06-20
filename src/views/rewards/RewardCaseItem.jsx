@@ -86,7 +86,7 @@ const RewardCaseItem = (props) => {
 
   return (
     <NavLink
-      href={`${URL.CASE}?id=${props?.item?.id}`}
+      href={`${URL.CASE_UNBOXING}?id=${props?.item?.id}&daily=true`}
       class={`relative flex flex-col h-[285px] w-[212px]`}
     >
       <div
