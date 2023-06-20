@@ -7,19 +7,19 @@ import ArrowSliderStyle from "../icons/ArrowSliderStyle";
 import { URL } from "../../libraries/url";
 
 const FreeCasesSwiper = () => {
-  const { freeCases } = injector;
+  const { rewardCases } = injector;
   const [activeCase, setActiveCase] = createSignal(0);
 
   return (
     <>
       <div class="h-full flex flex-col items-center justify-between p-3 ">
         <span class="gold-text-originals font-SpaceGrotesk font-bold text-base ">
-          {freeCases()[activeCase()]?.name}
+          {rewardCases.cases[activeCase()]?.name}
         </span>
-        {freeCases()[activeCase()]?.id ? (
+        {rewardCases.cases[activeCase()]?.id ? (
           <NavLink
             class="relative z-10"
-            href={`${URL.CASE_UNBOXING}?id=${freeCases()[activeCase()]?.id}&daily=true`}
+            href={`${URL.CASE_UNBOXING}?id=${rewardCases.cases[activeCase()]?.id}&daily=true`}
           >
             <CaseGradientButton callbackFn={() => {}}>
               <span class="text-yellow-ffb  font-SpaceGrotesk font-bold text-sm ">
@@ -32,14 +32,14 @@ const FreeCasesSwiper = () => {
         )}
       </div>
       <img
-        src={freeCases()[activeCase()]?.image.replace("{url}", window.origin)}
-        alt={freeCases()[activeCase()]?.name}
+        src={rewardCases.cases[activeCase()]?.image.replace("{url}", window.origin)}
+        alt={rewardCases.cases[activeCase()]?.name}
         class="absolute top-1/2 left-1/2 max-w-[150px] transform -translate-x-1/2 -translate-y-1/2"
       />
       <RoundedBtn
         handleClick={() => {
           if (activeCase() === 0) {
-            setActiveCase(freeCases().length - 1);
+            setActiveCase(rewardCases.cases.length - 1);
           } else {
             setActiveCase((prev) => prev - 1);
           }
@@ -50,7 +50,7 @@ const FreeCasesSwiper = () => {
       </RoundedBtn>
       <RoundedBtn
         handleClick={() => {
-          if (activeCase() === freeCases().length - 1) {
+          if (activeCase() === rewardCases.cases.length - 1) {
             setActiveCase(0);
           } else {
             setActiveCase((prev) => prev + 1);
