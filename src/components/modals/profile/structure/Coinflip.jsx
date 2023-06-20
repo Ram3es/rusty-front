@@ -1,6 +1,7 @@
 import { createEffect, createSignal } from 'solid-js'
 import injector from '../../../../injector/injector'
 import Coin from '../../../../utilities/Coin'
+import { copyToClipboard } from '../../../../utilities/tools'
 
 const CoinflipStructure = (props) => {
   const { socket, toastr } = injector
@@ -42,7 +43,10 @@ const CoinflipStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'
+      onClick={() => {
+        copyToClipboard(props?.val?.pf_id)
+      }}>
         #{props?.val?.pf_id}{' '}
       </p>
       <div class='flex items-center gap-2'>

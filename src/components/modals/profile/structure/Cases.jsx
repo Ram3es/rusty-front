@@ -1,4 +1,5 @@
 import Coin from '../../../../utilities/Coin'
+import { copyToClipboard } from '../../../../utilities/tools'
 
 const CasesStructure = (props) => {
   const splitted = props?.val?.timestamp?.split('T')?.[0].split('-')
@@ -9,7 +10,11 @@ const CasesStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'
+      onClick={() => {
+        copyToClipboard(props?.val?.pf_id)
+      }}
+      >
         #{props?.val?.pf_id}
       </p>
       <div class='flex items-center gap-2'>
