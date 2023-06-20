@@ -44,6 +44,7 @@ import LosingDisplay from "../../components/battle/LosingDisplay";
 import {getCurrencyString} from "../../components/mines_new/utils/tools";
 import StackedCasesBar from "../../components/battle/StackedCasesBar";
 import CaseViewModal from "../../components/modals/CaseViewModal";
+import CountDownText from "../../components/battle/CountDownText";
 
 export const [containerRef, setContainerRef] = createSignal();
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -84,6 +85,7 @@ const GameCaseBattle = (props) => {
   const [battleCases, setBattleCases] = createSignal([]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null);
+  const [currentCountdown, setCurrentCountdown] = createSignal(3);
 
   const toggleCaseViewModal = () => {
     setCaseViewModal(!caseViewModal());
@@ -343,6 +345,14 @@ const GameCaseBattle = (props) => {
         updateGame(data.data);
       }
     });
+
+    socket.on(`battles:countdown`, (data) => {
+      if (data.gameId === Number(props.searchParams.id) && data.data) {
+        console.log(data.data);
+        updateGame(data.data);
+        setCurrentCountdown(data.data.currentCountdown);
+      }
+    });
   });
 
   onCleanup(() => {
@@ -591,7 +601,7 @@ const GameCaseBattle = (props) => {
                           >
                             {(game().status === "playing" ||
                               game().status === "open" ||
-                              game().status === "pending") && (
+                              game().status === "pending" || game().status === "countdown") && (
                               <div
                                 class="absolute left-1/2 top-1/2 h-full w-[64px] -translate-x-1/2 -translate-y-1/2"
                                 style={{
@@ -610,7 +620,7 @@ const GameCaseBattle = (props) => {
                                 transform: `translateX(${
                                   game().status === "playing" ||
                                   game().status === "open" ||
-                                  game().status === "pending"
+                                  game().status === "pending" || game().status === "countdown"
                                     ? 32 * (game().cases.length - 1) -
                                       64 * (game().currentRound ?? 0)
                                     : 0
@@ -863,6 +873,14 @@ const GameCaseBattle = (props) => {
                                     ) : (
                                       <Spiner classes="w-9 text-yellow-ffb" />
                                     )}
+                                  </Match>
+                                  <Match when={game().status === "countdown"}>
+                                    <div class="w-full h-full center">
+                                      <CountDownText
+                                        text={currentCountdown()}
+                                        size={54}
+                                      />
+                                    </div>
                                   </Match>
                                 </Switch>
                                 <div
