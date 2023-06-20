@@ -56,6 +56,8 @@ const banners = [
     
     const { userObject, socket, toastr, setUserObject } = injector;
 
+    console.log(userObject, 'userObject')
+
     let rakebackClaim = () => {
         socket.emit("system:rakeback:claim", {}, (data) => {
           if (data.msg) {
