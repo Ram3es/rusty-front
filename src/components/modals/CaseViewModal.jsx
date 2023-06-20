@@ -42,6 +42,9 @@ const CaseViewModal = (props) => {
                     .replace(".png", "_thumbnail.png") || ""
                 }
                 alt={props.item.name}
+                style={{
+                  filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+                }}
               />
             </div>
             <div class="space-y-1.5">
