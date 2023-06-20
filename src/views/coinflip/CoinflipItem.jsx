@@ -78,7 +78,7 @@ const CoinflipItem = (props) => {
     >
       <div class='flex items-center h-full'>
         <div 
-          class='h-full flex items-center border-r-2 border-[#282b57] gap-5 px-6 md:coinflip-list--background__secondary'
+          class='h-full flex items-center border-r border-[#282b57] gap-5 px-6 md:coinflip-list--background__secondary'
           style={{ 
             background: 
               `radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
@@ -166,7 +166,7 @@ const CoinflipItem = (props) => {
             )}
           </div>
         </div>
-        <div class='hidden lg:flex h-full border-r-2 coinflip-row-items-bg border-[#252741] pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
+        <div class='hidden lg:flex h-full border-r coinflip-row-items-bg border-[#252741] pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden md:coinflip-list--background__third'>
           <div class='flex items-center gap-4'>
             <For each={skinList.length > 6 ? skinList.slice(0, 6) : skinList}>
               {(skin) => (
