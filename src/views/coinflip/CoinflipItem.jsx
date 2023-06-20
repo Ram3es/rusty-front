@@ -78,7 +78,7 @@ const CoinflipItem = (props) => {
     >
       <div class='flex items-center h-full'>
         <div 
-          class='h-full flex items-center border-r border-[#282b57] gap-5 px-6 md:coinflip-list--background__secondary'
+          class='rounded-l-6 h-full flex items-center border-r-2 border-[#282b57] gap-5 px-6 md:coinflip-list--background__secondary'
           style={{ 
             background: 
               `radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), 
