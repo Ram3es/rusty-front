@@ -130,7 +130,7 @@ const Rewards = ({ loaded }) => {
             >
               {(item) => (
                 <NavLink
-                  href={`${URL.CASE}?id=${item.id}`}
+                  href={`${URL.CASE_UNBOXING}?id=${item.id}&daily=true`}
                   class={`w-full h-64 bg-dark-1c flex justify-between py-5 items-center transition-transform duration-100 transform hover:-translate-y-1 flex-col p-2 relative cursor-pointer overflow-hidden`}
                   style={{
                     background: `url(${item.background})`,

@@ -48,12 +48,9 @@ const CaseUnboxing = (props) => {
       ? "blue"
       : "gray";
   };
-  const itemsUpdate = () => {
-    socket.emit(
-      "case:get",
-      { caseId: Number(props.searchParams.id) },
-      (data) => {
-        console.log(data.data);
+  const itemsUpdate = (data) => {
+    
+        console.log('itemsUpdate', data);
         if (data.data?.case) {
           const myCase = {
             ...data.data.case,
@@ -91,13 +88,31 @@ const CaseUnboxing = (props) => {
             }))
           );
         }
-      }
-    );
+      
   };
 
   createEffect(() => {
     if (props?.loaded()) {
-      itemsUpdate();
+      
+      if (!props.searchParams.daily) {
+        socket.emit(
+          "case:get",
+          { caseId: Number(props.searchParams.id) },
+          (data) => {
+            itemsUpdate(data);
+          }
+        );
+      } else {
+        console.log("rewards:case");
+        socket.emit(
+          'rewards:case',
+          { caseId: Number(props.searchParams.id) },
+          (data) => {
+            console.log("rewards:case", data);
+            itemsUpdate(data);
+          }
+        )
+      }
     }
   });
 
@@ -146,6 +161,32 @@ const CaseUnboxing = (props) => {
     setIsRolling(false);
   };
 
+  const rollCases = (data) => {
+    console.log(data);
+    if (data.msg) {
+      toastr(data);
+    }
+    if (data.error) return;
+    setSpinnerOptions(() =>
+      data.cases.map((caseItem) => ({
+        winningItem: {
+          img: caseItem.item.image?.replace("{url}", window.origin) || "",
+          price: caseItem.item.item_price,
+          name: caseItem.item.name,
+          rarity: getColor(caseItem.item.item_price),
+        },
+        isConfettiWin: true,
+        isBigWin: true,
+      }))
+    );
+    setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
+    console.log(spinnerOptions());
+    setIsCaseAlreadyOpened(() => true);
+    setCountOfCases(pendingNum());
+    setSpinReelsTrigger({ triggered: true });
+    setIsRolling(true);
+  }
+
   const startGame = (isDemo) => {
     if (isCaseCanBeOpen() && !isRolling()) {
       let durationInSeconds = spinnerTimings.verticalInitialSpin + 3; // For example, a 2-second duration
@@ -154,40 +195,26 @@ const CaseUnboxing = (props) => {
           durationInSeconds * spinnerTimings.fastSpinMultiplier;
       }
       console.log("durationInSeconds", durationInSeconds);
-      socket.emit(
-        "case:open",
-        {
-          caseId: Number(props.searchParams.id),
-          demo: isDemo,
-          qty: pendingNum(),
-          spinTime: durationInSeconds * 1000,
-        },
-        (data) => {
-          console.log(data);
-          if (data.msg) {
-            toastr(data);
+      if (!props.searchParams.daily) {
+        socket.emit(
+          "case:open",
+          {
+            caseId: Number(props.searchParams.id),
+            demo: isDemo,
+            qty: pendingNum(),
+            spinTime: durationInSeconds * 1000,
+          },
+          (data) => {
+            rollCases(data)
           }
-          if (data.error) return;
-          setSpinnerOptions(() =>
-            data.cases.map((caseItem) => ({
-              winningItem: {
-                img: caseItem.item.image?.replace("{url}", window.origin) || "",
-                price: caseItem.item.item_price,
-                name: caseItem.item.name,
-                rarity: getColor(caseItem.item.item_price),
-              },
-              isConfettiWin: true,
-              isBigWin: true,
-            }))
-          );
-          setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
-          console.log(spinnerOptions());
-          setIsCaseAlreadyOpened(() => true);
-          setCountOfCases(pendingNum());
-          setSpinReelsTrigger({ triggered: true });
-          setIsRolling(true);
-        }
-      );
+        );
+      } else {
+        socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
+          (data) => {
+            rollCases(data)
+          }
+        })
+      }
     }
   };
 
@@ -197,7 +224,7 @@ const CaseUnboxing = (props) => {
         <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll relative min-h-screen pt-8">
           <div class="px-4 xl:px-8 xxl:px-14 flex flex-col gap-8">
             <div class="flex justify-between flex-col md:flex-row">
-              <NavLink href={URL.UNBOXING}>
+              <NavLink href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}>
                 <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
                   <ArrowBack />
                   <span class="font-SpaceGrotesk text-14 text-gray-9a">
@@ -277,7 +304,7 @@ const CaseUnboxing = (props) => {
                 <div class="flex gap-1.5 items-center">
                   <Coin width="5" />
                   <span class="font-bold text-md potential-drop--price">
-                    {(Number(rollCase().price) * pendingNum()).toLocaleString()}
+                    {!props.searchParams.daily ? (Number(rollCase().price) * pendingNum()).toLocaleString() : "FREE"}
                   </span>
                 </div>
               </div>
@@ -286,7 +313,7 @@ const CaseUnboxing = (props) => {
                   isRolling() ? "opacity-[.03]" : "opacity-100"
                 } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
               >
-                <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
+                {!props.searchParams.daily ? <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
                   <div class=" font-SpaceGrotesk text-14 text-gray-9a ">
                     Case Amount:
                   </div>
@@ -306,17 +333,19 @@ const CaseUnboxing = (props) => {
                         </TransparentButton>
                       )}
                     </For>
-                  </div>
-                </div>
+                  </div> 
+                </div> : ""}
                 <div class="flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100">
                   <CaseGradientButton callbackFn={() => startGame(false)}>
                     <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
                       <span class="w-max">Open for</span>
                       <Coin width="5" />
                       <span class="text-gradient">
-                        {(
+                        {!props.searchParams.daily ? (
                           Number(rollCase().price) * pendingNum()
-                        ).toLocaleString()}
+                        ).toLocaleString() :
+                        "FREE"
+                      }
                       </span>
                     </div>
                   </CaseGradientButton>

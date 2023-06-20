@@ -19,7 +19,7 @@ const FreeCasesSwiper = () => {
         {freeCases()[activeCase()]?.id ? (
           <NavLink
             class="relative z-10"
-            href={`${URL.CASE}?id=${freeCases()[activeCase()]?.id}`}
+            href={`${URL.CASE_UNBOXING}?id=${freeCases()[activeCase()]?.id}&daily=true`}
           >
             <CaseGradientButton callbackFn={() => {}}>
               <span class="text-yellow-ffb  font-SpaceGrotesk font-bold text-sm ">
