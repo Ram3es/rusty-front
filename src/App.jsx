@@ -36,7 +36,7 @@ import LevelBenefitsModal from "./components/modals/LevelBenefitsModal";
 import Faq from "./views/faq/Faq";
 import BonusPotModal from "./components/modals/BonusPotModal";
 import WinningsModal from "./components/modals/WinningsModal";
-import WinModal from "./components/upgrader/WinModal";
+import WinModal from "./components/upgrader/modal/WinModal";
 import TosModal from "./components/modals/TosModal";
 import Tos from "./views/tos/Tos";
 import TOAST_MANAGER from "./utilities/solid-toast/main.toast";
