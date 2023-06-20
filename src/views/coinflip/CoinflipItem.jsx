@@ -243,10 +243,7 @@ const CoinflipItem = (props) => {
             </For>
             {skinList.length > 6 && (
               <div
-                class='cursor-pointer flex items-center justify-center w-10 h-8 border border-white/5 rounded font-SpaceGrotesk font-bold text-14 text-gray-9a'
-                style={{
-                  filter: 'drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))'
-                }}
+                class='shadow-button cursor-pointer flex items-center justify-center w-10 h-8 border border-white/5 rounded font-SpaceGrotesk font-bold text-14 text-gray-9a'
               >
                 +{skinList.length - 6}
               </div>
