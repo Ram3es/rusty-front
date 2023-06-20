@@ -1,4 +1,4 @@
-import { For, createEffect, createSignal, onMount } from 'solid-js'
+import { For, createSignal, onMount } from 'solid-js'
 import Ranks from "../../utilities/Ranks"
 import CloseButton from "../elements/CloseButton"
 import Modal from "./Modal"
@@ -9,19 +9,6 @@ import RankLabel from "../chat/RankLabel"
 import injector from '../../injector/injector'
 import { RoundedBtn } from '../new-home/BannerSection'
 import ArrowSliderStyle from '../icons/ArrowSliderStyle'
-
-const CardLabel = (props) =>{
-    return (
-            <div
-                class={props.labelStyles ?? "w-[74px] h-5 rounded-tl-4 rounded-bl-4 center font-Quicksand uppercase "}
-                style={{
-                    background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",            
-                }}
-                >
-                    {props.title}
-            </div>
-    )
-}
 
 const BenefitCard = (props) => {
     return (
@@ -45,11 +32,10 @@ const BenefitCard = (props) => {
                     />
                 </div>
                 <h3 class='uppercase text-white mt-2.5 mb-1'>{props.card.name || 'Prefered'}</h3>
-                <For each={props.card?.text?.split('\\')}>
-                    {(str) => <p 
-                                class={`w-fit ${props.card.id ==='default' || str.includes('+2') ? 'text-gray-a2' : 'text-green-27' }`}
-                                >{str}</p>}
+                <For each={props.card?.text?.slice(0,3)}>
+                    {(str) => <p class={`w-fit ${props.card.id === 'default'  ? 'text-gray-a2': 'text-green-27'} `}>{str}</p>}
                 </For>
+                <p class={`${props.card?.text?.slice(3).length ? 'block' : 'hidden'} text-gray-a2`}>+{props.card?.text?.slice(3).length} more</p>
             </div>
             <div class='absolute right-0 bottom-1 shadow-button' >
                 {!props.locked && !props.current 
@@ -91,15 +77,16 @@ const BenefitCard = (props) => {
 } 
 
 const RankBenefitsModal = (props) => {
+    const { userObject } = injector
 
-    const { socket, toastr, userObject, setUserObject } = injector
-
-    const  [selectedCard, setSelectedCard] =createSignal(props?.benefits.find(card => card.id === userObject?.user?.level?.next))  
+    const  [selectedCard, setSelectedCard] =createSignal(props?.benefits.find(card => card.id === userObject?.user?.level?.league))  
 
     let scrollableElem;
     let btnRight;
     let btnLeft;
     const offset = 342
+
+    const listLeagues = props?.benefits.map(item => item.id)
 
     onMount(() => {
         if(btnRight && btnLeft){
@@ -108,18 +95,18 @@ const RankBenefitsModal = (props) => {
         }
     })
 
-    const rorward = () => {
+    const forward = () => {
         scrollableElem.style.scrollBehavior= 'smooth';
-        scrollableElem.scrollLeft = scrollableElem.scrollLeft + offset;
+        scrollableElem.scrollLeft = Math.ceil(scrollableElem.scrollLeft) + offset;
         btnLeft.style.display = 'block'
 
-        if((scrollableElem.scrollWidth - scrollableElem.clientWidth) <= scrollableElem.scrollLeft + offset){
+        if((scrollableElem.scrollWidth - scrollableElem.clientWidth) <= Math.ceil(scrollableElem.scrollLeft + offset)){
             btnRight.style.display = 'none'
         }
     }
     const backward = () => {
         scrollableElem.style.scrollBehavior= 'smooth';
-        scrollableElem.scrollLeft = scrollableElem.scrollLeft - offset; 
+        scrollableElem.scrollLeft =  Math.ceil(scrollableElem.scrollLeft) - offset; 
         
         if((scrollableElem.scrollLeft - offset) < 1){
             btnLeft.style.display = 'none'
@@ -129,9 +116,6 @@ const RankBenefitsModal = (props) => {
         }
 
     }
-
-
-
     return (
         <Modal
             open={() => true}
@@ -214,22 +198,25 @@ const RankBenefitsModal = (props) => {
                                 "backdrop-filter": "blur(26px)"
                             }}
                         >
-                            <div ref={scrollableElem} class=' absolute -top-7 left-0 w-full pt-7 flex gap-12 mr-4 overflow-scroll'>
+                            <div ref={scrollableElem} class=' absolute -top-7 left-0 w-full pt-7 flex gap-12 overflow-scroll'>
                                 <For each={props.benefits}>
-                                    {(card, idx) => 
+                                    {(card, idx) => {
+                                       const isLocked = listLeagues.indexOf(userObject?.user?.level?.league) < idx()  
+                                       return ( 
                                         <BenefitCard 
                                             card={card}
-                                            onSelect={() => setSelectedCard(card)}
+                                            onSelect={() => setSelectedCard({...card, isLocked })}
                                             current={card.id === userObject?.user?.level?.league}
-                                            locked={props.benefits.map(item => item.id).indexOf(userObject?.user?.level?.league) < idx()  }
-                                              
-                                        />}
+                                            locked={isLocked}
+                            
+                                        />)}
+                                    }
                                 </For>
                             </div>
                             <img src={RibbedBennefitsMask} alt='mask' class='absolute inset-0 rounded-8' />
                             <div ref={btnRight} >
                                 <RoundedBtn
-                                    handleClick={rorward}
+                                    handleClick={forward}
                                     additionalClasses='absolute -right-4 top-1/3 z-20'
                                 >
                                     <ArrowSliderStyle additionalClasses='text-gray-92' />
@@ -266,7 +253,7 @@ const RankBenefitsModal = (props) => {
 
                         </div>
                         <div 
-                            class='flex flex-col items-center font-SpaceGrotesk font-bold rounded-6 p-8 h-[240px] z-[1] '
+                            class='flex flex-col gap-6 items-center font-SpaceGrotesk font-bold rounded-6 p-8 h-[240px] z-[1] '
                             style={{background: 
                                         `linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.03) 41.3%, rgba(0, 0, 0, 0.03) 68.93%, rgba(255, 255, 255, 0.03) 100%), 
                                          radial-gradient(136.7% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), 
@@ -274,21 +261,56 @@ const RankBenefitsModal = (props) => {
                                          linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)`
                                    }}
                         >
-                            <div class='flex items-center gap-4 font-SpaceGrotesk font-bold'>
+                            <div class='flex h-10 items-center gap-4 text-10 font-SpaceGrotesk font-bold'>
                                 <Ranks
                                     width='9' 
                                     rank={selectedCard()?.id} 
                                 />
-                                <h2 class='uppercase text-white'>{selectedCard()?.name} BENEFITS</h2>
-                                <CardLabel 
-                                    labelStyles=' w-[74px] h-5 rounded-4 text-10 font-bold text-[#3EFF8B]  center font-Quicksand uppercase '
-                                    title="locked"
-                                 />
-                                 
+                                <h2 class='uppercase text-white text-base'>{selectedCard()?.name} BENEFITS</h2>
+                                {selectedCard()?.isLocked 
+                                ? (
+                                    <div
+                                        class={props.labelStyles ?? "w-[74px] h-5 rounded-4 center font-Quicksand uppercase text-green-3e  grayscale "}
+                                        style={{
+                                            background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",            
+                                        }}
+                                    >
+                                        locked
+                                    </div>
+                                )
+                                : (
+                                    <div
+                                        class={props.labelStyles ?? "w-[74px] h-5 rounded-4 center font-Quicksand uppercase text-green-3e "}
+                                        style={{
+                                            background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",            
+                                        }}
+                                    >
+                                        unlocked
+                                    </div>
+                                )
+                                } 
+                            </div>
+                            <div class="flex flex-col gap-1 items-center text-xs text-gray-a2 font-bold font-SpaceGrotesk [&_p>span]:text-green-27 ">
+                                {listLeagues.indexOf(selectedCard()?.id) <= 0 
+                                    ? (<>
+                                            <p>{selectedCard()?.text[0]}</p>
+                                            <p>{selectedCard()?.text[1]}</p>
+                                        </>)
+                                    : (<>
+                                            <p>Unlock <span>{selectedCard()?.text[0]}</span></p>
+                                            <p>Earn up to <span>{selectedCard()?.text[1]}</span> from your bets</p>
+                                            <p>Unlock the <span>{selectedCard()?.text[2]}</span></p>
+                                            <p>Get access to <span>{selectedCard()?.text[3]}</span></p>
+
+                                            {listLeagues.indexOf(selectedCard()?.id) > 5 &&
+                                              <p>Get <span>{selectedCard()?.text[4]}</span></p> }
+
+                                            {listLeagues.indexOf(selectedCard()?.id) > 8 &&
+                                                <p>Get additional <span>{selectedCard()?.text[5]}</span></p>}
+                                        </>)
+                                }
                             </div>
                         </div>
-
-                        
                     </div>
                 </div>
 

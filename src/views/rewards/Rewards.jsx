@@ -1,4 +1,4 @@
-import { onMount, createSignal, For, createEffect } from 'solid-js'
+import { onMount, createSignal, For, createEffect, Show } from 'solid-js'
 import Coin from '../../utilities/Coin'
 
 import RewardsBanerCases from "../../assets/img/rewards/RewardsBanerCases.png";
@@ -81,16 +81,16 @@ const Rewards = ({ loaded }) => {
 
   createEffect(() => {
     setBenefits([
-        {id: "default",name: "preferred player",text:'No Rakeback\\No Badge' },
-        {id: "bronze",name: "bronze", text:`Bronze Badge\\2% Rakeback\\Bronze Case\\+2 more`},
-        {id: "silver",name: "silver",text:'Silver Badge\\3% Rakeback\\Silver Case\\+2 more'},
-        {id: "gold1",name: "gold I",text:'Gold I Badge\\4% Rakeback\\Gold I Case\\+2 more'},
-        {id: "gold2",name: "gold II"},
-        {id: "gold3",name: "gold III"},
-        {id: "platinum1",name: "platinum I"},
-        {id: "platinum2",name: "platinum II"},
-        {id: "platinum3",name: "platinum III"},
-        {id: "diamond",name: "diamond" }
+        {id: "default",name: "preferred player",text:['No Rakeback','No Badge'] },
+        {id: "bronze",name: "bronze", text:['Bronze Badge','2% Rakeback', 'Bronze Case','Bronze Rank Giveaways & Rewards']},
+        {id: "silver",name: "silver",text:['Silver Badge','3% Rakeback','Silver Case', 'Silver Rank Giveaways & Rewards']},
+        {id: "gold1",name: "gold I",text:['Gold I Badge','4% Rakeback','Gold I Case', 'Gold Rank Giveaways & Rewards']},
+        {id: "gold2",name: "gold II", text:['Gold Badge','4.25% Rakeback','Gold II Case', 'Gold Rank Giveaways & Rewards']},
+        {id: "gold3",name: "gold III", text:['Gold Badge','4.75% Rakeback','Gold III Case', 'Gold Rank Giveaways & Rewards']},
+        {id: "platinum1",name: "platinum I", text:['Platinum Badge','5.5% Rakeback','Platinum I Case', 'Platinum Rank Giveaways & Rewards','Weekly Gift Card']},
+        {id: "platinum2",name: "platinum II", text:['Platinum Badge','7% Rakeback','Platinum II Case', 'Platinum Rank Giveaways & Rewards','Personalized birthday bonus']},
+        {id: "platinum3",name: "platinum III",  text:['Platinum Badge','10% Rakeback','Platinum III Case', 'Platinum Rank Giveaways & Rewards','Personalized birthday bonus']},
+        {id: "diamond",name: "diamond",  text:['Platinum Badge','20% Rakeback','Diamond Case', 'Platinum Rank Giveaways & Rewards' ,'Dedicated Account Manager','Weekly Gift Card Giveaway','Personalized birthday bonus'] }
     ])
 
   })
