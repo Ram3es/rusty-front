@@ -9,7 +9,7 @@ const UpgraderStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         #{props?.val?.pf_id}
       </p>
       <div class='flex items-center gap-2'>
@@ -24,10 +24,10 @@ const UpgraderStructure = (props) => {
           {Number(props?.val?.winnings).toLocaleString()}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {(props?.val?.winnings / props?.val?.bet_value || 0)?.toFixed(2)}x
       </p>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {props?.val?.info || 0}%
       </p>
       <div
@@ -39,11 +39,11 @@ const UpgraderStructure = (props) => {
           {props?.val?.winnings > 0 ? 'win' : 'loss'}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {props?.val?.extra_data}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>
       </div>

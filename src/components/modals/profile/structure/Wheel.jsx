@@ -8,7 +8,7 @@ const WheelStructure = (props) => {
 
   return (
     <>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         #{props?.val?.pf_id}
       </p>
       <div class='flex items-center gap-2'>
@@ -23,7 +23,7 @@ const WheelStructure = (props) => {
           {Number(props?.val?.winnings).toLocaleString()}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {(props?.val?.winnings / props?.val?.bet_value || 0).toFixed(2)}x
       </p>
       <div
@@ -36,7 +36,7 @@ const WheelStructure = (props) => {
         </p>
       </div>
       <div class='w-full flex items-center justify-end overflow-hidden'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>
       </div>

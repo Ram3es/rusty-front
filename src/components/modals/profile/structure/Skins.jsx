@@ -123,7 +123,7 @@ const SkinsStructure = (props) => {
           {props?.val?.type === 'give' ? 'withdraw' : 'deposit'}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto'>
+      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {props?.val?.offer_id || '-'}
       </p>
       <div class='flex items-center gap-2'>
@@ -145,7 +145,7 @@ const SkinsStructure = (props) => {
         </p>
       </div>
       <div class='w-full flex items-center justify-end overflow-hidden relative cursor-pointer'>
-        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto truncate'>
+        <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>
       </div>
