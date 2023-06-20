@@ -11,11 +11,25 @@ import {
 import { setIsRolling } from "../../../views/unbox/CaseUnboxing";
 import { spinnerTimings, otherOptions } from "../../../libraries/caseSpinConfig";
 
+import bglogo_gold from "../../../assets/img/case-battles/bglogo_gold.png"
+import bglogo_blue from "../../../assets/img/case-battles/bglogo_blue.png"
+import bglogo_red from "../../../assets/img/case-battles/bglogo_red.png"
+import bglogo_purple from "../../../assets/img/case-battles/bglogo_purple.png"
+import bglogo_gray from "../../../assets/img/case-battles/bglogo_gray.png"
+
 import confetti from "canvas-confetti";
 import Coin from "../../../utilities/Coin";
 // import { Fireworks } from "fireworks-js";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
+
+const bglogos = {
+  gold: bglogo_gold,
+  blue: bglogo_blue,
+  red: bglogo_red,
+  purple: bglogo_purple,
+  gray: bglogo_gray,
+};
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
@@ -259,7 +273,7 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
                     } h-24 z-20`}
                   />
                   <img
-                    src={`assets/glow_${item.rarity}.png`}
+                    src={bglogos[item.rarity]}
                     alt={item.rarity + " glow"}
                     class="absolute z-10 scale-[1.6]"
                   />
