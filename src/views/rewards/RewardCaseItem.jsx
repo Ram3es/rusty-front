@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js'
+import { createMemo, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -83,12 +83,6 @@ const RewardCaseItem = (props) => {
   const availableCases = createMemo(() =>
     getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
   )
-
-  createEffect(() => {
-    // console.log(notAvailableCases().slice(1), 'notavalibale slice')
-    // console.log(notAvailableCases()[0], 'notAvailableCases()[0]')
-    console.log(props?.user?.authenticated, 'props?.user?.user?.authenticated')
-  })
 
   return (
     <NavLink
