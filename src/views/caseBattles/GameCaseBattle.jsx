@@ -635,7 +635,7 @@ const GameCaseBattle = (props) => {
                                       class={`relative py-1 
                                     ${
                                       (game().status === "open" ||
-                                        game().status === "pending") &&
+                                        game().status === "pending" || game().status === "countdown") &&
                                       (index() === 0
                                         ? "scale-[120%]"
                                         : "scale-[90%]") +
@@ -958,6 +958,7 @@ const GameCaseBattle = (props) => {
                               </div>
                             )}
                           </For>
+                          {/* <div class="absolute left-[12.5%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-red">EDEDWEF</div> */}
                         </div>
                       </div>
                     </div>

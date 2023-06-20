@@ -10,6 +10,15 @@ import {
 } from "../../views/caseBattles/GameCaseBattle";
 import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
 import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
+import GoldText from "../shared/GoldText"
+import { getCurrencyString } from "../mines_new/utils/tools";
+import Coin from "../../utilities/Coin"
+
+import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png"
+import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png"
+import bglogo_red from "../../assets/img/case-battles/bglogo_red.png"
+import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png"
+import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png"
 
 import confetti from "canvas-confetti";
 // import { Fireworks } from "fireworks-js";
@@ -17,6 +26,14 @@ import confetti from "canvas-confetti";
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
+
+const bglogos = {
+  gold: bglogo_gold,
+  blue: bglogo_blue,
+  red: bglogo_red,
+  purple: bglogo_purple,
+  gray: bglogo_gray,
+};
 
 const BattleSpinnerReel = ({
   spinnerIndex,
@@ -224,7 +241,7 @@ const BattleSpinnerReel = ({
     <div
       id="slot-screen"
       class="relative gap-2 w-full h-full flex flex-col 
-      items-center justify-center overflow-hidden"
+      items-center justify-center overflow-hidden font-SpaceGrotesk"
     >
       <div class={`overflow-y-hidden w-full overflow-x-hidden`}>
         <div
@@ -264,24 +281,25 @@ const BattleSpinnerReel = ({
                     alt={item.name}
                   />
                   <img
-                    src={`/assets/glow_${item.rarity}.png`}
+                    src={bglogos[item.rarity]}
                     alt={item.rarity + " glow"}
-                    class="absolute z-10 scale-[1.6]"
+                    class="absolute z-10 scale-[1.4]"
                   />
                 </div>
                 <div
-                  class={`font-[lato] flex flex-col items-center 
-                  transition-all duration-500 overflow-visible gap-[4px]
+                  class={`flex flex-col items-center justify-center 
+                  transition-all duration-500 overflow-visible h-min
                   ${
                     spinComplete() && index() === spinIndexes()[spinnerIndex]
                       ? "scale-1"
                       : "scale-0"
                   } `}
                 >
-                  <div class="text-[#AADE4E] font-semibold text-2xl">
-                    ${item.price}
+                  <div class="text-[#A2A5C6] text-14 font-semibold">{item.name}</div>
+                  <div class="flex  items-center justify-center gap-1">
+                      <Coin width="5"/>
+                      <GoldText text={getCurrencyString(item.price)} size="13"/>
                   </div>
-                  <div class="text-[#9BA4D6] text-sm">{item.name}</div>
                 </div>
               </div>
             )}
