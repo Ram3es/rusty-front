@@ -77,11 +77,11 @@ const Rewards = ({ loaded }) => {
           <p class='text-14 text-gray-8c font-normal sentence whitespace-nowrap'>Resets in</p>
           <p class='text-16 text-gray-8c font-bold font-Oswald sentence'>{timeLeft()}</p>
         </div>
-        <div class='w-full h-full flex flex-col gap-10 overflow-visible relative '>
+        <div class='w-full h-full flex flex-col gap-10 overflow-visible relative'>
           <div class='flex flex-col md:flex-row justify-center items-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
-            <div class='flex flex-col grow px-16 relative overflow-hidden'>
+            <div class='flex flex-col grow px-16 relative'>
               <div
-                class='absolute top-0 inset-0 -left-5 h-[120px]'
+                class='absolute -top-5 inset-0 left-0 h-[120px] '
                 style={{
                   'background-image': `url('${rewardRLbackground}')`,
                   opacity: 0.015
