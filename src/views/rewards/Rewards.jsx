@@ -19,10 +19,11 @@ import ribbed from '../../components/new-home/img/ribbed.png';
 
 import PageLoadState from "../../libraries/PageLoadState";
 import Fallback from "../Fallback";
+import RewardCaseItem from "./RewardCaseItem";
 let tomorrow;
 
 const Rewards = ({ loaded }) => {
-  const { socket, toastr, freeCases } = injector;
+  const { socket, toastr, freeCases, userObject } = injector;
 
   const [timeLeft, setTimeLeft] = createSignal("00:00:00:00");
   const [items, setItems] = createSignal([]);
@@ -129,99 +130,100 @@ const Rewards = ({ loaded }) => {
               }
             >
               {(item) => (
-                <NavLink
-                  href={`${URL.CASE}?id=${item.id}`}
-                  class={`w-full h-64 bg-dark-1c flex justify-between py-5 items-center transition-transform duration-100 transform hover:-translate-y-1 flex-col p-2 relative cursor-pointer overflow-hidden`}
-                  style={{
-                    background: `url(${item.background})`,
-                    "background-size": "100% 100%",
-                  }}
-                >
-                  <div class="center flex-col gap-1 relative max-w-full">
-                    <p class="text-16 text-white font-bold max-w-full text-center">
-                      {item.name}
-                    </p>
-                  </div>
-                  <img
-                    class="h-24 no-select relative z-10"
-                    src={item.image.replace("{url}", window.origin)}
-                    alt={item.name}
-                  />
-                  {item.isCaseOpenedToday ? (
-                    <div
-                      class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden`}
-                      style={{
-                        "background-image": `url(${YellowButtonBg})`,
-                      }}
-                    >
-                      <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0" />
-                      <div
-                        class="absolute left-0.5 top-0.5 h-9 bg-dark-1c1"
-                        style={{ width: "calc(100% - 4px)" }}
-                      />
-                      <span class="text-yellow-ff text-12 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        ALREADY OPENED
-                      </span>
-                    </div>
-                  ) : !discordUserId() && item.name === "Free Daily Case" ? (
-                    <div class="flex justify-center gap-1 sm:gap-2 items-center text-14 text-gray-47 h-10">
-                      <svg
-                        width="13"
-                        height="16"
-                        viewBox="0 0 13 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.8333 7.00006V4.00003C10.8333 1.79498 8.88998 0 6.5 0C4.11069 0 2.16671 1.79498 2.16671 4.00003V7.00006C0.970061 7.00006 0 7.8956 0 8.99994V13.9999C0 15.1046 0.970061 16 2.16671 16H10.8333C12.0297 16 13 15.1046 13 13.9999V8.99994C13 7.89557 12.0297 7.00006 10.8333 7.00006ZM7.0417 11.8466V13.4999C7.0417 13.7763 6.79947 13.9999 6.50004 13.9999C6.2006 13.9999 5.95833 13.7763 5.95833 13.4999V11.8466C5.64039 11.6729 5.41673 11.3661 5.41673 11C5.41673 10.4472 5.90182 9.99998 6.5 9.99998C7.09818 9.99998 7.58334 10.4472 7.58334 11C7.58337 11.3661 7.35946 11.6729 7.0417 11.8466ZM8.66657 7.00006H4.33336V4.00003C4.33336 2.89652 5.30503 1.99998 6.5 1.99998C7.6944 1.99998 8.66654 2.89652 8.66654 4.00003V7.00006H8.66657Z"
-                          fill="#2D3660"
-                        />
-                      </svg>
-                      Read Banner Below
-                    </div>
-                  ) : !item.canBeOpen &&
-                    item.mindeposit <= userDailyDeposit() ? (
-                    <div
-                      class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden`}
-                      style={{ "background-image": `url(${GrayButtonBg})` }}
-                    >
-                      <div class="scrolling-btn-image-gray absolute left-0 top-0 hidden group-hover:block" />
-                      <span class="text-dark-1c text-14 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        OPEN
-                      </span>
-                    </div>
-                  ) : item.mindeposit <= userDailyDeposit() ? (
-                    <div
-                      class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden`}
-                      style={{ "background-image": `url(${YellowButtonBg})` }}
-                    >
-                      <div class="scrolling-btn-image absolute left-0 top-0 hidden group-hover:block" />
-                      <span class="text-dark-1c text-14 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                        OPEN
-                      </span>
-                    </div>
-                  ) : (
-                    <div class="flex justify-center gap-1 sm:gap-2 items-center text-14 text-gray-47 h-10">
-                      <svg
-                        width="13"
-                        height="16"
-                        viewBox="0 0 13 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.8333 7.00006V4.00003C10.8333 1.79498 8.88998 0 6.5 0C4.11069 0 2.16671 1.79498 2.16671 4.00003V7.00006C0.970061 7.00006 0 7.8956 0 8.99994V13.9999C0 15.1046 0.970061 16 2.16671 16H10.8333C12.0297 16 13 15.1046 13 13.9999V8.99994C13 7.89557 12.0297 7.00006 10.8333 7.00006ZM7.0417 11.8466V13.4999C7.0417 13.7763 6.79947 13.9999 6.50004 13.9999C6.2006 13.9999 5.95833 13.7763 5.95833 13.4999V11.8466C5.64039 11.6729 5.41673 11.3661 5.41673 11C5.41673 10.4472 5.90182 9.99998 6.5 9.99998C7.09818 9.99998 7.58334 10.4472 7.58334 11C7.58337 11.3661 7.35946 11.6729 7.0417 11.8466ZM8.66657 7.00006H4.33336V4.00003C4.33336 2.89652 5.30503 1.99998 6.5 1.99998C7.6944 1.99998 8.66654 2.89652 8.66654 4.00003V7.00006H8.66657Z"
-                          fill="#2D3660"
-                        />
-                      </svg>
-                      Deposit
-                      <Coin />
-                      {/* <span class="font-Oswald">
-                        {item.mindeposit.toLocaleString()}
-                      </span> */}
-                    </div>
-                  )}
-                </NavLink>
+                <RewardCaseItem item={item} discord={!discordUserId() && item.name === "Free Daily Case"} user={userObject} />
+                // <NavLink
+                //   href={`${URL.CASE}?id=${item.id}`}
+                //   class={`w-full h-64 bg-dark-1c flex justify-between py-5 items-center transition-transform duration-100 transform hover:-translate-y-1 flex-col p-2 relative cursor-pointer overflow-hidden`}
+                //   style={{
+                //     background: `url(${item.background})`,
+                //     "background-size": "100% 100%",
+                //   }}
+                // >
+                //   <div class="center flex-col gap-1 relative max-w-full">
+                //     <p class="text-16 text-white font-bold max-w-full text-center">
+                //       {item.name}
+                //     </p>
+                //   </div>
+                //   <img
+                //     class="h-24 no-select relative z-10"
+                //     src={item.image.replace("{url}", window.origin)}
+                //     alt={item.name}
+                //   />
+                //   {item.isCaseOpenedToday ? (
+                //     <div
+                //       class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden`}
+                //       style={{
+                //         "background-image": `url(${YellowButtonBg})`,
+                //       }}
+                //     >
+                //       <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0" />
+                //       <div
+                //         class="absolute left-0.5 top-0.5 h-9 bg-dark-1c1"
+                //         style={{ width: "calc(100% - 4px)" }}
+                //       />
+                //       <span class="text-yellow-ff text-12 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                //         ALREADY OPENED
+                //       </span>
+                //     </div>
+                //   ) : !discordUserId() && item.name === "Free Daily Case" ? (
+                //     <div class="flex justify-center gap-1 sm:gap-2 items-center text-14 text-gray-47 h-10">
+                //       <svg
+                //         width="13"
+                //         height="16"
+                //         viewBox="0 0 13 16"
+                //         fill="none"
+                //         xmlns="http://www.w3.org/2000/svg"
+                //       >
+                //         <path
+                //           d="M10.8333 7.00006V4.00003C10.8333 1.79498 8.88998 0 6.5 0C4.11069 0 2.16671 1.79498 2.16671 4.00003V7.00006C0.970061 7.00006 0 7.8956 0 8.99994V13.9999C0 15.1046 0.970061 16 2.16671 16H10.8333C12.0297 16 13 15.1046 13 13.9999V8.99994C13 7.89557 12.0297 7.00006 10.8333 7.00006ZM7.0417 11.8466V13.4999C7.0417 13.7763 6.79947 13.9999 6.50004 13.9999C6.2006 13.9999 5.95833 13.7763 5.95833 13.4999V11.8466C5.64039 11.6729 5.41673 11.3661 5.41673 11C5.41673 10.4472 5.90182 9.99998 6.5 9.99998C7.09818 9.99998 7.58334 10.4472 7.58334 11C7.58337 11.3661 7.35946 11.6729 7.0417 11.8466ZM8.66657 7.00006H4.33336V4.00003C4.33336 2.89652 5.30503 1.99998 6.5 1.99998C7.6944 1.99998 8.66654 2.89652 8.66654 4.00003V7.00006H8.66657Z"
+                //           fill="#2D3660"
+                //         />
+                //       </svg>
+                //       Read Banner Below
+                //     </div>
+                //   ) : !item.canBeOpen &&
+                //     item.mindeposit <= userDailyDeposit() ? (
+                //     <div
+                //       class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper-gray overflow-hidden`}
+                //       style={{ "background-image": `url(${GrayButtonBg})` }}
+                //     >
+                //       <div class="scrolling-btn-image-gray absolute left-0 top-0 hidden group-hover:block" />
+                //       <span class="text-dark-1c text-14 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                //         OPEN
+                //       </span>
+                //     </div>
+                //   ) : item.mindeposit <= userDailyDeposit() ? (
+                //     <div
+                //       class={`relative cursor-pointer w-40 h-10 group rounded-2 bg-cover scrolling-btn-wrapper overflow-hidden`}
+                //       style={{ "background-image": `url(${YellowButtonBg})` }}
+                //     >
+                //       <div class="scrolling-btn-image absolute left-0 top-0 hidden group-hover:block" />
+                //       <span class="text-dark-1c text-14 uppercase font-Oswald absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                //         OPEN
+                //       </span>
+                //     </div>
+                //   ) : (
+                //     <div class="flex justify-center gap-1 sm:gap-2 items-center text-14 text-gray-47 h-10">
+                //       <svg
+                //         width="13"
+                //         height="16"
+                //         viewBox="0 0 13 16"
+                //         fill="none"
+                //         xmlns="http://www.w3.org/2000/svg"
+                //       >
+                //         <path
+                //           d="M10.8333 7.00006V4.00003C10.8333 1.79498 8.88998 0 6.5 0C4.11069 0 2.16671 1.79498 2.16671 4.00003V7.00006C0.970061 7.00006 0 7.8956 0 8.99994V13.9999C0 15.1046 0.970061 16 2.16671 16H10.8333C12.0297 16 13 15.1046 13 13.9999V8.99994C13 7.89557 12.0297 7.00006 10.8333 7.00006ZM7.0417 11.8466V13.4999C7.0417 13.7763 6.79947 13.9999 6.50004 13.9999C6.2006 13.9999 5.95833 13.7763 5.95833 13.4999V11.8466C5.64039 11.6729 5.41673 11.3661 5.41673 11C5.41673 10.4472 5.90182 9.99998 6.5 9.99998C7.09818 9.99998 7.58334 10.4472 7.58334 11C7.58337 11.3661 7.35946 11.6729 7.0417 11.8466ZM8.66657 7.00006H4.33336V4.00003C4.33336 2.89652 5.30503 1.99998 6.5 1.99998C7.6944 1.99998 8.66654 2.89652 8.66654 4.00003V7.00006H8.66657Z"
+                //           fill="#2D3660"
+                //         />
+                //       </svg>
+                //       Deposit
+                //       <Coin />
+                //       {/* <span class="font-Oswald">
+                //         {item.mindeposit.toLocaleString()}
+                //       </span> */}
+                //     </div>
+                //   )}
+                // </NavLink>
               )}
             </For>
           </div>
