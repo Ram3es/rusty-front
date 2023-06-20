@@ -78,26 +78,28 @@ const Rewards = ({ loaded }) => {
           <p class='text-16 text-gray-8c font-bold font-Oswald sentence'>{timeLeft()}</p>
         </div>
         <div class='w-full h-full flex flex-col gap-10 overflow-visible relative'>
-          <div class='flex flex-col md:flex-row justify-center items-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
-            <div class='flex flex-col grow px-16 relative'>
+          <div class='flex flex-col md:flex-row justify-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
+            <div class='grow px-16 relative overflow-hidden'>
               <div
-                class='absolute -top-5 inset-0 left-0 h-[120px] '
+                class='absolute inset-0 -left-5 top-[11px] h-[120px] '
                 style={{
                   'background-image': `url('${rewardRLbackground}')`,
-                  opacity: 0.015
+                  opacity: 0.013
                 }}
               />
-              <div class='mb-4 flex flex-row items-end'>
-                <h1 class='rewards-title text-72 font-SpaceGrotesk font-bold leading-none'>
-                  Rewards
-                </h1>
+              <div class='flex flex-col absolute inset-0 left-[72px] top-[36px]'>
+                <div class='mb-4 flex flex-row items-end'>
+                  <h1 class='rewards-title text-72 font-SpaceGrotesk font-bold leading-none'>
+                    Rewards
+                  </h1>
+                </div>
+                <p class='text-gray-9a text-16 font-SpaceGrotesk'>
+                  Rank up to be unlock <span class='text-yellow-ffb'>higher level cases</span> that
+                  can be opened daily!
+                  <br />
+                  The <span class='text-yellow-ffb'>free case</span> is available to everyone.
+                </p>
               </div>
-              <p class='text-gray-9a text-16 font-SpaceGrotesk'>
-                Rank up to be unlock <span class='text-yellow-ffb'>higher level cases</span> that
-                can be opened daily!
-                <br />
-                The <span class='text-yellow-ffb'>free case</span> is available to everyone.
-              </p>
             </div>
             <div class='relative w-[495px] bg-black/30 rounded-8'>
               <img
