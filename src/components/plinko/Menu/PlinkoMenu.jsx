@@ -10,37 +10,42 @@ import {
   isAutoMode,
   setIsAutoDropping,
   isAutoDropping,
-  difficulty
+  difficulty,
 } from "../PlinkoContainer";
 
-import { dropBall } from "../PlayArea/Plinko/Plinko";
+import {dropBall} from "../PlayArea/Plinko/Plinko";
 
-import { downloadLogFile } from "../PlayArea/Plinko/Plinko";
+// import { downloadLogFile } from "../PlayArea/Plinko/Plinko";
 import injector from "../../../injector/injector";
-import { onCleanup, onMount } from "solid-js";
+import {onCleanup, onMount} from "solid-js";
 
 const TilesMenu = () => {
   const {socket, toastr} = injector;
 
   const bet = () => {
-    socket.emit("plinko:bet", {
-        rows: rowsAmount(), 
-        bet:  betAmount(),
+    socket.emit(
+      "plinko:bet",
+      {
+        rows: rowsAmount(),
+        bet: betAmount(),
         mode: difficulty(),
-    }, (data) => {
-        if(data.msg) {
-            toastr(data)
+      },
+      (data) => {
+        if (data.msg) {
+          dropBall(data.data.ballPosition);
+          toastr(data);
         }
-        if(data.error) {
+        if (data.error) {
           setIsAutoDropping(false);
           toastr({
-              error: true,
-              msg:"Autobet canceled!"
+            error: true,
+            msg: "Autobet canceled!",
           });
         }
-    })
-  }
-  
+      }
+    );
+  };
+
   const handleClick = () => {
     // const pegs = getLeftAndRightPegs(rowsAmount());
 
@@ -59,7 +64,6 @@ const TilesMenu = () => {
     // }
     // dropBall(getBallPosition(rowsAmount()));
     // dropBall(441.58525895481233);
-    
 
     if (!isAutoMode()) {
       bet();
@@ -76,17 +80,17 @@ const TilesMenu = () => {
     }
   };
 
-  onMount(() => {
-    socket.on("plinko:create", (data) => {
-        if(data?.data?.ballPosition) {
-          dropBall(data?.data?.ballPosition);
-        }
-    })
-  })
+  // onMount(() => {
+  //   socket.on("plinko:create", (data) => {
+  //     if (data?.data?.ballPosition) {
+  //       dropBall(data?.data?.ballPosition);
+  //     }
+  //   });
+  // });
 
   onCleanup(() => {
-    socket.off('plinko:create')
-  })
+    socket.off("plinko:create");
+  });
   return (
     <div
       class="relative min-w-[384px] h-full border-r-[#1a16160a] border-r flex flex-col p-7 pt-12 items-center gap-6"

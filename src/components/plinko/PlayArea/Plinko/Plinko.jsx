@@ -1,6 +1,6 @@
-import { Engine, World, Bodies, Events } from "matter-js";
+import {Engine, World, Bodies, Events} from "matter-js";
 import RustyGlowBall from "../../../../assets/img/plinko/new/PlinkoGlowBall.svg";
-import { createEffect, onCleanup, createSignal } from "solid-js";
+import {createEffect, onCleanup, createSignal} from "solid-js";
 import P5 from "p5";
 
 import {
@@ -109,7 +109,7 @@ function Particle(x, y, r, svg) {
 let pegsMap = new Map();
 
 function Peg(x, y, r) {
-  this.body = Bodies.circle(x, y, r, { isStatic: true });
+  this.body = Bodies.circle(x, y, r, {isStatic: true});
   this.body.label = "peg";
   this.color = "#747AAF";
   this.radius = r;
@@ -201,7 +201,7 @@ function createPegs() {
 
       // Check if it is the final row and outermost pegs
       if (i === rowsAmount() - 1 && (j === 0 || j === i + 2)) {
-        finalRowPegs.push({ x, y });
+        finalRowPegs.push({x, y});
       }
     }
   }
@@ -219,15 +219,18 @@ const Plinko = () => {
   let lastTimestamp = performance.now();
   let frameCount = 0;
   let lastFpsUpdate = performance.now();
-
+  let particleImageGlobal;
   createEffect(() => {
     createPegs();
 
     const sketch = (p5) => {
       p5.preload = () => {
-        // Load the SVG image file
-        const img = p5.loadImage(RustyGlowBall);
-        setParticleImage(img);
+        // Only load the SVG image file if it hasn't been loaded yet
+        if (!particleImageGlobal) {
+          const img = p5.loadImage(RustyGlowBall);
+          setParticleImage(img);
+          particleImageGlobal = img;
+        }
       };
 
       p5.setup = () => {
@@ -281,7 +284,7 @@ const Plinko = () => {
 
   return (
     <div>
-      <div id="plinko" class="w-full h-full"></div>
+      <div id="plinko" class="w-full h-full flex items-center justify-center" />
     </div>
   );
 };
@@ -380,7 +383,7 @@ const calculateExitIndex = (x) => {
 // Function to prompt the user to download the log file
 export function downloadLogFile() {
   const jsonOutput = JSON.stringify(logOutput, null, 2);
-  const blob = new Blob([jsonOutput], { type: "application/json" });
+  const blob = new Blob([jsonOutput], {type: "application/json"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
