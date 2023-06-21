@@ -10,8 +10,12 @@ const socket = io(API, {
   upgrade: true,
 });
 
-const [freeCases, setFreeCases] = createSignal([]);
-
+const [rewardCases, setRewardCases] = createStore({
+  cases: [],
+  isUserOnServer: false,
+  lastDailyCaseOpening: null,
+  lastFreeCaseOpening: null
+})
 
 const SNOWMODE = false;
 
@@ -19,7 +23,7 @@ onMount(() => {
   socket.emit("rewards:cases", {}, (data) => {
     console.log("rewards:cases",data);
     if (!data.error) {
-      setFreeCases(data.data.cases);
+      setRewardCases(data.data)
     }
     });  
 })
@@ -112,7 +116,7 @@ const createUserObject = () => {
     toastrs,
     setToastrs,
     SNOWMODE,
-    freeCases,
+    rewardCases,
     toastr: (data) => {
       if (data.error) {
         soundError.currentTime = 0;

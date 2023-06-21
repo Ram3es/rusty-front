@@ -1,5 +1,5 @@
 import { NavLink } from "solid-app-router";
-import { createSignal, For, createEffect, onCleanup } from "solid-js";
+import { createSignal, For, createEffect, onCleanup, onMount, createMemo } from "solid-js";
 import { URL } from "../../libraries/url";
 import injector from "../../injector/injector";
 
@@ -20,12 +20,16 @@ import LightningIcon from "../../components/icons/LightningIcon";
 import GrayGradientButton from "../../components/elements/GrayGradientButton";
 import FairnessShieldIcon from "../../components/icons/cases/FairnessShield";
 import HistoryDrops from "../case/HistoryDrops";
+import { calculateRemainingTime, getAvailableCases, getIndexRank, getNotAvailableCases } from "../../utilities/rewards-tools";
+import { convertRomanToNormal } from "../../utilities/Numbers";
+import { BASE_RANKS } from "../../libraries/constants";
+import DiscordIcon from '../../components/icons/DiscordIcon'
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
 
 const CaseUnboxing = (props) => {
-  const { socket, toastr, userObject } = injector;
+  const { socket, toastr, userObject, rewardCases } = injector;
 
   const [rollCase, setRollCase] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -36,6 +40,7 @@ const CaseUnboxing = (props) => {
   const [pendingNum, setPendingNum] = createSignal(1);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [fairnessHash, setFairnessHash] = createSignal([]);
+  const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] = createSignal('')
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -48,12 +53,10 @@ const CaseUnboxing = (props) => {
       ? "blue"
       : "gray";
   };
-  const itemsUpdate = () => {
-    socket.emit(
-      "case:get",
-      { caseId: Number(props.searchParams.id) },
-      (data) => {
-        console.log(data.data);
+
+  const itemsUpdate = (data) => {
+    
+        console.log('itemsUpdate', data);
         if (data.data?.case) {
           const myCase = {
             ...data.data.case,
@@ -91,13 +94,55 @@ const CaseUnboxing = (props) => {
             }))
           );
         }
-      }
-    );
+      
   };
+
+  const timerId = setInterval(() => {
+    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
+    setRemainingTimeToOpenCase(calculateRemainingTime(
+      rollCase().name === 'Daily Free Case' 
+        ? rewardCases.lastFreeCaseOpening 
+        : rewardCases.lastDailyCaseOpening
+      )
+    )
+    }
+  }, 1000)
+
+  createEffect(() => {
+
+
+    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
+    setRemainingTimeToOpenCase(calculateRemainingTime(
+      rollCase().name === 'Daily Free Case' 
+        ? rewardCases.lastFreeCaseOpening 
+        : rewardCases.lastDailyCaseOpening
+      )
+    )
+    }
+  })
 
   createEffect(() => {
     if (props?.loaded()) {
-      itemsUpdate();
+      
+      if (!props.searchParams.daily) {
+        socket.emit(
+          "case:get",
+          { caseId: Number(props.searchParams.id) },
+          (data) => {
+            itemsUpdate(data);
+          }
+        );
+      } else {
+        console.log("rewards:case");
+        socket.emit(
+          'rewards:case',
+          { caseId: Number(props.searchParams.id) },
+          (data) => {
+            console.log("rewards:case", data);
+            itemsUpdate(data);
+          }
+        )
+      }
     }
   });
 
@@ -136,6 +181,7 @@ const CaseUnboxing = (props) => {
     if (rollCase()) {
       socket.off(`cases:recentdrop:${Number(rollCase().id)}`);
     }
+    clearInterval(timerId)
   });
 
   const handleNumSpinnersClick = (num) => {
@@ -146,6 +192,32 @@ const CaseUnboxing = (props) => {
     setIsRolling(false);
   };
 
+  const rollCases = (data) => {
+    console.log(data);
+    if (data.msg) {
+      toastr(data);
+    }
+    if (data.error) return;
+    setSpinnerOptions(() =>
+      data.cases.map((caseItem) => ({
+        winningItem: {
+          img: caseItem.item.image?.replace("{url}", window.origin) || "",
+          price: caseItem.item.item_price,
+          name: caseItem.item.name,
+          rarity: getColor(caseItem.item.item_price),
+        },
+        isConfettiWin: true,
+        isBigWin: true,
+      }))
+    );
+    setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
+    console.log(spinnerOptions());
+    setIsCaseAlreadyOpened(() => true);
+    setCountOfCases(pendingNum());
+    setSpinReelsTrigger({ triggered: true });
+    setIsRolling(true);
+  }
+
   const startGame = (isDemo) => {
     if (isCaseCanBeOpen() && !isRolling()) {
       let durationInSeconds = spinnerTimings.verticalInitialSpin + 3; // For example, a 2-second duration
@@ -153,43 +225,48 @@ const CaseUnboxing = (props) => {
         durationInSeconds =
           durationInSeconds * spinnerTimings.fastSpinMultiplier;
       }
-      console.log("durationInSeconds", durationInSeconds);
-      socket.emit(
-        "case:open",
-        {
-          caseId: Number(props.searchParams.id),
-          demo: isDemo,
-          qty: pendingNum(),
-          spinTime: durationInSeconds * 1000,
-        },
-        (data) => {
-          console.log(data);
-          if (data.msg) {
-            toastr(data);
+      console.log("durationInSeconds", durationInSeconds, props.searchParams.daily);
+      if (!props.searchParams.daily) {
+        socket.emit(
+          "case:open",
+          {
+            caseId: Number(props.searchParams.id),
+            demo: isDemo,
+            qty: pendingNum(),
+            spinTime: durationInSeconds * 1000,
+          },
+          (data) => {
+            if (!data.error) {
+              rollCases(data)
+            } else {
+              toastr(data)
+            }
           }
-          if (data.error) return;
-          setSpinnerOptions(() =>
-            data.cases.map((caseItem) => ({
-              winningItem: {
-                img: caseItem.item.image?.replace("{url}", window.origin) || "",
-                price: caseItem.item.item_price,
-                name: caseItem.item.name,
-                rarity: getColor(caseItem.item.item_price),
-              },
-              isConfettiWin: true,
-              isBigWin: true,
-            }))
-          );
-          setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
-          console.log(spinnerOptions());
-          setIsCaseAlreadyOpened(() => true);
-          setCountOfCases(pendingNum());
-          setSpinReelsTrigger({ triggered: true });
-          setIsRolling(true);
-        }
-      );
+        );
+      } else {
+        socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
+
+          console.log('rewards:case:open', data);
+          if (!data.error) {
+            rollCases({cases: [data]})
+          } else {
+            toastr(data)
+          }
+        })
+      }
     }
   };
+
+  const userRankIndex = createMemo(() => getIndexRank(userObject?.user?.level?.league, BASE_RANKS))
+
+  const notAvailableCases = createMemo(() =>
+    getNotAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) =>
+      convertRomanToNormal(caseName)
+    )
+  )
+  const availableCases = createMemo(() =>
+    getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
+  )
 
   return (
     <>
@@ -197,7 +274,7 @@ const CaseUnboxing = (props) => {
         <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll relative min-h-screen pt-8">
           <div class="px-4 xl:px-8 xxl:px-14 flex flex-col gap-8">
             <div class="flex justify-between flex-col md:flex-row">
-              <NavLink href={URL.UNBOXING}>
+              <NavLink href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}>
                 <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
                   <ArrowBack />
                   <span class="font-SpaceGrotesk text-14 text-gray-9a">
@@ -217,7 +294,12 @@ const CaseUnboxing = (props) => {
                 pendingNum() === 1
                   ? "case-opening-wrapper"
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden`}
+              } overflow-hidden ${props.searchParams.daily && 
+                (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
+                || (rollCase().name === 'Daily Free Case' ? rewardCases.lastFreeCaseOpening : rewardCases.lastDailyCaseOpening) 
+                || !userObject.authenticated || !rewardCases.isUserOnServer)
+                  ? 'mix-blend-luminosity' 
+                : 'mix-blend-normal'}`}
             >
               <div
                 class="w-full relative"
@@ -225,7 +307,7 @@ const CaseUnboxing = (props) => {
               >
                 {!isCaseAlreadyOpened() && (
                   <div
-                    class="absolute left-0 top-0 w-full h-full center rounded-4 z-50"
+                    class="absolute left-0 top-0 w-full h-full center rounded-4"
                     style={{
                       background:
                         "radial-gradient(35.44% 82.64% at 2.04% -32.64%, rgba(255, 180, 54, 0.16) 14.79%, rgba(255, 180, 54, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(0, 0, 0, 0.24)",
@@ -277,7 +359,7 @@ const CaseUnboxing = (props) => {
                 <div class="flex gap-1.5 items-center">
                   <Coin width="5" />
                   <span class="font-bold text-md potential-drop--price">
-                    {(Number(rollCase().price) * pendingNum()).toLocaleString()}
+                    {!props.searchParams.daily ? (Number(rollCase().price) * pendingNum()).toLocaleString() : "FREE"}
                   </span>
                 </div>
               </div>
@@ -286,7 +368,7 @@ const CaseUnboxing = (props) => {
                   isRolling() ? "opacity-[.03]" : "opacity-100"
                 } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
               >
-                <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
+                {!props.searchParams.daily ? <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
                   <div class=" font-SpaceGrotesk text-14 text-gray-9a ">
                     Case Amount:
                   </div>
@@ -306,27 +388,88 @@ const CaseUnboxing = (props) => {
                         </TransparentButton>
                       )}
                     </For>
-                  </div>
-                </div>
-                <div class="flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100">
-                  <CaseGradientButton callbackFn={() => startGame(false)}>
-                    <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                      <span class="w-max">Open for</span>
-                      <Coin width="5" />
-                      <span class="text-gradient">
-                        {(
-                          Number(rollCase().price) * pendingNum()
-                        ).toLocaleString()}
+                  </div> 
+                </div> : ""}
+                <div class='relative'>
+                  <div
+                    class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
+                      (props.searchParams.daily &&
+                        (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                          (rollCase().name !== 'Daily Free Case' &&
+                            rewardCases.lastDailyCaseOpening) ||
+                          (!userObject.authenticated &&
+                            rollCase().name === 'Daily Free Case' &&
+                            rewardCases.lastFreeCaseOpening))) ||
+                      notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ||
+                      rewardCases.lastFreeCaseOpening
+                        ? 'mix-blend-luminosity'
+                        : 'mix-blend-normal'
+                    }`}
+                  >
+                    {props.searchParams.daily && (
+                      <button
+                        class='group bg--gold border--gold w-[194px] h-10 rounded-4 flex items-center justify-center gap-[10px] transition-colors'
+                        onClick={() => startGame(false)}
+                      >
+                        {rollCase().name === 'Daily Free Case' && <DiscordIcon />}
+                        <span class='text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary'>
+                          {(availableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                            rollCase().name === 'Daily Free Case') &&
+                            !(rollCase().name === 'Daily Free Case'
+                              ? rewardCases.lastFreeCaseOpening
+                              : rewardCases.lastDailyCaseOpening) && (
+                              <span class='flex items-center gap-[7.34px]'>
+                                Open for <Coin width='5' />
+                                <span class='text-gradient'>FREE</span>
+                              </span>
+                            )}
+                          {(userObject.authenticated
+                            ? notAvailableCases()
+                                .slice(1)
+                                .includes(convertRomanToNormal(rollCase().name))
+                            : notAvailableCases().includes(
+                                convertRomanToNormal(rollCase().name)
+                              )) && 'Locked'}
+                          {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
+                            ((rollCase().name === 'Daily Free Case'
+                              ? rewardCases.lastFreeCaseOpening
+                              : rewardCases.lastDailyCaseOpening) &&
+                              availableCases().includes(convertRomanToNormal(rollCase().name)) && (
+                                <span class='normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
+                                  Open in {remainingTimeToOpenCase()}
+                                </span>
+                              ))}
+                        </span>
+                      </button>
+                    )}
+                    {!props.searchParams.daily && (
+                      <CaseGradientButton callbackFn={() => startGame(false)}>
+                        <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
+                          <span class='w-max'>Open for</span>
+                          <Coin width='5' />
+                          <span class='text-gradient'>
+                            {(Number(rollCase().price) * pendingNum()).toLocaleString()}
+                          </span>
+                        </div>
+                      </CaseGradientButton>
+                    )}
+                    <GrayGradientButton callbackFn={() => startGame(true)}>
+                      <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
+                        Demo Spin
                       </span>
-                    </div>
-                  </CaseGradientButton>
-                  <GrayGradientButton callbackFn={() => startGame(true)}>
-                    <span
-                      class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}
-                    >
-                      Demo Spin
-                    </span>
-                  </GrayGradientButton>
+                    </GrayGradientButton>
+                  </div>
+                  {props.searchParams.daily &&
+                    userObject.authenticated &&
+                    notAvailableCases()[0] === convertRomanToNormal(rollCase().name) && (
+                      <span class='absolute bottom-0.5 left-[130px] transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
+                        {(
+                          (userObject.user?.wagered - userObject.user?.level?.from * 1000) /
+                            (userObject.user?.level?.to * 10) || 99
+                        ).toFixed(2)}
+                        % till unlock
+                      </span>
+                    )}
                 </div>
               </div>
               <div class="flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a">
