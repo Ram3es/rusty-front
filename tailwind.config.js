@@ -1,65 +1,65 @@
 module.exports = {
-  mode: 'jit',
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  mode: "jit",
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   darkMode: false, // or 'media' or 'class'
-  safelist: ['grid-cols-2', 'grid-cols-3', 'grid-cols-4'],
+  safelist: ["grid-cols-2", "grid-cols-3", "grid-cols-4"],
   theme: {
     extend: {
       screens: {
         ssm: "350px",
         sm: "550px",
         md: "700px",
-        lg: "900px", 
+        lg: "900px",
         llg: "1100px",
-        xl: "1300px", 
+        xl: "1300px",
         xll: "1600px",
         xxl: "1750px",
         fourk: "2500px",
       },
       animation: {
         stripes: "stripes 2s linear infinite",
-        'spin-slow': 'spin 40s linear infinite',
-        "spin-fade": "spin 1s linear infinite, fadeIn 1.5s", 
-        'fade-in': "fadeIn .5s",
+        "spin-slow": "spin 40s linear infinite",
+        "spin-fade": "spin 1s linear infinite, fadeIn 1.5s",
+        "fade-in": "fadeIn .5s",
         "fade-in-translation": "fadeInFromTop .4s ease-in-out forwards",
-        'ping-small': 'pingSmall 2.5s cubic-bezier(0, 0, 0.2, 1) infinite',
-        'ltr-linear-infinite': 'move-bg 5s linear infinite',
-        'net': "net 5s infinite alternate",
-        'reverse-spin': 'reverse-spin 1s linear infinite',
+        "ping-small": "pingSmall 2.5s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "ltr-linear-infinite": "move-bg 5s linear infinite",
+        net: "net 5s infinite alternate",
+        "reverse-spin": "reverse-spin 1s linear infinite",
         shake: "shake 0.6s",
       },
       keyframes: {
         stripes: {
-          "0%": { transform: "translateX(0)" },
-          "100%": { transform: "translateX(41px)" },
+          "0%": {transform: "translateX(0)"},
+          "100%": {transform: "translateX(41px)"},
         },
-        "fadeInFromTop": {
+        fadeInFromTop: {
           "0%": {
             opacity: 0,
-            transform: 'translateX(-200px)',
+            transform: "translateX(-200px)",
           },
           "100%": {
             opacity: 1,
-            transform: 'translateX(0)',
-          }
+            transform: "translateX(0)",
+          },
         },
-        "fadeIn": {
+        fadeIn: {
           "0%": {opacity: 0},
-          "100%": {opacity: 1}
+          "100%": {opacity: 1},
         },
         pingSmall: {
           "75%, 100%": {
             transform: "scale(1.3)",
-            opacity: 0
+            opacity: 0,
           },
         },
-        'reverse-spin': {
+        "reverse-spin": {
           from: {
-            transform: 'rotate(360deg)'
+            transform: "rotate(360deg)",
           },
         },
         shake: {
-          "0%, 100%": { transform: "translate(0, 0) " },
+          "0%, 100%": {transform: "translate(0, 0) "},
           "10%": {
             transform: "translate(-2px, 1px)  ",
           },
@@ -88,23 +88,33 @@ module.exports = {
             transform: "translate(-1px, 1px) ",
           },
         },
+        bounce: {
+          "0%, 100%": {
+            transform: "translateY(15%)",
+            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
+          },
+          "50%": {
+            transform: "translateY(0)",
+            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
+          },
+        },
       },
       boxShadow: {
-        "button": "0px 2px 2px rgba(0, 0, 0, 0.12)"
+        button: "0px 2px 2px rgba(0, 0, 0, 0.12)",
       },
       dropShadow: {
-        'yellow': '0px 0px 10px rgba(255, 199, 1, 0.6)',
-        'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
-        "box": "0px 4px 8px rgba(0, 0, 0, 0.25)"
+        yellow: "0px 0px 10px rgba(255, 199, 1, 0.6)",
+        gold: "0px 0px 8px rgba(255, 180, 54, 0.48)",
+        box: "0px 4px 8px rgba(0, 0, 0, 0.25)",
       },
       textShadow: {
-        'gold': '0px 0px 8px rgba(255, 180, 54, 0.48)',
-        'gold-secondary': '0px 2px 2px rgba(0, 0, 0, 0.12)',
-        'base': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+        gold: "0px 0px 8px rgba(255, 180, 54, 0.48)",
+        "gold-secondary": "0px 2px 2px rgba(0, 0, 0, 0.12)",
+        base: "0px 2px 2px rgba(0, 0, 0, 0.12)",
       },
-      colors : {
-        "transparent": "transparent",
-        
+      colors: {
+        transparent: "transparent",
+
         "dark-1c": "#1C1F33",
         "dark-1c1": "#1c1f2e",
         "dark-2d": "#2D3551",
@@ -136,7 +146,7 @@ module.exports = {
         "dark-202": "#20253A",
         "dark-0c": "#0C0E16",
 
-        "light-37" :"#373D54",
+        "light-37": "#373D54",
 
         "gray-66": "#666E97",
         "gray-4d": "#4D5B97",
@@ -155,10 +165,10 @@ module.exports = {
         "gray-1b": "#1B2235",
         "gray-1d": "#1D1E2E",
         "gray-3b3": "#3B3C43",
-        "gray-2e": '#2E374D',
-        "gray-8b": '#8B93B5',
-        "gray-30": '#30344A',
-        "gray-33": '#334154',
+        "gray-2e": "#2E374D",
+        "gray-8b": "#8B93B5",
+        "gray-30": "#30344A",
+        "gray-33": "#334154",
         "gray-e0": "#E0E0E0",
         "gray-c6": "#C6CFFE",
         "gray-c6c": "#C6C6C6",
@@ -189,7 +199,7 @@ module.exports = {
         "yellow-ffb": "#FFB436",
         "yellow-eb": "#EBAC32",
 
-        "blue": "#5BCAEE",
+        blue: "#5BCAEE",
         "blue-2e": "#2EA4EB",
         "blue-72": "#7289DA",
         "blue-07": "#07B5FF",
@@ -198,7 +208,7 @@ module.exports = {
         "blue-60": "#606384",
 
         "sky-4e": "#4ebcff7",
-        "green": "#33EBB4",
+        green: "#33EBB4",
         "green-1b": "#1BDC80",
         "green-2b": "#2BF67C",
         "green-60": "#60870C",
@@ -212,14 +222,14 @@ module.exports = {
         "red-ff5": "#FF5858",
         "red-ff6": "#FF6969",
         "red-d3": "#D32437",
-      
+
         "orange-ff": "#ff922e",
         "orange-bd": "#bd6c22",
         "orange-ff6": "#FF6107",
 
         "purple-d6": "#D630FF",
-        
-        "silver": "#B9B4AD",
+
+        silver: "#B9B4AD",
         "silver-d9": "#D9DEE2",
         "silver-8a": "#8A9093",
         "silver-8c": "#8C94B6",
@@ -246,34 +256,43 @@ module.exports = {
       },
 
       rotate: {
-        '360': '360deg',
-        '20': '20deg'
+        360: "360deg",
+        20: "20deg",
       },
 
       backgroundImage: {
-        "green-gradient": "linear-gradient(96.98deg, #2CDEDF 12.79%, #5CDF76 95.81%)",
-        "yellow-gradient" : "linear-gradient(264.21deg, rgba(255, 209, 67, 0.74) 0%, rgba(255, 244, 67, 0.74) 100%)",
-        "yellow-to-transparent": "linear-gradient(to right, rgba(255, 194, 57, 0.2), transparent)",
-        "dark-gradient": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
-        "dark-radial-gradient": "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 317.48% at 100% 50%, #1D2352 0%, #1D1F30 100%)",
-        "dark-to-yellow": "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
-        "control-panel": "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)",
-        "dark-primary-gradient": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
-        "dark-secondary": "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
-        'gray-button-gradient': 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)'
-        
+        "green-gradient":
+          "linear-gradient(96.98deg, #2CDEDF 12.79%, #5CDF76 95.81%)",
+        "yellow-gradient":
+          "linear-gradient(264.21deg, rgba(255, 209, 67, 0.74) 0%, rgba(255, 244, 67, 0.74) 100%)",
+        "yellow-to-transparent":
+          "linear-gradient(to right, rgba(255, 194, 57, 0.2), transparent)",
+        "dark-gradient":
+          "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+        "dark-radial-gradient":
+          "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.16) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 317.48% at 100% 50%, #1D2352 0%, #1D1F30 100%)",
+        "dark-to-yellow":
+          "radial-gradient(72.88% 182.5% at 47.87% -51.25%, rgba(255, 180, 54, 0.32) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.04)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+        "control-panel":
+          "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)",
+        "dark-primary-gradient":
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), radial-gradient(80.66% 584.01% at 39.62% 51.7%, rgba(31, 35, 68, 0.56) 0%, rgba(35, 37, 61, 0.56) 100%)",
+        "dark-secondary":
+          "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
+        "gray-button-gradient":
+          "radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
       },
       scale: {
-        '40': '.4',
-        '60': '.6',
-        'sm': '1.007',
+        40: ".4",
+        60: ".6",
+        sm: "1.007",
       },
       margin: {
-        "5.5": "1.3rem"
+        5.5: "1.3rem",
       },
       spacing: {
-        "34": "8.75rem",
-        22: "5.5rem"
+        34: "8.75rem",
+        22: "5.5rem",
       },
       height: {
         22: "5.5rem",
@@ -293,13 +312,13 @@ module.exports = {
         28: "7rem",
       },
       padding: {
-        "sm": "2px",
-        "22": "5.5rem",
-        "1.5": "0.375rem",
-        "2.5": "0.625rem",
+        sm: "2px",
+        22: "5.5rem",
+        1.5: "0.375rem",
+        2.5: "0.625rem",
       },
       inset: {
-        "90per": "90%" 
+        "90per": "90%",
       },
       width: {
         13: "3.25rem",
@@ -337,33 +356,33 @@ module.exports = {
       },
       gridTemplateColumns: {
         rps: "auto 1fr",
-        'main': "18.5rem 1fr",
-        'leaderboard': "12rem 3fr 3fr 2fr",
-        'leaderboard-sm': "repeat(4, 1fr)",
-        'leaderboard-table': "1fr 3fr 2fr 2fr",
-        'leaderboard-table-sm': "1fr 3fr 2fr 2fr",
-        'gamemode-history': "1fr 1fr 1fr 1fr 8rem",
-        'gamemode-history-small': "1fr 1fr 3rem 1fr",
-        'feed': 'repeat(auto-fill,minmax(105px, 1fr))',
-        'battle-open': 'repeat(auto-fill,minmax(120px, 1fr))',
-        'payment-items': 'repeat(auto-fill,minmax(110px, 1fr))',
-        'upgrader-item': 'repeat(auto-fill,minmax(9rem, 1fr))',
-        'potential-drop--item': 'repeat(auto-fill,minmax(10rem, 1fr))',
-        'box-open': 'repeat(auto-fill,minmax(188px, 1fr))',
-        'battle-create': 'repeat(auto-fill,minmax(216px, 1fr))',
-        'skins': 'repeat(auto-fill,minmax(9rem, 1fr))',
-        'jackpot': "1fr 10rem 1fr 7.5rem",
-        'coinflip': "8.5rem 20rem 7rem 8rem 4rem 12.75rem",
-        'coinflip-md': "8.5rem 1fr 1fr 4rem 12.75rem",
-        'pvpmines': "repeat(auto-fill,minmax(20rem, 1fr))",
-        'pvp-mines': "repeat(auto-fill,minmax(360px, 1fr))",
-        'jackpot-history': "repeat(auto-fill,minmax(20rem, 1fr))",
-        'home-original' : "repeat(15, 1fr)",
-        'rewards-table' : "12rem 3fr 2fr 1fr 1fr",
-        'rewards-table-sm' : "repeat(3, 1fr)"
+        main: "18.5rem 1fr",
+        leaderboard: "12rem 3fr 3fr 2fr",
+        "leaderboard-sm": "repeat(4, 1fr)",
+        "leaderboard-table": "1fr 3fr 2fr 2fr",
+        "leaderboard-table-sm": "1fr 3fr 2fr 2fr",
+        "gamemode-history": "1fr 1fr 1fr 1fr 8rem",
+        "gamemode-history-small": "1fr 1fr 3rem 1fr",
+        feed: "repeat(auto-fill,minmax(105px, 1fr))",
+        "battle-open": "repeat(auto-fill,minmax(120px, 1fr))",
+        "payment-items": "repeat(auto-fill,minmax(110px, 1fr))",
+        "upgrader-item": "repeat(auto-fill,minmax(9rem, 1fr))",
+        "potential-drop--item": "repeat(auto-fill,minmax(10rem, 1fr))",
+        "box-open": "repeat(auto-fill,minmax(188px, 1fr))",
+        "battle-create": "repeat(auto-fill,minmax(216px, 1fr))",
+        skins: "repeat(auto-fill,minmax(9rem, 1fr))",
+        jackpot: "1fr 10rem 1fr 7.5rem",
+        coinflip: "8.5rem 20rem 7rem 8rem 4rem 12.75rem",
+        "coinflip-md": "8.5rem 1fr 1fr 4rem 12.75rem",
+        pvpmines: "repeat(auto-fill,minmax(20rem, 1fr))",
+        "pvp-mines": "repeat(auto-fill,minmax(360px, 1fr))",
+        "jackpot-history": "repeat(auto-fill,minmax(20rem, 1fr))",
+        "home-original": "repeat(15, 1fr)",
+        "rewards-table": "12rem 3fr 2fr 1fr 1fr",
+        "rewards-table-sm": "repeat(3, 1fr)",
       },
       backgroundSize: {
-        "full": "100% 100%",
+        full: "100% 100%",
       },
       borderRadius: {
         none: "0px",
@@ -413,16 +432,16 @@ module.exports = {
         180: "11.25rem",
       },
       fontFamily: {
-        Oswald: ['Oswald', 'Helvetica'],
-        Terry: ['Terry', 'Helvetica'],
-        Lato: ['Lato', 'Helvetica'],
-        SpaceGrotesk: ['SpaceGrotesk', 'Helvetica'],
-        Quicksand: ['Quicksand', 'Helvetica'],
+        Oswald: ["Oswald", "Helvetica"],
+        Terry: ["Terry", "Helvetica"],
+        Lato: ["Lato", "Helvetica"],
+        SpaceGrotesk: ["SpaceGrotesk", "Helvetica"],
+        Quicksand: ["Quicksand", "Helvetica"],
       },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [require('tailwindcss-textshadow')],
-}
+  plugins: [require("tailwindcss-textshadow")],
+};
