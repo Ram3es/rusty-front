@@ -297,7 +297,7 @@ const CaseUnboxing = (props) => {
               } overflow-hidden ${props.searchParams.daily && 
                 (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
                 || (rollCase().name === 'Daily Free Case' ? rewardCases.lastFreeCaseOpening : rewardCases.lastDailyCaseOpening) 
-                || !userObject.authenticated )
+                || !userObject.authenticated || !rewardCases.isUserOnServer)
                   ? 'mix-blend-luminosity' 
                 : 'mix-blend-normal'}`}
             >
