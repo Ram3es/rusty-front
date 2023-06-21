@@ -50,8 +50,8 @@ createEffect(() => {
     setMinesAmount(24);
   }
 
-  if (betAmount() > userObject.user.balance) {
-    setBetAmount(userObject.user.balance);
+  if (betAmount() > userObject?.user?.balance) {
+    setBetAmount(userObject?.user?.balance);
   }
 });
 
