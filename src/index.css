@@ -3826,6 +3826,44 @@ input.gold-input:not(:placeholder-shown) {
   mask-composite: exclude;
 }
 
+.benefit-card-unlocked {
+  background: linear-gradient(0deg, rgba(255, 180, 54, 0) 0%, rgba(62, 255, 139, 0) 0.01%, rgba(62, 255, 139, 0.08) 100%);
+}
+.benefit-card-current {
+  position: relative;
+  background: linear-gradient(0deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 100%);
+}
+.benefit-card-current::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: linear-gradient(0deg, rgba(255, 180, 54, 0) 0%, #FFB436 100%)
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+.benefit-card-current::after {
+  content: url('./assets/img/rewards/crankle-gold.svg');
+  position: absolute;
+  top: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+.benefit-card-locked {
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.12) 100%);;
+}
+
+
+
+
+
 .toast-countdown {
   position: relative;
   height: 36px;

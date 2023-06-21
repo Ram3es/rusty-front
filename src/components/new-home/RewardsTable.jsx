@@ -68,7 +68,7 @@ export const RewardsTable = () => {
                             <img 
                                src={stripped} 
                                alt="stripped" 
-                               class='absolute top-0 left-0 w-full h-full' 
+                               class='absolute top-0 left-0 object-contain' 
                             />
                             <div class='grid grid-cols-rewards-table-sm md:grid-cols-rewards-table gap-x-2 sm:gap-x-0 gap-y-3 w-full'>
                                 <div class='flex items-center justify-end md:justify-start'>

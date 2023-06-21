@@ -204,6 +204,7 @@ module.exports = {
         "green-60": "#60870C",
         "green-27": "#27F278",
         "green-67": "#67F9A2",
+        "green-3e":"#3EFF8B",
         "red": "#E22842",
         "red-fe": "#FE4A4A",
         "red-ff": "#FF4A59",
@@ -241,6 +242,7 @@ module.exports = {
         "diamond-64": "#643bf7",
         "diamond-c1": "#C184FF",
         "purple-9f": "#9F97F9",
+        "purple-c1": "#C184FF"
       },
 
       rotate: {
