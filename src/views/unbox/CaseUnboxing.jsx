@@ -293,10 +293,10 @@ const CaseUnboxing = (props) => {
                 pendingNum() === 1
                   ? "case-opening-wrapper"
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden ${
-                notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
+              } overflow-hidden ${props.searchParams.daily && 
+                (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
                 || (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) 
-                || !userObject.authenticated 
+                || !userObject.authenticated )
                   ? 'mix-blend-luminosity' 
                 : 'mix-blend-normal'}`}
             >
@@ -391,9 +391,9 @@ const CaseUnboxing = (props) => {
                 </div> : ""}
                 <div
                   class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                    notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                    (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
                     (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) ||
-                    !userObject.authenticated
+                    !userObject.authenticated) && props.searchParams.daily
                       ? 'mix-blend-luminosity'
                       : 'mix-blend-normal'
                   }`}
@@ -405,12 +405,12 @@ const CaseUnboxing = (props) => {
                         rewardCases.lastDailyCaseOpening) ||
                         (rewardCases.lastFreeCaseOpening && availableCases().includes(convertRomanToNormal(rollCase().name)))) && convertRomanToNormal(rollCase().name) !== notAvailableCases()[0] ? (
                         <>Open in {remainingTimeToOpenCase()}</>
-                      ) : notAvailableCases()
+                      ) : (notAvailableCases()
                           .slice(1)
                           .includes(convertRomanToNormal(rollCase().name)) ||
                         (rollCase().name === 'Daily Free Case' &&
                           rewardCases.lastDailyCaseOpening) ||
-                        !userObject.authenticated ? (
+                        !userObject.authenticated) && props.searchParams.daily ? (
                         <span class='w-[120px] text-center'>Locked</span>
                       ) : userObject?.authenticated &&
                         notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ? (
