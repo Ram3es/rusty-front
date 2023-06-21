@@ -23,6 +23,7 @@ import HistoryDrops from "../case/HistoryDrops";
 import { calculateRemainingTime, getAvailableCases, getIndexRank, getNotAvailableCases } from "../../utilities/rewards-tools";
 import { convertRomanToNormal } from "../../utilities/Numbers";
 import { BASE_RANKS } from "../../libraries/constants";
+import DiscordIcon from '../../components/icons/DiscordIcon'
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
@@ -100,8 +101,8 @@ const CaseUnboxing = (props) => {
     if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
     setRemainingTimeToOpenCase(calculateRemainingTime(
       rollCase().name === 'Daily Free Case' 
-        ? rewardCases.lastDailyCaseOpening 
-        : rewardCases.lastFreeCaseOpening
+        ? rewardCases.lastFreeCaseOpening 
+        : rewardCases.lastDailyCaseOpening
       )
     )
     }
@@ -113,8 +114,8 @@ const CaseUnboxing = (props) => {
     if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
     setRemainingTimeToOpenCase(calculateRemainingTime(
       rollCase().name === 'Daily Free Case' 
-        ? rewardCases.lastDailyCaseOpening 
-        : rewardCases.lastFreeCaseOpening
+        ? rewardCases.lastFreeCaseOpening 
+        : rewardCases.lastDailyCaseOpening
       )
     )
     }
@@ -295,7 +296,7 @@ const CaseUnboxing = (props) => {
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
               } overflow-hidden ${props.searchParams.daily && 
                 (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
-                || (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) 
+                || (rollCase().name === 'Daily Free Case' ? rewardCases.lastFreeCaseOpening : rewardCases.lastDailyCaseOpening) 
                 || !userObject.authenticated )
                   ? 'mix-blend-luminosity' 
                 : 'mix-blend-normal'}`}
@@ -389,56 +390,80 @@ const CaseUnboxing = (props) => {
                     </For>
                   </div> 
                 </div> : ""}
-                <div
-                  class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                    (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                    (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) ||
-                    !userObject.authenticated) && props.searchParams.daily
-                      ? 'mix-blend-luminosity'
-                      : 'mix-blend-normal'
-                  }`}
-                >
-                  <CaseGradientButton callbackFn={() => startGame(false)}>
-                    <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
-                      {props.searchParams.daily &&
-                      ((rollCase().name === 'Daily Free Case' &&
-                        rewardCases.lastDailyCaseOpening) ||
-                        (rewardCases.lastFreeCaseOpening && availableCases().includes(convertRomanToNormal(rollCase().name)))) && convertRomanToNormal(rollCase().name) !== notAvailableCases()[0] ? (
-                        <>Open in {remainingTimeToOpenCase()}</>
-                      ) : (notAvailableCases()
-                          .slice(1)
-                          .includes(convertRomanToNormal(rollCase().name)) ||
-                        (rollCase().name === 'Daily Free Case' &&
+                <div class='relative'>
+                  <div
+                    class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
+                      props.searchParams.daily &&
+                      (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                        (rollCase().name !== 'Daily Free Case' &&
                           rewardCases.lastDailyCaseOpening) ||
-                        !userObject.authenticated) && props.searchParams.daily ? (
-                        <span class='w-[120px] text-center'>Locked</span>
-                      ) : userObject?.authenticated &&
-                        notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ? (
-                        <span class='isolate'>
-                          {(
-                            (userObject.user?.wagered - userObject.user?.level?.from * 1000) /
-                              (userObject.user?.level?.to * 10) || 99
-                          ).toFixed(2)}
-                          % till unlock
+                        (!userObject.authenticated &&
+                          rollCase().name === 'Daily Free Case' &&
+                          rewardCases.lastFreeCaseOpening)) ||
+                      (notAvailableCases()[0] === convertRomanToNormal(rollCase().name) || rewardCases.lastFreeCaseOpening)
+                        ? 'mix-blend-luminosity'
+                        : 'mix-blend-normal'
+                    }`}
+                  >
+                    {props.searchParams.daily && (
+                      <button
+                        class='group bg--gold border--gold w-[194px] h-10 rounded-4 flex items-center justify-center gap-[10px] transition-colors'
+                        onClick={() => startGame(false)}
+                      >
+                        {rollCase().name === 'Daily Free Case' && <DiscordIcon />}
+                        <span class='capitalize text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary'>
+                          {(availableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                            rollCase().name === 'Daily Free Case') &&
+                            !(rollCase().name === 'Daily Free Case'
+                              ? rewardCases.lastFreeCaseOpening
+                              : rewardCases.lastDailyCaseOpening) &&
+                            'open for free'}
+                          {(userObject.authenticated
+                            ? notAvailableCases()
+                                .slice(1)
+                                .includes(convertRomanToNormal(rollCase().name))
+                            : notAvailableCases().includes(
+                                convertRomanToNormal(rollCase().name)
+                              )) && 'locked'}
+                          {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
+                            ((rollCase().name === 'Daily Free Case'
+                              ? rewardCases.lastFreeCaseOpening
+                              : rewardCases.lastDailyCaseOpening) &&
+                              availableCases().includes(convertRomanToNormal(rollCase().name)) && (
+                                <span class='normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
+                                  Open in {remainingTimeToOpenCase()}
+                                </span>
+                              ))}
                         </span>
-                      ) : (
-                        <>
+                      </button>
+                    )}
+                    {!props.searchParams.daily && (
+                      <CaseGradientButton callbackFn={() => startGame(false)}>
+                        <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
                           <span class='w-max'>Open for</span>
                           <Coin width='5' />
                           <span class='text-gradient'>
-                            {!props.searchParams.daily
-                              ? (Number(rollCase().price) * pendingNum()).toLocaleString()
-                              : 'FREE'}
+                            {(Number(rollCase().price) * pendingNum()).toLocaleString()}
                           </span>
-                        </>
-                      )}
-                    </div>
-                  </CaseGradientButton>
-                  <GrayGradientButton callbackFn={() => startGame(true)}>
-                    <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
-                      Demo Spin
-                    </span>
-                  </GrayGradientButton>
+                        </div>
+                      </CaseGradientButton>
+                    )}
+                    <GrayGradientButton callbackFn={() => startGame(true)}>
+                      <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
+                        Demo Spin
+                      </span>
+                    </GrayGradientButton>
+                  </div>
+                  {props.searchParams.daily && userObject.authenticated &&
+                    notAvailableCases()[0] === convertRomanToNormal(rollCase().name) && (
+                      <span class='absolute bottom-0.5 left-[130px] transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
+                        {(
+                          (userObject.user?.wagered - userObject.user?.level?.from * 1000) /
+                            (userObject.user?.level?.to * 10) || 99
+                        ).toFixed(2)}
+                        % till unlock
+                      </span>
+                    )}
                 </div>
               </div>
               <div class="flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a">
