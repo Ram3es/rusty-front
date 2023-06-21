@@ -1,8 +1,8 @@
-import { createEffect, createSignal } from "solid-js";
+import {createEffect, createSignal} from "solid-js";
 import GreenText from "../../MISC/GreenText";
 import CoinLogo from "../../MISC/CoinLogo";
 
-import { getCurrencyString } from "../../utils/tools";
+import {getCurrencyString} from "../../utils/tools";
 
 const Prev = (props) => {
   const [opacity, setOpacity] = createSignal(100);
@@ -19,13 +19,9 @@ const Prev = (props) => {
   });
   return (
     <div
-      class={`flex gap-1 items-center w-36 px-4 absolute transition-transform duration-100
+      class={`flex gap-1 items-center w-36 px-4 transition-transform duration-100 relative 
          `}
-      style={`right: -10px; transform: translateY(${
-        props.prevOffsets()[props.index]
-      }px);
-      opacity: ${opacity()};
-      `}
+      style={`opacity: ${opacity()};`}
       key={props.index}
     >
       <CoinLogo h={"22"} />

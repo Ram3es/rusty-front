@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from "solid-js";
+import {createEffect, createSignal, For} from "solid-js";
 import Prev from "./Prev";
 import Current from "./Current";
 import Next from "./Next";
@@ -8,12 +8,13 @@ import {
   squaresLeft,
   betAmount,
   isPlaying,
-  minesAmount
+  minesAmount,
 } from "../../TilesContainer";
-import { calculateNextAddition } from "../../utils/tools";
+import {calculateAddition, calculateNextAddition} from "../../utils/tools";
 const [prevOffsets, setPrevOffsets] = createSignal([]);
 
 const WinningsAdditions = () => {
+  const [nextAddition, setNextAddition] = createSignal(0);
   createEffect(() => {
     const prevOffsets = betAdditions()
       .slice(0, -1)
@@ -24,29 +25,47 @@ const WinningsAdditions = () => {
       });
     setPrevOffsets(prevOffsets);
   });
+
+  createEffect(() => {
+    const next = calculateAddition(
+      betAmount(),
+      minesAmount(),
+      25 - squaresLeft() - minesAmount() + 1
+    );
+
+    if (next === 0) {
+      setNextAddition(
+        calculateAddition(
+          betAmount(),
+          minesAmount(),
+          25 - squaresLeft() - minesAmount()
+        )
+      );
+    } else {
+      setNextAddition(next);
+    }
+  });
+
   return (
     <div class="hidden md:flex absolute right-0 flex-col gap-2 top-1/3 items-end overflow-hidden h-[65%]">
-      <Next addition={calculateNextAddition(minesAmount(), squaresLeft(), betAmount())} />
+      <Next addition={nextAddition()} />
 
       <Current addition={betAdditions()[betAdditions().length - 1]} />
       {isPlaying() && (
-        <div class="relative ">
-          {betAdditions()
-            .slice(-7, -1)
-            .reverse()
-            .map((addition, index) => (
-              <Prev
-                addition={addition}
-                index={index}
-                prevOffsets={prevOffsets}
-              />
-            ))}
+        <div class="flex flex-col">
+          <For each={betAdditions().slice(-7, -1).reverse()}>
+            {(addition, index) =>
+              addition !== 0 && (
+                <Prev
+                  addition={addition}
+                  index={index()}
+                  prevOffsets={prevOffsets}
+                />
+              )
+            }
+          </For>
         </div>
       )}
-      {/* <div
-        class="absolute  bottom-0 right-0 w-2/3 h-[100px] z-10"
-        style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #141622);"
-      /> */}
     </div>
   );
 };

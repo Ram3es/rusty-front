@@ -155,13 +155,13 @@ export const calculateCurrentWinnings = (betAdditions, betAmount, squaresLeft) =
   return betAdditions[25 - squaresLeft];
 };
 
-// find future bet addition
-export const calculateNextAddition = (
-  minesAmount,
-  squaresRemaining,
-  betAmount
-) => {
-  const multiplier = calculateMultiplier(minesAmount, 25 - squaresRemaining - minesAmount + 1, 'calculateNextAddition');
-  const addition = calculateAddition(betAmount, multiplier);
-  return addition;
-};
+// // find future bet addition
+// export const calculateNextAddition = (
+//   minesAmount,
+//   squaresRemaining,
+//   betAmount
+// ) => {
+//   const multiplier = calculateMultiplier(minesAmount, 25 - squaresRemaining - minesAmount + 1, 'calculateNextAddition');
+//   const addition = calculateAddition(betAmount, multiplier);
+//   return addition;
+// };
