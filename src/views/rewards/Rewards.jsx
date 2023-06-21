@@ -227,7 +227,7 @@ const Rewards = ({ loaded }) => {
                  rank={userObject?.user?.level?.league}
                 />
                 Your Rank Earns:
-                <span class='font-bold text-gradient'>{4}% Rakeback</span>
+                <span class='font-bold text-gradient'>{benefits()?.find(item => item.id === userObject?.user?.level?.league && item.id !== 'default')?.text[1]?.split('%')[0] || 0 }% Rakeback</span>
               </div>
               <div 
                 class='h-11 rounded-4 relative flex gap-2 center text-base font-medium text-purple-c1 px-8'
