@@ -229,7 +229,7 @@ const ProvablyFairModal = () => {
               <div class='w-full grid grid-cols-2 gap-x-[27px] gap-y-[15px]'>
                 <For each={['gamemode', 'hash', 'roll', 'secret', 'random', 'signature']}>
                   {(name) => (
-                    <div class='w-full flex flex-col gap-[7px]'>
+                    <div class={`w-full flex-col gap-[7px] ${data()?.["gamemode"] == 'battles' && (name === "hash" || name === "secret") ? "hidden" : "flex"}`}>
                       <p class='text-12 font-bold text-gray-64 font-SpaceGrotesk capitalize'>
                         {roundInfo[name][i18n.language]}
                       </p>
@@ -257,7 +257,7 @@ const ProvablyFairModal = () => {
             </div>
           </div>
           <div>
-          <iframe height="600" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/TerryLoot/embed/GRwqPGR?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+<iframe height="600" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/TerryLoot/embed/GRwqPGR?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href="https://codepen.io/TerryLoot/pen/GRwqPGR">
   Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
   on <a href="https://codepen.io">CodePen</a>.

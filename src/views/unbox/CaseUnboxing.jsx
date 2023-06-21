@@ -260,7 +260,7 @@ const CaseUnboxing = (props) => {
               >
                 {!isCaseAlreadyOpened() && (
                   <div
-                    class="absolute left-0 top-0 w-full h-full center rounded-4 z-50"
+                    class="absolute left-0 top-0 w-full h-full center rounded-4"
                     style={{
                       background:
                         "radial-gradient(35.44% 82.64% at 2.04% -32.64%, rgba(255, 180, 54, 0.16) 14.79%, rgba(255, 180, 54, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(0, 0, 0, 0.24)",
