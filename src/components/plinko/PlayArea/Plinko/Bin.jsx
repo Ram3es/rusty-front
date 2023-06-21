@@ -1,6 +1,6 @@
-import { createEffect, createSignal } from "solid-js";
+import {createEffect, createSignal} from "solid-js";
 
-import { binLiftList, setBinLiftList } from "../../PlinkoContainer";
+import {binLiftList, setBinLiftList} from "../../PlinkoContainer";
 
 const Bin = (props) => {
   const [color, setColor] = createSignal("");

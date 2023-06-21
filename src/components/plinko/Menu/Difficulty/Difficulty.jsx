@@ -1,7 +1,7 @@
 import EasyBtn from "./EasyBtn";
 import NormalBtn from "./NormalBtn";
 import HardBtn from "./HardBtn";
-import { playOptionClickSound } from "../../../../utilities/Sounds/SoundButtonClick";
+import {playOptionClickSound} from "../../../../utilities/Sounds/SoundButtonClick";
 
 import {
   setDifficulty,
@@ -9,11 +9,14 @@ import {
   setLastWinIndex,
 } from "../../PlinkoContainer";
 
+import {updateMultipliers} from "../../PlayArea/Plinko/PlinkoBins";
+
 const Difficulty = () => {
   const changeDifficulty = (newDifficulty) => {
     playOptionClickSound();
     setLastWinIndex(0);
     setDifficulty(newDifficulty);
+    updateMultipliers();
   };
   return (
     <div class="w-full flex flex-col gap-1">
