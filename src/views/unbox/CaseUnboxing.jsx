@@ -393,14 +393,15 @@ const CaseUnboxing = (props) => {
                 <div class='relative'>
                   <div
                     class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                      props.searchParams.daily &&
-                      (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                        (rollCase().name !== 'Daily Free Case' &&
-                          rewardCases.lastDailyCaseOpening) ||
-                        (!userObject.authenticated &&
-                          rollCase().name === 'Daily Free Case' &&
-                          rewardCases.lastFreeCaseOpening)) ||
-                      (notAvailableCases()[0] === convertRomanToNormal(rollCase().name) || rewardCases.lastFreeCaseOpening)
+                      (props.searchParams.daily &&
+                        (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                          (rollCase().name !== 'Daily Free Case' &&
+                            rewardCases.lastDailyCaseOpening) ||
+                          (!userObject.authenticated &&
+                            rollCase().name === 'Daily Free Case' &&
+                            rewardCases.lastFreeCaseOpening))) ||
+                      notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ||
+                      rewardCases.lastFreeCaseOpening
                         ? 'mix-blend-luminosity'
                         : 'mix-blend-normal'
                     }`}
@@ -411,20 +412,24 @@ const CaseUnboxing = (props) => {
                         onClick={() => startGame(false)}
                       >
                         {rollCase().name === 'Daily Free Case' && <DiscordIcon />}
-                        <span class='capitalize text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary'>
+                        <span class='text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary'>
                           {(availableCases().includes(convertRomanToNormal(rollCase().name)) ||
                             rollCase().name === 'Daily Free Case') &&
                             !(rollCase().name === 'Daily Free Case'
                               ? rewardCases.lastFreeCaseOpening
-                              : rewardCases.lastDailyCaseOpening) &&
-                            'open for free'}
+                              : rewardCases.lastDailyCaseOpening) && (
+                              <span class='flex items-center gap-[7.34px]'>
+                                Open for <Coin width='5' />
+                                <span class='text-gradient'>FREE</span>
+                              </span>
+                            )}
                           {(userObject.authenticated
                             ? notAvailableCases()
                                 .slice(1)
                                 .includes(convertRomanToNormal(rollCase().name))
                             : notAvailableCases().includes(
                                 convertRomanToNormal(rollCase().name)
-                              )) && 'locked'}
+                              )) && 'Locked'}
                           {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
                             ((rollCase().name === 'Daily Free Case'
                               ? rewardCases.lastFreeCaseOpening
@@ -454,7 +459,8 @@ const CaseUnboxing = (props) => {
                       </span>
                     </GrayGradientButton>
                   </div>
-                  {props.searchParams.daily && userObject.authenticated &&
+                  {props.searchParams.daily &&
+                    userObject.authenticated &&
                     notAvailableCases()[0] === convertRomanToNormal(rollCase().name) && (
                       <span class='absolute bottom-0.5 left-[130px] transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
                         {(
