@@ -97,19 +97,23 @@ const CaseUnboxing = (props) => {
   };
 
   const timerId = setInterval(() => {
+    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
     setRemainingTimeToOpenCase(calculateRemainingTime(
       rollCase().name === 'Daily Free Case' 
-        ? 1687336005 
+        ? rewardCases.lastDailyCaseOpening 
         : rewardCases.lastFreeCaseOpening
       )
     )
+    }
   }, 1000)
 
-  onMount(() => {
-    if (rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) {
+  createEffect(() => {
+
+
+    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
     setRemainingTimeToOpenCase(calculateRemainingTime(
       rollCase().name === 'Daily Free Case' 
-        ? 1687336005 
+        ? rewardCases.lastDailyCaseOpening 
         : rewardCases.lastFreeCaseOpening
       )
     )
@@ -289,7 +293,12 @@ const CaseUnboxing = (props) => {
                 pendingNum() === 1
                   ? "case-opening-wrapper"
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden ${notAvailableCases().includes(convertRomanToNormal(rollCase().name)) || (rollCase().name === 'Daily Free Case' && rewardCases.lastDailyCaseOpening) ||  !userObject.authenticated ? 'mix-blend-luminosity' : 'mix-blend-normal'}`}
+              } overflow-hidden ${
+                notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
+                || (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) 
+                || !userObject.authenticated 
+                  ? 'mix-blend-luminosity' 
+                : 'mix-blend-normal'}`}
             >
               <div
                 class="w-full relative"
@@ -383,7 +392,7 @@ const CaseUnboxing = (props) => {
                 <div
                   class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
                     notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                    (rollCase().name === 'Daily Free Case' && rewardCases.lastDailyCaseOpening) ||
+                    (rollCase().name === 'Daily Free Case' ? rewardCases.lastDailyCaseOpening : rewardCases.lastFreeCaseOpening) ||
                     !userObject.authenticated
                       ? 'mix-blend-luminosity'
                       : 'mix-blend-normal'
@@ -394,7 +403,7 @@ const CaseUnboxing = (props) => {
                       {props.searchParams.daily &&
                       ((rollCase().name === 'Daily Free Case' &&
                         rewardCases.lastDailyCaseOpening) ||
-                        rewardCases.lastFreeCaseOpening) ? (
+                        (rewardCases.lastFreeCaseOpening && availableCases().includes(convertRomanToNormal(rollCase().name)))) && convertRomanToNormal(rollCase().name) !== notAvailableCases()[0] ? (
                         <>Open in {remainingTimeToOpenCase()}</>
                       ) : notAvailableCases()
                           .slice(1)
