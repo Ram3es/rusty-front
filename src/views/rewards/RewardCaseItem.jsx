@@ -1,4 +1,4 @@
-import { createMemo, createSignal, onCleanup, onMount } from 'solid-js'
+import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -84,6 +84,10 @@ const RewardCaseItem = (props) => {
   const availableCases = createMemo(() =>
     getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
   )
+
+  createEffect(() => {
+    console.log(calculateRemainingTime(props.openTime), 'props.openTime')
+  })
 
   return (
     <NavLink
@@ -171,12 +175,12 @@ const RewardCaseItem = (props) => {
             ? notAvailableCases().slice(1).includes(convertRomanToNormal(props?.item?.name))
             : notAvailableCases().includes(convertRomanToNormal(props?.item?.name))) && 'locked'}
         </span>
-        {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
-          (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name)) && (
+        {((props?.item?.name === 'Daily Free Case' && props.openTime) ||
+          (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name)))) && (
             <span class='text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
               Open in {remainingTime()}
             </span>
-          ))}
+          )}
       </div>
       {props?.user?.authenticated &&
         notAvailableCases()[0] === convertRomanToNormal(props?.item?.name) && (

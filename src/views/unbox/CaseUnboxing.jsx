@@ -430,15 +430,16 @@ const CaseUnboxing = (props) => {
                             : notAvailableCases().includes(
                                 convertRomanToNormal(rollCase().name)
                               )) && 'Locked'}
-                          {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
-                            ((rollCase().name === 'Daily Free Case'
-                              ? rewardCases.lastFreeCaseOpening
-                              : rewardCases.lastDailyCaseOpening) &&
-                              availableCases().includes(convertRomanToNormal(rollCase().name)) && (
-                                <span class='normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
-                                  Open in {remainingTimeToOpenCase()}
-                                </span>
-                              ))}
+                          {((rollCase().name === 'Daily Free Case' &&
+                            rewardCases.lastFreeCaseOpening) ||
+                            (rewardCases.lastDailyCaseOpening &&
+                              availableCases().includes(
+                                convertRomanToNormal(rollCase().name)
+                              ))) && (
+                            <span class='normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
+                              Open in {remainingTimeToOpenCase()}
+                            </span>
+                          )}
                         </span>
                       </button>
                     )}
