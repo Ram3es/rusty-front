@@ -175,8 +175,8 @@ const Rewards = ({ loaded }) => {
                     user={userObject}
                     openTime={
                       item.name === 'Daily Free Case'
-                        ? rewardCases.lastDailyCaseOpening
-                        : rewardCases.lastFreeCaseOpening
+                        ? rewardCases.lastFreeCaseOpening
+                        : rewardCases.lastDailyCaseOpening
                     }
                   />
                 )}
