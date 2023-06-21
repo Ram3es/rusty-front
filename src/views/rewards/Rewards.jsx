@@ -159,7 +159,7 @@ const Rewards = ({ loaded }) => {
           <div class='center flex-col w-full gap-2 relative py-8'>
             <div class='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 mx-auto mb-9 relative'>
               <For
-                each={rewardCases.cases}
+                each={rewardCases.cases.filter(item => item.name === 'Daily Free Case').concat(rewardCases.cases.filter(item => item.name !== 'Daily Free Case'))}
                 fallback={
                   <div class='absolute w-full center left-0 top-0'>
                     <p class='text-yellow-ffb text-20 font-semibold font-SpaceGrotesk uppercase'>
@@ -171,12 +171,12 @@ const Rewards = ({ loaded }) => {
                 {(item) => (
                   <RewardCaseItem
                     item={item}
-                    isJoinedToDiscord={discordUserId()}
+                    isJoinedToDiscord={rewardCases.isUserOnServer}
                     user={userObject}
                     openTime={
                       item.name === 'Daily Free Case'
-                        ? rewardCases.lastDailyCaseOpening
-                        : rewardCases.lastFreeCaseOpening
+                        ? rewardCases.lastFreeCaseOpening
+                        : rewardCases.lastDailyCaseOpening
                     }
                   />
                 )}

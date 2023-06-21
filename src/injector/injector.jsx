@@ -12,7 +12,7 @@ const socket = io(API, {
 
 const [rewardCases, setRewardCases] = createStore({
   cases: [],
-  isUserOnServer: true,
+  isUserOnServer: false,
   lastDailyCaseOpening: null,
   lastFreeCaseOpening: null
 })

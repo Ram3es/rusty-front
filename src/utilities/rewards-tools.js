@@ -27,6 +27,8 @@ export const padNumber = (number) => {
 }
 
 export const calculateRemainingTime = (unixTimeStamp) => {
+  if (typeof unixTimeStamp !== 'number') unixTimeStamp = new Date(unixTimeStamp).getTime() / 1000
+
   const currentTime = Math.floor(Date.now() / 1000)
   const targetTime = unixTimeStamp + 24 * 60 * 60
   const timeDiff = targetTime - currentTime
