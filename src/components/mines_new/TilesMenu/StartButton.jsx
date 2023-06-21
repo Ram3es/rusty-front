@@ -1,16 +1,32 @@
-import { createEffect, createSignal } from "solid-js";
+import {createEffect, createSignal} from "solid-js";
 import CoinLogo from "../MISC/CoinLogo";
 import GoldText from "../MISC/GoldText";
 import GreenText from "../MISC/GreenText";
 
-import { isPlaying, betAmount, betAdditions, squaresLeft, minesAmount } from "../TilesContainer";
+import {
+  isPlaying,
+  betAmount,
+  betAdditions,
+  squaresLeft,
+  minesAmount,
+} from "../TilesContainer";
 
-import { getCurrencyString, calculateCurrentWinnings, calculateAddition, calculateMultiplier } from "../utils/tools";
+import {
+  getCurrencyString,
+  calculateCurrentWinnings,
+  calculateAddition,
+  calculateMultiplier,
+  calculateWinningsAmount,
+} from "../utils/tools";
 
-const StartButton = ({ onClick }) => {
+const StartButton = (props) => {
   const [currentWinnings, setCurrentWinnings] = createSignal(0);
   createEffect(() => {
-    setCurrentWinnings(calculateAddition(betAmount(), calculateMultiplier(minesAmount() || 0, 25 - squaresLeft() - minesAmount())))
+    const multiplier = calculateMultiplier(
+      minesAmount(),
+      25 - squaresLeft() - minesAmount()
+    );
+    setCurrentWinnings(calculateWinningsAmount(betAmount(), multiplier));
   });
   return (
     <div
@@ -26,7 +42,7 @@ const StartButton = ({ onClick }) => {
         isPlaying() ? "rgba(39, 242, 120, 0.1)" : "#FFB4363D"
       };
  `}
-      onClick={onClick}
+      onClick={() => props.onClick()}
     >
       <div class="bg-[#1A1C31] rounded-md">
         <div
@@ -53,7 +69,7 @@ const StartButton = ({ onClick }) => {
           {isPlaying() ? (
             <GreenText text={getCurrencyString(currentWinnings())} />
           ) : (
-            <GoldText text={getCurrencyString(betAmount())} />
+            <GoldText text={getCurrencyString(betAmount() || 0)} />
           )}
         </div>
       </div>

@@ -73,18 +73,18 @@ const Items = (_props) => {
           /> */}
           <For each={props.items()} fallback={<PageLoader size="small" isShown={true} />}>
             {(item, index) => (<div
-                class={`rounded-4 ${
-                  props.activeItems().findIndex((i) => item.id === i.id) >= 0
-                    ? "border border-yellow-ffb"
-                    : ""
-                }`}
+                // class={`rounded-4 ${
+                //   props.activeItems().findIndex((i) => item.id === i.id) >= 0
+                //     ? "border border-yellow-ffb"
+                //     : ""
+                // }`}
                 onClick={() => {
                   if(Number(item.locked) != 1) {
                     props.toggle(item);
                   }
                 }}
               >
-                <PotentialDropItem skin={item} />
+                <PotentialDropItem skin={item} withdrawModalItem activeItems={props.activeItems}/>
               </div>)}
           </For>
           

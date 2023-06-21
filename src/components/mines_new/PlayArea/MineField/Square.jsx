@@ -1,4 +1,4 @@
-import { createSignal, createEffect } from "solid-js";
+import {createSignal, createEffect} from "solid-js";
 import LoadingLogo from "../../LoadingLogo/LoadingLogo";
 import Safe from "./Safe";
 import ExplodedMine from "./ExplodedMine";
@@ -22,20 +22,54 @@ import {
   betAmount,
   minesAmount,
   setIsRumbling,
-  betAdditions,
+  flipTile,
+  setFlipTile,
+  isPlaying,
 } from "../../TilesContainer";
 
-const Square = ({ x, y }) => {
+const Square = ({x, y}) => {
   const [isFlipped, setIsFlipped] = createSignal(false);
   const [isMine, setIsMine] = createSignal(false);
   const [startAnimation, setStartAnimation] = createSignal(false);
   const [isClicked, setIsClicked] = createSignal(false);
 
+  createEffect(() => {
+    if (!flipTile()) return;
+    if (flipTile().x == x && flipTile().y == y) {
+      handleClick();
+    }
+  });
+
+  createEffect(() => {
+    if (hasLost()) {
+      setStartAnimation(false);
+      setIsClicked(false);
+    }
+  });
+
+  createEffect(() => {
+    if (knownMines()[x][y].revealed == true) {
+      // flip tile
+      setIsFlipped(true);
+      // set mine
+
+      if (knownMines()[x][y].isMine == true) {
+        setIsMine(true);
+      }
+    }
+  });
+
   const checkMineHit = async () => {
     if (hasLost()) return;
     setInputLocked(true);
     setStartAnimation(true);
-    const isMine = await checkIfMine(x, y);
+    const isMine = await checkIfMine(
+      x,
+      y,
+      setHasLost,
+      setIsPlaying,
+      setInputLocked
+    );
     setKnownMines((prev) => {
       const newMines = [...prev];
       newMines[x][y].revealed = true;
@@ -48,7 +82,7 @@ const Square = ({ x, y }) => {
     if (isClicked() || hasLost()) return;
     setIsClicked(true);
     await checkMineHit();
-    await handleResult()
+    await handleResult();
     setIsClicked(false);
   };
 
@@ -60,9 +94,20 @@ const Square = ({ x, y }) => {
       setSquaresLeft(squaresLeft() - 1);
       setBetAdditions((prev) => {
         const newAdditions = [...prev];
-        newAdditions.push(
-          calculateAddition(betAmount(), calculateMultiplier(minesAmount(), 25 - squaresLeft() - minesAmount()))
+        const newAddition = calculateAddition(
+          betAmount(),
+          minesAmount(),
+          25 - squaresLeft() - minesAmount()
         );
+        if (newAddition !== 0) {
+          newAdditions.push(
+            calculateAddition(
+              betAmount(),
+              minesAmount(),
+              25 - squaresLeft() - minesAmount()
+            )
+          );
+        }
         return newAdditions;
       });
     } else {
@@ -83,6 +128,7 @@ const Square = ({ x, y }) => {
         });
       });
     }
+    setFlipTile();
     setInputLocked(false);
   };
 
@@ -98,12 +144,14 @@ const Square = ({ x, y }) => {
   });
 
   return (
-    <div class={`w-[96px] h-[96px]`} style="perspective: 1000px">
+    <div class={`w-[96px] h-[96px] `}>
       <div
         class={`relative w-full h-full transition-all duration-[0.2s] rounded-lg border-[#FFFFFF08] border-[1px] ${
-          startAnimation() ? "pointer-events-none" : "cursor-pointer"
+          isPlaying() && startAnimation()
+            ? "pointer-events-none"
+            : "cursor-pointer"
         }
-          ${isClicked() && "scale-75"}
+          ${isPlaying() && isClicked() && "scale-75"}
 
           
         `}
@@ -124,7 +172,11 @@ const Square = ({ x, y }) => {
           <LoadingLogo animateStart={startAnimation} xy={x + y} />
         </div>
 
-        {isMine() ? <ExplodedMine /> : <Safe isMine={isMine} hasLost={hasLost} />}
+        {isMine() ? (
+          <ExplodedMine />
+        ) : (
+          <Safe isMine={isMine} hasLost={hasLost} />
+        )}
       </div>
     </div>
   );
