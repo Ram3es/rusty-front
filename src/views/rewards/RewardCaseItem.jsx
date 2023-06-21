@@ -147,7 +147,7 @@ const RewardCaseItem = (props) => {
                 getConfigByCaseName(props?.item?.name, STYLES_CONFIG)?.textColor
               } font-bold font-SpaceGrotesk text-14 capitalize`}
             >
-              {props.item.name} case
+              {props.item.name === 'Daily Free Case' ? props.item.name : `${props.item.name} case`}
             </span>
           </div>
         </div>
