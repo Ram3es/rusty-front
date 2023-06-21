@@ -1,10 +1,21 @@
-import { onMount, createSignal, onCleanup } from "solid-js";
+import {onMount, createSignal, onCleanup} from "solid-js";
 import GreenText from "../../MISC/GreenText";
 import RedText from "../../MISC/RedText";
 import CoinLogo from "../../MISC/CoinLogo";
 
-import { getCurrencyString } from "../../utils/tools";
-import { isPlaying, hasLost, betAdditions } from "../../TilesContainer";
+import {
+  getCurrencyString,
+  calculateWinningsAmount,
+  calculateMultiplier,
+} from "../../utils/tools";
+import {
+  isPlaying,
+  hasLost,
+  betAdditions,
+  betAmount,
+  squaresLeft,
+  minesAmount,
+} from "../../TilesContainer";
 
 const Current = (props) => {
   return (
@@ -36,7 +47,20 @@ const Current = (props) => {
           />
         ) : (
           <GreenText
-            text={hasLost() ? "0.00" : "+" + getCurrencyString(props.addition)}
+            text={
+              !isPlaying()
+                ? "+" +
+                  getCurrencyString(
+                    calculateWinningsAmount(
+                      betAmount(),
+                      calculateMultiplier(
+                        minesAmount(),
+                        25 - squaresLeft() - minesAmount()
+                      )
+                    )
+                  )
+                : "+" + getCurrencyString(props.addition)
+            }
             size={"30"}
           />
         )}

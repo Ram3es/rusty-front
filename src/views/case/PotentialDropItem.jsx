@@ -80,19 +80,19 @@ const PotentialDropItem = (props) => {
     <div ref={setItemRef}>
       {isVisible() ? (
         <div
-          class={`group  w-full ${
+          class={`group w-full ${
             props.isHorizontal
-              ? "min-h-[84px]"
+              ? "min-h-[84px] w-[250px]"
               : `${props.wideCard ? "min-h-[180px]" : "min-h-[212px] "}`
           } rounded-4 relative cursor-pointer potential-drop--card ${
             styles()?.itemBg || ""
           } font-SpaceGrotesk
-          ${
-            props.upgraderItem &&
-            `${props.skin === props.activeItem() && "border-[#FFB436] border"}`
-          }
           `}
         >
+          {(props.upgraderItem && props.skin === props.activeItem() || props.withdrawModalItem && props.activeItems().findIndex((i) => props.skin.id === i.id) >= 0) && (
+            <div class="absolute h-full w-full rounded-4 border-[#FFB436] border" />
+          )}
+
           <div
             class="block group-hover:hidden absolute inset-0 z-0 bg-repeat overflow-hidden m-0.5 p-2"
             style={{"background-image": `url('${ItemMainBg}')`, opacity: 0.02}}

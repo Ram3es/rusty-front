@@ -9,6 +9,7 @@ import RankLabel from "../chat/RankLabel"
 import injector from '../../injector/injector'
 import { RoundedBtn } from '../new-home/BannerSection'
 import ArrowSliderStyle from '../icons/ArrowSliderStyle'
+import ScaleLine from '../ScaleLine'
 
 const BenefitCard = (props) => {
     return (
@@ -212,6 +213,12 @@ const RankBenefitsModal = (props) => {
                                         />)}
                                     }
                                 </For>
+                            </div>
+                            <div class='w-full absolute left-0 bottom-3'>
+                                <ScaleLine
+                                    currentProgres={(userObject?.user?.wagered - userObject?.user?.level?.from * 1000) /(userObject?.user?.level?.to * 10) || 100}
+                                    currentLeague={listLeagues.indexOf(userObject?.user?.level?.league)}
+                                />
                             </div>
                             <img src={RibbedBennefitsMask} alt='mask' class='absolute inset-0 rounded-8' />
                             <div ref={btnRight} >

@@ -1,6 +1,6 @@
 import injector from "../../../injector/injector";
 
-const { socket, toastr } = injector;
+const {socket, toastr} = injector;
 
 export const getCurrencyString = (amount) => {
   // add commas to number
@@ -9,8 +9,6 @@ export const getCurrencyString = (amount) => {
     maximumFractionDigits: 2,
   });
 };
-
-
 
 // used for development
 export const generateGrid = (mineCount) => {
@@ -46,68 +44,81 @@ export const getGridFromLocalStorage = () => {
 
 // this function checks if a tile is a mine or not
 // it will need to be replaced with a call to the backend
-export const checkIfMine = (x, y) => {
+export const checkIfMine = (x, y, setHasLost, setIsPlaying, setInputLocked) => {
   return new Promise((resolve, reject) => {
-    socket.emit("mines:check", {
-      position: y * 5 + Number(x) + 1
-    }, (data) => {
-        if (!data.error) {
-            if (data.end) {
-              if(data.msg) toastr(data);
-              resolve(true);
-            } else {
-              resolve(false);
-            }
+    socket.emit(
+      "mines:check",
+      {
+        position: y * 5 + Number(x) + 1,
+      },
+      (data) => {
+        console.log(data);
+        if (data.msg === "You don't have a game active!") {
+          console.log("HERROKG");
+          setHasLost(true);
+          setIsPlaying(false);
+          setInputLocked(false);
         }
-    })
+        if (!data.error) {
+          if (data.end) {
+            if (data.msg) toastr(data);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        }
+      }
+    );
   });
 };
 
-
-
 // used for debugging
 export const getKnownMinesInit = (clearedMines = []) => {
-  const positions = clearedMines.map(pos => ({x: (pos - 1) % 5, y: Math.floor((pos - 1) / 5)}))
+  const positions = clearedMines.map((pos) => ({
+    x: (pos - 1) % 5,
+    y: Math.floor((pos - 1) / 5),
+  }));
   const initPositions = [
     [
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
+      {x: 0, y: 0, revealed: false, isMine: false},
+      {x: 0, y: 1, revealed: false, isMine: false},
+      {x: 0, y: 2, revealed: false, isMine: false},
+      {x: 0, y: 3, revealed: false, isMine: false},
+      {x: 0, y: 4, revealed: false, isMine: false},
     ],
     [
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
+      {x: 1, y: 0, revealed: false, isMine: false},
+      {x: 1, y: 1, revealed: false, isMine: false},
+      {x: 1, y: 2, revealed: false, isMine: false},
+      {x: 1, y: 3, revealed: false, isMine: false},
+      {x: 1, y: 4, revealed: false, isMine: false},
     ],
     [
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
+      {x: 2, y: 0, revealed: false, isMine: false},
+      {x: 2, y: 1, revealed: false, isMine: false},
+      {x: 2, y: 2, revealed: false, isMine: false},
+      {x: 2, y: 3, revealed: false, isMine: false},
+      {x: 2, y: 4, revealed: false, isMine: false},
     ],
     [
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
+      {x: 3, y: 0, revealed: false, isMine: false},
+      {x: 3, y: 1, revealed: false, isMine: false},
+      {x: 3, y: 2, revealed: false, isMine: false},
+      {x: 3, y: 3, revealed: false, isMine: false},
+      {x: 3, y: 4, revealed: false, isMine: false},
     ],
     [
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
-      { revealed: false, isMine: false },
+      {x: 4, y: 0, revealed: false, isMine: false},
+      {x: 4, y: 1, revealed: false, isMine: false},
+      {x: 4, y: 2, revealed: false, isMine: false},
+      {x: 4, y: 3, revealed: false, isMine: false},
+      {x: 4, y: 4, revealed: false, isMine: false},
     ],
   ];
-  positions.forEach(pos => {
-    initPositions[pos.x][pos.y].revealed = true
-  })
+
+  positions.forEach((pos) => {
+    initPositions[pos.x][pos.y].revealed = true;
+  });
   return initPositions;
 };
 
@@ -128,30 +139,51 @@ export const getAllGridData = () => {
 };
 
 const factorial = (n, to) => {
-  if(n <= to + 1) return n;
+  if (n <= to + 1) return n;
   if (n < 0) return;
   if (n < 2) return 1;
   return n * factorial(n - 1, to);
-}
+};
 
 // this will need to be adjusted to reflect the actual odds
 export const calculateMultiplier = (mines, cleared) => {
-  if (cleared === 0) return 1
-  const multiplier =  Number((1 / (factorial(25 - mines, 25 - mines - cleared) / factorial(25, 25 - cleared)) * 0.90).toFixed(2));
-        
+  if (cleared === 0) return 1;
+  const multiplier = Number(
+    (
+      (1 /
+        (factorial(25 - mines, 25 - mines - cleared) /
+          factorial(25, 25 - cleared))) *
+      0.9
+    ).toFixed(2)
+  );
+
   return multiplier < 1 ? 1.01 : multiplier;
 };
 
+export const calculateWinningsAmount = (betAmount, multiplier) => {
+  return Math.floor(betAmount * multiplier);
+};
+
 // calculates the amount to be added to the player's winnings
-export const calculateAddition = (betAmount, multiplier) => {
-  let addition = betAmount * multiplier;
-  // addition = Math.ceil(addition * 100) / 100;
-  return addition;
+export const calculateAddition = (betAmount, mines, cleared) => {
+  const newProfit =
+    calculateWinningsAmount(betAmount, calculateMultiplier(mines, cleared)) -
+    betAmount;
+  const prevProfit =
+    calculateWinningsAmount(
+      betAmount,
+      calculateMultiplier(mines, cleared - 1)
+    ) - betAmount;
+  return newProfit - prevProfit;
 };
 
 // calculate the current winnings by summing the bet additions
-export const calculateCurrentWinnings = (betAdditions, betAmount, squaresLeft) => {
-  if (squaresLeft === 25 || betAdditions.length === 0) return betAmount
+export const calculateCurrentWinnings = (
+  betAdditions,
+  betAmount,
+  squaresLeft
+) => {
+  if (squaresLeft === 25 || betAdditions.length === 0) return betAmount;
   return betAdditions[25 - squaresLeft];
 };
 
@@ -161,7 +193,10 @@ export const calculateNextAddition = (
   squaresRemaining,
   betAmount
 ) => {
-  const multiplier = calculateMultiplier(minesAmount, 25 - squaresRemaining - minesAmount + 1, 'calculateNextAddition');
-  const addition = calculateAddition(betAmount, multiplier);
+  const addition = calculateAddition(
+    betAmount,
+    minesAmount,
+    25 - squaresRemaining - minesAmount
+  );
   return addition;
 };
