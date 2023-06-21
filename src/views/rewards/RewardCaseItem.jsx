@@ -110,8 +110,8 @@ const RewardCaseItem = (props) => {
             src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''}
             alt={props.item.name}
           />
-          {notAvailableCases().includes(convertRomanToNormal(props?.item?.name)) ||
-            (!props?.isJoinedToDiscord && props?.item?.name === 'Daily Free Case' && (
+          {(notAvailableCases().includes(convertRomanToNormal(props?.item?.name)) ||
+            !props?.isJoinedToDiscord && props?.item?.name === 'Daily Free Case') && (
               <div class='w-9 h-9 flex items-center justify-center absolute top-20 gradient-background-green rounded-4 shadow-button'>
                 <svg
                   width='18'
@@ -134,7 +134,7 @@ const RewardCaseItem = (props) => {
                   />
                 </svg>
               </div>
-            ))}
+            )}
           <div class='w-auto h-[127px]' />
           <div
             class={`${
