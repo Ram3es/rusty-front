@@ -117,10 +117,6 @@ const Rewards = ({ loaded }) => {
     <>
       <Fallback loaded={rewardsPageLoaded}>
         <img alt='background' src={Bg} class='absolute left-0 top-0 min-w-full md:min-h-full' />
-        <div class='center flex-col gap-1'>
-          <p class='text-14 text-gray-8c font-normal sentence whitespace-nowrap'>Resets in</p>
-          <p class='text-16 text-gray-8c font-bold font-Oswald sentence'>{timeLeft()}</p>
-        </div>
         <div class='w-full h-full flex flex-col gap-10 overflow-visible relative'>
           <div class='flex flex-col md:flex-row justify-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
             <div class='grow px-16 relative overflow-hidden'>
