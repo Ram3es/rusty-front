@@ -1,4 +1,5 @@
 import injector from '../../../../injector/injector'
+import { copyToClipboard } from '../../../../utilities/tools'
 import GrayGradientButton from '../../../elements/GrayGradientButton'
 
 const OldSeedsStructure = (props) => {
@@ -27,14 +28,14 @@ const OldSeedsStructure = (props) => {
   return (
     <>
       <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
-        {props.val.client_seed}
+        {props.val.server_seed}
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden h-10'>
         <GrayGradientButton
           additionalClass='w-[134px] h-full text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer my-auto'
-          callbackFn={changeClientSeed}
+          callbackFn={() => copyToClipboard(props.val.server_seed)}
         >
-          <span>Re-use Seed</span>
+          <span>Copy</span>
         </GrayGradientButton>
       </div>
     </>

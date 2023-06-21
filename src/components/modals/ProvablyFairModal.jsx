@@ -262,6 +262,11 @@ const ProvablyFairModal = () => {
   Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
+<iframe height="700" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/TerryLoot/embed/vYQXXyv?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
+  See the Pen <a href="https://codepen.io/TerryLoot/pen/vYQXXyv">
+  Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
+  on <a href="https://codepen.io">CodePen</a>.
+</iframe>
           </div>
         </div>
       </div>

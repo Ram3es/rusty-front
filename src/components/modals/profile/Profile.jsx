@@ -43,12 +43,12 @@ const tabVariants = [
   }
 ]
 
+export const [account, setAccount] = createStore({})
+
 const Profile = (props) => {
   const i18n = useI18n()
 
   const { socket, toastr, userObject } = injector
-
-  const [account, setAccount] = createStore({})
   const [currentTab, setCurrentTab] = createSignal(tabVariants[0])
 
   createEffect(() => {

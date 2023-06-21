@@ -9,6 +9,7 @@ import RuFlag from '../../../assets/img/header/ruFlag.svg'
 import { playButtonClickSound, playMenuToggle } from '../../../utilities/Sounds/SoundButtonClick'
 import GrayGradientButton from '../../elements/GrayGradientButton'
 import ArrowDown from '../../icons/ArrowDown'
+import { account, setAccount } from './Profile'
 
 const ProfileSettings = (props) => {
   const i18n = useI18n()
@@ -91,6 +92,7 @@ const ProfileSettings = (props) => {
           ...prev,
           server_seed: data.data.server_seed
         }))
+        setAccount("oldSeeds", (prev) => [data.data.oldSeed, ...prev])
       }
     })
   }
