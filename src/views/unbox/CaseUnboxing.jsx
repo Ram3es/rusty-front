@@ -382,7 +382,10 @@ const CaseUnboxing = (props) => {
                 </div> : ""}
                 <div
                   class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                    notAvailableCases().includes(convertRomanToNormal(rollCase().name)) || (rollCase().name === 'Daily Free Case' && rewardCases.lastDailyCaseOpening) ||  !userObject.authenticated ? 'mix-blend-luminosity'
+                    notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                    (rollCase().name === 'Daily Free Case' && rewardCases.lastDailyCaseOpening) ||
+                    !userObject.authenticated
+                      ? 'mix-blend-luminosity'
                       : 'mix-blend-normal'
                   }`}
                 >
@@ -391,10 +394,24 @@ const CaseUnboxing = (props) => {
                       {props.searchParams.daily &&
                       ((rollCase().name === 'Daily Free Case' &&
                         rewardCases.lastDailyCaseOpening) ||
-                         rewardCases.lastFreeCaseOpening) ? (
+                        rewardCases.lastFreeCaseOpening) ? (
                         <>Open in {remainingTimeToOpenCase()}</>
-                      ) : notAvailableCases().includes(convertRomanToNormal(rollCase().name)) || (rollCase().name === 'Daily Free Case' && rewardCases.lastDailyCaseOpening) ||  !userObject.authenticated ? (
+                      ) : notAvailableCases()
+                          .slice(1)
+                          .includes(convertRomanToNormal(rollCase().name)) ||
+                        (rollCase().name === 'Daily Free Case' &&
+                          rewardCases.lastDailyCaseOpening) ||
+                        !userObject.authenticated ? (
                         <span class='w-[120px] text-center'>Locked</span>
+                      ) : userObject?.authenticated &&
+                        notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ? (
+                        <span class='isolate'>
+                          {(
+                            (userObject.user?.wagered - userObject.user?.level?.from * 1000) /
+                              (userObject.user?.level?.to * 10) || 99
+                          ).toFixed(2)}
+                          % till unlock
+                        </span>
                       ) : (
                         <>
                           <span class='w-max'>Open for</span>
