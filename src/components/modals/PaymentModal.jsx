@@ -588,7 +588,7 @@ const PaymentModal = (props) => {
               : '-translate-y-0'
           } duration-100 ease-out`}
           style={{
-            'backdrop-filter': 'blur(20px)'
+            // 'backdrop-filter': 'blur(20px)'
           }}
         >
           <div
@@ -596,7 +596,7 @@ const PaymentModal = (props) => {
             style={{
               background:
                 'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
-              'backdrop-filter': 'blur(8px)'
+              // 'backdrop-filter': 'blur(8px)'
             }}
           >
             <div
@@ -827,7 +827,7 @@ const PaymentModal = (props) => {
                                       <p class="text-14 text-gray-8c font-normal">Wager left</p>
                                   </div>
                               </div> */}
-                  <div class='flex flex-col gap-2 max-h-full overflow-y-scroll border-b border-black/10 h-full px-8 '>
+                  <div class='flex flex-col gap-2 max-h-[45vh] overflow-y-scroll border-b border-black/10 h-full px-8'>
                     <For each={activeItems()}>
                       {(item, index) => (
                         <div class='relative'>
