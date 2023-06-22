@@ -46,6 +46,7 @@ const Dome = () => {
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
         w-full max-w-[604px]"
       />
+         <div class='w-full absolute upgrader-wires animate top-[38%] scale-[35%] -translate-x-[27%] -translate-y-[42%] ' />
       <Screen />
     </div>
   );

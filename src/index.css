@@ -359,6 +359,36 @@ body::after {
     display: block;
     animation: playh-upgrader 0.7s steps(10) 7 forwards, playv-upgrader 4.9s steps(7) forwards;
   }
+  .upgrader-wires {
+    width: 688px;
+    height: 420px;
+    display: none;
+    background-position: 0px 0px;
+    background-image: url('./assets/img/new-upgrader/SparkSprite.png');
+  }
+  .upgrader-wires.animate {
+    display: block;
+    animation: playh-wires 0.3s steps(9) 9 forwards, playv-wires 2.7s steps(9) forwards;
+  }
+
+  
+  @keyframes playh-wires {
+    from {
+      background-position-x: 0px;
+    }
+    to {
+      background-position-x: -6192px;
+    }
+  }
+
+  @keyframes playv-wires {
+    from {
+      background-position-y: 0px;
+    }
+    to {
+      background-position-y: -3779px;
+    }
+  }
 
   @keyframes playh-upgrader {
     from {
