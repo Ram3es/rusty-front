@@ -406,7 +406,7 @@ const CoinflipItem = (props) => {
               </div>
             </div>
           )}
-          {props.game?.status === 'open' && (
+          {(userObject.user.id !== props.game?.creator?.id && props.game?.status === 'open') && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
               >
