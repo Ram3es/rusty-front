@@ -17,7 +17,7 @@ const DiscordJoinModal = (props) => {
     >
       <div class='w-full h-full absolute left-0 cursor-default top-0' onClick={props.handleClose} />
       <div
-        class='w-[439px] relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/2 duration-100 ease-out'
+        class='w-[80%] md:w-[439px] relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/2 duration-100 ease-out'
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -72,7 +72,7 @@ const DiscordJoinModal = (props) => {
             <h2 class='font-bold text-white font-SpaceGrotesk text-20'>
               WIN UP TO <span class='text-yellow-ffb'>$2,000</span> DAILY
             </h2>
-            <div class='px-4 pt-3 pb-[17px] flex flex-col gap-3 bg-black/20 border border-black/10 rounded-4 font-SpaceGrotesk relative z-10 w-[368px]'>
+            <div class='px-4 pt-3 pb-[17px] flex flex-col gap-3 bg-black/20 border border-black/10 rounded-4 font-SpaceGrotesk relative z-10 md:w-[368px]'>
               <p class='text-yellow-ffb text-12 font-bold'>Free Case Requirements</p>
               <div class='flex items-center gap-2'>
                 <div class='w-4 h-4 border border-white/10 rounded-4' />
