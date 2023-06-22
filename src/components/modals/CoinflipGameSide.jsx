@@ -306,7 +306,7 @@ const CoinflipGameSide = (props) => {
                 {props.data()?.[props.left ? 'creator' : 'opponent']?.items?.length || 0} items
               </span>
             </div>
-            <div class={`${isLoser() && props.isEndShow() && 'opacity-40'}`}>
+            <div class={`${isLoser() && props.isEndShow() && 'opacity-40'} w-full`}>
               <ListItems
                 items={() => {
                   return (
