@@ -126,7 +126,11 @@
       "Claim earnings": "Claim earnings",
       "Tier benefits": "Tier benefits",
       "Enter code": "Enter code...",
-      "Unknown": "Unknown"
+      "Unknown": "Unknown",
+      "Depositors": "Depositors",
+      "Depositors description": "View your affiliates stats.",
+      "Affiliate description": "Invite people to RustyLoot and earn commission",
+      "Tiers description": "Explore our affiliate benefits."
     },
     "gameSide": {
       "call terry": "call Terry",

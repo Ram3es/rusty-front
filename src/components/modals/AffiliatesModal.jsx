@@ -34,6 +34,21 @@ import GrayGradientButton from "../elements/GrayGradientButton";
 import ArrowBack from "../icons/ArrowBack";
 import GoldRay from "../icons/GoldRay";
 
+const tabHeaders = {
+  users:{
+    title: 'coinflip.affiliates_true.Depositors',
+    description: 'coinflip.affiliates_true.Depositors description'
+  },
+  overview:{
+    title: "coinflip.affiliates_true.Affiliates",
+    description: 'coinflip.affiliates_true.Affiliate description'
+  },
+  tiers:{
+    title: 'coinflip.affiliates_true.Tiers',
+    description: 'coinflip.affiliates_true.Tiers description'
+  },
+}
+
 const AffiliatesModal = (props) => {
   const i18n = useI18n();
 
@@ -50,6 +65,8 @@ const AffiliatesModal = (props) => {
   const [toggleCode, setToggle] = createSignal(true);
 
   const [tab, setTab] = createSignal("overview");
+
+  console.log(tab(), 'h=====================')
 
   const [tiers] = createSignal([
     {
@@ -289,11 +306,11 @@ const AffiliatesModal = (props) => {
                 </span>
               </div>}
               <div class="flex flex-col">
-                <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
-                  {i18n.t("coinflip.affiliates_true.Affiliates")}
+                <h2 class="text-20 leading-[26px] text-white font-bold font-SpaceGrotesk uppercase truncate">
+                  {i18n.t(tabHeaders[tab()]?.title)}
                 </h2>
-                <div class="font-SpaceGrotesk font-bold text-xs text-gray-64">
-                  Invite people to RustyLoot and earn commission
+                <div class="font-SpaceGrotesk font-bold text-xs leading-[15px] text-gray-64">
+                  {i18n.t(tabHeaders[tab()]?.description)}
                 </div>
               </div>
             </div>
@@ -439,7 +456,7 @@ const AffiliatesModal = (props) => {
 
               <div class="flex flex-col gap-4">
                 <div class="flex flex-col">
-                  <h2 class="text-20 text-white font-bold font-SpaceGrotesk uppercase truncate">
+                  <h2 class="text-20 leading-[26px] text-white font-bold font-SpaceGrotesk uppercase truncate">
                     DASHBOARD
                   </h2>
                   <div class="font-SpaceGrotesk font-bold text-12 text-gray-64">

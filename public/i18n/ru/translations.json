@@ -124,7 +124,11 @@
       "Claim earnings": "Заявить о доходах",
       "Tier benefits": "Преимущества уровня",
       "Enter code": "Введите код...",
-      "Unknown": "Неизвестный"
+      "Unknown": "Неизвестный",
+      "Depositors": "Вкладчики",
+      "Depositors description": "Просмотрите статистику своих партнеров.",
+      "Affiliate description": "Приглашайте людей в RustyLoot и зарабатывайте комиссию.",
+      "Tiers description": "Узнайте о наших партнерских преимуществах."
     },
     "gameSide": {
       "call terry": "позвони Терри",

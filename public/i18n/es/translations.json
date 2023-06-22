@@ -124,7 +124,11 @@
       "Claim earnings": "Reclamar ganancias",
       "Tier benefits": "Beneficios de nivel",
       "Enter code": "Introduzca el código...",
-      "Unknown": "Desconocida"
+      "Unknown": "Desconocida",
+      "Depositors": "Depositantes",
+      "Depositors description": "Consulta las estadísticas de tus afiliados.",
+      "Affiliate description": "Invite a personas a RustyLoot y gane comisiones.",
+      "Tiers description": "Explore nuestros beneficios para afiliados."
     },
     "gameSide": {
       "call terry": "llamar Terry",
