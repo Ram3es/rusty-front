@@ -374,7 +374,7 @@ const Chat = (p) => {
         <div class='relative w-full mb-[11px]'>
           <div
             ref={emojiWrapper}
-            class={`${isEmojiesOpen() ? 'hidden' : ''} w-max absolute bottom-full`}
+            class={`${!isEmojiesOpen() ? 'hidden' : ''} w-max absolute bottom-full`}
           />
         </div>
         <div class='w-full px-3 pt-3 pb-6 relative bg-dark-1d2 border-t border-dark-212 h-[92px]'>
