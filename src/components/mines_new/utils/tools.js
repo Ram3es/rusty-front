@@ -58,7 +58,7 @@ export const checkIfMine = (
         position: y * 5 + Number(x) + 1,
       },
       (data) => {
-        if (!data.data.error) {
+        if (!data.error) {
           if (data.msg) toastr(data);
           if (!data.end) {
             // clear
