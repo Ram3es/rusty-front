@@ -1,7 +1,10 @@
+import {isGameStarted} from "../../../views/upgrader/Upgrader";
+
 const StartButton = (props) => {
   return (
     <div
-      class="w-full p-[1px] rounded-md cursor-pointer mt-3 text-[#FFB436] font-semibold text-14"
+      class={`w-full p-[1px] rounded-md cursor-pointer mt-3 text-[#FFB436] font-semibold text-14 
+      ${isGameStarted() && "opacity-40 pointer-events-none"}`}
       style={{
         background: `linear-gradient(180deg, rgba(255, 180, 54, 0) -197.12%, 
         rgba(255, 180, 54, 0.36) 100%)`,

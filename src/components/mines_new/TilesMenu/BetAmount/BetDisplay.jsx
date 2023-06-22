@@ -54,7 +54,7 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
             <input
               class="text-14 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
               type="number"
-              onInput={(e) => props.callbackFn(e.target.value)}
+              onInput={(e) => props.callbackFn(e)}
               value={props.betAmount()}
               placeholder="0"
             />

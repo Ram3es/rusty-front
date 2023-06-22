@@ -1,6 +1,10 @@
 import UnderOverBtn from "./UnderOverBtn";
 
-import {underOver, setUnderOver} from "../../../../views/upgrader/Upgrader";
+import {
+  underOver,
+  setUnderOver,
+  isGameStarted,
+} from "../../../../views/upgrader/Upgrader";
 
 const UnderOverToggle = () => {
   const toggleUnderOver = (type) => {
@@ -8,7 +12,11 @@ const UnderOverToggle = () => {
     setUnderOver(type);
   };
   return (
-    <div class="w-full flex gap-2 items-center justify-center">
+    <div
+      class={`w-full flex gap-2 items-center justify-center ${
+        isGameStarted() && "opacity-40 pointer-events-none"
+      }`}
+    >
       <UnderOverBtn
         type="Over"
         selected={underOver() === "Over"}

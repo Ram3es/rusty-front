@@ -1,10 +1,10 @@
 import MinesLogo from "../../MISC/MinesLogo";
 import AdjustBtn from "../../MISC/AdjustBtn";
-import { FaSolidPlus, FaSolidMinus } from "solid-icons/fa";
+import {FaSolidPlus, FaSolidMinus} from "solid-icons/fa";
 
-import { minesAmount, setMinesAmount } from "../../TilesContainer";
+import {minesAmount, setMinesAmount} from "../../TilesContainer";
 
-const MinesDisplay = () => {
+const MinesDisplay = (props) => {
   const addMine = () => {
     setMinesAmount(minesAmount() + 1);
   };
@@ -40,13 +40,20 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
 
       "
       >
-        <div class="flex gap-2">
+        <div class="flex gap-2 items-center relative flex-1">
           <MinesLogo active />
-          <div class="text-white font-semibold">{minesAmount}</div>
+          {/* <div class="text-white font-semibold">{minesAmount}</div> */}
+          <input
+            class="text-17 text-white absolute left-7 w-[59%] overflow-hidden font-semibold"
+            type="number"
+            onInput={(e) => props.callbackFn(e)}
+            value={minesAmount()}
+            placeholder="0"
+          />
         </div>
         <div class="flex gap-3 h-full items-center">
-          <AdjustBtn text={<FaSolidPlus />} small onClick={addMine} />
           <AdjustBtn text={<FaSolidMinus />} small onClick={removeMine} />
+          <AdjustBtn text={<FaSolidPlus />} small onClick={addMine} />
           <div class="h-[175%] w-[1px] bg-[#1C1F3D] "></div>
           <AdjustBtn text={"MAX"} onClick={maxMines} />
         </div>

@@ -15,13 +15,15 @@ const BetAmount = () => {
       <div class="text-[#9A9EC8] text-[12px] font-medium">Bet</div>
       <BetDisplay
         betAmount={betAmount}
-        callbackFn={(amount) => {
-          if (amount < 0) {
+        callbackFn={(e) => {
+          if (e.currentTarget.value < 0) {
+            e.currentTarget.value = 0;
             setBetAmount(0);
-          } else if (amount > userObject.user.balance) {
+          } else if (e.currentTarget.value > userObject.user.balance) {
+            e.currentTarget.value = userObject.user.balance;
             setBetAmount(userObject.user.balance);
           } else {
-            setBetAmount(amount);
+            setBetAmount(e.currentTarget.value);
           }
         }}
         variant="input"

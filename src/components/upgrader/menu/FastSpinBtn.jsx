@@ -1,12 +1,17 @@
 import LightningIcon from "../../icons/LightningIcon";
 
-import {fastSpinner, setFastSpinner} from "../../../views/upgrader/Upgrader";
+import {
+  fastSpinner,
+  setFastSpinner,
+  isGameStarted,
+} from "../../../views/upgrader/Upgrader";
 
 const FastSpinBtn = () => {
   return (
     <div
       class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border 
-      cursor-pointer px-2 flex items-center gap-3
+      cursor-pointer px-2 flex items-center gap-3 transition-all duration-200
+      ${isGameStarted() && "opacity-40"}
             ${
               !fastSpinner()
                 ? "border-gray-9a hover:border-white text-blue-9b text-white"
