@@ -30,7 +30,7 @@ export const spin = (ticket, time) => {
             setSpinning(false);
             chart.style.transform = `rotate(${0}deg)`;
             chart.style.transitionTimingFunction = `cubic-bezier(0.12, 0.8, 0.38, 1)`;
-            chart.style.transitionDuration = `${isSpinFast ? 2 : 2}s`;
+            chart.style.transitionDuration = `${3}s`;
 
             setIsGameStarted(false);
           }, time + 200);
