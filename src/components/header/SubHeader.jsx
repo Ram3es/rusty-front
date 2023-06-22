@@ -413,7 +413,7 @@ const SubHeader = (props) => {
                     <NavLink href={`${props.pathname()}?withdraw=true`}>
                       <DarkButton>Withdraw</DarkButton>
                     </NavLink>
-                    <DarkButton width='10' paddingRight='0' ref={notificationButtonMain}>
+                    {/* <DarkButton width='10' paddingRight='0' ref={notificationButtonMain}>
                       <div class='relative'>
                         <span class='absolute z-10 right-1 top-1 bg-yellow-ff w-3 h-3 flex justify-center items-center rounded-full text-dark-1b1 font-Lato font-extrabold text-10'>
                           {notifications().length}
@@ -505,7 +505,7 @@ const SubHeader = (props) => {
                           </div>
                         </div>
                       </div>
-                    </DarkButton>
+                    </DarkButton> */}
                   </div>
                   <div class='hidden md:flex flex-col items-center gap-2'>
                     <NavLink
