@@ -17,7 +17,7 @@ const DiscordJoinModal = (props) => {
     >
       <div class='w-full h-full absolute left-0 cursor-default top-0' onClick={props.handleClose} />
       <div
-        class='w-[439px] top-32 relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/4 duration-100 ease-out'
+        class='w-[439px] relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/2 duration-100 ease-out'
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -76,8 +76,8 @@ const DiscordJoinModal = (props) => {
               <p class='text-yellow-ffb text-12 font-bold'>Free Case Requirements</p>
               <div class='flex items-center gap-2'>
                 <div class='w-4 h-4 border border-white/10 rounded-4' />
-                <p class='text-gray-9a text-12'>
-                  You <span class='text-yellow-ffb'>must</span> join our
+                <p class='text-gray-9a text-12 font-medium'>
+                  You <span class='text-yellow-ffb'>must</span> join our{' '}
                   <a
                     class='text-white underline'
                     href='https://discord.com/invite/rustyloot'
@@ -102,7 +102,7 @@ const DiscordJoinModal = (props) => {
               </div>
               <div class='flex items-center gap-2'>
                 <div class='w-4 h-4 border border-white/10 rounded-4' />
-                <p class='text-gray-9a text-12'>
+                <p class='text-gray-9a text-12 font-medium'>
                   You <span class='text-yellow-ffb'>must</span> you joined our Discord{' '}
                   <a class='text-white underline' href={API + '/discord'} target='_blank'>
                     here.
