@@ -165,7 +165,9 @@ const RewardCaseItem = (props) => {
             : 'mix-blend-normal'
         }`}
       >
-        {props?.item?.name === 'Daily Free Case' && !props.openTime && <DiscordIcon />}
+        {props?.item?.name === 'Daily Free Case' && !props.openTime && (
+          <DiscordIcon />
+        )}
         <span class={`reward-card--available capitalize font-bold font-SpaceGrotesk text-16`}>
           {(availableCases().includes(convertRomanToNormal(props?.item?.name)) ||
             props?.item?.name === 'Daily Free Case') &&
@@ -175,12 +177,12 @@ const RewardCaseItem = (props) => {
             ? notAvailableCases().slice(1).includes(convertRomanToNormal(props?.item?.name))
             : notAvailableCases().includes(convertRomanToNormal(props?.item?.name))) && 'locked'}
         </span>
-        {(props?.item?.name === 'Daily Free Case' && props.openTime) ||
-          (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name)) && (
+        {((props?.item?.name === 'Daily Free Case' && props.openTime) ||
+          (props.openTime && availableCases().includes(convertRomanToNormal(props?.item?.name)))) && (
             <span class='text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
               Open in {remainingTime()}
             </span>
-          ))}
+          )}
       </div>
       {props?.user?.authenticated &&
         notAvailableCases()[0] === convertRomanToNormal(props?.item?.name) && (

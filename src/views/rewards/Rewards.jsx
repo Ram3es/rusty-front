@@ -204,7 +204,7 @@ const Rewards = ({ loaded }) => {
                 {(item) => (
                   <RewardCaseItem
                     item={item}
-                    isJoinedToDiscord={rewardCases.isUserOnServer}
+                    isUserOnServer={rewardCases.isUserOnServer}
                     user={userObject}
                     openTime={
                       item.name === 'Daily Free Case'
