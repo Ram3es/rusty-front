@@ -29,7 +29,7 @@ export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
 
 const CaseUnboxing = (props) => {
-  const { socket, toastr, userObject, rewardCases } = injector;
+  const { socket, toastr, userObject, rewardCases, setRewardCases } = injector;
 
   const [rollCase, setRollCase] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -249,6 +249,15 @@ const CaseUnboxing = (props) => {
           console.log('rewards:case:open', data);
           if (!data.error) {
             rollCases({cases: [data]})
+            if (!isDemo) {
+              setTimeout(() => {
+                if (rollCase().name === 'Daily Free Case') {
+                  setRewardCases("lastFreeCaseOpening", new Date().toISOString())
+                } else {
+                  setRewardCases("lastDailyCaseOpening", new Date().toISOString())
+                }
+              } ,durationInSeconds * 1000)
+            }
           } else {
             toastr(data)
           }
@@ -294,10 +303,13 @@ const CaseUnboxing = (props) => {
                 pendingNum() === 1
                   ? "case-opening-wrapper"
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden ${props.searchParams.daily && 
-                (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) 
-                || (rollCase().name === 'Daily Free Case' ? rewardCases.lastFreeCaseOpening : rewardCases.lastDailyCaseOpening) 
-                || !userObject.authenticated || !rewardCases.isUserOnServer)
+              } overflow-hidden ${!userObject.authenticated || props.searchParams.daily &&
+                (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
+                  (rollCase().name !== 'Daily Free Case' &&
+                    rewardCases.lastDailyCaseOpening) ||
+                  (rollCase().name === 'Daily Free Case' &&
+                    (rewardCases.lastFreeCaseOpening || !rewardCases.isUserOnServer)) ||
+                    notAvailableCases()[0] === convertRomanToNormal(rollCase().name))
                   ? 'mix-blend-luminosity' 
                 : 'mix-blend-normal'}`}
             >
@@ -393,15 +405,13 @@ const CaseUnboxing = (props) => {
                 <div class='relative'>
                   <div
                     class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                      (props.searchParams.daily &&
+                      (!userObject.authenticated || props.searchParams.daily &&
                         (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
                           (rollCase().name !== 'Daily Free Case' &&
                             rewardCases.lastDailyCaseOpening) ||
-                          (!userObject.authenticated &&
-                            rollCase().name === 'Daily Free Case' &&
-                            rewardCases.lastFreeCaseOpening))) ||
-                      notAvailableCases()[0] === convertRomanToNormal(rollCase().name) ||
-                      rewardCases.lastFreeCaseOpening
+                          (rollCase().name === 'Daily Free Case' &&
+                            (rewardCases.lastFreeCaseOpening || !rewardCases.isUserOnServer)) ||
+                            notAvailableCases()[0] === convertRomanToNormal(rollCase().name))) 
                         ? 'mix-blend-luminosity'
                         : 'mix-blend-normal'
                     }`}
