@@ -5,7 +5,10 @@ import AdjustBtn from "../../MISC/AdjustBtn";
 import { betAmount, setBetAmount } from "../../PlinkoContainer";
 import { getCurrencyString } from "../../../../utilities/tools";
 
+import injector from "../../../../injector/injector";
+
 const BetDisplay = () => {
+  const { userObject } = injector;
   const halveBet = () => {
     setBetAmount(betAmount() / 2);
   };
@@ -16,6 +19,18 @@ const BetDisplay = () => {
 
   const clearBet = () => {
     setBetAmount(0);
+  };
+
+  const inputValueUpdate = (e) => {
+    if (e.currentTarget.value < 0) {
+      e.currentTarget.value = 0;
+      setBetAmount(0);
+    } else if (e.currentTarget.value > userObject.user.balance) {
+      e.currentTarget.value = userObject.user.balance;
+      setBetAmount(userObject.user.balance);
+    } else {
+      setBetAmount(e.currentTarget.value);
+    }
   };
 
   return (
@@ -43,7 +58,13 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
       >
         <div class="flex gap-2 items-center ">
           <CoinLogo h="16" />
-          <GoldText text={getCurrencyString(betAmount())} />
+          <input
+              class="text-14 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
+              type="number"
+              onInput={(e) => inputValueUpdate(e)}
+              value={betAmount()}
+              placeholder='0'
+            />
         </div>
         <div class="flex gap-3 h-full items-center">
           <AdjustBtn text={"1/2"} onClick={halveBet} />
