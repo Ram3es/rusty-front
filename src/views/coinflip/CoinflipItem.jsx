@@ -317,7 +317,7 @@ const CoinflipItem = (props) => {
             </div>
           )}
         </div>
-        <div class='w-30'>
+        <div class='w-34'>
           <div class='flex items-center gap-[9px]'>
             <Coin width='6' />
             <span class='font-bold text-16 llg:text-16 xll:text-19 font-SpaceGrotesk coinflip-game--price'>
