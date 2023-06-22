@@ -117,6 +117,7 @@ const createUserObject = () => {
     setToastrs,
     SNOWMODE,
     rewardCases,
+    setRewardCases,
     toastr: (data) => {
       if (data.error) {
         soundError.currentTime = 0;
