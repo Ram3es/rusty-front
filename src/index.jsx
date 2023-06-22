@@ -6,8 +6,15 @@ import './index.css';
 import App from './App';
 
 const Main = () => {
-    console.warn = function() {};
-    console.log = function() {};
+    
+    if (!window.console || Object.keys(window.console).length === 0) {
+        window.console = {
+          log: function() {},
+          info: function() {},
+          error: function() {},
+          warn: function() {}
+        };
+      }
 render(
     () => (
         <Router>

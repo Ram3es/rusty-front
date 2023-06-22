@@ -38,7 +38,7 @@ const StartButton = (props) => {
             {`${isAutoDropping() ? "Stop Auto" : "Start Game"}`}
           </div>
           <CoinLogo h="16" />
-          <GoldText text={getCurrencyString(betAmount())} />
+          <GoldText text={getCurrencyString(betAmount() ||0 )} />
         </div>
       </div>
     </div>
