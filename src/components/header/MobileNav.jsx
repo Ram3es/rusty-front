@@ -86,27 +86,28 @@ const MobileNav = (props) => {
                 </p>
               </NavLink>
             ) : (
-              <div
-                class={`w-full h-auto relative transition-all border-b border-dark-171 duration-200 text-gray-9b flex justify-between items-center gap-2 cursor-pointer group px-6 py-4`}
-                onClick={() => setNotificationModalOpen(prev => !prev)}
-              >
-                {(link.svgActive || link.svg) && <div class={`text-gray-9b group-hover:text-yellow-ff`}>
-                  <div class="hidden group-hover:block">{link.svgActive}</div>
-                  <div class="block group-hover:hidden">{link.svg}</div>
-                </div>}
-                <p class="text-16 text-current font-medium uppercase font-Oswald truncate group-hover:text-yellow-ff">
-                  {link.name}
-                </p>
-                <div class="relative w-10 h-10 center rounded-8 bg-dark-21">
-                  <span class="absolute z-10 right-1 top-1 bg-yellow-ff w-3 h-3 flex justify-center items-center rounded-full text-dark-1b1 font-Lato font-extrabold text-10">
-                    {props.notifications.length}
-                  </span>
-                  <span class="z-30 w-10 h-10 flex justify-center items-center cursor-pointer">
-                    <MailIcon />
-                  </span>
-                </div>
-              </div>
-            )
+              // <div
+              //   class={`w-full h-auto relative transition-all border-b border-dark-171 duration-200 text-gray-9b flex justify-between items-center gap-2 cursor-pointer group px-6 py-4`}
+              //   onClick={() => setNotificationModalOpen(prev => !prev)}
+              // >
+              //   {(link.svgActive || link.svg) && <div class={`text-gray-9b group-hover:text-yellow-ff`}>
+              //     <div class="hidden group-hover:block">{link.svgActive}</div>
+              //     <div class="block group-hover:hidden">{link.svg}</div>
+              //   </div>}
+              //   <p class="text-16 text-current font-medium uppercase font-Oswald truncate group-hover:text-yellow-ff">
+              //     {link.name}
+              //   </p>
+              //   <div class="relative w-10 h-10 center rounded-8 bg-dark-21">
+              //     <span class="absolute z-10 right-1 top-1 bg-yellow-ff w-3 h-3 flex justify-center items-center rounded-full text-dark-1b1 font-Lato font-extrabold text-10">
+              //       {props.notifications.length}
+              //     </span>
+              //     <span class="z-30 w-10 h-10 flex justify-center items-center cursor-pointer">
+              //       <MailIcon />
+              //     </span>
+              //   </div>
+              // </div>
+              ""
+              )
           }
         </For>
       </div>

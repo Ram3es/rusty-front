@@ -6,7 +6,7 @@ import {
   Match,
   onCleanup,
   Switch,
-  onMount,
+  onMount, Show,
 } from "solid-js";
 import HoveredButton from "../../components/elements/HoveredButton";
 import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel";
@@ -74,7 +74,7 @@ export const getJoinTeam = (mode, playerIndex) => {
 };
 
 const GameCaseBattle = (props) => {
-  const {socket, userObject} = injector;
+  const {socket, userObject, toastr} = injector;
 
   const [game, setGame] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -241,7 +241,9 @@ const GameCaseBattle = (props) => {
         team: getJoinTeam(game().mode, player_index),
         player_index,
       },
-      () => {}
+      (data) => {
+        if (data.error) toastr(data)
+      }
     );
   };
 
@@ -254,7 +256,9 @@ const GameCaseBattle = (props) => {
         player_index,
         urlKey: props.searchParams.key,
       },
-      () => {}
+      (data) => {
+        if (data.error) toastr(data)
+      }
     );
   };
 
