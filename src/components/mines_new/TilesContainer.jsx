@@ -18,6 +18,7 @@ import {
   getKnownMinesInit,
   calculateAddition,
   calculateMultiplier,
+  calculateWinningsAmount,
 } from "./utils/tools";
 import History from "../../views/history";
 import Fallback from "../../views/Fallback";
@@ -43,8 +44,8 @@ const {minesPageLoaded, onMinesPageLoad} = PageLoadState;
 
 // manage bet and mines values
 createEffect(() => {
-  if (minesAmount() < 1) {
-    setMinesAmount(1);
+  if (minesAmount() < 0) {
+    setMinesAmount(0);
   }
   if (minesAmount() > 24) {
     setMinesAmount(24);
@@ -115,10 +116,12 @@ createEffect(() => {
       setBetAdditions((prev) => {
         const newAdditions = [...prev];
         newAdditions.push(
-          calculateAddition(
+          calculateWinningsAmount(
             betAmount(),
-            minesAmount(),
-            25 - squaresLeft() - minesAmount()
+            calculateMultiplier(
+              minesAmount(),
+              25 - squaresLeft() - minesAmount()
+            )
           )
         );
         return newAdditions;

@@ -39,7 +39,7 @@ export const calculateRemainingTime = (unixTimeStamp) => {
 
   const hours = Math.floor(timeDiff / 3600)
   const minutes = Math.floor((timeDiff % 3600) / 60)
-  const seconds = timeDiff % 60
+  const seconds = Math.floor(timeDiff % 60)
 
   return `${padNumber(hours)}:${padNumber(minutes)}:${padNumber(seconds)}`
 }
