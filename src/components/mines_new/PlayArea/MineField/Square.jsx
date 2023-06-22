@@ -65,7 +65,13 @@ const Square = ({x, y}) => {
     if (hasLost()) return;
     setInputLocked(true);
     setStartAnimation(true);
-    const isMine = await checkIfMine(x, y, setIsPlaying, playCashoutSound);
+    const isMine = await checkIfMine(
+      x,
+      y,
+      setIsPlaying,
+      playCashoutSound,
+      setKnownMines
+    );
     setKnownMines((prev) => {
       const newMines = [...prev];
       newMines[x][y].revealed = true;
