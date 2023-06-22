@@ -158,3 +158,17 @@ export const CB_ROYAL_VARIANTS = [
 ]
 
 export const CB_BATTLE_VARIANTS = ['royal','cursed', 'group']
+
+export const BASE_RANKS = [
+  'default',
+  'bronze',
+  'silver',
+  'gold1',
+  'gold2',
+  'gold3',
+  'platinum1',
+  'platinum2',
+  'platinum3',
+  'diamond',
+  'staff'
+]

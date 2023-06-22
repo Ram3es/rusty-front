@@ -292,7 +292,7 @@
     "When updating": "When updating your Server seed you will find the old server seed decrypted in the Profile popup. Use this server seed for round validation.\nNonce is reset after a server seed update. The below Psuedo code below. Use Javascript",
     "Plinko": "Plinko",
     "Rights should be": "Rights should be the same array as the one in the PF popup",
-    "Upgrader": "Upgrader",
+    "Upgrader": "Upgrader & Cases",
     "Roll should be": "Roll should be the same as roll in the PF popup",
     "Round information": "Round information",
     "Search": "Search",

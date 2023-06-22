@@ -19,9 +19,9 @@ import BodyVectorBackground from '../../assets/img/modals/caseBattlesJoinModalBg
 import Logo from "../../assets/smallLogo.svg";
 
 import { getProportionalPartByAmount } from '../../utilities/Numbers'
-import { getColorByModeAndCursed } from '../../utilities/games/caseBattles'
 import { URL } from '../../libraries/url'
 import { getJoinTeam } from '../../views/caseBattles/GameCaseBattle'
+import { getColorByModeAndCursed } from '../../utilities/caseBattles-tools'
 
 const CaseBattleJoinModal = (props) => {
   const { socket, userObject, toastr } = injector

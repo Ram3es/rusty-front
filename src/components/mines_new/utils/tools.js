@@ -44,7 +44,13 @@ export const getGridFromLocalStorage = () => {
 
 // this function checks if a tile is a mine or not
 // it will need to be replaced with a call to the backend
-export const checkIfMine = (x, y, setHasLost, setIsPlaying, setInputLocked) => {
+export const checkIfMine = (
+  x,
+  y,
+  setIsPlaying,
+  playCashoutSound,
+  setKnownMines
+) => {
   return new Promise((resolve, reject) => {
     socket.emit(
       "mines:check",
@@ -52,19 +58,24 @@ export const checkIfMine = (x, y, setHasLost, setIsPlaying, setInputLocked) => {
         position: y * 5 + Number(x) + 1,
       },
       (data) => {
-        console.log(data);
-        if (data.msg === "You don't have a game active!") {
-          console.log("HERROKG");
-          setHasLost(true);
-          setIsPlaying(false);
-          setInputLocked(false);
-        }
-        if (!data.error) {
-          if (data.end) {
-            if (data.msg) toastr(data);
-            resolve(true);
-          } else {
+        if (!data.data.error) {
+          if (data.msg) toastr(data);
+          if (!data.end) {
+            // clear
             resolve(false);
+          } else {
+            if (
+              data.data.cleared?.some((item) => data.data.mines?.includes(item))
+            ) {
+              // mine hit
+              resolve(true);
+              revealMines(setKnownMines, data.data.mines);
+            } else {
+              // game over cleared the board
+              setIsPlaying(false);
+              playCashoutSound();
+              resolve(false);
+            }
           }
         }
       }
@@ -199,4 +210,17 @@ export const calculateNextAddition = (
     25 - squaresRemaining - minesAmount
   );
   return addition;
+};
+
+const revealMines = (setKnownMines, mines) => {
+  setKnownMines((prev) => {
+    const knownMines = [...prev];
+    mines.forEach((mine) => {
+      const x = (mine - 1) % 5;
+      const y = Math.floor((mine - 1) / 5);
+      knownMines[x][y].revealed = true;
+      knownMines[x][y].isMine = true;
+    });
+    return knownMines;
+  });
 };

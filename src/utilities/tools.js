@@ -63,7 +63,13 @@ export const checkIfMine = (x, y) => {
   });
 };
 
-
+export const copyToClipboard = (text) => {
+  navigator.clipboard.writeText(text);
+  toastr({
+    error: false,
+    msg: 'Successfully copied to clipboard!'
+  })
+}
 
 // used for debugging
 export const getKnownMinesInit = (clearedMines = []) => {
