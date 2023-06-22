@@ -363,7 +363,7 @@ const AffiliatesModal = (props) => {
                           {affiliate?.code}
                         </p>
                         <div
-                          class="px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
+                          class="active:scale-95 transition-colors px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
                           onClick={() => {
                             if (affiliate?.code) {
                               changeAffiliateCode();
@@ -410,7 +410,7 @@ const AffiliatesModal = (props) => {
                       <p class="text-white text-14 font-bold truncate font-SpaceGrotesk w-full flex-1">{`${API}/r/`}<span class="text-yellow-ffb">{affiliate?.code}</span></p>
                       <div class="flex">
                       <div
-                          class="bg-gray-button-gradient p-1 rounded-4 border border-white/10"
+                          class="active:scale-95 transition-colors cursor-pointer bg-gray-button-gradient p-1 rounded-4 border border-white/10"
                           onClick={copy}
                         >
                           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
