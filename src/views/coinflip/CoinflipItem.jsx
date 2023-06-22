@@ -13,6 +13,7 @@ import RedCoin from '../../assets/img/coinflip/redcoin.svg'
 import BlackCoin from '../../assets/img/coinflip/blackcoin.svg'
 
 import Coin from '../../utilities/Coin'
+import EyeIcon from '../../components/icons/EyeIcon'
 
 const skinStylesConfig = [
   {
@@ -317,7 +318,7 @@ const CoinflipItem = (props) => {
             </div>
           )}
         </div>
-        <div class='w-34'>
+        <div class='w-30'>
           <div class='flex items-center gap-[9px]'>
             <Coin width='6' />
             <span class='font-bold text-16 llg:text-16 xll:text-19 font-SpaceGrotesk coinflip-game--price'>
@@ -339,7 +340,7 @@ const CoinflipItem = (props) => {
                 'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
               }}
             >
-              <div class='w-[15.65px] h-[16.25px]'>
+              {props.game?.status === 'ended' && <div class='w-[15.65px] h-[16.25px]'>
                 <svg
                   width='16'
                   height='17'
@@ -354,15 +355,17 @@ const CoinflipItem = (props) => {
                     fill='#9A9EC8'
                   />
                 </svg>
-              </div>
-              <span class='text-gray-9a font-bold text-14 font-SpaceGrotesk'>
-                {i18n.t('coinflip.View outcome')}
+              </div>}
+              {props.game?.status === 'spinning' && <EyeIcon />}
+              <span class='text-gray-9a font-bold text-14 font-SpaceGrotesk capitalize'>
+                {props.game?.status === 'ended' && i18n.t('coinflip.View outcome')}
+                {props.game?.status === 'spinning' && 'View Coinflip'}
               </span>
-              <img
+              {props.game?.status === 'ended' && <img
                 alt='coin'
                 class='w-6 h-6 absolute -right-2.5 bottom-6'
                 src={props.game?.side === 1 ? RedCoin : BlackCoin}
-              />
+              />}
             </NavLink>
           )}
           {(props.game?.status === 'pending' || props.game?.status === 'counting') && (
@@ -406,7 +409,7 @@ const CoinflipItem = (props) => {
               </div>
             </div>
           )}
-          {(userObject.user.id !== props.game?.creator?.id && props.game?.status === 'open') && (
+          {props.game?.status === 'open' && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
               >
@@ -424,32 +427,19 @@ const CoinflipItem = (props) => {
                 </CaseGradientButton>
               </NavLink>
           )}
-          {(props.game?.status !== 'spinning' && props.game?.status !== 'ended') && (
+          {userObject.user.id !== props.game?.creator?.id &&
+            props.game?.status !== 'spinning' &&
+            props.game?.status !== 'ended' && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
-                class='flex items-center justify-center w-[51px] h-10 rounded-4 border border-white/10'
+                class='flex items-center justify-center w-[51px] h-10 rounded-4 border border-white/10 text-gray-9a'
                 style={{
                   background:
                     'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)',
                   'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
                 }}
               >
-                <svg
-                  width='20'
-                  height='11'
-                  viewBox='0 0 20 11'
-                  fill='none'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    d='M18.875 4.78255C18.8363 4.73344 17.9057 3.56612 16.3104 2.39409C14.1786 0.827866 11.859 0 9.60243 0C7.3459 0 5.02631 0.827866 2.89444 2.39409C1.29917 3.56608 0.368632 4.73344 0.329827 4.78255L0 5.1997L0.329869 5.61689C0.368674 5.666 1.29921 6.83336 2.89449 8.00539C5.02635 9.57157 7.34595 10.3994 9.60247 10.3994C11.859 10.3994 14.1786 9.57157 16.3104 8.00539C17.9057 6.83336 18.8363 5.666 18.875 5.61689L19.205 5.1997L18.875 4.78255ZM9.60243 8.84238C7.59387 8.84238 5.95975 7.2083 5.95975 5.1997C5.95975 4.88501 5.99986 4.57952 6.07524 4.28804L5.24359 4.14808C5.16211 4.48547 5.11889 4.83762 5.11889 5.1997C5.11889 6.49714 5.6731 7.66745 6.55693 8.48691C5.4192 8.06665 4.45175 7.47691 3.7216 6.94355C2.817 6.28285 2.13906 5.61462 1.75256 5.1997C2.13923 4.78465 2.81708 4.1165 3.7216 3.45584C4.45175 2.92249 5.41925 2.33275 6.55693 1.91245L7.11484 2.54133C7.76642 1.9312 8.6415 1.55702 9.60243 1.55702C11.611 1.55702 13.2451 3.1911 13.2451 5.1997C13.2451 7.2083 11.611 8.84238 9.60243 8.84238ZM15.4833 6.94355C14.753 7.47691 13.7856 8.06665 12.6479 8.48691C13.5317 7.66749 14.0859 6.49718 14.0859 5.19966C14.0859 3.90213 13.5317 2.73186 12.6479 1.91241C13.7857 2.33271 14.753 2.92244 15.4833 3.4558C16.3879 4.1165 17.0658 4.78473 17.4523 5.19961C17.0656 5.61475 16.3878 6.28293 15.4833 6.94355Z'
-                    fill='#9A9EC8'
-                  />
-                  <path
-                    d='M7.28439 4.49168C7.21603 4.71572 7.17899 4.95339 7.17899 5.1998C7.17899 6.5382 8.26399 7.62324 9.60242 7.62324C10.9408 7.62324 12.0258 6.53824 12.0258 5.1998C12.0258 3.86137 10.9408 2.77637 9.60242 2.77637C8.95051 2.77637 8.35917 3.03426 7.92357 3.45301L9.11893 4.8004L7.28439 4.49168Z'
-                    fill='#9A9EC8'
-                  />
-                </svg>
+                <EyeIcon />
               </NavLink>
             )}
         </div>
