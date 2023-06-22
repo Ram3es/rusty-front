@@ -10,7 +10,11 @@ import {
   isPlaying,
   minesAmount,
 } from "../../TilesContainer";
-import {calculateAddition, calculateNextAddition} from "../../utils/tools";
+import {
+  calculateAddition,
+  calculateWinningsAmount,
+  calculateMultiplier,
+} from "../../utils/tools";
 const [prevOffsets, setPrevOffsets] = createSignal([]);
 
 const WinningsAdditions = () => {
@@ -33,16 +37,23 @@ const WinningsAdditions = () => {
       25 - squaresLeft() - minesAmount() + 1
     );
 
-    if (next === 0) {
+    if (next !== 0) {
       setNextAddition(
-        calculateAddition(
+        calculateWinningsAmount(
           betAmount(),
-          minesAmount(),
-          25 - squaresLeft() - minesAmount()
+          calculateMultiplier(
+            minesAmount(),
+            25 - squaresLeft() + 1 - minesAmount()
+          )
         )
       );
     } else {
-      setNextAddition(next);
+      setNextAddition(
+        calculateWinningsAmount(
+          betAmount(),
+          calculateMultiplier(minesAmount(), 25 - squaresLeft() - minesAmount())
+        )
+      );
     }
   });
 

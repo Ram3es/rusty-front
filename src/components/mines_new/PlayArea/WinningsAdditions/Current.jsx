@@ -1,4 +1,4 @@
-import {onMount, createSignal, onCleanup} from "solid-js";
+import {createEffect, createSignal} from "solid-js";
 import GreenText from "../../MISC/GreenText";
 import RedText from "../../MISC/RedText";
 import CoinLogo from "../../MISC/CoinLogo";
@@ -17,7 +17,23 @@ import {
   minesAmount,
 } from "../../TilesContainer";
 
-const Current = (props) => {
+const Current = () => {
+  const [currentWin, setCurrentWin] = createSignal(0);
+  createEffect(() => {
+    if (isPlaying()) {
+      setCurrentWin(
+        getCurrencyString(
+          calculateWinningsAmount(
+            betAmount(),
+            calculateMultiplier(
+              minesAmount(),
+              25 - squaresLeft() - minesAmount()
+            )
+          )
+        )
+      );
+    }
+  });
   return (
     <div
       class={`flex gap-3 items-center ${
@@ -41,26 +57,13 @@ const Current = (props) => {
       <div class="">
         {hasLost() ? (
           <RedText
-            text={hasLost() ? "0.00" : "+" + getCurrencyString(props.addition)}
+            text={hasLost() ? "0.00" : "+" + currentWin()}
             size={"30"}
             proccessed
           />
         ) : (
           <GreenText
-            text={
-              !isPlaying()
-                ? "+" +
-                  getCurrencyString(
-                    calculateWinningsAmount(
-                      betAmount(),
-                      calculateMultiplier(
-                        minesAmount(),
-                        25 - squaresLeft() - minesAmount()
-                      )
-                    )
-                  )
-                : "+" + getCurrencyString(props.addition)
-            }
+            text={!isPlaying() ? "+" + currentWin() : "+" + currentWin()}
             size={"30"}
           />
         )}

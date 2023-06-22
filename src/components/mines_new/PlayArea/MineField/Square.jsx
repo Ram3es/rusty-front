@@ -8,6 +8,7 @@ import {
   getAllGridData,
   calculateMultiplier,
   calculateAddition,
+  calculateWinningsAmount,
 } from "../../utils/tools";
 import {
   squaresLeft,
@@ -103,10 +104,12 @@ const Square = ({x, y}) => {
         );
         if (newAddition !== 0) {
           newAdditions.push(
-            calculateAddition(
+            calculateWinningsAmount(
               betAmount(),
-              minesAmount(),
-              25 - squaresLeft() - minesAmount()
+              calculateMultiplier(
+                minesAmount(),
+                25 - squaresLeft() - minesAmount()
+              )
             )
           );
         }
