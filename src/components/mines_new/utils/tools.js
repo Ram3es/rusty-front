@@ -44,7 +44,7 @@ export const getGridFromLocalStorage = () => {
 
 // this function checks if a tile is a mine or not
 // it will need to be replaced with a call to the backend
-export const checkIfMine = (x, y, setHasLost, setIsPlaying, setInputLocked) => {
+export const checkIfMine = (x, y, setIsPlaying, playCashoutSound) => {
   return new Promise((resolve, reject) => {
     socket.emit(
       "mines:check",
@@ -52,19 +52,25 @@ export const checkIfMine = (x, y, setHasLost, setIsPlaying, setInputLocked) => {
         position: y * 5 + Number(x) + 1,
       },
       (data) => {
-        console.log(data);
-        if (data.msg === "You don't have a game active!") {
-          console.log("HERROKG");
-          setHasLost(true);
-          setIsPlaying(false);
-          setInputLocked(false);
-        }
-        if (!data.error) {
-          if (data.end) {
-            if (data.msg) toastr(data);
-            resolve(true);
-          } else {
+        if (!data.data.error) {
+          if (data.msg) toastr(data);
+          console.log(data);
+          if (!data.end) {
+            // clear
             resolve(false);
+          } else {
+            console.log(data.data.mines, data.data.cleared);
+            if (
+              data.data.cleared?.some((item) => data.data.mines?.includes(item))
+            ) {
+              // mine hit
+              resolve(true);
+            } else {
+              // game over cleared the board
+              setIsPlaying(false);
+              playCashoutSound();
+              resolve(false);
+            }
           }
         }
       }

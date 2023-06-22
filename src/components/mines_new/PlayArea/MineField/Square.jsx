@@ -27,6 +27,8 @@ import {
   isPlaying,
 } from "../../TilesContainer";
 
+import {playCashoutSound} from "../../../../utilities/Sounds/SoundButtonClick";
+
 const Square = ({x, y}) => {
   const [isFlipped, setIsFlipped] = createSignal(false);
   const [isMine, setIsMine] = createSignal(false);
@@ -63,13 +65,7 @@ const Square = ({x, y}) => {
     if (hasLost()) return;
     setInputLocked(true);
     setStartAnimation(true);
-    const isMine = await checkIfMine(
-      x,
-      y,
-      setHasLost,
-      setIsPlaying,
-      setInputLocked
-    );
+    const isMine = await checkIfMine(x, y, setIsPlaying, playCashoutSound);
     setKnownMines((prev) => {
       const newMines = [...prev];
       newMines[x][y].revealed = true;
