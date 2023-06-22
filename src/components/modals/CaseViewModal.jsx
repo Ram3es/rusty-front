@@ -26,7 +26,7 @@ const CaseViewModal = (props) => {
           // "backdrop-filter": "blur(8px)",
         }}
       >
-        <div class=" w-full pl-[22px] pr-8 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]">
+        <div class="w-full pl-[22px] pr-8 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]">
           <div class="flex items-center gap-1">
             <div
               class="w-[68px] h-[49px]"
