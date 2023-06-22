@@ -29,7 +29,7 @@ const Rewards = ({ loaded }) => {
 
   const [benefits, setBenefits] = createSignal([])
   const [isShownRankBenefitModal, setIsShownBenefitModal] = createSignal(false)
-  const [discordJoinModal, setDiscordJoinModal] = createSignal(true)
+  const [discordJoinModal, setDiscordJoinModal] = createSignal(false)
 
   const { rewardsPageLoaded, onRewardsPageLoaded } = PageLoadState
 
@@ -211,6 +211,7 @@ const Rewards = ({ loaded }) => {
                         ? rewardCases.lastFreeCaseOpening
                         : rewardCases.lastDailyCaseOpening
                     }
+                    onClick={item.name === 'Daily Free Case' ? toggleDiscordJoinModal : null}
                   />
                 )}
               </For>
