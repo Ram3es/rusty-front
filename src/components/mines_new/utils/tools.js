@@ -49,7 +49,8 @@ export const checkIfMine = (
   y,
   setIsPlaying,
   playCashoutSound,
-  setKnownMines
+  setKnownMines,
+  setHasLost,
 ) => {
   return new Promise((resolve, reject) => {
     socket.emit(
@@ -68,8 +69,10 @@ export const checkIfMine = (
               data.data.cleared?.some((item) => data.data.mines?.includes(item))
             ) {
               // mine hit
-              resolve(true);
+              setIsPlaying(false);
+              // setHasLost(true);
               revealMines(setKnownMines, data.data.mines);
+              resolve(true);
             } else {
               // game over cleared the board
               setIsPlaying(false);

@@ -37,6 +37,18 @@ const Square = ({x, y}) => {
   const [isClicked, setIsClicked] = createSignal(false);
 
   createEffect(() => {
+    // if is clicked for more than 1 second set isClicked to false
+    if (isClicked()) {
+      setTimeout(() => {
+        setIsClicked(false);
+    }, 500);
+  }
+
+  });
+
+
+
+  createEffect(() => {
     if (!flipTile()) return;
     if (flipTile().x == x && flipTile().y == y) {
       handleClick();
@@ -71,7 +83,8 @@ const Square = ({x, y}) => {
       y,
       setIsPlaying,
       playCashoutSound,
-      setKnownMines
+      setKnownMines,
+      setHasLost,
     );
     setKnownMines((prev) => {
       const newMines = [...prev];
