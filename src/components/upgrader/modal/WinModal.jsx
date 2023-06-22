@@ -53,7 +53,7 @@ const WinModal = () => {
 
   onMount(() => {
     setUpgradePercentage(
-      ((toggles.winningsModal.items[0].price - betValue()) / betValue()) * 100
+      ((betValue()) / toggles.winningsModal.items[0].price) * 90
     );
   });
 

@@ -1,4 +1,4 @@
-import { createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js'
+import { createMemo, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -84,10 +84,6 @@ const RewardCaseItem = (props) => {
   const availableCases = createMemo(() =>
     getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
   )
-
-  createEffect(() => {
-    console.log(calculateRemainingTime(props.openTime), 'props.openTime')
-  })
 
   return (
     <NavLink
