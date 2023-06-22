@@ -499,6 +499,14 @@ const AffiliatesModal = (props) => {
                       <GoldRay additionalClasses="" />
                   </div>
                   <div class="w-120 max-w-full flex flex-col items-center gap-3">
+                    <div
+                      class={`absolute w-[204px] h-[50px] -z-10`}
+                      style={{
+                        background: 'radial-gradient(73.90% 182.51% at 47.87% -51.25%, #27F278 0%, rgba(39, 242, 120, 0.00) 100%)',
+                        filter: 'blur(66px)',
+                        'border-radius': '100px'
+                      }}
+                    />
                     <div class="px-3 py-[4px] flex items-center justify-center gap-2 rounded-4"
                     style={{
                       background:
