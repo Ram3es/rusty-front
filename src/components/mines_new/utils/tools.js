@@ -141,12 +141,7 @@ export const getAllGridData = () => {
   // This function is only called when the player loses.
   // If this function is called, then no payout is to be made.
   // It is absolutely critical that the backend manages this.
-  const delay = 150;
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(getGridFromLocalStorage());
-    }, delay);
-  });
+    return getGridFromLocalStorage();
 };
 
 const factorial = (n, to) => {

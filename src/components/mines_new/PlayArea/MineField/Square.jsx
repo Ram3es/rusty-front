@@ -85,11 +85,11 @@ const Square = ({x, y}) => {
     if (isClicked() || hasLost()) return;
     setIsClicked(true);
     await checkMineHit();
-    await handleResult();
+    handleResult();
     setIsClicked(false);
   };
 
-  const handleResult = async () => {
+  const handleResult = () => {
     if (startAnimation() == false) return;
 
     if (hasLost()) return;
@@ -118,7 +118,7 @@ const Square = ({x, y}) => {
     } else {
       setHasLost(true);
       setIsPlaying(false);
-      const allGridData = await getAllGridData();
+      const allGridData = getAllGridData();
       allGridData.forEach((row, x) => {
         row.forEach((square, y) => {
           if (square) {
