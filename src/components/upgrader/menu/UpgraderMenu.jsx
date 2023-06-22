@@ -4,12 +4,12 @@ import UpgradeBtn from "./UpgradeBtn";
 import FastSpinBtn from "./FastSpinBtn";
 import FairnessBtn from "./FairnessBtn";
 
-import {bet} from "../../../views/upgrader/Upgrader";
+import {bet, isGameStarted} from "../../../views/upgrader/Upgrader";
 
 const UpgraderMenu = () => {
   return (
     <div
-      class="relative w-max px-8 pt-10 pb-6 rounded-l-lg h-full flex flex-col items-center gap-4 font-SpaceGrotesk"
+      class={`relative w-max px-8 pt-10 pb-6 rounded-l-lg h-full flex flex-col items-center gap-4 font-SpaceGrotesk`}
       style={{
         background: `linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
       }}
