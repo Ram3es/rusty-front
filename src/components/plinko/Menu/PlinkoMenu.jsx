@@ -31,11 +31,13 @@ const TilesMenu = () => {
         mode: difficulty(),
       },
       (data) => {
-        if (data.msg) {
-          dropBall(data.data.ballPosition);
+        if (data?.msg) {
+          if(data.data?.path){
+            dropBall(data?.data?.ballPosition);
+          }
           toastr(data);
         }
-        if (data.error) {
+        if (data?.error) {
           setIsAutoDropping(false);
           toastr({
             error: true,

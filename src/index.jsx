@@ -6,7 +6,8 @@ import './index.css';
 import App from './App';
 
 const Main = () => {
-
+    console.warn = function() {};
+    console.log = function() {};
 render(
     () => (
         <Router>
