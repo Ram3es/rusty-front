@@ -471,7 +471,7 @@ const CoinflipCreateModal = (props) => {
                 <div class='center gap-2 p-3 border rounded-4 border-white/10  w-[260px]'>
                   <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold items-center flex-wrap'>
                     <p class='text-white truncate'>
-                      {settings().amount} / 20 items
+                      {settings().amount} / 20 items{' '}
                       <span class='text-yellow-ffb'>worth</span>
                     </p>
                     <div class='flex items-center gap-[7.93px]'>
@@ -502,7 +502,7 @@ const CoinflipCreateModal = (props) => {
                   </span>
                 </button>
                 <div
-                  class={`w-full bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
+                  class={`w-[260px] bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'center' : 'hidden'
                   }`}
                   onClick={autoSelect}

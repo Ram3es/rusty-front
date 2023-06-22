@@ -163,14 +163,14 @@ const Coinflip = ({ loaded }) => {
           </div>
         </div>
         <div class='w-full relative flex flex-col gap-2'>
-          <div class='flex items-center justify-between text-gray-a2 font-bold font-SpaceGrotesk text-13'>
+          <div class='grid grid-cols-[1fr_1fr] items-center text-gray-a2 font-bold font-SpaceGrotesk text-13'>
             <span class='md:hidden block'>Games</span>
-            <div class='hidden md:flex items-center gap-32'>
+            <div class='hidden md:grid grid-cols-[12rem_1fr] items-center'>
               <span>Players</span>
               <span class='hidden lg:block'>Items</span>
             </div>
-            <div class='hidden md:flex items-center gap-72'>
-              <span>Amount</span>
+            <div class='hidden md:grid grid-cols-[1fr_1fr] fourk:grid-cols-[1.5fr_1fr] place-items-end items-center'>
+              <span class='col-san-2'>Amount</span>
               <span>Actions</span>
             </div>
           </div>

@@ -363,7 +363,7 @@ const AffiliatesModal = (props) => {
                           {affiliate?.code}
                         </p>
                         <div
-                          class="px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
+                          class="active:scale-95 transition-colors px-3 cursor-pointer center h-8 green-success-button-gradient rounded-4 text-green-27 text-12 font-SpaceGrotesk"
                           onClick={() => {
                             if (affiliate?.code) {
                               changeAffiliateCode();
@@ -410,7 +410,7 @@ const AffiliatesModal = (props) => {
                       <p class="text-white text-14 font-bold truncate font-SpaceGrotesk w-full flex-1">{`${API}/r/`}<span class="text-yellow-ffb">{affiliate?.code}</span></p>
                       <div class="flex">
                       <div
-                          class="bg-gray-button-gradient p-1 rounded-4 border border-white/10"
+                          class="active:scale-95 transition-colors cursor-pointer bg-gray-button-gradient p-1 rounded-4 border border-white/10"
                           onClick={copy}
                         >
                           <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -499,13 +499,29 @@ const AffiliatesModal = (props) => {
                       <GoldRay additionalClasses="" />
                   </div>
                   <div class="w-120 max-w-full flex flex-col items-center gap-3">
-                    <div class="flex items-center justify-center gap-2">
+                    <div
+                      class={`absolute w-[204px] h-[50px] -z-10`}
+                      style={{
+                        background: 'radial-gradient(73.90% 182.51% at 47.87% -51.25%, #27F278 0%, rgba(39, 242, 120, 0.00) 100%)',
+                        filter: 'blur(66px)',
+                        'border-radius': '100px'
+                      }}
+                    />
+                    <div class="px-3 py-[4px] flex items-center justify-center gap-2 rounded-4"
+                    style={{
+                      background:
+                        'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(292.69% 141.42% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)',
+                      'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+                    }}
+                    >
                       <Ranks
                         width={5}
                         staff={2}
                         rank={tiers()[affiliate?.level?.current]?.image}
                       />
-                      <span class="uppercase text-gradient font-SpaceGrotesk text-14 font-bold">{tiers()[affiliate?.level?.current]?.name} TIER AFFILIATE</span>
+                      <span class="uppercase text-gradient font-SpaceGrotesk text-14 font-bold" style={{
+                        'text-shadow': '0px 0px 12px rgba(255, 196, 103, 0.48)'
+                      }}>{tiers()[affiliate?.level?.current]?.name} TIER AFFILIATE</span>
                     </div>
                   
                     <div
@@ -540,7 +556,7 @@ const AffiliatesModal = (props) => {
                       </p>
                     </div>
                     <div
-                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
+                      class="active:scale-95 transition-colors px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
                       onClick={claimReward}
                     >
                       Claim
