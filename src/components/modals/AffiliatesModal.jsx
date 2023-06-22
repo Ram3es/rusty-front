@@ -499,13 +499,21 @@ const AffiliatesModal = (props) => {
                       <GoldRay additionalClasses="" />
                   </div>
                   <div class="w-120 max-w-full flex flex-col items-center gap-3">
-                    <div class="flex items-center justify-center gap-2">
+                    <div class="px-3 py-[4px] flex items-center justify-center gap-2 rounded-4"
+                    style={{
+                      background:
+                        'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(292.69% 141.42% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)',
+                      'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
+                    }}
+                    >
                       <Ranks
                         width={5}
                         staff={2}
                         rank={tiers()[affiliate?.level?.current]?.image}
                       />
-                      <span class="uppercase text-gradient font-SpaceGrotesk text-14 font-bold">{tiers()[affiliate?.level?.current]?.name} TIER AFFILIATE</span>
+                      <span class="uppercase text-gradient font-SpaceGrotesk text-14 font-bold" style={{
+                        'text-shadow': '0px 0px 12px rgba(255, 196, 103, 0.48)'
+                      }}>{tiers()[affiliate?.level?.current]?.name} TIER AFFILIATE</span>
                     </div>
                   
                     <div
