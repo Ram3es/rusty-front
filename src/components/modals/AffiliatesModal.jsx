@@ -556,7 +556,7 @@ const AffiliatesModal = (props) => {
                       </p>
                     </div>
                     <div
-                      class="px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
+                      class="active:scale-95 transition-colors px-4 cursor-pointer gap-2 center h-10 green-success-button-gradient rounded-4 font-bold text-green-27 text-14 font-SpaceGrotesk"
                       onClick={claimReward}
                     >
                       Claim
