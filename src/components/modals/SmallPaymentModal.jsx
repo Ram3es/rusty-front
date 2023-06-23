@@ -103,7 +103,7 @@ const SmallPaymentModal = (props) => {
           ),
           name: 'CSGO',
           methodMame: 'Skinify',
-          click: skinifyInit("csgo")
+          click: () => skinifyInit("csgo")
         },
         {
           isHorizontal: true,
@@ -126,7 +126,7 @@ const SmallPaymentModal = (props) => {
           ),
           name: 'DOTA',
           methodMame: 'Skinify',
-          click: skinifyInit("dota2")
+          click: () => skinifyInit("dota2")
         }
       ]
     },
