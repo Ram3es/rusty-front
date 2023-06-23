@@ -268,7 +268,6 @@ const CaseUnboxing = (props) => {
           (data) => {
             if (!data.error) {
               rollCases(data);
-              // setTimeout(() => setIsRolling(false), durationInSeconds * 1000 + (isFastAnimation() ? 1000 : 0))
             } else {
               toastr(data);
             }
