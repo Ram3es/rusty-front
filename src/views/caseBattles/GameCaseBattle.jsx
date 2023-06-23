@@ -8,6 +8,7 @@ import {
   Switch,
   onMount, Show,
 } from "solid-js";
+import { useLocation } from "solid-app-router";
 import HoveredButton from "../../components/elements/HoveredButton";
 import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel";
 import {otherOptions} from "../../libraries/caseSpinConfig";
@@ -45,6 +46,9 @@ import {getCurrencyString} from "../../components/mines_new/utils/tools";
 import StackedCasesBar from "../../components/battle/StackedCasesBar";
 import CaseViewModal from "../../components/modals/CaseViewModal";
 import CountDownText from "../../components/battle/CountDownText";
+import { playCountDownSound, playPullBackSound,playWinSound, playClickingSound } from "../../utilities/Sounds/SoundButtonClick";
+import clickSeq from "../../assets/sounds/clickSeq.mp3"
+import { spinnerTimings } from "../../libraries/caseSpinConfig";
 
 export const [containerRef, setContainerRef] = createSignal();
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -52,6 +56,8 @@ export const [spinIndexes, setSpinIndexes] = createSignal([]);
 export const [spinOffsets, setSpinOffsets] = createSignal([]);
 export const [spinLists, setSpinLists] = createSignal([]);
 export const [isRolling, setIsRolling] = createSignal(false);
+
+export const clickingSound = new Audio(clickSeq);
 
 export const playClickAudio = () => {
   // console.log('playClickAudio')
@@ -86,6 +92,9 @@ const GameCaseBattle = (props) => {
   const [caseViewModal, setCaseViewModal] = createSignal(false);
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null);
   const [currentCountdown, setCurrentCountdown] = createSignal(3);
+  const [beginPullBackSound, setBeginPullBackSound] = createSignal(false);
+  const [beginWinSound, setBeginWinSound] = createSignal(false);
+  const [beginClickSound, setBeginClickSound] = createSignal(false);
 
   const toggleCaseViewModal = () => {
     setCaseViewModal(!caseViewModal());
@@ -159,6 +168,7 @@ const GameCaseBattle = (props) => {
   };
 
   const updateGame = (inputGame) => {
+    setContainsConfettiWin(false);
     console.log("inputGame", inputGame);
     setRollItems([]);
     setSpinnerOptions([]);
@@ -178,6 +188,7 @@ const GameCaseBattle = (props) => {
           price: item.item_price,
           name: item.name,
           rarity: getColor(item.item_price),
+          isConfetti: item.isConfetti,
         }))
       );
       setSpinnerOptions(() =>
@@ -199,6 +210,9 @@ const GameCaseBattle = (props) => {
                 `round_${inputGame.currentRound}`
               ].item_price
             ),
+            isConfetti: inputGame.players[playerIndex + 1][
+              `round_${inputGame.currentRound}`
+            ].isConfetti,
           },
           isConfettiWin:
             inputGame.players[playerIndex + 1][
@@ -218,9 +232,13 @@ const GameCaseBattle = (props) => {
         if (spinnerOptions()[i].isBigWin) {
           setContainsBigWin(true);
         }
-        if (spinnerOptions()[i].isConfettiWin) {
-          setContainsConfettiWin(true);
-        }
+
+        console.log(spinnerOptions()[i].winningItem);
+
+          if(spinnerOptions()[i].winningItem.isConfetti){
+            setContainsConfettiWin(true);
+          }
+
         newSpinLists.push(spinList);
         newSpinIndexes.push(spinIndex);
       }
@@ -229,7 +247,6 @@ const GameCaseBattle = (props) => {
       setSpinIndexes(() => newSpinIndexes);
       setSpinLists(() => newSpinLists);
       setReelsSpinning(() => true);
-      // console.log('srinList!!!!!!', spinLists)
     }
   };
 
@@ -352,9 +369,9 @@ const GameCaseBattle = (props) => {
 
     socket.on(`battles:countdown`, (data) => {
       if (data.gameId === Number(props.searchParams.id) && data.data) {
-        console.log(data.data);
         updateGame(data.data);
         setCurrentCountdown(data.data.currentCountdown);
+        playCountDownSound();
       }
     });
   });
@@ -429,6 +446,29 @@ const GameCaseBattle = (props) => {
       });
     });
   };
+
+  createEffect(() => {
+    if(beginClickSound()){
+      setBeginClickSound(false);
+      if (userObject?.user?.sounds) {
+        clickingSound.currentTime = 0;
+        clickingSound.volume = userObject.user.sounds;
+        clickingSound.play()
+      }
+    }
+    if(beginPullBackSound()){
+      setBeginPullBackSound(false);
+      playPullBackSound();      
+    }
+
+    if(beginWinSound()){
+      setBeginWinSound(false);
+      if(containsConfettiWin()){
+        playWinSound();
+      }
+
+    }
+  })
 
   return (
     <div class="flex flex-col">
@@ -858,6 +898,9 @@ const GameCaseBattle = (props) => {
                                           isFastSpin={false}
                                           lineColor={getModeColor()}
                                           randomFunction={randomFunction}
+                                          setBeginClickSound={setBeginClickSound}
+                                          setBeginPullBackSound={setBeginPullBackSound}
+                                          setBeginWinSound={setBeginWinSound}
                                         />
                                       ) : (
                                         <Spiner classes="w-9 text-yellow-ffb" />

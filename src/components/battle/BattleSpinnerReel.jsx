@@ -5,14 +5,13 @@ import {
   spinIndexes,
   spinLists,
   spinOffsets,
-  playEndAudio,
-  playClickAudio,
 } from "../../views/caseBattles/GameCaseBattle";
 import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
 import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
 import GoldText from "../shared/GoldText"
 import { getCurrencyString } from "../mines_new/utils/tools";
 import Coin from "../../utilities/Coin"
+// import ObserverItem from "./ObserverItem";
 
 import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png"
 import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png"
@@ -41,6 +40,9 @@ const BattleSpinnerReel = ({
   isFastSpin,
   lineColor,
   randomFunction,
+  setBeginClickSound,
+  setBeginPullBackSound,
+  setBeginWinSound,
 }) => {
   createEffect(() => {
     if (isFastSpin) {
@@ -106,7 +108,9 @@ const BattleSpinnerReel = ({
       moveAmount -= spinOffSet;
     }
     setTopIndex(moveAmount);
-    playClickAudio();
+    if(spinnerIndex === 0){
+      setBeginClickSound(true);
+    }
     setTimeout(() => {
       setTimeout(() => {
         correctForOffset(index);
@@ -122,11 +126,17 @@ const BattleSpinnerReel = ({
     setTimingFunction("cubic-bezier(0.25, 1, 0.5, 1)");
 
     setTopIndex(moveAmount);
-    playEndAudio();
+    if(spinnerIndex === 0){
+      setBeginPullBackSound(true);
+    }
+      
     setTimeout(() => {
       setSpinComplete(true);
       if (spinLists()[spinnerIndex][spinIndexes()[spinnerIndex]].rarity !== "gray") {
         createConfetti();
+      }
+      if(spinnerIndex === 0){
+        setBeginWinSound(true);
       }
       // createFireworks();
       setTimeout(() => {
@@ -274,6 +284,8 @@ const BattleSpinnerReel = ({
                 data-reel-item
               >
                 <div class="relative z-10 flex">
+                {/* {spinnerIndex === 0 &&  <ObserverItem />}  */}
+                 
                   <img
                     class={`h-24 z-20 transition-all duration-500`}
                     src={item.img}

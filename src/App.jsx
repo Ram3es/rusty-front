@@ -8,6 +8,7 @@ import {
   Match,
   useTransition,
   lazy,
+  createEffect
 } from "solid-js";
 import {Routes, Route, useLocation, useSearchParams} from "solid-app-router";
 
@@ -72,6 +73,8 @@ import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
 import PlinkoContainer from "./components/plinko/PlinkoContainer";
 
+import { clickingSound } from "./views/caseBattles/GameCaseBattle";
+
 const App = () => {
   const [pending, start] = useTransition();
 
@@ -135,6 +138,13 @@ const App = () => {
       updatei18nState(i18next);
     });
   };
+
+  createEffect(() => {
+    // if location is not case-battles/play? pause clicking sound
+    if (location.pathname !== "/case-battles/play") {
+      clickingSound.pause();
+    }
+  })
 
   return (
     <I18nProvider i18n={i18nState}>
