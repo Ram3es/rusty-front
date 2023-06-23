@@ -330,6 +330,15 @@ const ProfileSettings = (props) => {
         </div>
       </div>
 
+      <GrayGradientButton
+          additionalClass='lg:w-[124px] h-10 text-gray-9a mx-auto font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+          callbackFn={() => window.location = URL.SIGNOUT}
+        >
+          <span>Logout</span>
+        </GrayGradientButton>
+
+      
+
       {/* <div class='flex items-center gap-6 mt-4'>
         <div class='flex hover' onClick={save}>
           <div

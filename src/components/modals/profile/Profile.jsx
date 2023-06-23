@@ -93,7 +93,7 @@ const Profile = (props) => {
             currentTab().name === 'old seeds' ||
             currentTab().name === 'profile',
           'fourk:h-[935px] overflow-scroll': currentTab().name === 'transactions',
-          'h-[580px]': currentTab().name === 'settings',
+          'h-[630px]': currentTab().name === 'settings',
           'fourk:h-[870px] overflow-scroll': currentTab().name === 'old seeds'
         }}
         style={{
