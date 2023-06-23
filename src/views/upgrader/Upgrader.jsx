@@ -23,6 +23,7 @@ export const [underOver, setUnderOver] = createSignal("Over");
 export const [fastSpinner, setFastSpinner] = createSignal(false);
 export const [spinning, setSpinning] = createSignal(false);
 export const [isGameStarted, setIsGameStarted] = createSignal(false);
+export const [isAnimationShown, setIsAnimationShown] = createSignal(false);
 
 export const {socket, toastr, userObject} = injector;
 
@@ -187,7 +188,15 @@ const Upgrader = (props) => {
 
     socket.on("upgrader:spin", (data) => {
       if (!data.error) {
-        spin(data.data.ticket, 5500);
+        if (fastSpinner()) {
+          spin(data.data.ticket, 5500);
+        } else {
+          setIsAnimationShown(true)
+          setTimeout(() => {
+            setIsAnimationShown(false)
+            spin(data.data.ticket, 5500);
+          }, 3000)
+        }
       }
     });
 

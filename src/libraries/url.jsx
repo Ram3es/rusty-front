@@ -1,5 +1,5 @@
 export const TESTMODE = true;
-// const PATH = TESTMODE ? "https://0d39-77-122-74-196.ngrok-free.app" : "https://rustyloot.gg";
+// const PATH = TESTMODE ? "https://7392-176-126-140-165.ngrok-free.app" : "https://rustyloot.gg";
 // const PATH = TESTMODE ? "http://localhost:1337" : "https://rustyloot.gg";
 const PATH = TESTMODE ? "http://157.245.38.175" : "https://rustyloot.gg";
 
