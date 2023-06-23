@@ -56,7 +56,6 @@ const CaseUnboxing = (props) => {
 
   const itemsUpdate = (data) => {
     
-        console.log('itemsUpdate', data);
         if (data.data?.case) {
           const myCase = {
             ...data.data.case,
@@ -65,9 +64,9 @@ const CaseUnboxing = (props) => {
           myCase.items = myCase.items.map((item) => ({
             ...item,
             price: item.item_price,
+            chance: myCase.name === 'Daily Free Case' ? null : item.chance,
             image: item.image?.replace("{url}", window.origin) || "",
           }));
-          console.log(myCase, "myCase");
           setRollCase(() => myCase);
           setCaseStatistic(() => ({
             recentDrops:
@@ -133,12 +132,10 @@ const CaseUnboxing = (props) => {
           }
         );
       } else {
-        console.log("rewards:case");
         socket.emit(
           'rewards:case',
           { caseId: Number(props.searchParams.id) },
           (data) => {
-            console.log("rewards:case", data);
             itemsUpdate(data);
           }
         )
@@ -149,7 +146,6 @@ const CaseUnboxing = (props) => {
   createEffect(() => {
     if (rollCase()) {
       socket.on(`cases:recentdrop:${Number(rollCase().id)}`, (data) => {
-        console.log(data);
         setCaseStatistic((prev) => {
           const arr = { ...prev };
           arr.recentDrops.unshift({
@@ -193,7 +189,6 @@ const CaseUnboxing = (props) => {
   };
 
   const rollCases = (data) => {
-    console.log(data);
     if (data.msg) {
       toastr(data);
     }
@@ -211,7 +206,6 @@ const CaseUnboxing = (props) => {
       }))
     );
     setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
-    console.log(spinnerOptions());
     setIsCaseAlreadyOpened(() => true);
     setCountOfCases(pendingNum());
     setSpinReelsTrigger({ triggered: true });
@@ -225,7 +219,6 @@ const CaseUnboxing = (props) => {
         durationInSeconds =
           durationInSeconds * spinnerTimings.fastSpinMultiplier;
       }
-      console.log("durationInSeconds", durationInSeconds, props.searchParams.daily);
       if (!props.searchParams.daily) {
         socket.emit(
           "case:open",
@@ -245,8 +238,6 @@ const CaseUnboxing = (props) => {
         );
       } else {
         socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
-
-          console.log('rewards:case:open', data);
           if (!data.error) {
             rollCases({cases: [data]})
             if (!isDemo) {
