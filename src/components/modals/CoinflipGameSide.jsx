@@ -242,8 +242,7 @@ const CoinflipGameSide = (props) => {
           </div>
         )}
         {props.data()?.status === 'open' &&
-          !props.left &&
-          userObject?.user?.id !== props.data()?.creator?.id && (
+          !props.left && (
               <div class='mb-[26px] shadow-button w-[160px] h-[26px] rounded-4 flex items-center justify-center font-bold text-14 font-SpaceGrotesk text-gray-9aa'
             style={{
               background:
@@ -253,7 +252,7 @@ const CoinflipGameSide = (props) => {
               Waiting for player...
             </div>
           )}
-        {props.data()?.status === 'open' &&
+        {/* {props.data()?.status === 'open' &&
           !props.left &&
           userObject?.user?.id === props.data()?.creator?.id && (
             <CaseGradientButton callbackFn={callBot}>
@@ -262,7 +261,7 @@ const CoinflipGameSide = (props) => {
                 <span>Call Bot</span>
               </div>
             </CaseGradientButton>
-          )}
+          )} */}
       </div>
       <div class='w-full relative flex-1'>
         <div
