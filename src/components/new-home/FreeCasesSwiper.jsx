@@ -34,7 +34,7 @@ const FreeCasesSwiper = () => {
       <img
         src={rewardCases.cases[activeCase()]?.image.replace("{url}", window.origin)}
         alt={rewardCases.cases[activeCase()]?.name}
-        class="absolute top-1/2 left-1/2 max-w-[150px] transform -translate-x-1/2 -translate-y-1/2"
+        class="absolute top-1/2 left-1/2 max-w-[200px] transform -translate-x-1/2 -translate-y-2/3"
       />
       <RoundedBtn
         handleClick={() => {
