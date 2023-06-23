@@ -13,6 +13,7 @@ import {spin} from "../../components/upgrader/dome/Spinner";
 
 import Fallback from "../Fallback";
 import PageLoadState from "../../libraries/PageLoadState";
+import { sortBy } from "../../components/upgrader/itemsList/ItemsListContainer";
 
 export const [currentGameId, setCurrentGameId] = createSignal("");
 export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
@@ -74,7 +75,6 @@ const Upgrader = (props) => {
 
   const [search, setSearch] = createSignal("");
   const [itemsLimit, setItemsLimit] = createSignal(48);
-  const [descending, setDescending] = createSignal(true);
   const {upgraderPageLoaded, onUpgraderPageLoad} = PageLoadState;
 
   let pageWrapper;
@@ -119,7 +119,7 @@ const Upgrader = (props) => {
     }
     socket.emit(
       "steam:market",
-      {search: search(), asc: descending(), offset, limit: itemsLimit()},
+      {search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit()},
       (data) => {
         if (data.msg) {
           toastr(data);
