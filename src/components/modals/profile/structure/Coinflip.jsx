@@ -80,7 +80,7 @@ const CoinflipStructure = (props) => {
         {props?.val?.winnings <= 0 ? 'lose' : 'win'}
       </p>
       <p
-        class={`text-14 font-bold font-SpaceGrotesk uppercase my-auto ${
+        class={`text-14 font-bold font-SpaceGrotesk uppercase my-auto relative z-20 ${
           resentTrade()?.process_id ? 'cursor-pointer underline text-white' : 'text-gray-9aa'
         }`}
         onClick={sendTrade}

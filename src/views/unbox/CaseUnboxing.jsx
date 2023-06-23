@@ -223,7 +223,7 @@ const CaseUnboxing = (props) => {
         socket.emit(
           "case:open",
           {
-            caseId: Number(props.searchParams.id),
+            caseId: Number(rollCase().id),
             demo: isDemo,
             qty: pendingNum(),
             spinTime: durationInSeconds * 1000,
@@ -231,13 +231,14 @@ const CaseUnboxing = (props) => {
           (data) => {
             if (!data.error) {
               rollCases(data)
+              setTimeout(() => setIsRolling(false), durationInSeconds * 1000 + (isFastAnimation() ? 1000 : 0))
             } else {
               toastr(data)
             }
           }
         );
       } else {
-        socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
+        socket.emit('rewards:case:open', { caseId: Number(rollCase().id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
           if (!data.error) {
             rollCases({cases: [data]})
             if (!isDemo) {
@@ -271,7 +272,7 @@ const CaseUnboxing = (props) => {
   return (
     <>
       {rollCase() && (
-        <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll relative min-h-screen pt-8">
+        <div class="w-full h-full flex flex-col gap-8 relative min-h-screen pt-8">
           <div class="px-4 xl:px-8 xxl:px-14 flex flex-col gap-8">
             <div class="flex justify-between flex-col md:flex-row">
               <NavLink href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}>
