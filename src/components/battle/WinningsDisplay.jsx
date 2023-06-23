@@ -1,5 +1,7 @@
 import {createSignal, onMount} from "solid-js";
 import { getCurrencyString } from "../mines_new/utils/tools";
+import { playCashCountSound } from "../../utilities/Sounds/SoundButtonClick";
+
 
 const WinningsDisplay = (props) => {
   const [value, setValue] = createSignal(0);
@@ -8,6 +10,7 @@ const WinningsDisplay = (props) => {
     let endValue = props.value;
     let duration = Math.floor(interval / endValue);
     let counter = setInterval(() => {
+      // playCashCountSound()
       setValue((prev) => prev += endValue * 0.005);
       if(value() >= endValue){
         setValue(endValue);
