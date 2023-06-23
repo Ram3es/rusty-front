@@ -275,6 +275,7 @@ const CoinflipGameSide = (props) => {
               props.left ? 'items-start' : 'items-end'
             } gap-4 px-6 md:px-8 lg:pl-9 lg:pr-[46px] pb-2 pt-2 lg:pt-5`}
           >
+            <div class={`${!props.left && 'flex-row-reverse'} flex gap-[18px]`}>
             <div
               class='flex items-center justify-center px-1.5 py-0.5 rounded-4 border border-transparent'
               style={{
@@ -285,6 +286,12 @@ const CoinflipGameSide = (props) => {
               <span class='uppercase coinflip-label-bronze font-bold text-[9.5px]'>
                 {props.data()?.[props.left ? 'creator' : 'opponent']?.items?.length || 0} items
               </span>
+            </div>
+            <span class='capitalize text-gray-9aa font-bold text-14 font-SpaceGrotesk'>
+              {((Number(props.data()?.[props.left ? "creator" : "opponent"]?.value || 0) / (Number(props.data()?.creator?.value || 0) + Number(props.data()?.opponent?.value || 0)) * 100) || 0).toFixed(2)}%{' '}
+              {i18n.t('coinflip.Win chance')}
+            </span>
+
             </div>
             <div class={`${isLoser() && props.isEndShow() && 'opacity-40'} w-full`}>
               <ListItems
