@@ -32,7 +32,7 @@ export const spin = (ticket, time) => {
             chart.style.transitionTimingFunction = `cubic-bezier(0.12, 0.8, 0.38, 1)`;
             chart.style.transitionDuration = `${3}s`;
 
-            setIsGameStarted(false);
+            setTimeout(() => setIsGameStarted(false), 2500)
           }, time + 500);
         }
       }, 10);
