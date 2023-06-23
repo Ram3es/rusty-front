@@ -47,17 +47,14 @@ export const bet = () => {
         if (data.hash) {
           setCurrentGameId(data.hash);
         }
-        if (prevRoll()) {
-          setCurrentGameRoll(prevRoll());
-        }
         if (data.roll) {
-          setPrevRoll(data.roll)
+          setCurrentGameRoll(data.roll);
         }
       }
     );
   } else {
     setCurrentGameId("");
-    setPrevRoll("");
+    setCurrentGameRoll("");
     toastr({
       msg: "Minimum bet is 50 coins",
       error: true,
