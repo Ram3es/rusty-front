@@ -424,10 +424,8 @@ const App = () => {
 
                       <Switch fallback={<></>}>
                         <Match
-                          when={
-                            toggles.winningModal
-                          }
-                        >
+                          when={toggles.winningsModal && toggles.winningsModal?.type !== "upgrader"}
+                        > 
                           <WinningsModal
                             pathname={pathname}
                             searchParams={searchParams}
