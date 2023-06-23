@@ -33,7 +33,7 @@ export const spin = (ticket, time) => {
             chart.style.transitionDuration = `${3}s`;
 
             setIsGameStarted(false);
-          }, time + 200);
+          }, time + 500);
         }
       }, 10);
     },
