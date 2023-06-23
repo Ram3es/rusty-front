@@ -28,7 +28,7 @@ const MobileNav = (props) => {
           active() && !isNotificationModalOpen() ? "flex" : "hidden"
         } lg:hidden flex-col left-0 top-full w-full h-[calc(100vh-55px)] bg-dark-13 overflow-y-scroll`}
       >
-        <For each={navigationGameModes}>
+        <For each={navigationGameModes.filter(i => !i.disabled)}>
           {(mode) =>
             mode.url ? (
               <NavLink

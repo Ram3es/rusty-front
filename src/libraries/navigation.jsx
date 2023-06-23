@@ -39,18 +39,21 @@ export const navigationGameModes = [
     svg: <WheelIcon />,
     svgActive: <WheelActiveIcon/>,
     url: URL.GAMEMODES.WHEEL,
+    disabled: true
   },
   {
     name: { en: "mines", es: "Minas", ru: "Бомбы" },
     svg: <MinesIcon />,
     svgActive: <MinesActiveIcon />,
     url: URL.GAMEMODES.MINES,
+    disabled: true
   },
   {
     name: { en: "plinko", es: "Plinko", ru: "Плинко" },
     svg: <PlinkoIcon />,
     svgActive: <PlinkoActiveIcon />,
     url: URL.GAMEMODES.PLINKO,
+    disabled: true
   },
   {
     name: { en: "cases", es: "cases", ru: "cases" },

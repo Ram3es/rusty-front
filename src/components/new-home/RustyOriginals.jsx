@@ -46,6 +46,7 @@ const gameModes = [
   {
     name: "Mines",
     video: Mines,
+    disabled: true,
     icon: <MinesIcon additionClasses='w-5 h-5 text-gray-55' />,
     url: URL.GAMEMODES.MINES
   },
@@ -58,6 +59,7 @@ const gameModes = [
   {
     name: "Plinko",
     video: Plinko,
+    disabled: true,
     icon: <PlinkoIcon additionClasses='w-5 h-5 text-gray-55' />,
     url: URL.GAMEMODES.PLINKO
   },
@@ -89,8 +91,13 @@ const RustyOriginals = () => {
         <div class="grid grid-cols-home-original gap-x-6 gap-y-8 w-full ">
             <For each={[...gameModes].slice(0, 3)}>
                 {(mode) => 
-                <div class={`col-span-5 home-originals overflow-hidden ${mode.disabled ? "opacity-60 grayscale-[98%] sepia-[8%] hue-rotate-[167deg] saturate-[628%]" : ""}`}>
-                  <NavLink href={mode.url}>
+                <div class={`col-span-5 home-originals overflow-hidden ${mode.disabled ? "mix-blend-luminosity" : ""}`}>
+                  <NavLink class="relative" href={!mode.disabled ? mode.url : ''}>
+                    {mode.disabled ? <div
+                      class="absolute left-0 top-0 w-full h-full backdrop-blur-md center text-32 font-SpaceGrotesk font-bold"
+                    >
+                      <span class="comming-soon-text-gradient text-center leading-8">COMING<br />SOON</span>
+                    </div> : ""}
                     {mode.video ? <video
                       src={mode.video}
                       alt="rotating dome"
@@ -121,16 +128,25 @@ const RustyOriginals = () => {
             <For each={[...gameModes].slice(3)}>
               {(mode) => 
                 
-                  <div class=" col-span-5 lg:col-span-3 home-originals-secondary h-[272px] overflow-hidden relative ">
-                    <NavLink href={mode.url}>
+                  <div class={` col-span-5 lg:col-span-3 home-originals-secondary h-[272px] overflow-hidden relative ${mode.disabled ? "mix-blend-luminosity" : ""}`}>
+                    <NavLink class="relative" href={!mode.disabled ? mode.url : ''}>
+                      {mode.disabled ? <div
+                        class="absolute left-0 top-0 w-full h-full backdrop-blur-md center text-32 font-SpaceGrotesk font-bold"
+                      >
+                        <span class="comming-soon-text-gradient text-center leading-8">COMING<br />SOON</span>
+                      </div> : ""}
                       <video
                         src={mode.video}
                         alt="rotating dome"
                         class="min-w-full min-h-full"
-                        onMouseEnter={e => e.target.play()}
+                        onMouseEnter={e => {
+                          if (!mode.disabled) e.target.play()
+                        }}
                         onMouseLeave={e => {
-                          e.target.pause()
-                          e.target.currentTime = 0
+                          if (!mode.disabled) {
+                            e.target.pause()
+                            e.target.currentTime = 0
+                          }
                         }}
                         playsinline
                         muted

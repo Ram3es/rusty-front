@@ -190,7 +190,7 @@ const App = () => {
                                   path={`${URL.TOS}`}
                                   element={<Tos />}
                                 />
-                                <Route
+                                {/* <Route
                                   exact
                                   path={`${URL.GAMEMODES.WHEEL}`}
                                   element={
@@ -199,13 +199,13 @@ const App = () => {
                                       pathname={pathname}
                                     />
                                   }
-                                />
-                                <Route
+                                /> */}
+                                {/* <Route
                                   exact
                                   path={`${URL.GAMEMODES.MINES}`}
                                   element={<Mines loaded={loaded} />}
-                                />
-                                <Route
+                                /> */}
+                                {/* <Route
                                   exact
                                   path={`${URL.GAMEMODES.PLINKO}`}
                                   element={
@@ -214,7 +214,7 @@ const App = () => {
                                       pathname={pathname}
                                     />
                                   }
-                                />
+                                /> */}
                                 <Route
                                   path={`${URL.GAMEMODES.COINFLIP}/*`}
                                   element={<Coinflip loaded={loaded} />}

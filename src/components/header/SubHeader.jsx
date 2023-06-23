@@ -81,17 +81,23 @@ const SubHeader = (props) => {
     {
       name: { en: 'Wheel', es: 'rueda', ru: 'колесо' },
       svg: <WheelIcon />,
-      url: URL.GAMEMODES.WHEEL
+      url: URL.GAMEMODES.WHEEL,
+      mark: 'soon',
+      disabled: true,
     },
     {
       name: { en: 'Mines', es: 'Minas', ru: 'Бомбы' },
       svg: <MinesIcon />,
-      url: URL.GAMEMODES.MINES
+      url: URL.GAMEMODES.MINES,
+      mark: 'soon',
+      disabled: true,
     },
     {
       name: { en: 'Plinko', es: 'Plinko', ru: 'Плинко' },
       svg: <PlinkoIcon />,
-      url: URL.GAMEMODES.PLINKO
+      url: URL.GAMEMODES.PLINKO,
+      mark: 'soon',
+      disabled: true,
     },
     {
       name: { en: 'Cases', es: 'cases', ru: 'cases' },
@@ -327,12 +333,14 @@ const SubHeader = (props) => {
                 <For each={navigationGameModes}>
                   {(mode) => (
                     <NavLink
-                      href={`${mode.url}`}
+                      href={mode.disabled ? "" : mode.url}
                       class='relative'
                       onClick={() => {
-                        document.getElementById('scrollWrapper').scrollTop = 0
-                        setActive(false)
-                        setCurrPath(() => mode.url)
+                        if (!mode.disabled) {
+                          document.getElementById('scrollWrapper').scrollTop = 0
+                          setActive(false)
+                          setCurrPath(() => mode.url)
+                        }
                       }}
                     >
                       <div
