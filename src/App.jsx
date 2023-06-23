@@ -425,8 +425,7 @@ const App = () => {
                       <Switch fallback={<></>}>
                         <Match
                           when={
-                            toggles.winningModal &&
-                            toggles.winningsModal?.type !== "upgrader"
+                            toggles.winningModal
                           }
                         >
                           <WinningsModal
