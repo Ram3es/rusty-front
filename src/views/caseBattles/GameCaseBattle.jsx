@@ -1097,7 +1097,7 @@ const GameCaseBattle = (props) => {
                                   <Ranks
                                     width={5}
                                     staff={
-                                      game().players[playerIndex + 1].rank || 0
+                                      game().players[playerIndex + 1]?.avatar ? game().players[playerIndex + 1].rank || 0 : 7
                                     }
                                     rank={
                                       game().players[playerIndex + 1].level
@@ -1106,7 +1106,7 @@ const GameCaseBattle = (props) => {
                                   />
                                   <RankLabel
                                     staff={
-                                      game().players[playerIndex + 1].rank || 7
+                                      game().players[playerIndex + 1]?.avatar ? game().players[playerIndex + 1].rank || 0 : 7
                                     }
                                     rank={
                                       game().players[playerIndex + 1].level
