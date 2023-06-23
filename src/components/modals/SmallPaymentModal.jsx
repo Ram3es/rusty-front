@@ -26,6 +26,17 @@ const SmallPaymentModal = (props) => {
     })
   }
 
+  const skinifyInit = (game) => {
+    socket.emit("deposit:skinify", {game}, (data) => {
+      if (data.msg) {
+        toastr(data);
+      }
+      if (!data.error) {
+        window.open(data.url);
+      }
+    });
+  }
+
   const methods = {
     steam: {
       name: 'Steam Methods',
@@ -92,7 +103,7 @@ const SmallPaymentModal = (props) => {
           ),
           name: 'CSGO',
           methodMame: 'Skinify',
-          link: ''
+          click: skinifyInit("csgo")
         },
         {
           isHorizontal: true,
@@ -115,7 +126,7 @@ const SmallPaymentModal = (props) => {
           ),
           name: 'DOTA',
           methodMame: 'Skinify',
-          link: ''
+          click: skinifyInit("dota2")
         }
       ]
     },
@@ -520,12 +531,13 @@ const SmallPaymentModal = (props) => {
                     <For each={method.methods}>
                       {(val) => (
                         <NavLink
-                          href={`${props.pathname()}${val.link}`}
+                          href={`${props.pathname()}${val.link ?? ''}`}
                           class={`w-max ${
                             val.isHorizontal ? 'min-w-[164px] h-[72px]' : 'min-w-[110px] h-[126px]'
                           } flex items-center relative center rounded-4 bg-cover`}
-                          onClick={() => {
+                          onClick={(e) => {
                             if (val.click) {
+                              e.preventDefault()
                               val.click()
                             }
                           }}
