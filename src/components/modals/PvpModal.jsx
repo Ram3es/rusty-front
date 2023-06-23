@@ -290,11 +290,11 @@ const PvpModal = (props) => {
                               >
                                 <Ranks
                                   width={5}
-                                  staff={val.rank || 7}
+                                  staff={val.rank || 0}
                                   rank={val.level?.league || "bronze"}
                                 />
                                 <RankLabel
-                                  staff={val.rank || 7}
+                                  staff={val.rank || 0}
                                   rank={val.level?.league || "bronze"}
                                 />
                                 <div

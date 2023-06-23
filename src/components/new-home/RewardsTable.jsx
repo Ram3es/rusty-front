@@ -94,11 +94,11 @@ export const RewardsTable = () => {
                                     >
                                         <Ranks
                                             width={5}
-                                            staff={7}
+                                            staff={0}
                                             rank={'bronze'}
                                         />
                                         <RankLabel
-                                            staff={7}
+                                            staff={0}
                                             rank={"gold1"}
                                         />
                                         <span class="text-gray-9aa truncate max-w-[100px]">
