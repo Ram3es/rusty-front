@@ -1,24 +1,22 @@
-import { For, createSignal, createEffect } from "solid-js";
+import {For, createSignal, createEffect} from "solid-js";
 import {
   containerRef,
   reelsSpinning,
   spinIndex,
   spinList,
   spinOffsets,
-  playEndAudio,
-  playClickAudio,
   setReelsSpinning,
 } from "./SpinnersContainerHorizontal";
 import confetti from "canvas-confetti";
-import { spinnerTimings, otherOptions } from "../../../libraries/caseSpinConfig";
+import {spinnerTimings, otherOptions} from "../../../libraries/caseSpinConfig";
 
-import bglogo_gold from "../../../assets/img/case-battles/bglogo_gold.png"
-import bglogo_blue from "../../../assets/img/case-battles/bglogo_blue.png"
-import bglogo_red from "../../../assets/img/case-battles/bglogo_red.png"
-import bglogo_purple from "../../../assets/img/case-battles/bglogo_purple.png"
-import bglogo_gray from "../../../assets/img/case-battles/bglogo_gray.png"
+import bglogo_gold from "../../../assets/img/case-battles/bglogo_gold.png";
+import bglogo_blue from "../../../assets/img/case-battles/bglogo_blue.png";
+import bglogo_red from "../../../assets/img/case-battles/bglogo_red.png";
+import bglogo_purple from "../../../assets/img/case-battles/bglogo_purple.png";
+import bglogo_gray from "../../../assets/img/case-battles/bglogo_gray.png";
 
-import { setIsRolling } from "../../../views/unbox/CaseUnboxing";
+import {setIsRolling} from "../../../views/unbox/CaseUnboxing";
 import Coin from "../../../utilities/Coin";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceHorizontal;
@@ -33,7 +31,14 @@ const bglogos = {
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
-const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
+const SpinnerReelHorizontal = ({
+  spinnerIndex,
+  isConfettiWin,
+  isFastSpin,
+  setBeginClickSound,
+  setBeginPullBackSound,
+  setBeginWinSound,
+}) => {
   let reelItem;
   let imgItem;
   createEffect(() => {
@@ -94,7 +99,7 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
       moveAmount -= spinOffSet;
     }
     setTopIndex(moveAmount);
-    playClickAudio();
+    setBeginClickSound(true);
     setTimeout(() => {
       setTimeout(() => {
         correctForOffset(index);
@@ -109,13 +114,14 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
     setTimeMultiplier(1);
     setTimingFunction("cubic-bezier(0.25, 1, 0.5, 1)");
     setTopIndex(moveAmount + 3);
-    playEndAudio();
+    setBeginPullBackSound(true);
     setTimeout(() => {
       setReelsSpinning(false);
 
       setSpinComplete(true);
       if (isConfettiWin) {
         createConfetti();
+        setBeginWinSound(true);
       }
       setTimeout(() => {
         hasSpun = false;
@@ -174,7 +180,7 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
         confetti({
           particleCount,
           spread,
-          origin: { x: xA, y: yA },
+          origin: {x: xA, y: yA},
           angle: 60,
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
@@ -183,7 +189,7 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
         confetti({
           particleCount,
           spread,
-          origin: { x: xB, y: yB },
+          origin: {x: xB, y: yB},
           angle: 120,
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
@@ -268,11 +274,11 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
                   <div class="text-gray-a2 font-SpaceGrotesk font-bold text-13 leading-[13px]">
                     {item.name}
                   </div>
-                  <div class='flex gap-1.5'>
-                      <Coin width='5' />
-                      <span class='font-bold text-sm potential-drop--price'>
-                          {Number(item.price).toLocaleString()}
-                      </span>
+                  <div class="flex gap-1.5">
+                    <Coin width="5" />
+                    <span class="font-bold text-sm potential-drop--price">
+                      {Number(item.price).toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -299,23 +305,25 @@ const SpinnerReelHorizontal = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
       <div
         class="absolute right-0 top-0 h-full w-[186px]"
         style={{
-          background: 'linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
+          background:
+            "linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)",
         }}
       />
       <div
         class="absolute left-0 top-0 h-full w-[186px]"
         style={{
-          background: 'linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)',
-          transform: 'matrix(-1, 0, 0, 1, 0, 0)'
+          background:
+            "linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)",
+          transform: "matrix(-1, 0, 0, 1, 0, 0)",
         }}
       />
       <img
-          src="assets/caseline.svg"
-          alt="caseline"
-          class={`absolute h-[280px] w-32 transition-all duration-500 self-center
+        src="assets/caseline.svg"
+        alt="caseline"
+        class={`absolute h-[280px] w-32 transition-all duration-500 self-center
           ${spinComplete() ? "opacity-30" : "opacity-100"}
         `}
-        />
+      />
     </div>
   );
 };

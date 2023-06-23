@@ -21,7 +21,7 @@ const UpgraderMenu = () => {
       <div class="flex-1" />
       <div class="flex w-full gap-3">
         <FastSpinBtn />
-        <FairnessBtn />
+        {/* <FairnessBtn /> */}
       </div>
     </div>
   );

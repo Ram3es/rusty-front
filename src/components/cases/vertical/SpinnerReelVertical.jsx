@@ -1,21 +1,19 @@
-import { For, createSignal, createEffect } from "solid-js";
+import {For, createSignal, createEffect} from "solid-js";
 import {
   containerRef,
   reelsSpinning,
   spinIndexes,
   spinLists,
   spinOffsets,
-  playEndAudio,
-  playClickAudio,
 } from "./SpinnersContainerVertical";
-import { setIsRolling } from "../../../views/unbox/CaseUnboxing";
-import { spinnerTimings, otherOptions } from "../../../libraries/caseSpinConfig";
+import {setIsRolling} from "../../../views/unbox/CaseUnboxing";
+import {spinnerTimings, otherOptions} from "../../../libraries/caseSpinConfig";
 
-import bglogo_gold from "../../../assets/img/case-battles/bglogo_gold.png"
-import bglogo_blue from "../../../assets/img/case-battles/bglogo_blue.png"
-import bglogo_red from "../../../assets/img/case-battles/bglogo_red.png"
-import bglogo_purple from "../../../assets/img/case-battles/bglogo_purple.png"
-import bglogo_gray from "../../../assets/img/case-battles/bglogo_gray.png"
+import bglogo_gold from "../../../assets/img/case-battles/bglogo_gold.png";
+import bglogo_blue from "../../../assets/img/case-battles/bglogo_blue.png";
+import bglogo_red from "../../../assets/img/case-battles/bglogo_red.png";
+import bglogo_purple from "../../../assets/img/case-battles/bglogo_purple.png";
+import bglogo_gray from "../../../assets/img/case-battles/bglogo_gray.png";
 
 import confetti from "canvas-confetti";
 import Coin from "../../../utilities/Coin";
@@ -33,7 +31,14 @@ const bglogos = {
 
 const [timeMultiplier, setTimeMultiplier] = createSignal(1);
 
-const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
+const SpinnerReelVertical = ({
+  spinnerIndex,
+  isConfettiWin,
+  isFastSpin,
+  setBeginClickSound,
+  setBeginPullBackSound,
+  setBeginWinSound,
+}) => {
   createEffect(() => {
     if (isFastSpin) {
       setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
@@ -43,11 +48,9 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
   });
   createEffect(() => {
     if (spinLists()) {
-      console.log('here spin');
-      setReelItem(() => document.querySelector("[data-reel-item]"))
-      console.log(reelItem());
+      setReelItem(() => document.querySelector("[data-reel-item]"));
     }
-  })
+  });
   const [reelItem, setReelItem] = createSignal();
   const [imgItem, setImgItem] = createSignal();
   const [reel, setReel] = createSignal();
@@ -78,8 +81,6 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
 
   let hasSpun = false;
   createEffect(() => {
-    // console.log(reelsSpinning());
-    console.log(reelItem());
     if (reelsSpinning() && !hasSpun) {
       hasSpun = true;
       setTranslateY(calculateTopIndexOffset());
@@ -98,7 +99,7 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
       moveAmount -= spinOffSet;
     }
     setTopIndex(moveAmount);
-    playClickAudio();
+    setBeginClickSound(true);
     setTimeout(() => {
       setTimeout(() => {
         correctForOffset(index);
@@ -114,11 +115,12 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
     setTimingFunction("cubic-bezier(0.25, 1, 0.5, 1)");
 
     setTopIndex(moveAmount);
-    playEndAudio();
+    setBeginPullBackSound(true);
     setTimeout(() => {
       setSpinComplete(true);
       if (isConfettiWin) {
         createConfetti();
+        setBeginWinSound(true);
       }
       // createFireworks();
       setTimeout(() => {
@@ -193,7 +195,7 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
         confetti({
           particleCount,
           spread,
-          origin: { x: xA, y: yA },
+          origin: {x: xA, y: yA},
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
           ticks,
@@ -257,7 +259,7 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
                        : "opacity-40 grayscale"
                      : null
                  }`}
-                 data-reel-item
+                data-reel-item
               >
                 <div class="relative z-10 flex">
                   <img
@@ -290,11 +292,11 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
                   <div class="text-gray-a2 font-SpaceGrotesk font-bold text-13 leading-[13px]">
                     {item.name}
                   </div>
-                  <div class='flex gap-1.5'>
-                      <Coin width='5' />
-                      <span class='font-bold text-sm potential-drop--price'>
-                          {Number(item.price).toLocaleString()}
-                      </span>
+                  <div class="flex gap-1.5">
+                    <Coin width="5" />
+                    <span class="font-bold text-sm potential-drop--price">
+                      {Number(item.price).toLocaleString()}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -303,12 +305,12 @@ const SpinnerReelVertical = ({ spinnerIndex, isConfettiWin, isFastSpin }) => {
         </div>
       </div>
       <img
-          src="assets/caseLineHorizontal.svg"
-          alt="caseline"
-          class={`absolute h-32 w-full self-center transition-all duration-500
+        src="assets/caseLineHorizontal.svg"
+        alt="caseline"
+        class={`absolute h-32 w-full self-center transition-all duration-500
           ${spinComplete() ? "opacity-30" : "opacity-100"}
               `}
-        />
+      />
       <div
         class={`absolute self-center h-20 w-20
          -bottom-2`}

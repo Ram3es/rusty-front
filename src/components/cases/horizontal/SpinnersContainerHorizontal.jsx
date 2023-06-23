@@ -1,13 +1,10 @@
-import { createSignal, createEffect } from "solid-js";
+import {createSignal, createEffect} from "solid-js";
 import SpinnerReelHorizontal from "./SpinnerReelHorizontal";
-import { playClicksOnBezier } from "../../../utilities/Sounds/clickAudio";
-import { spinReelsTrigger, setSpinReelsTrigger } from "../store";
-import getAudioBuffers, { audioContext } from "../../../utilities/Sounds/audioBuffers";
-import { spinnerTimings, otherOptions } from "../../../libraries/caseSpinConfig";
-import { isFastAnimation } from "../../../views/unbox/CaseUnboxing";
+import {spinReelsTrigger, setSpinReelsTrigger} from "../store";
+import {spinnerTimings, otherOptions} from "../../../libraries/caseSpinConfig";
+import {isFastAnimation} from "../../../views/unbox/CaseUnboxing";
 
 export const [containerRef, setContainerRef] = createSignal();
-
 
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
 const [activeSpinners, setActiveSpinners] = createSignal(0);
@@ -15,70 +12,10 @@ export const [spinIndex, setSpinIndex] = createSignal();
 export const [spinList, setSpinList] = createSignal([]);
 export const [spinOffsets, setSpinOffsets] = createSignal([]);
 
-const [clickPlayed, setClickPlayed] = createSignal(false);
-const [snapBackPlayed, setSnapBackPlayed] = createSignal(false);
-
 const [containsBigWin, setContainsBigWin] = createSignal(false);
 const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
 
-let snapBackBuffer, bigWinBuffer, confettiBuffer;
-
-const init = async () => {
-  const audioBuffers = await getAudioBuffers();
-  snapBackBuffer = audioBuffers.snapBackBuffer;
-  bigWinBuffer = audioBuffers.bigWinBuffer;
-  confettiBuffer = audioBuffers.confettiBuffer;
-};
-
-init();
-
-const playAudioBuffer = (buffer, volume) => {
-  const source = audioContext.createBufferSource();
-  const gainNode = audioContext.createGain();
-
-  source.buffer = buffer;
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  gainNode.gain.value = volume;
-  source.start();
-
-  return source;
-};
-
-export const playEndAudio = () => {
-  if (snapBackPlayed()) return;
-  setSnapBackPlayed(true);
-  const snapBackSource = playAudioBuffer(
-    snapBackBuffer.buffer,
-    snapBackBuffer.volume
-  );
-
-  snapBackSource.onended = () => {
-    if (containsBigWin()) {
-      playAudioBuffer(bigWinBuffer.buffer, bigWinBuffer.volume);
-    }
-    if (containsConfettiWin()) {
-      playAudioBuffer(confettiBuffer.buffer, confettiBuffer.volume);
-    }
-  };
-};
-
-export const playClickAudio = () => {
-  if (clickPlayed()) return;
-  setClickPlayed(true);
-  let durationInSeconds = spinnerTimings.horizontalInitialSpin; // For example, a 2-second duration
-  if (isFastAnimation()) {
-    durationInSeconds = durationInSeconds * spinnerTimings.fastSpinMultiplier;
-  }
-  const p1 = 1; // Control point 1 (0.25, 1)
-  const p2 = 1; // Control point 2 (0.5, 1)
-  playClicksOnBezier(durationInSeconds, p1, p2, 0.04);
-};
-
 const resetValues = () => {
-  setClickPlayed(false);
-  setSnapBackPlayed(false);
   setContainsBigWin(false);
   setContainsConfettiWin(false);
 
@@ -92,6 +29,9 @@ const SpinnersContainerHorizontal = ({
   numSpinners,
   caseItemList,
   spinnerOptions,
+  setBeginClickSound,
+  setBeginPullBackSound,
+  setBeginWinSound,
 }) => {
   const generateSpinData = () => {
     const spinIndex = getRandomIndex();
@@ -144,7 +84,7 @@ const SpinnersContainerHorizontal = ({
     if (spinReelsTrigger.triggered) {
       setTimeout(() => {
         spinReels();
-        setSpinReelsTrigger({ triggered: false });
+        setSpinReelsTrigger({triggered: false});
       }, 0);
     }
   });
@@ -155,14 +95,19 @@ const SpinnersContainerHorizontal = ({
         class="relative w-full h-[326px] overflow-hidden "
         ref={setContainerRef}
       >
-        {Array.from({ length: activeSpinners() }).map((_, index) => {
-          return spinnerOptions()[0] && (
-            <SpinnerReelHorizontal
-              spinnerIndex={0}
-              isConfettiWin={spinnerOptions()[0].isConfettiWin}
-              isBigWin={spinnerOptions()[0].isBigWin}
-              isFastSpin={isFastAnimation()}
-            />
+        {Array.from({length: activeSpinners()}).map((_, index) => {
+          return (
+            spinnerOptions()[0] && (
+              <SpinnerReelHorizontal
+                spinnerIndex={0}
+                isConfettiWin={spinnerOptions()[0].isConfettiWin}
+                isBigWin={spinnerOptions()[0].isBigWin}
+                isFastSpin={isFastAnimation()}
+                setBeginClickSound={setBeginClickSound}
+                setBeginPullBackSound={setBeginPullBackSound}
+                setBeginWinSound={setBeginWinSound}
+              />
+            )
           );
         })}
       </div>
