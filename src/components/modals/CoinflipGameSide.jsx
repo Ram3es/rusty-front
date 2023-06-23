@@ -244,7 +244,7 @@ const CoinflipGameSide = (props) => {
         {props.data()?.status === 'open' &&
           !props.left &&
           userObject?.user?.id !== props.data()?.creator?.id && (
-            <div class='shadow-button w-[160px] h-10 flex items-center justify-center font-bold text-14 font-SpaceGrotesk text-gray-9aa'
+              <div class='mb-[26px] shadow-button w-[160px] h-[26px] rounded-4 flex items-center justify-center font-bold text-14 font-SpaceGrotesk text-gray-9aa'
             style={{
               background:
                 'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)'
