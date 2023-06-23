@@ -1,10 +1,8 @@
-import { createSignal, createEffect } from "solid-js";
+import {createSignal, createEffect} from "solid-js";
 import SpinnerReelVertical from "./SpinnerReelVertical";
-import { playClicksOnBezier } from "../../../utilities/Sounds/clickAudio";
-import { spinReelsTrigger, setSpinReelsTrigger } from "../store";
-import getAudioBuffers, { audioContext } from "../../../utilities/Sounds/audioBuffers";
-import { spinnerTimings, otherOptions } from "../../../libraries/caseSpinConfig";
-import { isFastAnimation } from "../../../views/unbox/CaseUnboxing";
+import {spinReelsTrigger, setSpinReelsTrigger} from "../store";
+import {spinnerTimings, otherOptions} from "../../../libraries/caseSpinConfig";
+import {isFastAnimation} from "../../../views/unbox/CaseUnboxing";
 
 export const [containerRef, setContainerRef] = createSignal();
 
@@ -19,61 +17,6 @@ const [snapBackPlayed, setSnapBackPlayed] = createSignal(false);
 
 const [containsBigWin, setContainsBigWin] = createSignal(false);
 const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
-
-let snapBackBuffer, bigWinBuffer, confettiBuffer;
-
-const init = async () => {
-  const audioBuffers = await getAudioBuffers();
-  snapBackBuffer = audioBuffers.snapBackBuffer;
-  bigWinBuffer = audioBuffers.bigWinBuffer;
-  confettiBuffer = audioBuffers.confettiBuffer;
-};
-
-init();
-
-const playAudioBuffer = (buffer, volume) => {
-  const source = audioContext.createBufferSource();
-  const gainNode = audioContext.createGain();
-
-  source.buffer = buffer;
-  source.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-
-  gainNode.gain.value = volume;
-  source.start();
-
-  return source;
-};
-
-export const playEndAudio = () => {
-  if (snapBackPlayed()) return;
-  setSnapBackPlayed(true);
-  const snapBackSource = playAudioBuffer(
-    snapBackBuffer.buffer,
-    snapBackBuffer.volume
-  );
-
-  snapBackSource.onended = () => {
-    if (containsBigWin()) {
-      playAudioBuffer(bigWinBuffer.buffer, bigWinBuffer.volume);
-    }
-    if (containsConfettiWin()) {
-      playAudioBuffer(confettiBuffer.buffer, confettiBuffer.volume);
-    }
-  };
-};
-
-export const playClickAudio = () => {
-  if (clickPlayed()) return;
-  setClickPlayed(true);
-  let durationInSeconds = spinnerTimings.verticalInitialSpin; // For example, a 2-second duration
-  if (isFastAnimation()) {
-    durationInSeconds = durationInSeconds * spinnerTimings.fastSpinMultiplier;
-  }
-  const p1 = 1; // Control point 1 (0.25, 1)
-  const p2 = 1; // Control point 2 (0.5, 1)
-  playClicksOnBezier(durationInSeconds, p1, p2, 0.04);
-};
 
 const SpinnersContainerVertical = (props) => {
   const generateSpinData = () => {
@@ -107,13 +50,15 @@ const SpinnersContainerVertical = (props) => {
     setSpinOffsets([]);
     setActiveSpinners(0);
   };
-  
+
   const generateSpinList = () => {
     setSpinOffsets([]);
     const newSpinList = [];
     for (let i = 0; i < 35; i++) {
       newSpinList.push(
-        props.caseItemList()[Math.floor(Math.random() * props.caseItemList().length)]
+        props.caseItemList()[
+          Math.floor(Math.random() * props.caseItemList().length)
+        ]
       );
     }
     return newSpinList;
@@ -139,11 +84,15 @@ const SpinnersContainerVertical = (props) => {
   };
 
   createEffect(() => {
-    console.log(spinReelsTrigger.triggered, activeSpinners(), props.spinnerOptions());
+    console.log(
+      spinReelsTrigger.triggered,
+      activeSpinners(),
+      props.spinnerOptions()
+    );
     if (spinReelsTrigger.triggered) {
       console.log(activeSpinners());
       spinReels();
-      setSpinReelsTrigger({ triggered: false });
+      setSpinReelsTrigger({triggered: false});
     }
   });
 
@@ -154,28 +103,35 @@ const SpinnersContainerVertical = (props) => {
         ref={setContainerRef}
       >
         <div class="arrow-down absolute top-1/2 -left-[8px] -translate-y-1/2 -rotate-90" />
-        {Array.from({ length: activeSpinners() }).map((_, index) => {
-          return props.spinnerOptions()[index] && (
-            <SpinnerReelVertical
-              spinnerIndex={index}
-              isConfettiWin={props.spinnerOptions()[index].isConfettiWin}
-              isBigWin={props.spinnerOptions()[index].isBigWin}
-              isFastSpin={isFastAnimation()}
-            />
+        {Array.from({length: activeSpinners()}).map((_, index) => {
+          return (
+            props.spinnerOptions()[index] && (
+              <SpinnerReelVertical
+                spinnerIndex={index}
+                isConfettiWin={props.spinnerOptions()[index].isConfettiWin}
+                isBigWin={props.spinnerOptions()[index].isBigWin}
+                isFastSpin={isFastAnimation()}
+                setBeginClickSound={props.setBeginClickSound}
+                setBeginPullBackSound={props.setBeginPullBackSound}
+                setBeginWinSound={props.setBeginWinSound}
+              />
+            )
           );
         })}
         <div class="arrow-down absolute top-1/2 -right-[8px] -translate-y-1/2 rotate-90" />
         <div
           class="absolute left-0 top-0 w-full h-[68px]"
           style={{
-            background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)'
+            background:
+              "linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)",
           }}
         />
         <div
           class="absolute left-0 bottom-0 w-full h-[68px]"
           style={{
-            background: 'linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)',
-            transform: 'matrix(-1, 0, 0, -1, 0, 0)'
+            background:
+              "linear-gradient(180deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)",
+            transform: "matrix(-1, 0, 0, -1, 0, 0)",
           }}
         />
       </div>

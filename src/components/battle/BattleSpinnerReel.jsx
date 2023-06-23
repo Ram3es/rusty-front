@@ -43,6 +43,8 @@ const BattleSpinnerReel = ({
   setBeginClickSound,
   setBeginPullBackSound,
   setBeginWinSound,
+  containsConfettiWin,
+  gameType
 }) => {
   createEffect(() => {
     if (isFastSpin) {
@@ -132,7 +134,7 @@ const BattleSpinnerReel = ({
       
     setTimeout(() => {
       setSpinComplete(true);
-      if (spinLists()[spinnerIndex][spinIndexes()[spinnerIndex]].rarity !== "gray") {
+      if (isConfettiWin) {
         createConfetti();
       }
       if(spinnerIndex === 0){
@@ -242,9 +244,11 @@ const BattleSpinnerReel = ({
   // };
 
   createEffect(() => {
-    setLineWidth(reel().offsetWidth - 42);
-    // setLineWidth(373 - 60);
-    console.log("line width ", lineWidth());
+    if(gameType === "team"){
+      setLineWidth(reel().offsetWidth);
+    }else{
+      setLineWidth(reel().offsetWidth - 42);
+    }
   });
 
   return (
@@ -325,11 +329,11 @@ const BattleSpinnerReel = ({
             : lineColor === "blue"
             ? "/assets/caseLineHorizontalBlue.svg"
             : "/assets/caseLineHorizontalGreen.svg"
+
         }
         alt="caseline"
         class={`absolute h-32  self-center transition-opacity duration-500
-          ${spinComplete() ? "opacity-30" : "opacity-100"}
-              `}
+          ${spinComplete() ? "opacity-30" : "opacity-100"}`}
         style={{
           width: lineWidth() + "px",
         }}

@@ -85,7 +85,7 @@ const CreateCaseBattle = (props) => {
   const [placeholdersToShow, setPlaceholdersToShow] = createSignal(2);
   const [search, setSearch] = createSignal("");
   const [priceRange, setPriceRange] = createSignal(priceRanges[0]);
-  const [sortBy, setSortBy] = createSignal(sortOptions[0]);
+  const [sortBy, setSortBy] = createSignal(sortOptions[1]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null);
   const [playersState, setPlayersState] = createSignal({
@@ -191,7 +191,7 @@ const CreateCaseBattle = (props) => {
       onCreateBattlesPageLoaded(true);
       socket.emit(
         "battles:cases",
-        { price: sortBy() === sortOptions[0] ? "desc" : "asc" },
+        { price: sortBy() === sortOptions[1] ? "desc" : "asc" },
         (data) => {
           setCasesState(data.data.cases);
           getPlaceholdernumber();

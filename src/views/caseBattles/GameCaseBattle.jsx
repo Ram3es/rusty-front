@@ -6,9 +6,10 @@ import {
   Match,
   onCleanup,
   Switch,
-  onMount, Show,
+  onMount,
+  Show,
 } from "solid-js";
-import { useLocation } from "solid-app-router";
+import {useLocation} from "solid-app-router";
 import HoveredButton from "../../components/elements/HoveredButton";
 import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel";
 import {otherOptions} from "../../libraries/caseSpinConfig";
@@ -46,9 +47,12 @@ import {getCurrencyString} from "../../components/mines_new/utils/tools";
 import StackedCasesBar from "../../components/battle/StackedCasesBar";
 import CaseViewModal from "../../components/modals/CaseViewModal";
 import CountDownText from "../../components/battle/CountDownText";
-import { playCountDownSound, playPullBackSound,playWinSound, playClickingSound } from "../../utilities/Sounds/SoundButtonClick";
-import clickSeq from "../../assets/sounds/clickSeq.mp3"
-import { spinnerTimings } from "../../libraries/caseSpinConfig";
+import {
+  playCountDownSound,
+  playPullBackSound,
+  playWinSound,
+} from "../../utilities/Sounds/SoundButtonClick";
+import clickSeq from "../../assets/sounds/clickSeq.mp3";
 
 export const [containerRef, setContainerRef] = createSignal();
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -210,14 +214,15 @@ const GameCaseBattle = (props) => {
                 `round_${inputGame.currentRound}`
               ].item_price
             ),
-            isConfetti: inputGame.players[playerIndex + 1][
-              `round_${inputGame.currentRound}`
-            ].isConfetti,
+            isConfetti:
+              inputGame.players[playerIndex + 1][
+                `round_${inputGame.currentRound}`
+              ].isConfetti,
           },
           isConfettiWin:
             inputGame.players[playerIndex + 1][
               `round_${inputGame.currentRound}`
-            ].isWinner,
+            ].isConfetti,
           isBigWin: true,
         }))
       );
@@ -235,9 +240,9 @@ const GameCaseBattle = (props) => {
 
         console.log(spinnerOptions()[i].winningItem);
 
-          if(spinnerOptions()[i].winningItem.isConfetti){
-            setContainsConfettiWin(true);
-          }
+        if (spinnerOptions()[i].winningItem.isConfetti) {
+          setContainsConfettiWin(true);
+        }
 
         newSpinLists.push(spinList);
         newSpinIndexes.push(spinIndex);
@@ -259,7 +264,7 @@ const GameCaseBattle = (props) => {
         player_index,
       },
       (data) => {
-        if (data.error) toastr(data)
+        if (data.error) toastr(data);
       }
     );
   };
@@ -274,7 +279,7 @@ const GameCaseBattle = (props) => {
         urlKey: props.searchParams.key,
       },
       (data) => {
-        if (data.error) toastr(data)
+        if (data.error) toastr(data);
       }
     );
   };
@@ -448,27 +453,26 @@ const GameCaseBattle = (props) => {
   };
 
   createEffect(() => {
-    if(beginClickSound()){
+    if (beginClickSound()) {
       setBeginClickSound(false);
       if (userObject?.user?.sounds) {
         clickingSound.currentTime = 0;
         clickingSound.volume = userObject.user.sounds;
-        clickingSound.play()
+        clickingSound.play();
       }
     }
-    if(beginPullBackSound()){
+    if (beginPullBackSound()) {
       setBeginPullBackSound(false);
-      playPullBackSound();      
+      playPullBackSound();
     }
 
-    if(beginWinSound()){
+    if (beginWinSound()) {
       setBeginWinSound(false);
-      if(containsConfettiWin()){
+      if (containsConfettiWin()) {
         playWinSound();
       }
-
     }
-  })
+  });
 
   return (
     <div class="flex flex-col">
@@ -547,10 +551,10 @@ const GameCaseBattle = (props) => {
                       : "Group"}
                   </div>
                 </div>
-                <div class="h-10 rounded-4 flex items-center px-3 border border-gray-9a text-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
+                {/* <div class="h-10 rounded-4 flex items-center px-3 border border-gray-9a text-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
                   <FairnessShieldIcon />
                   <span>Fairness</span>
-                </div>
+                </div> */}
               </div>
             </div>
             <div class="mx-auto flex flex-col">
@@ -645,7 +649,8 @@ const GameCaseBattle = (props) => {
                           >
                             {(game().status === "playing" ||
                               game().status === "open" ||
-                              game().status === "pending" || game().status === "countdown") && (
+                              game().status === "pending" ||
+                              game().status === "countdown") && (
                               <div
                                 class="absolute left-1/2 top-1/2 h-full w-[64px] -translate-x-1/2 -translate-y-1/2"
                                 style={{
@@ -664,7 +669,8 @@ const GameCaseBattle = (props) => {
                                 transform: `translateX(${
                                   game().status === "playing" ||
                                   game().status === "open" ||
-                                  game().status === "pending" || game().status === "countdown"
+                                  game().status === "pending" ||
+                                  game().status === "countdown"
                                     ? 32 * (game().cases.length - 1) -
                                       64 * (game().currentRound ?? 0)
                                     : 0
@@ -679,7 +685,8 @@ const GameCaseBattle = (props) => {
                                       class={`relative py-1 
                                     ${
                                       (game().status === "open" ||
-                                        game().status === "pending" || game().status === "countdown") &&
+                                        game().status === "pending" ||
+                                        game().status === "countdown") &&
                                       (index() === 0
                                         ? "scale-[120%]"
                                         : "scale-[90%]") +
@@ -898,9 +905,17 @@ const GameCaseBattle = (props) => {
                                           isFastSpin={false}
                                           lineColor={getModeColor()}
                                           randomFunction={randomFunction}
-                                          setBeginClickSound={setBeginClickSound}
-                                          setBeginPullBackSound={setBeginPullBackSound}
+                                          setBeginClickSound={
+                                            setBeginClickSound
+                                          }
+                                          setBeginPullBackSound={
+                                            setBeginPullBackSound
+                                          }
                                           setBeginWinSound={setBeginWinSound}
+                                          containsConfettiWin={
+                                            containsConfettiWin
+                                          }
+                                          gameType={game().mode}
                                         />
                                       ) : (
                                         <Spiner classes="w-9 text-yellow-ffb" />
@@ -1005,7 +1020,6 @@ const GameCaseBattle = (props) => {
                               </div>
                             )}
                           </For>
-                          {/* <div class="absolute left-[12.5%] top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-red">EDEDWEF</div> */}
                         </div>
                       </div>
                     </div>

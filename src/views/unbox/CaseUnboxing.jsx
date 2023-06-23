@@ -1,12 +1,19 @@
-import { NavLink } from "solid-app-router";
-import { createSignal, For, createEffect, onCleanup, onMount, createMemo } from "solid-js";
-import { URL } from "../../libraries/url";
+import {NavLink} from "solid-app-router";
+import {
+  createSignal,
+  For,
+  createEffect,
+  onCleanup,
+  onMount,
+  createMemo,
+} from "solid-js";
+import {URL} from "../../libraries/url";
 import injector from "../../injector/injector";
 
 import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
 import Coin from "../../utilities/Coin";
-import { setSpinReelsTrigger } from "../../components/cases/store";
-import { spinnerTimings } from "../../libraries/caseSpinConfig";
+import {setSpinReelsTrigger} from "../../components/cases/store";
+import {spinnerTimings} from "../../libraries/caseSpinConfig";
 import SpinnerImage from "../../assets/img/unbox/spinner.png";
 
 import SpinnersContainerHorizontal from "../../components/cases/horizontal/SpinnersContainerHorizontal";
@@ -20,16 +27,28 @@ import LightningIcon from "../../components/icons/LightningIcon";
 import GrayGradientButton from "../../components/elements/GrayGradientButton";
 import FairnessShieldIcon from "../../components/icons/cases/FairnessShield";
 import HistoryDrops from "../case/HistoryDrops";
-import { calculateRemainingTime, getAvailableCases, getIndexRank, getNotAvailableCases } from "../../utilities/rewards-tools";
-import { convertRomanToNormal } from "../../utilities/Numbers";
-import { BASE_RANKS } from "../../libraries/constants";
-import DiscordIcon from '../../components/icons/DiscordIcon'
+import {
+  calculateRemainingTime,
+  getAvailableCases,
+  getIndexRank,
+  getNotAvailableCases,
+} from "../../utilities/rewards-tools";
+import {convertRomanToNormal} from "../../utilities/Numbers";
+import {BASE_RANKS} from "../../libraries/constants";
+import DiscordIcon from "../../components/icons/DiscordIcon";
+import {
+  playPullBackSound,
+  playWinSound,
+} from "../../utilities/Sounds/SoundButtonClick";
+import clickSeq from "../../assets/sounds/clickSeq.mp3";
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
 
+export const clickingSound = new Audio(clickSeq);
+
 const CaseUnboxing = (props) => {
-  const { socket, toastr, userObject, rewardCases, setRewardCases } = injector;
+  const {socket, toastr, userObject, rewardCases, setRewardCases} = injector;
 
   const [rollCase, setRollCase] = createSignal();
   const [rollItems, setRollItems] = createSignal([]);
@@ -40,7 +59,12 @@ const CaseUnboxing = (props) => {
   const [pendingNum, setPendingNum] = createSignal(1);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [fairnessHash, setFairnessHash] = createSignal([]);
-  const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] = createSignal('')
+  const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] =
+    createSignal("");
+  const [beginPullBackSound, setBeginPullBackSound] = createSignal(false);
+  const [beginWinSound, setBeginWinSound] = createSignal(false);
+  const [beginClickSound, setBeginClickSound] = createSignal(false);
+  const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -55,90 +79,95 @@ const CaseUnboxing = (props) => {
   };
 
   const itemsUpdate = (data) => {
-    
-        if (data.data?.case) {
-          const myCase = {
-            ...data.data.case,
-            image: data.data.case.image?.replace("{url}", window.origin) || "",
-          };
-          myCase.items = myCase.items.map((item) => ({
+    if (data.data?.case) {
+      const myCase = {
+        ...data.data.case,
+        image: data.data.case.image?.replace("{url}", window.origin) || "",
+      };
+      myCase.items = myCase.items.map((item) => ({
+        ...item,
+        price: item.item_price,
+        chance: myCase.name === "Daily Free Case" ? null : item.chance,
+        image: item.image?.replace("{url}", window.origin) || "",
+        isConfetti: item.isConfetti,
+      }));
+      setRollCase(() => myCase);
+      setCaseStatistic(() => ({
+        recentDrops:
+          data?.data?.case?.recentDrops.map((item) => ({
             ...item,
             price: item.item_price,
-            chance: myCase.name === 'Daily Free Case' ? null : item.chance,
-            image: item.image?.replace("{url}", window.origin) || "",
-          }));
-          setRollCase(() => myCase);
-          setCaseStatistic(() => ({
-            recentDrops:
-              data?.data?.case?.recentDrops.map((item) => ({
-                ...item,
-                price: item.item_price,
-                item: item.name,
-              })) || [],
-            bestValue:
-              data?.data?.case && Object.keys(data?.data?.case?.bestDrop) > 0
-                ? {
-                    ...data?.data?.case?.bestDrop,
-                    price: data?.data?.case?.bestDrop.item_price,
-                    item: data?.data?.case?.bestDrop.name,
-                  }
-                : undefined,
-          }));
-          setRollItems(() =>
-            myCase.items.map((item) => ({
-              img: item.image,
-              price: item.item_price,
-              name: item.name,
-              rarity: getColor(item.item_price),
-            }))
-          );
-        }
-      
+            item: item.name,
+          })) || [],
+        bestValue:
+          data?.data?.case && Object.keys(data?.data?.case?.bestDrop) > 0
+            ? {
+                ...data?.data?.case?.bestDrop,
+                price: data?.data?.case?.bestDrop.item_price,
+                item: data?.data?.case?.bestDrop.name,
+              }
+            : undefined,
+      }));
+      setRollItems(() =>
+        myCase.items.map((item) => ({
+          img: item.image,
+          price: item.item_price,
+          name: item.name,
+          rarity: getColor(item.item_price),
+          isConfetti: item.isConfetti,
+        }))
+      );
+    }
   };
 
   const timerId = setInterval(() => {
-    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
-    setRemainingTimeToOpenCase(calculateRemainingTime(
-      rollCase().name === 'Daily Free Case' 
-        ? rewardCases.lastFreeCaseOpening 
-        : rewardCases.lastDailyCaseOpening
-      )
-    )
+    if (
+      (rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) &&
+      rollCase()
+    ) {
+      setRemainingTimeToOpenCase(
+        calculateRemainingTime(
+          rollCase().name === "Daily Free Case"
+            ? rewardCases.lastFreeCaseOpening
+            : rewardCases.lastDailyCaseOpening
+        )
+      );
     }
-  }, 1000)
+  }, 1000);
 
   createEffect(() => {
-
-
-    if ((rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) && rollCase()) {
-    setRemainingTimeToOpenCase(calculateRemainingTime(
-      rollCase().name === 'Daily Free Case' 
-        ? rewardCases.lastFreeCaseOpening 
-        : rewardCases.lastDailyCaseOpening
-      )
-    )
+    if (
+      (rewardCases.lastDailyCaseOpening || rewardCases.lastFreeCaseOpening) &&
+      rollCase()
+    ) {
+      setRemainingTimeToOpenCase(
+        calculateRemainingTime(
+          rollCase().name === "Daily Free Case"
+            ? rewardCases.lastFreeCaseOpening
+            : rewardCases.lastDailyCaseOpening
+        )
+      );
     }
-  })
+  });
 
   createEffect(() => {
     if (props?.loaded()) {
-      
       if (!props.searchParams.daily) {
         socket.emit(
           "case:get",
-          { caseId: Number(props.searchParams.id) },
+          {caseId: Number(props.searchParams.id)},
           (data) => {
             itemsUpdate(data);
           }
         );
       } else {
         socket.emit(
-          'rewards:case',
-          { caseId: Number(props.searchParams.id) },
+          "rewards:case",
+          {caseId: Number(props.searchParams.id)},
           (data) => {
             itemsUpdate(data);
           }
-        )
+        );
       }
     }
   });
@@ -147,7 +176,7 @@ const CaseUnboxing = (props) => {
     if (rollCase()) {
       socket.on(`cases:recentdrop:${Number(rollCase().id)}`, (data) => {
         setCaseStatistic((prev) => {
-          const arr = { ...prev };
+          const arr = {...prev};
           arr.recentDrops.unshift({
             ...data,
             price: data.item_price,
@@ -177,14 +206,14 @@ const CaseUnboxing = (props) => {
     if (rollCase()) {
       socket.off(`cases:recentdrop:${Number(rollCase().id)}`);
     }
-    clearInterval(timerId)
+    clearInterval(timerId);
   });
 
   const handleNumSpinnersClick = (num) => {
     setIsCaseAlreadyOpened(false);
     setCountOfCases(0);
     setPendingNum(num);
-    setSpinReelsTrigger({ triggered: false });
+    setSpinReelsTrigger({triggered: false});
     setIsRolling(false);
   };
 
@@ -200,17 +229,25 @@ const CaseUnboxing = (props) => {
           price: caseItem.item.item_price,
           name: caseItem.item.name,
           rarity: getColor(caseItem.item.item_price),
+          isConfetti: caseItem.item.isConfetti,
         },
-        isConfettiWin: true,
+        isConfettiWin: caseItem.item.isConfetti,
         isBigWin: true,
       }))
     );
+
+    setContainsConfettiWin(false);
+    // check if any spinner has a confetti item
+    setContainsConfettiWin(
+      spinnerOptions().some((spinner) => spinner.isConfettiWin)
+    );
+
     setFairnessHash(() => data.cases.map((caseItem) => caseItem.hash));
     setIsCaseAlreadyOpened(() => true);
     setCountOfCases(pendingNum());
-    setSpinReelsTrigger({ triggered: true });
+    setSpinReelsTrigger({triggered: true});
     setIsRolling(true);
-  }
+  };
 
   const startGame = (isDemo) => {
     if (isCaseCanBeOpen() && !isRolling()) {
@@ -230,43 +267,99 @@ const CaseUnboxing = (props) => {
           },
           (data) => {
             if (!data.error) {
-              rollCases(data)
+              rollCases(data);
             } else {
-              toastr(data)
+              toastr(data);
             }
           }
         );
       } else {
-        socket.emit('rewards:case:open', { caseId: Number(props.searchParams.id), demo: isDemo, spinTime: durationInSeconds * 1000 }, (data) => {
-          if (!data.error) {
-            rollCases({cases: [data]})
-            if (!isDemo) {
-              setTimeout(() => {
-                if (rollCase().name === 'Daily Free Case') {
-                  setRewardCases("lastFreeCaseOpening", new Date().toISOString())
-                } else {
-                  setRewardCases("lastDailyCaseOpening", new Date().toISOString())
-                }
-              } ,durationInSeconds * 1000)
+        socket.emit(
+          "rewards:case:open",
+          {
+            caseId: Number(props.searchParams.id),
+            demo: isDemo,
+            spinTime: durationInSeconds * 1000,
+          },
+          (data) => {
+            if (!data.error) {
+              rollCases({cases: [data]});
+              if (!isDemo) {
+                setTimeout(() => {
+                  if (rollCase().name === "Daily Free Case") {
+                    setRewardCases(
+                      "lastFreeCaseOpening",
+                      new Date().toISOString()
+                    );
+                  } else {
+                    setRewardCases(
+                      "lastDailyCaseOpening",
+                      new Date().toISOString()
+                    );
+                  }
+                }, durationInSeconds * 1000);
+              }
+            } else {
+              toastr(data);
             }
-          } else {
-            toastr(data)
           }
-        })
+        );
       }
     }
   };
 
-  const userRankIndex = createMemo(() => getIndexRank(userObject?.user?.level?.league, BASE_RANKS))
+  const userRankIndex = createMemo(() =>
+    getIndexRank(userObject?.user?.level?.league, BASE_RANKS)
+  );
 
   const notAvailableCases = createMemo(() =>
     getNotAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) =>
       convertRomanToNormal(caseName)
     )
-  )
+  );
   const availableCases = createMemo(() =>
-    getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) => convertRomanToNormal(caseName))
-  )
+    getAvailableCases(userRankIndex(), BASE_RANKS).map((caseName) =>
+      convertRomanToNormal(caseName)
+    )
+  );
+
+  createEffect(() => {
+    if (beginClickSound()) {
+      setBeginClickSound(false);
+      if (userObject?.user?.sounds) {
+        clickingSound.currentTime = 0;
+        clickingSound.volume = userObject.user.sounds;
+
+        // Calculate playbackRate
+        let originalDuration = clickingSound.duration;
+        if (countOfCases() === 1) {
+          if (isFastAnimation()) {
+            clickingSound.playbackRate = originalDuration / 4;
+          } else {
+            clickingSound.playbackRate = originalDuration / 10;
+          }
+        } else {
+          if (isFastAnimation()) {
+            clickingSound.playbackRate = originalDuration / 4;
+          } else {
+            clickingSound.playbackRate = originalDuration / 5;
+          }
+        }
+
+        clickingSound.play();
+      }
+    }
+    if (beginPullBackSound()) {
+      setBeginPullBackSound(false);
+      playPullBackSound();
+    }
+    if (beginWinSound()) {
+      setBeginWinSound(false);
+      if (containsConfettiWin()) {
+        playWinSound();
+      }
+    }
+  });
 
   return (
     <>
@@ -274,7 +367,9 @@ const CaseUnboxing = (props) => {
         <div class="w-full h-full flex flex-col gap-8 overflow-y-scroll relative min-h-screen pt-8">
           <div class="px-4 xl:px-8 xxl:px-14 flex flex-col gap-8">
             <div class="flex justify-between flex-col md:flex-row">
-              <NavLink href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}>
+              <NavLink
+                href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}
+              >
                 <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
                   <ArrowBack />
                   <span class="font-SpaceGrotesk text-14 text-gray-9a">
@@ -294,19 +389,26 @@ const CaseUnboxing = (props) => {
                 pendingNum() === 1
                   ? "case-opening-wrapper"
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden ${!userObject.authenticated || props.searchParams.daily &&
-                (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                  (rollCase().name !== 'Daily Free Case' &&
-                    rewardCases.lastDailyCaseOpening) ||
-                  (rollCase().name === 'Daily Free Case' &&
-                    (rewardCases.lastFreeCaseOpening || !rewardCases.isUserOnServer)) ||
-                    notAvailableCases()[0] === convertRomanToNormal(rollCase().name))
-                  ? 'mix-blend-luminosity' 
-                : 'mix-blend-normal'}`}
+              } overflow-hidden ${
+                !userObject.authenticated ||
+                (props.searchParams.daily &&
+                  (notAvailableCases().includes(
+                    convertRomanToNormal(rollCase().name)
+                  ) ||
+                    (rollCase().name !== "Daily Free Case" &&
+                      rewardCases.lastDailyCaseOpening) ||
+                    (rollCase().name === "Daily Free Case" &&
+                      (rewardCases.lastFreeCaseOpening ||
+                        !rewardCases.isUserOnServer)) ||
+                    notAvailableCases()[0] ===
+                      convertRomanToNormal(rollCase().name)))
+                  ? "mix-blend-luminosity"
+                  : "mix-blend-normal"
+              }`}
             >
               <div
                 class="w-full relative"
-                style={{ "background-image": `url('${footerLogoBgVector}')` }}
+                style={{"background-image": `url('${footerLogoBgVector}')`}}
               >
                 {!isCaseAlreadyOpened() && (
                   <div
@@ -317,7 +419,7 @@ const CaseUnboxing = (props) => {
                       "backdrop-filter": "blur(6px)",
                     }}
                   >
-                    <For each={Array.from({ length: pendingNum() })}>
+                    <For each={Array.from({length: pendingNum()})}>
                       {(_) => (
                         <div class="w-full center">
                           <img
@@ -335,12 +437,18 @@ const CaseUnboxing = (props) => {
                     numSpinners={countOfCases}
                     caseItemList={rollItems}
                     spinnerOptions={spinnerOptions}
+                    setBeginClickSound={setBeginClickSound}
+                    setBeginPullBackSound={setBeginPullBackSound}
+                    setBeginWinSound={setBeginWinSound}
                   />
                 ) : countOfCases() > 0 && countOfCases() < 5 ? (
                   <SpinnersContainerVertical
                     numSpinners={countOfCases}
                     caseItemList={rollItems}
                     spinnerOptions={spinnerOptions}
+                    setBeginClickSound={setBeginClickSound}
+                    setBeginPullBackSound={setBeginPullBackSound}
+                    setBeginWinSound={setBeginWinSound}
                   />
                 ) : (
                   <SpinnersContainerBlank pendingNum={pendingNum} />
@@ -362,7 +470,11 @@ const CaseUnboxing = (props) => {
                 <div class="flex gap-1.5 items-center">
                   <Coin width="5" />
                   <span class="font-bold text-md potential-drop--price">
-                    {!props.searchParams.daily ? (Number(rollCase().price) * pendingNum()).toLocaleString() : "FREE"}
+                    {!props.searchParams.daily
+                      ? (
+                          Number(rollCase().price) * pendingNum()
+                        ).toLocaleString()
+                      : "FREE"}
                   </span>
                 </div>
               </div>
@@ -371,57 +483,78 @@ const CaseUnboxing = (props) => {
                   isRolling() ? "opacity-[.03]" : "opacity-100"
                 } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
               >
-                {!props.searchParams.daily ? <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
-                  <div class=" font-SpaceGrotesk text-14 text-gray-9a ">
-                    Case Amount:
+                {!props.searchParams.daily ? (
+                  <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
+                    <div class=" font-SpaceGrotesk text-14 text-gray-9a ">
+                      Case Amount:
+                    </div>
+                    <div
+                      class={`gap-1 center ${
+                        isRolling() && "pointer-events-none"
+                      }`}
+                    >
+                      <For each={[1, 2, 3, 4]}>
+                        {(row) => (
+                          <TransparentButton
+                            isActive={pendingNum() === row}
+                            callbackFn={() => handleNumSpinnersClick(row)}
+                            style={{
+                              padding: "0px",
+                              width: "40px",
+                              height: "40px",
+                            }}
+                          >
+                            {row}
+                          </TransparentButton>
+                        )}
+                      </For>
+                    </div>
                   </div>
-                  <div class="gap-1 center">
-                    <For each={[1, 2, 3, 4]}>
-                      {(row) => (
-                        <TransparentButton
-                          isActive={pendingNum() === row}
-                          callbackFn={() => handleNumSpinnersClick(row)}
-                          style={{
-                            padding: "0px",
-                            width: "40px",
-                            height: "40px",
-                          }}
-                        >
-                          {row}
-                        </TransparentButton>
-                      )}
-                    </For>
-                  </div> 
-                </div> : ""}
-                <div class='relative'>
+                ) : (
+                  ""
+                )}
+                <div class="relative">
                   <div
                     class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
-                      (!userObject.authenticated || props.searchParams.daily &&
-                        (notAvailableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                          (rollCase().name !== 'Daily Free Case' &&
+                      !userObject.authenticated ||
+                      (props.searchParams.daily &&
+                        (notAvailableCases().includes(
+                          convertRomanToNormal(rollCase().name)
+                        ) ||
+                          (rollCase().name !== "Daily Free Case" &&
                             rewardCases.lastDailyCaseOpening) ||
-                          (rollCase().name === 'Daily Free Case' &&
-                            (rewardCases.lastFreeCaseOpening || !rewardCases.isUserOnServer)) ||
-                            notAvailableCases()[0] === convertRomanToNormal(rollCase().name))) 
-                        ? 'mix-blend-luminosity'
-                        : 'mix-blend-normal'
+                          (rollCase().name === "Daily Free Case" &&
+                            (rewardCases.lastFreeCaseOpening ||
+                              !rewardCases.isUserOnServer)) ||
+                          notAvailableCases()[0] ===
+                            convertRomanToNormal(rollCase().name)))
+                        ? "mix-blend-luminosity"
+                        : "mix-blend-normal"
                     }`}
                   >
                     {props.searchParams.daily && (
                       <button
-                        class='group bg--gold border--gold w-[194px] h-10 rounded-4 flex items-center justify-center gap-[10px] transition-colors'
+                        class={`group bg--gold border--gold w-[194px] h-10 rounded-4 flex items-center justify-center gap-[10px] transition-colors ${
+                          isRolling() && "pointer-events-none"
+                        }`}
                         onClick={() => startGame(false)}
                       >
-                        {rollCase().name === 'Daily Free Case' && <DiscordIcon />}
-                        <span class='text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary'>
-                          {(availableCases().includes(convertRomanToNormal(rollCase().name)) ||
-                            rollCase().name === 'Daily Free Case') &&
-                            !(rollCase().name === 'Daily Free Case'
+                        {rollCase().name === "Daily Free Case" && (
+                          <DiscordIcon />
+                        )}
+                        <span
+                          class={`text-14 font-SpaceGrotesk font-bold text-yellow-ffb text-shadow-gold-secondary `}
+                        >
+                          {(availableCases().includes(
+                            convertRomanToNormal(rollCase().name)
+                          ) ||
+                            rollCase().name === "Daily Free Case") &&
+                            !(rollCase().name === "Daily Free Case"
                               ? rewardCases.lastFreeCaseOpening
                               : rewardCases.lastDailyCaseOpening) && (
-                              <span class='flex items-center gap-[7.34px]'>
-                                Open for <Coin width='5' />
-                                <span class='text-gradient'>FREE</span>
+                              <span class="flex items-center gap-[7.34px]">
+                                Open for <Coin width="5" />
+                                <span class="text-gradient">FREE</span>
                               </span>
                             )}
                           {(userObject.authenticated
@@ -430,14 +563,14 @@ const CaseUnboxing = (props) => {
                                 .includes(convertRomanToNormal(rollCase().name))
                             : notAvailableCases().includes(
                                 convertRomanToNormal(rollCase().name)
-                              )) && 'Locked'}
-                          {((rollCase().name === 'Daily Free Case' &&
+                              )) && "Locked"}
+                          {((rollCase().name === "Daily Free Case" &&
                             rewardCases.lastFreeCaseOpening) ||
                             (rewardCases.lastDailyCaseOpening &&
                               availableCases().includes(
                                 convertRomanToNormal(rollCase().name)
                               ))) && (
-                            <span class='normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary'>
+                            <span class="normal-case text-14 font-bold font-SpaceGrotesk text-gray-9a text-shadow-gold-secondary">
                               Open in {remainingTimeToOpenCase()}
                             </span>
                           )}
@@ -445,28 +578,40 @@ const CaseUnboxing = (props) => {
                       </button>
                     )}
                     {!props.searchParams.daily && (
-                      <CaseGradientButton callbackFn={() => startGame(false)}>
-                        <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center'>
-                          <span class='w-max'>Open for</span>
-                          <Coin width='5' />
-                          <span class='text-gradient'>
-                            {(Number(rollCase().price) * pendingNum()).toLocaleString()}
-                          </span>
-                        </div>
-                      </CaseGradientButton>
+                      <div class={`${isRolling() && "pointer-events-none"}`}>
+                        <CaseGradientButton callbackFn={() => startGame(false)}>
+                          <div
+                            class={`flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center `}
+                          >
+                            <span class="w-max">Open for</span>
+                            <Coin width="5" />
+                            <span class="text-gradient">
+                              {(
+                                Number(rollCase().price) * pendingNum()
+                              ).toLocaleString()}
+                            </span>
+                          </div>
+                        </CaseGradientButton>
+                      </div>
                     )}
-                    <GrayGradientButton callbackFn={() => startGame(true)}>
-                      <span class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}>
-                        Demo Spin
-                      </span>
-                    </GrayGradientButton>
+                    <div class={`${isRolling() && "pointer-events-none"}`}>
+                      <GrayGradientButton callbackFn={() => startGame(true)}>
+                        <span
+                          class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}
+                        >
+                          Demo Spin
+                        </span>
+                      </GrayGradientButton>
+                    </div>
                   </div>
                   {props.searchParams.daily &&
                     userObject.authenticated &&
-                    notAvailableCases()[0] === convertRomanToNormal(rollCase().name) && (
-                      <span class='absolute bottom-0.5 left-[130px] transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
+                    notAvailableCases()[0] ===
+                      convertRomanToNormal(rollCase().name) && (
+                      <span class="absolute bottom-0.5 left-[130px] transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12">
                         {(
-                          (userObject.user?.wagered - userObject.user?.level?.from * 1000) /
+                          (userObject.user?.wagered -
+                            userObject.user?.level?.from * 1000) /
                             (userObject.user?.level?.to * 10) || 99
                         ).toFixed(2)}
                         % till unlock
@@ -474,7 +619,9 @@ const CaseUnboxing = (props) => {
                     )}
                 </div>
               </div>
-              <div class="flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a">
+              <div
+                class={`flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a`}
+              >
                 <div
                   class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
                         ${
@@ -482,6 +629,7 @@ const CaseUnboxing = (props) => {
                             ? "border-gray-9a hover:border-white text-blue-9b hover:text-white"
                             : "border-yellow-ffb text-yellow-ffb"
                         }
+                        ${isRolling() && "pointer-events-none"}
                       `}
                   onClick={() => setIsFastAnimation((prev) => !prev)}
                 >
@@ -504,13 +652,17 @@ const CaseUnboxing = (props) => {
                     Fast Open
                   </span>
                 </div>
-                <div class="h-11 rounded-4 flex items-center px-3 border border-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
+                {/* <div class="h-11 rounded-4 flex items-center px-3 border border-gray-9a border-opacity-20 text-blue-9b gap-2 cursor-pointer group hover:border-white/20 drop-shadow-sm ">
                   <FairnessShieldIcon />
                   <span>Fairness</span>
-                </div>
+                </div> */}
               </div>
               {isRolling() && (
-                <div class="absolute md:left-1/2 md:-translate-x-1/2 top-24 md:top-auto">
+                <div
+                  class={`absolute md:left-1/2 md:-translate-x-1/2 top-24 md:top-auto ${
+                    isRolling() && "pointer-events-none"
+                  }`}
+                >
                   <div class="relative flex items-center justify-center gap-2">
                     <img class="animate-reverse-spin" src={SpinnerImage} />
                     <div
