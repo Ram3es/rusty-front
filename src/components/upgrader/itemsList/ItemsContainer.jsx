@@ -15,6 +15,7 @@ const ItemsContainer = (props) => {
     <div
       class="w-full grid grid-cols-potential-drop--item gap-2 max-h-[70vh] overflow-y-scroll 
     show-scrollbar"
+    data-upgrader-items-wrapper
     >
       <For each={props.items}>
         {(item) => (

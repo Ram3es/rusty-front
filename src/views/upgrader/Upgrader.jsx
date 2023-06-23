@@ -150,7 +150,7 @@ const Upgrader = (props) => {
               },
               {threshold: [0]}
             );
-            // observer.observe(pageWrapper.childNodes.item(items().length - 9));
+            observer.observe(document.querySelector("[data-upgrader-items-wrapper]").childNodes.item(items().length - 9));
           } else if (iv[0]?.id !== items()[0]?.id) {
             setItems(iv);
           } else {
