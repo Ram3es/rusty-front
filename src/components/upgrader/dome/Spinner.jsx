@@ -11,8 +11,6 @@ import {
 
 let chart = null;
 
-
-
 export const spin = (ticket, time) => {
   if (spinning()) return;
 
@@ -30,20 +28,19 @@ export const spin = (ticket, time) => {
             setSpinning(false);
             chart.style.transform = `rotate(${0}deg)`;
             chart.style.transitionTimingFunction = `cubic-bezier(0.12, 0.8, 0.38, 1)`;
-            chart.style.transitionDuration = `${3}s`;
+            chart.style.transitionDuration = `${isSpinFast ? 1 : 3}s`;
 
-            setTimeout(() => setIsGameStarted(false), 2500)
+            setTimeout(() => setIsGameStarted(false), 2500);
           }, time + 500);
         }
       }, 10);
     },
-    isSpinFast ? 10 : 10
+    isSpinFast ? 1 : 10
   );
 };
 
 const Spinner = (props) => {
   const [doughnut, setDoughnut] = createSignal(null);
-
   onMount(() => {
     setDoughnut(
       new Chart(chart.getContext("2d"), {

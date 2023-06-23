@@ -4,11 +4,15 @@ import {
   activeItem,
   setActiveItem,
   setBetValue,
+  isGameStarted,
 } from "../../../views/upgrader/Upgrader";
 
 const BtnSection = () => {
   return (
-    <div class={`h-[200px] flex items-center justify-center w-full`}>
+    <div
+      class={`h-[200px] flex items-center justify-center w-full transition-opacity duration-200
+    ${isGameStarted() && "opacity-40 pointer-events-none"}`}
+    >
       {activeItem() && (
         <GrayGradientButton
           additionalClass={` max-w-[260px] py-2 w-full`}

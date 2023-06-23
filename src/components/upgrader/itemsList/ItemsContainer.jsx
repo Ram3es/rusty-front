@@ -1,12 +1,16 @@
-import {For} from "solid-js";
+import {For, createEffect} from "solid-js";
 import PotentialDropItem from "../../../views/case/PotentialDropItem";
 import {
   setActiveItem,
   setBetValue,
   activeItem,
+  isGameStarted,
 } from "../../../views/upgrader/Upgrader";
 
 const ItemsContainer = (props) => {
+  // createEffect(() => {
+  //   console.log(activeItem());
+  // });
   return (
     <div
       class="w-full grid grid-cols-potential-drop--item gap-2 max-h-[70vh] overflow-y-scroll 
@@ -16,6 +20,9 @@ const ItemsContainer = (props) => {
         {(item) => (
           <div
             onClick={() => {
+              if (isGameStarted()) {
+                return;
+              }
               setBetValue(0);
               setActiveItem(item);
             }}

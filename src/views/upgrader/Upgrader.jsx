@@ -30,7 +30,7 @@ const [prevRoll, setPrevRoll] = createSignal("");
 
 export const bet = () => {
   // spin(0.5, 4000);
-  if (betValue() >= -1) {
+  if (betValue() > 0) {
     setIsGameStarted(true);
     socket.emit(
       "upgrader:bet",
@@ -50,13 +50,16 @@ export const bet = () => {
         if (data.roll) {
           setCurrentGameRoll(data.roll);
         }
+        if (data.error) {
+          setIsGameStarted(false);
+        }
       }
     );
   } else {
     setCurrentGameId("");
     setCurrentGameRoll("");
     toastr({
-      msg: "Minimum bet is 50 coins",
+      msg: "Minimum bet is 1 coin",
       error: true,
     });
   }
@@ -192,11 +195,11 @@ const Upgrader = (props) => {
         if (fastSpinner()) {
           spin(data.data.ticket, 5500);
         } else {
-          setIsAnimationShown(true)
+          setIsAnimationShown(true);
           setTimeout(() => {
-            setIsAnimationShown(false)
+            setIsAnimationShown(false);
             spin(data.data.ticket, 5500);
-          }, 3000)
+          }, 3000);
         }
       }
     });
@@ -213,6 +216,10 @@ const Upgrader = (props) => {
 
   onCleanup(() => {
     socket.off("steam:market:update");
+  });
+
+  createEffect(() => {
+    console.log(activeItem());
   });
 
   // const inputValueUpdate = (e) => {

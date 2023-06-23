@@ -73,12 +73,18 @@ const PotentialDropItem = (props) => {
     }
   };
 
+  // createEffect(() => {
+  //   if (props.activeItem()) {
+  //     console.log(props.activeItem());
+  //   }
+  // });
+
   const styles = createMemo(() => getCurrentStylesByPrice(props.skin?.price));
   // if visible render exisiting div else show blank div
 
   return (
     <div ref={setItemRef}>
-      {isVisible() ? (
+      {isVisible() || props.optimiseOff ? (
         <div
           class={`group w-full ${
             props.isHorizontal
@@ -89,7 +95,10 @@ const PotentialDropItem = (props) => {
           } font-SpaceGrotesk
           `}
         >
-          {(props.upgraderItem && props.skin === props.activeItem() || props.withdrawModalItem && props.activeItems().findIndex((i) => props.skin.id === i.id) >= 0) && (
+          {((props.upgraderItem && props.skin === props.activeItem()) ||
+            (props.withdrawModalItem &&
+              props.activeItems().findIndex((i) => props.skin.id === i.id) >=
+                0)) && (
             <div class="absolute h-full w-full rounded-4 border-[#FFB436] border" />
           )}
 
