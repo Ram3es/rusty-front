@@ -1,5 +1,5 @@
 import { createSignal, For, onMount } from 'solid-js'
-import { NavLink } from 'solid-app-router'
+import { NavLink, useLocation } from 'solid-app-router'
 import { SOCIAL, URL } from '../../libraries/url'
 import Logo from '../../assets/logo.svg'
 import smallLogo from '../../assets/smallLogo.svg'
@@ -45,6 +45,7 @@ const SubHeader = (props) => {
   let langWrapperMain
   let langButtonMain
   const { setToggles, userObject, socket, setUserObject } = injector
+  const location = useLocation();
   const [, setActive] = isMenuActive
   const i18n = useI18n()
   const [isSoundModalOpen, setSoundModalOpen] = createSignal(false)
@@ -112,10 +113,10 @@ const SubHeader = (props) => {
   ]
 
   const toggles = [
-    { name: 'Affiliates', url: `${props.pathname()}?affiliates=true` },
+    { name: 'Affiliates', url: `?affiliates=true` },
     { name: 'Leaderboard', url: URL.LEADERBOARD },
     { name: 'Rewards', url: URL.REWARDS },
-    { name: 'Free Coins', url: `${props.pathname()}?free=true` },
+    { name: 'Free Coins', url: `?free=true` },
     { name: 'Fairness', url: URL.FAIRNESS }
   ]
 
@@ -204,7 +205,7 @@ const SubHeader = (props) => {
                 <For each={toggles}>
                   {(toggle) => (
                     <NavLink
-                      href={`${toggle.url}`}
+                      href={`${toggle.name === 'Affiliates' || toggle.name === 'Free Coins' ? `${location.pathname}${toggle.url}` : toggle.url}`}
                       class={`center gap-3 cursor-pointer group relative`}
                       onClick={(e) => {
                         if (toggle.url == URL.FAIRNESS) {
