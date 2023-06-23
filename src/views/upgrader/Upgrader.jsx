@@ -26,6 +26,7 @@ export const [isGameStarted, setIsGameStarted] = createSignal(false);
 export const [isAnimationShown, setIsAnimationShown] = createSignal(false);
 
 export const {socket, toastr, userObject} = injector;
+const [prevRoll, setPrevRoll] = createSignal("");
 
 export const bet = () => {
   // spin(0.5, 4000);
@@ -46,14 +47,17 @@ export const bet = () => {
         if (data.hash) {
           setCurrentGameId(data.hash);
         }
+        if (prevRoll()) {
+          setCurrentGameRoll(prevRoll());
+        }
         if (data.roll) {
-          setCurrentGameRoll(data.roll);
+          setPrevRoll(data.roll)
         }
       }
     );
   } else {
     setCurrentGameId("");
-    setCurrentGameRoll("");
+    setPrevRoll("");
     toastr({
       msg: "Minimum bet is 50 coins",
       error: true,
