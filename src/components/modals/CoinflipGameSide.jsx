@@ -244,34 +244,14 @@ const CoinflipGameSide = (props) => {
         {props.data()?.status === 'open' &&
           !props.left &&
           userObject?.user?.id !== props.data()?.creator?.id && (
-            <NavLink
-              href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.data()?.id}&value=${
-                props.data()?.creator?.value
-              }`}
-              class='md:w-[197px] h-10 flex items-center justify-center'
+              <div class='mb-[26px] shadow-button w-[160px] h-[26px] rounded-4 flex items-center justify-center font-bold text-14 font-SpaceGrotesk text-gray-9aa'
+            style={{
+              background:
+                'linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)'
+            }}
             >
-              <CaseGradientButton isFullWidth>
-                <div class='flex justify-center font-SpaceGrotesk items-center md:gap-2 flex-wrap md:flex-nowrap'>
-                  <span
-                    class='text-yellow-ffb text-14 font-bold'
-                    style={{
-                      'text-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
-                    }}
-                  >
-                    {i18n.t('coinflip.Join')}
-                  </span>
-                  <div class='flex items-center gap-[9px]'>
-                    <Coin width='5' />
-                    <span class='font-bold text-14 font-SpaceGrotesk coinflip-game--price'>
-                      {Number(props.data()?.creator?.value || 0).toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                      })}
-                    </span>
-                  </div>
-                </div>
-              </CaseGradientButton>
-            </NavLink>
+              Waiting for player...
+            </div>
           )}
         {props.data()?.status === 'open' &&
           !props.left &&
@@ -295,6 +275,7 @@ const CoinflipGameSide = (props) => {
               props.left ? 'items-start' : 'items-end'
             } gap-4 px-6 md:px-8 lg:pl-9 lg:pr-[46px] pb-2 pt-2 lg:pt-5`}
           >
+            <div class={`${!props.left && 'flex-row-reverse'} flex gap-[18px]`}>
             <div
               class='flex items-center justify-center px-1.5 py-0.5 rounded-4 border border-transparent'
               style={{
@@ -305,6 +286,12 @@ const CoinflipGameSide = (props) => {
               <span class='uppercase coinflip-label-bronze font-bold text-[9.5px]'>
                 {props.data()?.[props.left ? 'creator' : 'opponent']?.items?.length || 0} items
               </span>
+            </div>
+            <span class='capitalize text-gray-9aa font-bold text-14 font-SpaceGrotesk'>
+              {((Number(props.data()?.[props.left ? "creator" : "opponent"]?.value || 0) / (Number(props.data()?.creator?.value || 0) + Number(props.data()?.opponent?.value || 0)) * 100) || 0).toFixed(2)}%{' '}
+              {i18n.t('coinflip.Win chance')}
+            </span>
+
             </div>
             <div class={`${isLoser() && props.isEndShow() && 'opacity-40'} w-full`}>
               <ListItems

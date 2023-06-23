@@ -169,7 +169,7 @@ const Coinflip = ({ loaded }) => {
               <span>Players</span>
               <span class='hidden lg:block'>Items</span>
             </div>
-            <div class='hidden md:grid grid-cols-[1fr_1fr] fourk:grid-cols-[1.5fr_1fr] place-items-end items-center'>
+            <div class='hidden md:grid grid-cols-[1fr_1fr] fourk:grid-cols-[2fr_25rem] place-items-end items-center'>
               <span class='col-san-2'>Amount</span>
               <span>Actions</span>
             </div>
