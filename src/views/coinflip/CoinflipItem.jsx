@@ -247,7 +247,7 @@ const CoinflipItem = (props) => {
           </div>
         </div>
       </div>
-      <div class='flex md:grid md:grid-cols-[1fr_1fr_2fr] items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
+      <div class='flex md:grid md:grid-cols-[1fr_1fr_2fr] place-items-end items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16'>
         <div class='w-[100px]'>
           {props.game?.isDoubleDown && (
             <div
@@ -328,11 +328,11 @@ const CoinflipItem = (props) => {
             </span>
           </div>
         </div>
-        <div class='flex items-center gap-2 w-full md:justify-end'>
-        {(props.game?.status === 'spinning' || props.game?.status === 'ended') && (
+        <div class='flex items-center place-items-end  gap-2 w-[180px] xxl:w-[197px] md:justify-end'>
+        {(props.game?.status === 'spinning' || props.game?.status === 'ended' || userObject.user.id === props.game?.creator?.id) && (
             <NavLink
               as='div'
-              class={`px-4 fourk:w-[195px] text-gray-9a h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
+              class={`px-4 w-full text-gray-9a h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
               href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
               style={{
                 background:
@@ -340,7 +340,7 @@ const CoinflipItem = (props) => {
                 'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12)'
               }}
             >
-              {props.game?.status === 'ended' && <div class='w-[15.65px] h-[16.25px]'>
+              {((userObject.user.id === props.game?.creator?.id && props.game?.status === 'ended') || props.game?.status === 'ended') && <div class='w-[15.65px] h-[16.25px]'>
                 <svg
                   width='16'
                   height='17'
@@ -356,12 +356,12 @@ const CoinflipItem = (props) => {
                   />
                 </svg>
               </div>}
-              {props.game?.status === 'spinning' && <EyeIcon />}
+              {((userObject.user.id === props.game?.creator?.id && props.game?.status === 'open') || props.game?.status === 'spinning') && <EyeIcon />}
               <span class='text-gray-9a font-bold text-14 font-SpaceGrotesk capitalize'>
-                {props.game?.status === 'ended' && i18n.t('coinflip.View outcome')}
-                {props.game?.status === 'spinning' && 'View Coinflip'}
+                {((userObject.user.id === props.game?.creator?.id && props.game?.status === 'ended') || props.game?.status === 'ended') && i18n.t('coinflip.View outcome')}
+                {((userObject.user.id === props.game?.creator?.id && props.game?.status === 'open') || props.game?.status === 'spinning') && 'View Coinflip'}
               </span>
-              {props.game?.status === 'ended' && <img
+              {((userObject.user.id === props.game?.creator?.id && props.game?.status === 'ended') || props.game?.status === 'ended') && <img
                 alt='coin'
                 class='w-6 h-6 absolute -right-2.5 bottom-6'
                 src={props.game?.side === 1 ? RedCoin : BlackCoin}
@@ -372,7 +372,7 @@ const CoinflipItem = (props) => {
             <div
               class={`px-3 flex items-center ${
                 props.game?.status === 'counting' && 'justify-center'
-              } w-[136px] h-10 rounded-4 gap-[18px]`}
+              } w-[140px] xxl:w-full h-10 rounded-4 gap-[18px]`}
               style={{
                 background: 'rgba(255, 255, 255, 0.02)',
                 'box-shadow': '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
@@ -409,12 +409,12 @@ const CoinflipItem = (props) => {
               </div>
             </div>
           )}
-          {props.game?.status === 'open' && (
+          {props.game?.status === 'open' && userObject.user.id !== props.game?.creator?.id && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_JOIN}?id=${props.id}&value=${props.game?.creator?.value}`}
+                class='w-[140px] xxl:w-full'
               >
                 <CaseGradientButton isFullWidth>
-                  <div class='flex justify-center items-center px-4 md:w-[120px] xxl:w-[136px] h-10'>
                     <span
                       class='text-yellow-ffb font-SpaceGrotesk text-16 font-bold'
                       style={{
@@ -423,7 +423,6 @@ const CoinflipItem = (props) => {
                     >
                       {i18n.t('coinflip.Join')}
                     </span>
-                  </div>
                 </CaseGradientButton>
               </NavLink>
           )}
