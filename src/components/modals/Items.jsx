@@ -78,6 +78,7 @@ const Items = (_props) => {
                 //     ? "border border-yellow-ffb"
                 //     : ""
                 // }`}
+                data-withdrow-item
                 onClick={() => {
                   if(Number(item.locked) != 1) {
                     props.toggle(item);
