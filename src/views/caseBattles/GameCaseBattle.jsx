@@ -366,14 +366,13 @@ const GameCaseBattle = (props) => {
 
   createEffect(() => {
     socket.on(`battles:update`, (data) => {
-      // console.log(data)
-      if (data.gameId === Number(game().id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
       }
     });
 
     socket.on(`battles:countdown`, (data) => {
-      if (data.gameId === Number(game().id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
         setCurrentCountdown(data.data.currentCountdown);
         playCountDownSound();
