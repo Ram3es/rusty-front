@@ -212,11 +212,16 @@ const Unbox = (props) => {
                     src={item.image ? item.image.replace('{url}', window.origin) : ''}
                     alt={item.name}
                     style={{
-                            filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
-                          }}
+                      filter: `drop-shadow(0px 0px 17.9649px rgba(255, 255, 255, 0.12))`,
+                      transition: `all 0.15s ease-in-out`,
+                    }}
                   />
                   <div class='w-auto h-[127px]'/>
-                  <div class='w-full block group-hover:hidden'>
+                  <div class='w-full block group-hover:scale-x-0'
+                    style={{
+                      transition: `all 0.15s ease-in-out`,
+                  }}
+                  >
                     <TransparentButton
                       callbackFn={() => setTagsToFilter(item.tags)}
                       isActive={false}
@@ -225,7 +230,11 @@ const Unbox = (props) => {
                       {item.name}
                     </TransparentButton>
                   </div>
-                  <div class='w-full hidden group-hover:block'>
+                  <div class='absolute bottom-5 w-[181px] scale-x-0 group-hover:scale-x-100'
+                    style={{
+                      transition: `all 0.15s ease-in-out`,
+                  }}
+                  >
                     <GradientButton isFullWidth={true} isActive={true}>
                       View Case
                     </GradientButton>
