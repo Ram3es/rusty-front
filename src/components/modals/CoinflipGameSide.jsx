@@ -1,4 +1,3 @@
-import { createEffect } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 import { useI18n } from '../../i18n/context'
 import { URL } from '../../libraries/url'
@@ -53,10 +52,6 @@ const CoinflipGameSide = (props) => {
       (!props.left && props.data()?.creator?.side === 2)
     )
   }
-
-  createEffect(() => {
-    console.log('side', props.data());
-  })
 
   return (
     <div class='w-full flex flex-col z-10 h-full relative'>
