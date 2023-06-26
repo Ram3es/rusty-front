@@ -1,3 +1,4 @@
+import { createEffect } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 import { useI18n } from '../../i18n/context'
 import { URL } from '../../libraries/url'
@@ -18,7 +19,6 @@ import CaseGradientButton from '../elements/CaseGradientButton'
 import Spiner from '../battle/Spiner'
 import RankLabel from '../chat/RankLabel'
 import EmojiIcon from '../icons/EmojiIcon'
-import { createEffect } from 'solid-js'
 
 const CoinflipGameSide = (props) => {
   const i18n = useI18n()
@@ -141,12 +141,12 @@ const CoinflipGameSide = (props) => {
             >
               <Ranks
                 width={5}
-                staff={props.data()?.[props.left ? 'creator' : 'opponent']?.rank}
-                rank={props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league}
+                staff={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.rank ?? 0 : 7}
+                rank={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league ?? 'default' : 'Staff'}
               />
               <RankLabel
-                staff={props.data()?.[props.left ? 'creator' : 'opponent']?.rank}
-                rank={props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league}
+                staff={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.rank ?? 0 : 7}
+                rank={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league ?? 'default' : 'Staff'}
               />
               <span
                 class='text-gray-9aa truncate max-w-[100px]'
@@ -159,7 +159,7 @@ const CoinflipGameSide = (props) => {
                     )
                 }}
               >
-                {props.data()?.[props.left ? 'creator' : 'opponent']?.username}
+                {props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? 'Bot Terry' : props.data()?.[props.left ? 'creator' : 'opponent']?.username}
               </span>
             </div>
             <div
