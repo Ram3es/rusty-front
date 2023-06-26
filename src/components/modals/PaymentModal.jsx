@@ -59,7 +59,6 @@ const PaymentModal = (props) => {
     value: 0,
     amount: 0,
   });
-
   const [search, setSearch] = createSignal("");
 
   const [descending, setDescending] = createSignal(false);
@@ -273,6 +272,8 @@ const PaymentModal = (props) => {
       const index = prev.findIndex((i) => {
         return item.id === i.id;
       });
+
+      console.log(index,'index')
       if (
         !props.searchParams?.withdraw ||
         (props.searchParams?.withdraw && activeItems().length < 20)
@@ -885,7 +886,7 @@ const PaymentModal = (props) => {
                     <For each={activeItems()}>
                       {(item, index) => (
                         <div class="relative">
-                          <div class="absolute right-0.5 top-0.5 z-10">
+                          <div class="absolute right-0.5 top-0.5 z-20">
                             <RoundedButton onClick={() => toggle(item)}>
                               <svg
                                 width="10"
