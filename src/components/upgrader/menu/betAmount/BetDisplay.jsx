@@ -32,6 +32,12 @@ const BetDisplay = () => {
     setBetValue(0);
   };
 
+  const onFocus = (e) => {
+    if(e.target.value == 0){
+      setBetValue(null)
+    }
+  }
+
   const inputValueUpdate = (e) => {
     const maxPrice = Math.round(activeItem()?.price * 0.9);
     const maxBet = userObject.user.balance || 9999999;
@@ -88,6 +94,7 @@ const BetDisplay = () => {
               onInput={(e) => inputValueUpdate(e)}
               value={betValue()}
               placeholder='0'
+              onFocus={onFocus}
               disabled={!activeItem()}
             />
         </div>
