@@ -45,7 +45,6 @@ const CaseBattles = (props) => {
       })
       socket.on(`battles:update`, (data) => {
         setGames(data.gameId, data.data)
-        console.log(data.data, 'DATA<<<<<<<<<:')
       })
     }
   })
@@ -406,22 +405,20 @@ const CaseBattles = (props) => {
                             widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
                             opacityClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex + 1]?.winner && 'opacity-20'}
                           />
-                          {userIndex + 1 !== games[id]?.playersQty ? (
-                            <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
-                              {games[id]?.cursed === 1 && (
-                                <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
-                              )}
-                              {games[id]?.mode === 'group' && games[id]?.cursed !== 1 && (
-                                <BattleGroupIcon additionClasses='text-[#5AC3FF] w-3' />
-                              )}
-                              {(games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
-                                games[id]?.cursed !== 1 && (
-                                  <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
-                                )}
-                            </span>
+                          {userIndex + 1 !== games[id]?.playersQty &&
+                          (games[id]?.mode === "royal" ||
+                            games[id]?.mode === "group" ||
+                            (games[id]?.mode === "team" &&
+                              userIndex !== 0 &&
+                              userIndex !== 2)) &&
+                          ((games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
+                          games[id]?.cursed !== 1 ? (
+                            <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
+                          ) : games[id]?.cursed === 1 ? (
+                            <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
                           ) : (
-                            ''
-                          )}
+                            <BattleGroupIcon additionClasses='text-[#5AC3FF] w-3' />
+                          ))}
                         </>
                       )}
                     </For>
