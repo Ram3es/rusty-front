@@ -10,11 +10,11 @@ import Coin from '../../../utilities/Coin'
 
 const stats = [
   {
-    type: 'total_deposited',
+    type: 'deposit',
     name: { en: 'total deposited', es: 'total depositado', ru: 'суммарный депозит' }
   },
   {
-    type: 'total_won',
+    type: 'withdraw',
     name: {
       en: 'total won',
       es: 'total ganado',

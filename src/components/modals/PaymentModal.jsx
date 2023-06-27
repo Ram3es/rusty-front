@@ -89,7 +89,7 @@ const PaymentModal = (props) => {
       temp.value += item.price;
     }
     setSettings(temp);
-    if (props.searchParams?.deposit && props.searchParams?.crypto && crypto) {
+    if (props.searchParams?.deposit && props.searchParams?.crypto && props.searchParams.method) {
       socket.emit(
         "crypto:address:get",
         {
@@ -243,7 +243,6 @@ const PaymentModal = (props) => {
       updateItems(false);
     } else if (!props.searchParams?.withdraw) {
       setItemsLimit(45);
-      setActiveItems([]);
     }
 
     socket.on("steam:market:update", () => {
@@ -273,7 +272,7 @@ const PaymentModal = (props) => {
         return item.id === i.id;
       });
 
-      console.log(index,'index')
+
       if (
         !props.searchParams?.withdraw ||
         (props.searchParams?.withdraw && activeItems().length < 20)
