@@ -123,7 +123,7 @@ const CoinflipGameSide = (props) => {
         {(props.left || props.data()?.status !== 'open') && (
           <div class='flex flex-col gap-[9px]'>
             <div
-              class={`hidden md:flex items-start shrink-0 ${
+              class={`hidden md:flex items-center shrink-0 ${
                 !props.left && 'justify-end'
               } gap-2 text-sm font-bold h-[26px] ${
                 props.data()?.isDoubleDown && props.left && 'w-[160px]'
