@@ -171,12 +171,12 @@ const CaseBattles = (props) => {
             each={Object.keys(games)?.sort((a, b) => {
               const calculations =
               -(
-                  (games[a].status == 'open' ? 2 : games[a].status == 'playing' ? 1 : 0) +
+                  (games[a].status == 'open'  ? 2 : games[a].status == 'playing' || games[a].status == 'pending' ? 1 : 0) +
                   (1 - 1 / games[a].totalValue * (sortBy() === sortByOptions[0] ? 1 : -1))
                 ) +
-                ((games[b].status == "open"
+                ((games[b].status == "open"  
                   ? 2 
-                  : games[b].status == "playing"
+                  : games[b].status == "playing" || games[b].status == "pending"
                   ? 1
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
@@ -219,6 +219,8 @@ const CaseBattles = (props) => {
                         </span>
                       ) : games[id].status == 'playing' ? (
                         <span class='text-13 font-SpaceGrotesk font-bold'>STARTED</span>
+                      ) :  games[id].status == 'pending' ? (
+                        <span class='text-13 font-SpaceGrotesk font-bold'>PENDING</span>
                       ) : (
                         <span class='text-13 font-SpaceGrotesk font-bold'>ENDED</span>
                       )}
@@ -227,20 +229,21 @@ const CaseBattles = (props) => {
 
                   <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
-                      isActive={games[id]?.status === 'open' || games[id]?.status === 'playing'}
+                      isActive={games[id]?.status === 'open' || games[id]?.status === 'playing' || games[id]?.status === 'pending'}
                       classes='rounded-l-6'
                     >
                       <div
                         class={`w-16 center flex-col gap-2 ${
                           games[id]?.status !== 'open' &&
                           games[id]?.status !== 'playing' &&
+                          games[id]?.status !== 'pending' &&
                           'brightness-50 grayscale'
                         }`}
                       >
                         <CasesCounter
                           roundsCount={games[id]?.cases?.length}
                           currentRound={
-                            games[id]?.status === 'open' || games[id]?.status === 'playing'
+                            games[id]?.status === 'open' || games[id]?.status === 'playing' || games[id]?.status === 'pending'
                               ? games[id]?.currentRound
                               : games[id]?.currentRound + 1
                           }
@@ -315,11 +318,12 @@ const CaseBattles = (props) => {
                       </Show>
                       <Show when={games[id]?.status === 'playing'}>
                         <div
-                          class='flex items-center w-max relative transition-transform duration-75'
+                          class='flex items-center h-full w-max relative transition-transform duration-75'
                           style={{
                             transform: `translateX(-${
                               138 * (games[id].currentRound > 1 ? games[id].currentRound - 1 : 0)
-                            }px)`
+                            }px)`,
+                            transition: "all 0.4s ease-in-out",
                           }}
                         >
                           {games[id].currentRound >= 0 && (
@@ -401,22 +405,20 @@ const CaseBattles = (props) => {
                             widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
                             opacityClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex + 1]?.winner && 'opacity-20'}
                           />
-                          {userIndex + 1 !== games[id]?.playersQty ? (
-                            <span class={`flex items-center justify-center ${games[id]?.status === 'ended' && 'opacity-20'}`}>
-                              {games[id]?.cursed === 1 && (
-                                <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
-                              )}
-                              {games[id]?.mode === 'group' && games[id]?.cursed !== 1 && (
-                                <BattleGroupIcon additionClasses='text-[#5AC3FF] w-3' />
-                              )}
-                              {(games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
-                                games[id]?.cursed !== 1 && (
-                                  <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
-                                )}
-                            </span>
+                          {userIndex + 1 !== games[id]?.playersQty &&
+                          (games[id]?.mode === "royal" ||
+                            games[id]?.mode === "group" ||
+                            (games[id]?.mode === "team" &&
+                              userIndex !== 0 &&
+                              userIndex !== 2)) &&
+                          ((games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
+                          games[id]?.cursed !== 1 ? (
+                            <BattleRoyaleIcon additionClasses='w-3 text-yellow-ffb' />
+                          ) : games[id]?.cursed === 1 ? (
+                            <BattleCursedIcon additionClasses='text-[#DAFD09] w-4' />
                           ) : (
-                            ''
-                          )}
+                            <BattleGroupIcon additionClasses='text-[#5AC3FF] w-3' />
+                          ))}
                         </>
                       )}
                     </For>
@@ -444,7 +446,7 @@ const CaseBattles = (props) => {
                           <span class='text-gradient'>{games[id]?.fundBattle ? (games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100))).toFixed() : games[id]?.totalValue}</span>
                         </div>
                       </YellowGradientButton>
-                    ) : games[id].status === 'playing' ? (
+                    ) : games[id].status === 'playing' || games[id]?.status === 'pending' ? (
                       <div
                         class={`h-10 px-4 rounded-4 flex center cursor-pointer w-full bg-white bg-opacity-5`}
                         style={{
@@ -453,7 +455,7 @@ const CaseBattles = (props) => {
                         }}
                       >
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
-                          <span class='w-max'>In Play:</span>
+                          <span class='w-max'>{games[id].status === 'playing' ? 'In Play' : 'Pending'}:</span>
                           <Coin width='5' />
                           <span class='text-gradient'>{games[id]?.totalValue}</span>
                         </div>

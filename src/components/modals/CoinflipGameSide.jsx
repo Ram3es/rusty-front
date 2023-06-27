@@ -18,7 +18,6 @@ import CaseGradientButton from '../elements/CaseGradientButton'
 import Spiner from '../battle/Spiner'
 import RankLabel from '../chat/RankLabel'
 import EmojiIcon from '../icons/EmojiIcon'
-import { createEffect } from 'solid-js'
 
 const CoinflipGameSide = (props) => {
   const i18n = useI18n()
@@ -53,10 +52,6 @@ const CoinflipGameSide = (props) => {
       (!props.left && props.data()?.creator?.side === 2)
     )
   }
-
-  createEffect(() => {
-    console.log('side', props.data());
-  })
 
   return (
     <div class='w-full flex flex-col z-10 h-full relative'>
@@ -128,7 +123,7 @@ const CoinflipGameSide = (props) => {
         {(props.left || props.data()?.status !== 'open') && (
           <div class='flex flex-col gap-[9px]'>
             <div
-              class={`hidden md:flex items-start shrink-0 ${
+              class={`hidden md:flex items-center shrink-0 ${
                 !props.left && 'justify-end'
               } gap-2 text-sm font-bold h-[26px] ${
                 props.data()?.isDoubleDown && props.left && 'w-[160px]'
@@ -141,12 +136,12 @@ const CoinflipGameSide = (props) => {
             >
               <Ranks
                 width={5}
-                staff={props.data()?.[props.left ? 'creator' : 'opponent']?.rank}
-                rank={props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league}
+                staff={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.rank ?? 0 : 7}
+                rank={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league ?? 'default' : 'Staff'}
               />
               <RankLabel
-                staff={props.data()?.[props.left ? 'creator' : 'opponent']?.rank}
-                rank={props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league}
+                staff={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.rank ?? 0 : 7}
+                rank={!props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? props.data()?.[props.left ? 'creator' : 'opponent']?.level?.league ?? 'default' : 'Staff'}
               />
               <span
                 class='text-gray-9aa truncate max-w-[100px]'
@@ -159,7 +154,7 @@ const CoinflipGameSide = (props) => {
                     )
                 }}
               >
-                {props.data()?.[props.left ? 'creator' : 'opponent']?.username}
+                {props.data()?.[props.left ? 'creator' : 'opponent']?.bot ? 'Bot Terry' : props.data()?.[props.left ? 'creator' : 'opponent']?.username}
               </span>
             </div>
             <div

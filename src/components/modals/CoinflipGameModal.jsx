@@ -31,6 +31,7 @@ const CoinflipGameModal = (props) => {
       socket.emit('coinflip:connect', {}, (data) => {
         const id = props.searchParams?.id
         if (!data.error && data.data.games[id]) {
+          console.log(data.data.games[id])
           setData(data.data.games[id])
         }
       })
