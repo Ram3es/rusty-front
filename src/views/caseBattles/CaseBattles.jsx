@@ -323,7 +323,8 @@ const CaseBattles = (props) => {
                           style={{
                             transform: `translateX(-${
                               138 * (games[id].currentRound > 1 ? games[id].currentRound - 1 : 0)
-                            }px)`
+                            }px)`,
+                            transition: "all 0.4s ease-in-out",
                           }}
                         >
                           {games[id].currentRound >= 0 && (
