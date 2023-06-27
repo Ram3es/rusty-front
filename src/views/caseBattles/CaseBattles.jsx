@@ -45,6 +45,7 @@ const CaseBattles = (props) => {
       })
       socket.on(`battles:update`, (data) => {
         setGames(data.gameId, data.data)
+        console.log(data.data, 'DATA<<<<<<<<<:')
       })
     }
   })
@@ -171,12 +172,12 @@ const CaseBattles = (props) => {
             each={Object.keys(games)?.sort((a, b) => {
               const calculations =
               -(
-                  (games[a].status == 'open' ? 2 : games[a].status == 'playing' ? 1 : 0) +
+                  (games[a].status == 'open'  ? 2 : games[a].status == 'playing' || games[a].status == 'pending' ? 1 : 0) +
                   (1 - 1 / games[a].totalValue * (sortBy() === sortByOptions[0] ? 1 : -1))
                 ) +
-                ((games[b].status == "open"
+                ((games[b].status == "open"  
                   ? 2 
-                  : games[b].status == "playing"
+                  : games[b].status == "playing" || games[b].status == "pending"
                   ? 1
                   : 0) +
                   (1 - 1 / games[b].totalValue) );
@@ -219,6 +220,8 @@ const CaseBattles = (props) => {
                         </span>
                       ) : games[id].status == 'playing' ? (
                         <span class='text-13 font-SpaceGrotesk font-bold'>STARTED</span>
+                      ) :  games[id].status == 'pending' ? (
+                        <span class='text-13 font-SpaceGrotesk font-bold'>PENDING</span>
                       ) : (
                         <span class='text-13 font-SpaceGrotesk font-bold'>ENDED</span>
                       )}
@@ -227,20 +230,21 @@ const CaseBattles = (props) => {
 
                   <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
-                      isActive={games[id]?.status === 'open' || games[id]?.status === 'playing'}
+                      isActive={games[id]?.status === 'open' || games[id]?.status === 'playing' || games[id]?.status === 'pending'}
                       classes='rounded-l-6'
                     >
                       <div
                         class={`w-16 center flex-col gap-2 ${
                           games[id]?.status !== 'open' &&
                           games[id]?.status !== 'playing' &&
+                          games[id]?.status !== 'pending' &&
                           'brightness-50 grayscale'
                         }`}
                       >
                         <CasesCounter
                           roundsCount={games[id]?.cases?.length}
                           currentRound={
-                            games[id]?.status === 'open' || games[id]?.status === 'playing'
+                            games[id]?.status === 'open' || games[id]?.status === 'playing' || games[id]?.status === 'pending'
                               ? games[id]?.currentRound
                               : games[id]?.currentRound + 1
                           }
@@ -436,7 +440,7 @@ const CaseBattles = (props) => {
                           <span class='text-gradient'>{games[id]?.fundBattle ? (games[id]?.totalValue - (games[id]?.totalValue * (games[id]?.fundPercent / 100))).toFixed() : games[id]?.totalValue}</span>
                         </div>
                       </YellowGradientButton>
-                    ) : games[id].status === 'playing' ? (
+                    ) : games[id].status === 'playing' || games[id]?.status === 'pending' ? (
                       <div
                         class={`h-10 px-4 rounded-4 flex center cursor-pointer w-full bg-white bg-opacity-5`}
                         style={{
@@ -445,7 +449,7 @@ const CaseBattles = (props) => {
                         }}
                       >
                         <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
-                          <span class='w-max'>In Play:</span>
+                          <span class='w-max'>{games[id].status === 'playing' ? 'In Play' : 'Pending'}:</span>
                           <Coin width='5' />
                           <span class='text-gradient'>{games[id]?.totalValue}</span>
                         </div>
