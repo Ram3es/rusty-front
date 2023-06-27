@@ -53,7 +53,7 @@ const ListItems = (_props) => {
           )}
         </For>
       </div>
-      <div class='m-auto absolute inset-0 flex items-center justify-center'>
+      <div class='m-auto absolute inset-0 -z-10 flex items-center justify-center'>
         <PageLoader size='small' isShown={!isItemsLoaded()} />
       </div>
     </div>
