@@ -46,12 +46,13 @@ const Items = (_props) => {
     console.log("props items", props.items());
 
     if(props.items()?.length > 0) return;
-
-    setIsItemsLoaded(false);
+    
+    // setIsItemsLoaded(false);
   })
 
   createEffect(() => {
     if (!isItemsLoaded() && props?.items()?.length) {
+      console.log("------------------update", isItemsLoaded())
       checkImageLoaded()
     }
   })
@@ -71,7 +72,7 @@ const Items = (_props) => {
               props.disabled ? "" : "hidden"
             } z-20 bg-dark-16 bg-opacity-50 absolute bottom-0 left-0`}
           /> */}
-          <For each={props.items()}>
+          <For each={props.items()} fallback={<PageLoader size="small" />}>
             {(item, index) => (<div
                 // class={`rounded-4 ${
                 //   props.activeItems().findIndex((i) => item.id === i.id) >= 0
@@ -91,9 +92,9 @@ const Items = (_props) => {
           
           
         </div>
-        <div class={`absolute left-0 top-0 w-full h-full ${!isItemsLoaded() ? 'center' : 'hidden'} `}>
+        {/* <div class={`absolute left-0 top-0 w-full h-full ${!isItemsLoaded() ? 'center' : 'hidden'} `}>
           <PageLoader size="small" isShown={!isItemsLoaded()} />
-        </div>
+        </div> */}
         
       </div>
     </>
