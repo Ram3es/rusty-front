@@ -71,7 +71,7 @@ const Items = (_props) => {
               props.disabled ? "" : "hidden"
             } z-20 bg-dark-16 bg-opacity-50 absolute bottom-0 left-0`}
           /> */}
-          <For each={props.items()} fallback={<PageLoader size="small" isShown={true} />}>
+          <For each={props.items()}>
             {(item, index) => (<div
                 // class={`rounded-4 ${
                 //   props.activeItems().findIndex((i) => item.id === i.id) >= 0

@@ -259,7 +259,7 @@ const GameCaseBattle = (props) => {
     socket.emit(
       "battles:callbot",
       {
-        gameId: Number(props.searchParams.id),
+        gameId: Number(game().id),
         team: getJoinTeam(game().mode, player_index),
         player_index,
       },
@@ -273,7 +273,7 @@ const GameCaseBattle = (props) => {
     socket.emit(
       "battles:join",
       {
-        gameId: Number(props.searchParams.id),
+        gameId: Number(game().id),
         team: getJoinTeam(game().mode, player_index),
         player_index,
         urlKey: props.searchParams.key,
@@ -366,14 +366,13 @@ const GameCaseBattle = (props) => {
 
   createEffect(() => {
     socket.on(`battles:update`, (data) => {
-      // console.log(data)
-      if (data.gameId === Number(props.searchParams.id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
       }
     });
 
     socket.on(`battles:countdown`, (data) => {
-      if (data.gameId === Number(props.searchParams.id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
         setCurrentCountdown(data.data.currentCountdown);
         playCountDownSound();
@@ -382,6 +381,7 @@ const GameCaseBattle = (props) => {
   });
 
   onCleanup(() => {
+    console.log('onCleanup!!!!!!!!!!!!!!');
     setSpinLists([]);
     setSpinIndexes(null);
     setSpinOffsets([]);
