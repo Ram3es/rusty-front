@@ -391,7 +391,7 @@ const CaseUnboxing = (props) => {
                   : "case-opening-wrapper-horizontal-yellow horisontal-borders"
               } overflow-hidden ${
                 !userObject.authenticated ||
-                (props.searchParams.daily &&
+                (fairnessHash().length <= 0 && props.searchParams.daily &&
                   (notAvailableCases().includes(
                     convertRomanToNormal(rollCase().name)
                   ) ||
