@@ -315,7 +315,7 @@ const CaseBattles = (props) => {
                       </Show>
                       <Show when={games[id]?.status === 'playing'}>
                         <div
-                          class='flex items-center w-max relative transition-transform duration-75'
+                          class='flex items-center h-full w-max relative transition-transform duration-75'
                           style={{
                             transform: `translateX(-${
                               138 * (games[id].currentRound > 1 ? games[id].currentRound - 1 : 0)
