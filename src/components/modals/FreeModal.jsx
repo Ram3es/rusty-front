@@ -244,7 +244,7 @@ const FreeModal = (props) => {
               <div class="flex items-center gap-2">
                 <div class="w-4 h-4 border border-white/10 rounded-4" />
                 <p class="text-gray-9a text-12">
-                  You <span class="text-yellow-ffb">must</span> joined our Discord{" "}
+                  You <span class="text-yellow-ffb">must</span> verify you joined our Discord{" "}
                   <a
                     class="text-white underline"
                     href={API + "/discord"}
