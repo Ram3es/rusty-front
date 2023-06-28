@@ -9,37 +9,42 @@ const ListItems = (_props) => {
   const [isItemsLoaded, setIsItemsLoaded] = createSignal(false)
   let paymentModalWrapper
 
-  const checkImageLoaded = () => {
-    const updateStatus = (images) => {
-      setIsItemsLoaded(images.map((image) => image.complete).every((item) => item === true))
-    }
+  // const checkImageLoaded = () => {
+  //   const updateStatus = (images) => {
+  //     setIsItemsLoaded(images.map((image) => image.complete).every((item) => item === true))
+  //   }
 
-    const imagesLoaded = Array.from(paymentModalWrapper.querySelectorAll('img'))
-    if (imagesLoaded.length === 0) {
-      return
-    }
-    imagesLoaded.forEach((image) => {
-      image.addEventListener('load', () => updateStatus(imagesLoaded), {
-        once: true
-      })
-      image.addEventListener('error', () => updateStatus(imagesLoaded), {
-        once: true
-      })
-    })
-  }
+  //   const imagesLoaded = Array.from(paymentModalWrapper.querySelectorAll('img'))
+  //   if (imagesLoaded.length === 0) {
+  //     return
+  //   }
+  //   imagesLoaded.forEach((image) => {
+  //     image.addEventListener('load', () => updateStatus(imagesLoaded), {
+  //       once: true
+  //     })
+  //     image.addEventListener('error', () => updateStatus(imagesLoaded), {
+  //       once: true
+  //     })
+  //   })
+  // }
 
+  // createEffect(() => {
+  //   if (props.items()?.length > 0) return
+
+  //   setIsItemsLoaded(false)
+  // })
+
+  // createEffect(() => {
+  //   if (!isItemsLoaded() && props?.items()?.length) {
+  //     checkImageLoaded()
+  //   }
+  // })
   createEffect(() => {
-    if (props.items()?.length > 0) return
+    console.log("props items", props.items())
 
-    setIsItemsLoaded(false)
+    if(props.items()?.length > 0) setIsItemsLoaded(true)
+    
   })
-
-  createEffect(() => {
-    if (!isItemsLoaded() && props?.items()?.length) {
-      checkImageLoaded()
-    }
-  })
-
 
   return (
     <div class='w-full justify-center items-center h-[460px] overflow-y-scroll'>
