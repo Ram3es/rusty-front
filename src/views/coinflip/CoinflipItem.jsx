@@ -385,7 +385,7 @@ const CoinflipItem = (props) => {
                     class='w-full h-full rounded-full'
                     src={
                       props.game?.opponent?.avatar ??
-                      'https://avatars.cloudflare.steamstatic.com/063dc7e51bde42a6b4580e976a70efa19fb12e73_full.jpg'
+                      Logo
                     }
                   />
                 </div>
