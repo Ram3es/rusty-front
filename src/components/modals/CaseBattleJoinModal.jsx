@@ -52,7 +52,7 @@ const CaseBattleJoinModal = (props) => {
             navigate(`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${gameId}`)
             props?.handleClose()
           } else {
-            toastr({error: data.error, msg: data.message})
+            toastr({error: data.error, msg: data.msg})
           }
         }
       )

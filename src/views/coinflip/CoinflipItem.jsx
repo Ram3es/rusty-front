@@ -73,8 +73,8 @@ const CoinflipItem = (props) => {
       style={{
         background:
           `radial-gradient(100% 991.18% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), 
-           radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)`
-           
+           radial-gradient(100% 991.18% at 100% 50%, #1F2344 0%, #23253D 100%)`,
+           transform: 'translate3d(0,0,0)' 
       }}
     >
       <div class='flex items-center h-full'>
@@ -385,7 +385,7 @@ const CoinflipItem = (props) => {
                     class='w-full h-full rounded-full'
                     src={
                       props.game?.opponent?.avatar ??
-                      'https://avatars.cloudflare.steamstatic.com/063dc7e51bde42a6b4580e976a70efa19fb12e73_full.jpg'
+                      Logo
                     }
                   />
                 </div>
