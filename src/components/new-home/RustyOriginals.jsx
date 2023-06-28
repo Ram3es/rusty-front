@@ -17,6 +17,8 @@ import MinesIcon from '../icons/MinesIcon'
 import PlinkoIcon from '../icons/PlinkoIcon'
 import { URL } from "../../libraries/url";
 import { NavLink } from "solid-app-router";
+import { gsap } from "gsap";
+
 const gameModes = [
   {
     name: "Case Battles",
@@ -104,8 +106,8 @@ const RustyOriginals = () => {
                       class="w-full"
                       onMouseEnter={e => e.target.play()}
                       onMouseLeave={e => {
-                        e.target.pause()
-                        e.target.currentTime = 0
+                        e.target.pause();
+                        gsap.to(e.target, { duration: e.target.currentTime, currentTime: 0 })
                       }}
                       playsinline
                       muted
@@ -144,8 +146,8 @@ const RustyOriginals = () => {
                         }}
                         onMouseLeave={e => {
                           if (!mode.disabled) {
-                            e.target.pause()
-                            e.target.currentTime = 0
+                            e.target.pause();
+                            gsap.to(e.target, { duration: e.target.currentTime, currentTime: 0 })
                           }
                         }}
                         playsinline
