@@ -20,9 +20,6 @@ import Home from "./views/home/Home";
 // const Home = lazy(() => import("./views/home/Home"))
 
 import {URL} from "./libraries/url";
-import Wheel from "./views/wheel/Wheel";
-import Mines from "./views/mines/Mines";
-import Plinko from "./views/plinko/plinko";
 import Coinflip from "./views/coinflip/Coinflip";
 import CoinflipGameModal from "./components/modals/CoinflipGameModal";
 import PaymentModal from "./components/modals/PaymentModal";
@@ -60,9 +57,7 @@ import {I18nProvider} from "./components/I18nProvider";
 import i18next from "i18next";
 import Rewards from "./views/rewards/Rewards";
 import Case from "./views/case/Case";
-import snowf from "snowf";
 import SubHeader from "./components/header/SubHeader";
-import PageLoader from "./components/PageLoader";
 import Fallback from "./views/Fallback";
 import Unbox from "./views/unbox/Unbox";
 import CaseUnboxing from "./views/unbox/CaseUnboxing";
@@ -71,12 +66,10 @@ import CaseBattles from "./views/caseBattles/CaseBattles";
 import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
-import PlinkoContainer from "./components/plinko/PlinkoContainer";
 
 import { clickingSound } from "./views/caseBattles/GameCaseBattle";
 
 const App = () => {
-  const [pending, start] = useTransition();
 
   const {userObject, setUserObject, setLeaderboards, toggles, socket} =
     Injector;
