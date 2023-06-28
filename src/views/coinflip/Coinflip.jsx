@@ -1,18 +1,13 @@
-import { NavLink } from 'solid-app-router'
 import { onMount, createEffect, createSignal, For } from 'solid-js'
-import { URL } from '../../libraries/url'
-import Coin from '../../utilities/Coin'
+import { createStore } from 'solid-js/store'
+import { NavLink } from 'solid-app-router'
 
-import Bg from '../../assets/img/coinflip/coinflip-background.png'
+import { URL } from '../../libraries/url'
 import RedCoin from '../../assets/img/coinflip/redcoin.svg'
 import BlackCoin from '../../assets/img/coinflip/blackcoin.svg'
-import Brilliants from '../../assets/img/jackpot/brilliants.png'
-import YellowButtonBg from '../../assets/img/animatedButtonBg.jpg'
 import ItemMainBg from '../../assets/img/coinflip/smallRLBg.png'
 
 import injector from '../../injector/injector'
-import { createStore } from 'solid-js/store'
-import CoinflipGame from './Game'
 import { useI18n } from '../../i18n/context'
 import gamesTotalVal from './CoinflipTotal'
 import Fallback from '../Fallback'
@@ -24,7 +19,7 @@ import CoinflipItem from './CoinflipItem'
 
 const SORT_OPTIONS = ['ASC', 'DESC']
 
-const Coinflip = ({ loaded }) => {
+const Coinflip = (props) => {
   const i18n = useI18n()
 
   const { socket, userObject } = injector
@@ -44,7 +39,7 @@ const Coinflip = ({ loaded }) => {
   const { coinflipPageLoaded, onCoinflipPageLoad } = PageLoadState
 
   createEffect(() => {
-    if (loaded()) {
+    if (props.loaded()) {
       socket.emit('coinflip:connect', {}, (data) => {
         if (!data.error) {
           setGames(data.data.games)
@@ -208,40 +203,6 @@ const Coinflip = ({ loaded }) => {
           >
             {(id, i) => <CoinflipItem game={games[id]} id={id} />}
           </For>
-          {/* <For
-            each={Object.keys(games)?.sort((a, b) => {
-              const calculations =
-                -(
-                  (games[a].status == 'open' ||
-                  games[a].status == 'pending' ||
-                  games[a].status == 'counting' ||
-                  games[a].status == 'spining'
-                    ? games[a].creator.id == userObject?.user?.id
-                      ? 2
-                      : 1
-                    : 0) +
-                  (1 - 1 / games[a].creator.value)
-                ) +
-                ((games[b].status == 'open' ||
-                games[b].status == 'pending' ||
-                games[b].status == 'counting' ||
-                games[b].status == 'spining'
-                  ? games[b].creator.id == userObject?.user?.id
-                    ? 2
-                    : 1
-                  : 0) +
-                  (1 - 1 / games[b].creator.value))
-              return calculations * (sortBy() === SORT_OPTIONS[0] ? -1 : 1)
-            })}
-            fallback={
-              <div class='center'>
-                {' '}
-                <p class='text-white uppercase'>{i18n.t('coinflip.No active games')}</p>{' '}
-              </div>
-            }
-          >
-            {(id, i) => <CoinflipGame game={games[id]} id={id} i={i} />}
-          </For> */}
         </div>
       </div>
     </Fallback>
