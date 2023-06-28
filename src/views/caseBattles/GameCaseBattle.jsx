@@ -259,7 +259,7 @@ const GameCaseBattle = (props) => {
     socket.emit(
       "battles:callbot",
       {
-        gameId: Number(props.searchParams.id),
+        gameId: Number(game().id),
         team: getJoinTeam(game().mode, player_index),
         player_index,
       },
@@ -273,7 +273,7 @@ const GameCaseBattle = (props) => {
     socket.emit(
       "battles:join",
       {
-        gameId: Number(props.searchParams.id),
+        gameId: Number(game().id),
         team: getJoinTeam(game().mode, player_index),
         player_index,
         urlKey: props.searchParams.key,
@@ -366,14 +366,13 @@ const GameCaseBattle = (props) => {
 
   createEffect(() => {
     socket.on(`battles:update`, (data) => {
-      // console.log(data)
-      if (data.gameId === Number(props.searchParams.id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
       }
     });
 
     socket.on(`battles:countdown`, (data) => {
-      if (data.gameId === Number(props.searchParams.id) && data.data) {
+      if (data.gameId === Number(game()?.id) && data.data) {
         updateGame(data.data);
         setCurrentCountdown(data.data.currentCountdown);
         playCountDownSound();
@@ -382,6 +381,7 @@ const GameCaseBattle = (props) => {
   });
 
   onCleanup(() => {
+    console.log('onCleanup!!!!!!!!!!!!!!');
     setSpinLists([]);
     setSpinIndexes(null);
     setSpinOffsets([]);
@@ -1142,6 +1142,14 @@ const GameCaseBattle = (props) => {
                                 callbackFn={() => joinGame(playerIndex + 1)}
                               >
                                 <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                                  {game().fundBattle ? <div
+                                    class={"rounded-2 absolute discond-green-border right-0.5 -top-2 -left-5 z-10 px-1 -rotate-[10deg] w-14 center text-green-3e font-Quicksand font-bold text-14"}
+                                    style={{
+                                        background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",            
+                                    }}
+                                    >
+                                      -{game().fundPercent}%
+                                  </div> : ""}
                                   <span class="w-max">Join</span>
                                   <Coin width="5" />
                                   <span class="text-gradient">

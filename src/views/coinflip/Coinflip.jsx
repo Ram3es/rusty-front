@@ -186,7 +186,7 @@ const Coinflip = ({ loaded }) => {
                       ? 2
                       : 1
                     : 0) +
-                  (1 - 1 / games[a].creator.value)
+                  (1 - 1 / games[a].creator.value)  * (sortBy() === SORT_OPTIONS[0] ? 1 : -1)
                 ) +
                 ((games[b].status == 'open' ||
                 games[b].status == 'pending' ||
@@ -196,7 +196,7 @@ const Coinflip = ({ loaded }) => {
                     ? 2
                     : 1
                   : 0) +
-                  (1 - 1 / games[b].creator.value))
+                  (1 - 1 / games[b].creator.value) * (sortBy() === SORT_OPTIONS[0] ? 1 : -1))
               return calculations
             })}
             fallback={

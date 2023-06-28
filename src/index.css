@@ -3680,6 +3680,23 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   mask-composite: exclude;
 }
 
+.discond-green-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  background: linear-gradient(180deg, rgba(11, 189, 82, 0.16) 0%, rgba(0, 0, 0, 0) 34.38%),
+  linear-gradient(360deg, rgba(11, 189, 82, 0.16) 0%, rgba(0, 0, 0, 0) 37.5%),
+  linear-gradient(0deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
 .bajoonga-prize {
   background: linear-gradient(
       83.13deg,

@@ -1,4 +1,4 @@
-import { onMount, createSignal, For, onCleanup } from 'solid-js'
+import { onMount, createSignal, For, onCleanup, createEffect } from 'solid-js'
 import injector from '../../injector/injector'
 
 import Ranks from '../../utilities/Ranks'
@@ -74,9 +74,6 @@ const Chat = (p) => {
       e.preventDefault()
     })
 
-    if (sliderRef) {
-      updateSoundInputStyle(userObject?.user?.sounds * 100 || 0)
-    }
     sliderRef.addEventListener('input', (e) => {
       updateSoundInputStyle(e.target.value)
     })
@@ -86,6 +83,12 @@ const Chat = (p) => {
         updateSoundInputStyle(e.target.value)
       })
     })
+  })
+  
+  createEffect(() => {
+    if (sliderRef) {
+      updateSoundInputStyle(userObject?.user?.sounds * 100 || 0)
+    }
   })
 
   const handleEnter = (e) => {
@@ -127,7 +130,6 @@ const Chat = (p) => {
   }
 
   const toggleSounds = (volume) => {
-    updateSoundInputStyle(volume * 100)
     socket.emit('system:sounds:toggle', { volume: volume * 100 }, (data) => {
       if (!data.error) {
         setUserObject('user', (prev) => ({ ...prev, sounds: data.data.sounds / 100 }))

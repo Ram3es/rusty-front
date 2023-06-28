@@ -166,14 +166,6 @@ const Footer = (props) => {
           },
           {
             label: {
-              en: "Faucet",
-              es: "Grifo",
-              ru: "Вентиль",
-            },
-            url: URL.REWARDS
-          },
-          {
-            label: {
               en: "Rakeback",
               es: "Rakeback",
               ru: "Рейкбєк",
