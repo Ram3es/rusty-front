@@ -117,8 +117,8 @@ const PaymentModal = (props) => {
       }
     }
 
-    setIsItemsResresh(true);
-    setItems([]);
+    // setIsItemsResresh(true);
+    // setItems([]);
 
     socket.emit("steam:inventory:refresh", {asc: descending()}, (data) => {
       if (data.msg) {
