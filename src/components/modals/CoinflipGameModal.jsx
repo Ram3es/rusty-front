@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount } from 'solid-js'
+import { createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -12,9 +12,12 @@ import CoinflipSound from '../../assets/sounds/coinflip.mp3'
 import CoinflipIcon from '../icons/CoinflipIcon'
 import RedAnimation from '../../assets/img/coinflip/red-animation.png'
 import BlackAnimation from '../../assets/img/coinflip/black-animation.png'
+import CountDownText from '../battle/CountDownText'
+import { playCountDownSound } from '../../utilities/Sounds/SoundButtonClick'
 
 const CoinflipGameModal = (props) => {
   let coinImage;
+  let timer;
   const coinflipSoundPlay = new Audio(CoinflipSound)
 
   const { socket, userObject, toastr } = injector
@@ -23,6 +26,7 @@ const CoinflipGameModal = (props) => {
   const [counter, setCounter] = createSignal(0)
   const [isWinBgShown, setIsWinBgShown] = createSignal(false)
   const [isCoinLoaded, setIsCoinLoaded] = createSignal(false)
+  const [countdown, setCountdown] = createSignal(3)
 
   const [spun, setSpun] = createSignal(false)
 
@@ -51,7 +55,19 @@ const CoinflipGameModal = (props) => {
         if (!data.error && data.data.games[id]) {
           console.log(data.data.games[id])
           setData(data.data.games[id])
-          checkImageLoaded();
+          if (data.data.games[id].status === 'ended' || data.data.games[id].status === 'spinning') {
+            checkImageLoaded();
+            timer = setInterval(() => {
+              if (countdown() > 0) {
+                setCountdown(countdown() - 1);
+                playCountDownSound();
+              } else {
+                clearInterval(timer)
+              }
+            }, 1000);
+          } else {
+            setCountdown(0);
+          }
         }
       })
     }
@@ -67,7 +83,7 @@ const CoinflipGameModal = (props) => {
     } else if (data()?.status == 'ended') {
       showCoinBgTimeout = setTimeout(() => {
         setIsWinBgShown(true)
-      }, 3000)
+      }, 6000)
     } else {
       clearTimeout(showCoinBgTimeout)
     }
@@ -85,6 +101,10 @@ const CoinflipGameModal = (props) => {
         setCounter(count <= 0 ? 0 : count)
       }
     }, 200)
+  })
+
+  onCleanup(() => {
+    clearInterval(timer)
   })
 
   const cancel = () => {
@@ -195,10 +215,16 @@ const CoinflipGameModal = (props) => {
           >
             {data()?.status === 'ended' || data()?.status === 'spinning' ? (
               <>
-                <div
-                  ref={coinImage}
-                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8]`}
-                />
+                 <span class={`${countdown() > 0 ? "" : "hidden"}`}>
+                  <CountDownText
+                    text={countdown()}
+                    size={54}
+                  />
+                 </span>
+                  <div
+                    ref={coinImage}
+                    class={`${isCoinLoaded() ? 'coinflip-animation' : ''} ${countdown() !== 0 ? 'hidden' : ''} relative z-10 scale-[.8]`}
+                  />
               </>
             ) : (
               <img
