@@ -8,7 +8,7 @@ import {
   Match,
   useTransition,
   lazy,
-  createEffect
+  createEffect,
 } from "solid-js";
 import {Routes, Route, useLocation, useSearchParams} from "solid-app-router";
 
@@ -72,8 +72,9 @@ import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
 import PlinkoContainer from "./components/plinko/PlinkoContainer";
+import {SpinnerStatusProvider} from "./utilities/hooks/spinnerStatus";
 
-import { clickingSound } from "./views/caseBattles/GameCaseBattle";
+import {clickingSound} from "./views/caseBattles/GameCaseBattle";
 
 const App = () => {
   const [pending, start] = useTransition();
@@ -144,7 +145,7 @@ const App = () => {
     if (location.pathname !== "/case-battles/play") {
       clickingSound.pause();
     }
-  })
+  });
 
   return (
     <I18nProvider i18n={i18nState}>
@@ -247,10 +248,12 @@ const App = () => {
                                 <Route
                                   path={`${URL.GAMEMODES.CASE_BATTLES_GAME}`}
                                   element={
-                                    <GameCaseBattle
-                                      searchParams={searchParams}
-                                      loaded={loaded}
-                                    />
+                                    <SpinnerStatusProvider>
+                                      <GameCaseBattle
+                                        searchParams={searchParams}
+                                        loaded={loaded}
+                                      />
+                                    </SpinnerStatusProvider>
                                   }
                                 />
                                 <Route
@@ -424,8 +427,11 @@ const App = () => {
 
                       <Switch fallback={<></>}>
                         <Match
-                          when={toggles.winningsModal && toggles.winningsModal?.type !== "upgrader"}
-                        > 
+                          when={
+                            toggles.winningsModal &&
+                            toggles.winningsModal?.type !== "upgrader"
+                          }
+                        >
                           <WinningsModal
                             pathname={pathname}
                             searchParams={searchParams}
@@ -434,6 +440,7 @@ const App = () => {
                         <Match
                           when={toggles.winningsModal?.type === "upgrader"}
                         >
+                          {console.log(toggles.winningsModal)}
                           <WinModal />
                         </Match>
                         <Match when={toggles.provablyFairModal}>
