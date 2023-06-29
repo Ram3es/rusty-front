@@ -33,8 +33,8 @@ const CoinflipGameModal = (props) => {
     img.src = data()?.side == 1 ? RedAnimation : BlackAnimation;
 
     img.onload = () => {
-      setIsCoinLoaded(true);
-      coinImage.src = img.src
+      coinImage.style.backgroundImage = `url(${img.src})`;
+      setTimeout(() => setIsCoinLoaded(true), 100)
     };
 
     img.onerror = () => {
@@ -197,9 +197,7 @@ const CoinflipGameModal = (props) => {
               <>
                 <div
                   ref={coinImage}
-                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8] ${
-                    data()?.side == 1 ? 'red' : 'black'
-                  }`}
+                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8]`}
                 />
               </>
             ) : (
