@@ -83,7 +83,10 @@ const PotentialDropItem = (props) => {
   // if visible render exisiting div else show blank div
 
   return (
-    <div ref={setItemRef}>
+    <div ref={setItemRef}
+    style={{
+      transform: 'translate3d(0,0,0)' 
+    }}>
       {isVisible() || props.optimiseOff ? (
         <div
           class={`group w-full ${

@@ -199,6 +199,9 @@ const Unbox = (props) => {
               <NavLink
                 href={`${URL.CASE_UNBOXING}?id=${item.id}`}
                 class='case-card-background border border-white border-opacity-5 group h-[285px] flex flex-col hover:border-yellow-ffb hover:border-2 hover:border-opacity-100 relative rounded-6 overflow-hidden'
+                style={{
+                  transform: 'translate3d(0,0,0)' 
+                }}
               >
                 <div
                   class=' absolute left-0 top-0 w-full h-full z-0'
