@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onMount } from 'solid-js'
+import { createEffect, createSignal, onCleanup, onMount } from 'solid-js'
 import { NavLink } from 'solid-app-router'
 
 import { URL } from '../../libraries/url'
@@ -30,19 +30,22 @@ const CoinflipGameModal = (props) => {
   const [spun, setSpun] = createSignal(false)
 
   let showCoinBgTimeout
+  let checkImagetimeout
 
   const checkImageLoaded = () => {
-    const img = new Image();
-    img.src = data()?.side == 1 ? RedAnimation : BlackAnimation;
+    if (data()?.side) {
+      const img = new Image();
+      img.src = data()?.side == 1 ? RedAnimation : BlackAnimation;
 
-    img.onload = () => {
-      setIsCoinLoaded(true);
-      coinImage.src = img.src
-    };
+      img.onload = () => {
+        setIsCoinLoaded(true);
+        coinImage.style.backgroundImage = `url(${img.src})`
+      };
 
-    img.onerror = () => {
-      console.log('Error loading image.');
-    };
+      img.onerror = () => {
+        console.log('Error loading image.');
+      };
+    }
   };
 
   createEffect(() => {
@@ -53,7 +56,7 @@ const CoinflipGameModal = (props) => {
         const id = props.searchParams?.id
         if (!data.error && data.data.games[id]) {
           console.log(data.data.games[id])
-          if (props.searchParams?.vuew) {
+          if (props.searchParams?.vuew && data.data.games[id]?.opponent?.side) {
             
             timer = setInterval(() => {
               console.log('here', endedGameCounter());
@@ -65,13 +68,15 @@ const CoinflipGameModal = (props) => {
               }
             }, 1000)
             setData({...data.data.games[id], status: "counting"})
-            setTimeout(() => {
+            checkImagetimeout = setTimeout(() => {
               setData(data.data.games[id])
               checkImageLoaded();
             }, 3000)
-          } else {
+          } else if (data.data.games[id]?.opponent?.side) {
             setData(data.data.games[id])
             checkImageLoaded();
+          } else {
+            setData(data.data.games[id])
           }
         }
       })
@@ -98,6 +103,7 @@ const CoinflipGameModal = (props) => {
     socket.on('coinflip:update', (data) => {
       if (data.id && data.id == props.searchParams?.id) {
         setData(data.data)
+        checkImageLoaded()
       }
     })
     if (!props.searchParams?.vuew) {
@@ -108,6 +114,11 @@ const CoinflipGameModal = (props) => {
         }
       }, 200)
     }
+  })
+
+  onCleanup(() => {
+    clearInterval(timer)
+    clearTimeout(checkImagetimeout)
   })
 
   const cancel = () => {
@@ -216,22 +227,17 @@ const CoinflipGameModal = (props) => {
               }, 0px 2px 16px rgba(0, 0, 0, 0.24)`
             }}
           >
-            {data()?.status === 'ended' || data()?.status === 'spinning' ? (
-              <>
-                <div
-                  ref={coinImage}
-                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8] ${
-                    data()?.side == 1 ? 'red' : 'black'
-                  }`}
-                />
-              </>
-            ) : (
+            <div
+              ref={coinImage}
+              class={`${isCoinLoaded() ? 'coinflip-animation' : ''} ${data()?.status === 'ended' || data()?.status === 'spinning' ? "block relative" : "hidden absolute"} z-10 scale-[.8]`}
+            />
+            { data()?.status !== 'ended' && data()?.status !== 'spinning' ? (
               <img
                 alt='rbcoin'
                 src={RBCoin}
                 class={`w-[136px] duration-200 ${data()?.status === 'counting' && 'hidden'}`}
               />
-            )}
+            ) : ""}
             {isWinBgShown() && (
               <div
                 class={`opacity-100 transform scale-50 transition-opacity duration-500 blur-lg won-ping absolute z-0 left-0 top-0 w-full h-full rounded-full`}
