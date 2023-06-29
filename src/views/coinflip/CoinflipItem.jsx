@@ -335,7 +335,7 @@ const CoinflipItem = (props) => {
             <NavLink
               as='div'
               class={`px-4 w-full text-gray-9a h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
-              href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}&vuew=true`}
+              href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}${props.game?.status === 'ended' ? "&vuew=true" : ""}`}
               style={{
                 background:
                   'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)',
