@@ -155,7 +155,7 @@ const GameCaseBattle = (props) => {
 
   const updateGame = (inputGame) => {
     setContainsConfettiWin(false);
-    console.log("inputGame", inputGame);
+    // console.log("inputGame", inputGame);
     setRollItems([]);
     setSpinnerOptions([]);
     setGame(() => inputGame);
@@ -208,10 +208,10 @@ const GameCaseBattle = (props) => {
           isBigWin: true,
         }))
       );
-      console.log("spinnerOptions()", spinnerOptions());
+      // console.log("spinnerOptions()", spinnerOptions());
       const newSpinIndexes = [];
       const newSpinLists = [];
-      console.log("game()", game());
+      // console.log("game()", game());
       for (let i = 0; i < game().playersQty; i++) {
         const spinIndex = getRandomIndex(i);
         let spinList = generateSpinList(i);
@@ -226,8 +226,8 @@ const GameCaseBattle = (props) => {
         newSpinLists.push(spinList);
         newSpinIndexes.push(spinIndex);
       }
-      console.log("newSpinLists", newSpinLists);
-      console.log("newSpinIndexes", newSpinIndexes);
+      // console.log("newSpinLists", newSpinLists);
+      // console.log("newSpinIndexes", newSpinIndexes);
       setSpinIndexes(() => newSpinIndexes);
       setSpinLists(() => newSpinLists);
       setReelsSpinning(() => true);

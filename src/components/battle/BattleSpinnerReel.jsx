@@ -83,17 +83,17 @@ const BattleSpinnerReel = ({
   const [spinComplete, setSpinComplete] = createSignal(false);
 
   createEffect(() => {
-    console.log(reelsSpinning());
+    // console.log(reelsSpinning());
     // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
-      console.log("moveToIndex", spinnerIndex, spinIndexes()[spinnerIndex]);
+      // console.log("moveToIndex", spinnerIndex, spinIndexes()[spinnerIndex]);
       moveToIndex(spinIndexes()[spinnerIndex]);
     }
   });
   createEffect(() => {
     if (spinLists()) {
-      console.log("here spin", spinLists());
+      // console.log("here spin", spinLists());
       setReelItem(() => document.querySelector("[data-reel-item]"));
       // console.log(reelItem());
     }
@@ -116,6 +116,8 @@ const BattleSpinnerReel = ({
     setTimeout(() => {
       setTimeout(() => {
         correctForOffset(index);
+        setSpinComplete(true);
+        console.log('ec')
       }, 200);
     }, spinnerTimings.battleInitialSpin * 1000 * timeMultiplier());
   };
@@ -133,7 +135,6 @@ const BattleSpinnerReel = ({
     }
       
     setTimeout(() => {
-      setSpinComplete(true);
       if (isConfettiWin) {
         createConfetti();
       }
