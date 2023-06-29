@@ -117,7 +117,6 @@ const BattleSpinnerReel = ({
       setTimeout(() => {
         correctForOffset(index);
         setSpinComplete(true);
-        console.log('ec')
       }, 200);
     }, spinnerTimings.battleInitialSpin * 1000 * timeMultiplier());
   };
