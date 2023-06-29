@@ -6,11 +6,8 @@ import {
   Match,
   onCleanup,
   Switch,
-  onMount,
   Show,
 } from "solid-js";
-import {useLocation} from "solid-app-router";
-import HoveredButton from "../../components/elements/HoveredButton";
 import BattleSpinnerReel from "../../components/battle/BattleSpinnerReel";
 import {otherOptions} from "../../libraries/caseSpinConfig";
 import {isNumber} from "chart.js/helpers";
@@ -25,15 +22,11 @@ import {URL} from "../../libraries/url";
 import BattleRoyaleIcon from "../../components/icons/BattleRoyaleIcon";
 import BattleCursedIcon from "../../components/icons/BattleCursedIcon";
 import BattleGroupIcon from "../../components/icons/BattleGroupIcon";
-import FairnessShieldIcon from "../../components/icons/cases/FairnessShield";
 import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBorders";
-import ArrowDownWithGradient from "../../components/icons/ArrowDownWithGradient";
-import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
 import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle.png";
-import {tippy, useTippy} from "solid-tippy";
+import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
 
-import RecentDropsItem from "../case/RecentDropsItem";
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
 import Spiner from "../../components/battle/Spiner";
@@ -63,13 +56,6 @@ export const [isRolling, setIsRolling] = createSignal(false);
 
 export const clickingSound = new Audio(clickSeq);
 
-export const playClickAudio = () => {
-  // console.log('playClickAudio')
-};
-
-export const playEndAudio = () => {
-  // console.log("playEndAudio' ")
-};
 
 export const getJoinTeam = (mode, playerIndex) => {
   if (mode === "group") {
@@ -90,7 +76,6 @@ const GameCaseBattle = (props) => {
   const [rollItems, setRollItems] = createSignal([]);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [winnings, setWinnings] = createSignal([]);
-  const [containsBigWin, setContainsBigWin] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
   const [battleCases, setBattleCases] = createSignal([]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
@@ -143,19 +128,16 @@ const GameCaseBattle = (props) => {
   };
 
   const generateSpinList = (playerIndex) => {
-    // console.log("CHECKING VALUES");
-    // console.log(game().id, game().currentRound, playerIndex);
-
-    // console.log("RANDOM FUNCTEST");
-    // console.log(randomFunction());
     setSpinOffsets([]);
+
     const newSpinList = [];
+
     for (let i = 0; i < 35; i++) {
       const r = Math.floor(
         createRandomFunction(game().id, game().currentRound, playerIndex, i)() *
           rollItems().length
       );
-      // console.log('r!!!!!', r, rollItems());
+
       newSpinList.push(rollItems()[r]);
     }
     console.log("newSpinList", newSpinList);
@@ -234,9 +216,6 @@ const GameCaseBattle = (props) => {
         const spinIndex = getRandomIndex(i);
         let spinList = generateSpinList(i);
         spinList[spinIndex] = spinnerOptions()[i].winningItem;
-        if (spinnerOptions()[i].isBigWin) {
-          setContainsBigWin(true);
-        }
 
         console.log(spinnerOptions()[i].winningItem);
 

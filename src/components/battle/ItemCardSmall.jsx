@@ -62,6 +62,10 @@ const ItemCardSmall = (props) => {
       class={`group min-w-[120px] min-h-[120px] z-10 rounded-4 relative cursor-pointer ${
         styles().itemBg
       } font-SpaceGrotesk`}
+      style={{
+        transform: 'translate3d(0,0,0)' 
+
+      }}
     >
       <div
         class="hidden group-hover:block absolute inset-0 z-0 bg-repeat overflow-hidden m-0.5 p-2"
