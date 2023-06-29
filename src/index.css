@@ -291,13 +291,14 @@ body::after {
   }
 
   .coinflip-animation {
-    width: 144px;
-    height: 144px;
+    min-width: 256px;
+    min-height: 256px;
 
     position: relative;
     background-position: 0px 0px;
     /* -webkit-animation: playv 1s steps(6), playh 0.1667s steps(6) 6; */
-    animation: playv 6s steps(14) forwards, playh 0.4286s steps(10) 14 forwards;
+    /* animation: playv 6s steps(14) forwards, playh 0.4286s steps(10) 14 forwards; */
+    animation: playv 6s steps(9) forwards, playh 0.6667s steps(15) 9 forwards;
     /* animation-delay: 1s; */
     /* animation-fill-mode: forwards; */
   }
@@ -541,7 +542,7 @@ body::after {
       background-position-y: 0px;
     }
     to {
-      background-position-y: -2240px;
+      background-position-y: -2304px;
     }
   }
 
@@ -550,7 +551,7 @@ body::after {
       background-position-x: 0px;
     }
     to {
-      background-position-x: -1600px;
+      background-position-x: -3840px;
     }
   }
 

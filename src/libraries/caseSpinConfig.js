@@ -28,7 +28,7 @@ export const spinnerTimings = {
   // do not set to 0 or less
   fastSpinMultiplier: 0.3, // default 0.3
   battleInitialSpin: 4, // default 4
-  battlelSnapBack: 0.5, // default 0.5
+  battleSnapBack: 0.5, // default 0.5
 };
 
 export const otherOptions = {

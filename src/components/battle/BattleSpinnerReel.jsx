@@ -1,4 +1,4 @@
-import { For, createSignal, createEffect } from "solid-js";
+import {For, createSignal, createEffect, onCleanup} from "solid-js";
 import {
   clickingSound,
   containerRef,
@@ -7,11 +7,12 @@ import {
   spinLists,
   spinOffsets,
 } from "../../views/caseBattles/GameCaseBattle";
-import { setIsRolling } from "../../views/caseBattles/GameCaseBattle";
-import { spinnerTimings, otherOptions } from "../../libraries/caseSpinConfig";
+import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
+import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
 import GoldText from "../shared/GoldText";
-import { getCurrencyString } from "../mines_new/utils/tools";
+import {getCurrencyString} from "../mines_new/utils/tools";
 import Coin from "../../utilities/Coin";
+// import ObserverItem from "./ObserverItem";
 
 import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png";
 import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png";
@@ -19,16 +20,15 @@ import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
 import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
 import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
 
+import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg";
+import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.svg";
+import CaseLineGreen from "../../assets/img/case-battles/caseLineHorizontalGreen.svg";
+
 import confetti from "canvas-confetti";
-import {
-  playPullBackSound,
-  playWinSound,
-} from "../../utilities/Sounds/SoundButtonClick";
+
+// import { Fireworks } from "fireworks-js";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
-
-const [timeMultiplier, setTimeMultiplier] = createSignal(1);
-
 const bglogos = {
   gold: bglogo_gold,
   blue: bglogo_blue,
@@ -37,16 +37,36 @@ const bglogos = {
   gray: bglogo_gray,
 };
 
-const BattleSpinnerReel = ({
-  spinnerIndex,
-  isConfettiWin,
-  isFastSpin,
-  lineColor,
-  randomFunction,
-  containsConfettiWin,
-  gameType,
-  user,
-}) => {
+const BattleSpinnerReel = (props) => {
+  const [timeMultiplier, setTimeMultiplier] = createSignal(1);
+  createEffect(() => {
+    if (props.isFastSpin) {
+      setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
+    } else {
+      setTimeMultiplier(1);
+    }
+  });
+
+  onCleanup(() => {
+    // free up memory
+    confetti.reset();
+    clearTimeout(timeout1);
+    clearTimeout(timeout2);
+    clearTimeout(timeout3);
+    clearTimeout(timeout4);
+    clearTimeout(timeout5);
+
+    setTranslateY(0);
+    setTopIndex(0);
+  });
+
+  // timeouts
+  let timeout1;
+  let timeout2;
+  let timeout3;
+  let timeout4;
+  let timeout5;
+
   const [reelItem, setReelItem] = createSignal();
   const [imgItem, setImgItem] = createSignal();
   const [reel, setReel] = createSignal();
@@ -62,7 +82,9 @@ const BattleSpinnerReel = ({
   const calculateTopIndexOffset = () => {
     const referencePoint = containerRef().offsetHeight / 2;
     const itemHeight = reelItem().offsetHeight;
+    console.log(itemHeight);
     const imgHeight = imgItem().offsetHeight;
+    console.log(imgHeight);
     return referencePoint - itemHeight - imgHeight / 2;
   };
 
@@ -81,8 +103,12 @@ const BattleSpinnerReel = ({
     // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
-      // console.log("moveToIndex", spinnerIndex, spinIndexes()[spinnerIndex]);
-      moveToIndex(spinIndexes()[spinnerIndex]);
+      console.log(
+        "moveToIndex",
+        props.spinnerIndex,
+        spinIndexes()[props.spinnerIndex]
+      );
+      moveToIndex(spinIndexes()[props.spinnerIndex]);
     }
   });
   createEffect(() => {
@@ -97,8 +123,7 @@ const BattleSpinnerReel = ({
     const itemHeight = reelItem().offsetHeight;
     let moveAmount = (index - 1) * itemHeight;
     const spinOffSet = getSpinOffSet();
-    const positiveOffSet = Math.floor(randomFunction() * 2);
-
+    const positiveOffSet = Math.floor(props.randomFunction() * 2);
     if (positiveOffSet) {
       moveAmount += spinOffSet;
     } else {
@@ -106,17 +131,12 @@ const BattleSpinnerReel = ({
     }
     
     setTopIndex(moveAmount);
-
-    if (spinnerIndex === 0) {
-      setBeginClickSound(true);
+    if (props.spinnerIndex === 0) {
+      props.setBeginClickSound(true);
     }
-
-    setTimeout(() => {
-      setTimeout(() => {
-        correctForOffset(index);
-        setSpinComplete(true);
-      }, 200);
-    }, spinnerTimings.battleInitialSpin * 1000 * timeMultiplier());
+    timeout1 = setTimeout(() => {
+      correctForOffset(index);
+    }, spinnerTimings.battleInitialSpin * 1000 * timeMultiplier() + 200);
   };
 
   const correctForOffset = (index) => {
@@ -127,19 +147,25 @@ const BattleSpinnerReel = ({
     setTimingFunction("cubic-bezier(0.25, 1, 0.5, 1)");
 
     setTopIndex(moveAmount);
-    if (spinnerIndex === 0) {
-      setBeginPullBackSound(true);
+
+    console.log(
+      `calling from spinner reel ${props.spinnerIndex} topindex = ${topIndex()}`
+    );
+    console.log(`current round: ${props.round}`);
+    if (props.spinnerIndex === 0) {
+      props.setBeginPullBackSound(true);
     }
 
-    setTimeout(() => {
-      if (isConfettiWin) {
+    timeout3 = setTimeout(() => {
+      setSpinComplete(true);
+      if (props.isConfettiWin) {
         createConfetti();
       }
-      if (spinnerIndex === 0) {
-        setBeginWinSound(true);
+      if (props.spinnerIndex === 0) {
+        props.setBeginWinSound(true);
       }
       // createFireworks();
-      setTimeout(() => {
+      timeout4 = setTimeout(() => {
         setIsRolling(false);
       }, 500);
     }, 500);
@@ -156,24 +182,25 @@ const BattleSpinnerReel = ({
         return true;
       }
     }
-
     return false;
   };
 
   const getSpinOffSet = () => {
     const itemHeight = reelItem().offsetHeight;
-    const landInMiddle = randomFunction() <= LAND_IN_MIDDLE_CHANCE;
+    const landInMiddle = props.randomFunction() <= LAND_IN_MIDDLE_CHANCE;
     if (landInMiddle) {
-      let newOffset = itemHeight / 2 - randomFunction() * 0.1 * itemHeight;
+      let newOffset =
+        itemHeight / 2 - props.randomFunction() * 0.1 * itemHeight;
 
       if (withinOtherReelBounds(newOffset)) {
-        newOffset = itemHeight / 2 - randomFunction() * 0.1 * itemHeight;
+        newOffset = itemHeight / 2 - props.randomFunction() * 0.1 * itemHeight;
       }
       spinOffsets().push(newOffset);
+
       return newOffset;
     }
     const newOffset =
-      Math.floor((randomFunction() * 0.95 + 0.05) * itemHeight) / 2;
+      Math.floor((props.randomFunction() * 0.95 + 0.05) * itemHeight) / 2;
     spinOffsets().push(newOffset);
     return newOffset;
   };
@@ -202,8 +229,8 @@ const BattleSpinnerReel = ({
         blue: "#2196f3",
         gray: "#9e9e9e",
       };
-      const spinList = spinLists()[spinnerIndex];
-      const color = spinList[spinIndexes()[spinnerIndex]].rarity;
+      const spinList = spinLists()[props.spinnerIndex];
+      const color = spinList[spinIndexes()[props.spinnerIndex]].rarity;
       const ticks = 70;
       const confettiInterval = setInterval(() => {
         confetti({
@@ -217,7 +244,7 @@ const BattleSpinnerReel = ({
       }, intervalDuration);
 
       // Clear the interval after 3 seconds
-      setTimeout(() => {
+      timeout5 = setTimeout(() => {
         clearInterval(confettiInterval);
         setConfettiActive(false);
       }, 200);
@@ -241,7 +268,7 @@ const BattleSpinnerReel = ({
   // };
 
   createEffect(() => {
-    if (gameType === "team") {
+    if (props.gameType === "team") {
       setLineWidth(reel().offsetWidth);
     } else {
       setLineWidth(reel().offsetWidth - 42);
@@ -281,16 +308,19 @@ const BattleSpinnerReel = ({
           ref={setReel}
           class={`relative
               flex flex-col
-              transition-all 
               w-full
 
               `}
-          style={`transform: translateY(${translateY() - topIndex()}px);
-            transition-timing-function: ${timingFunction()};
-            transition-duration: ${spinTime() * timeMultiplier()}s;
-                `}
+          style={{
+            "-webkit-transform": `translateY(${translateY() - topIndex()}px)`,
+            transform: `translateY(${translateY() - topIndex()}px)`,
+            "transition-timing-function": timingFunction(),
+            "transition-duration": `${spinTime() * timeMultiplier()}s`,
+            transition: "transform",
+            "will-change": "transform",
+          }}
         >
-          <For each={spinLists()[spinnerIndex]}>
+          <For each={spinLists()[props.spinnerIndex]}>
             {(item, index) => (
               <div
                 ref={setReelItem}
@@ -298,7 +328,7 @@ const BattleSpinnerReel = ({
                 transition-all duration-500 items-center
                  ${
                    spinComplete()
-                     ? index() === spinIndexes()[spinnerIndex]
+                     ? index() === spinIndexes()[props.spinnerIndex]
                        ? "scale-125 -translate-y-8"
                        : "scale-0"
                      : null
@@ -306,12 +336,22 @@ const BattleSpinnerReel = ({
                 data-reel-item
               >
                 <div class="relative z-10 flex">
-                  <img
-                    class={`h-24 z-20 transition-all duration-500`}
-                    src={item.img}
-                    ref={setImgItem}
-                    alt={item.name}
-                  />
+                  {/* {props.spinnerIndex === 0 &&  <ObserverItem />}  */}
+                  {index() === 0 ? (
+                    <img
+                      class={`h-24 z-20 transition-all duration-500`}
+                      src={item.img}
+                      ref={setImgItem}
+                      alt={item.name}
+                    />
+                  ) : (
+                    <img
+                      class={`h-24 z-20 transition-all duration-500`}
+                      src={item.img}
+                      alt={item.name}
+                    />
+                  )}
+
                   <img
                     src={bglogos[item.rarity]}
                     alt={item.rarity + " glow"}
@@ -322,7 +362,8 @@ const BattleSpinnerReel = ({
                   class={`flex flex-col items-center justify-center 
                   transition-all duration-500 overflow-visible h-min
                   ${
-                    spinComplete() && index() === spinIndexes()[spinnerIndex]
+                    spinComplete() &&
+                    index() === spinIndexes()[props.spinnerIndex]
                       ? "scale-1"
                       : "scale-0"
                   } `}
@@ -342,11 +383,11 @@ const BattleSpinnerReel = ({
       </div>
       <img
         src={
-          lineColor === "yellow"
-            ? "/assets/caseLineHorizontal.svg"
-            : lineColor === "blue"
-            ? "/assets/caseLineHorizontalBlue.svg"
-            : "/assets/caseLineHorizontalGreen.svg"
+          props.lineColor === "yellow"
+            ? CaseLineYellow
+            : props.lineColor === "blue"
+            ? CaseLineBlue
+            : CaseLineGreen
         }
         alt="caseline"
         class={`absolute h-32  self-center transition-opacity duration-500

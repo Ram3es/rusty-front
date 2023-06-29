@@ -10,19 +10,40 @@ import CoinflipGameSide from './CoinflipGameSide'
 import RBCoin from '../../assets/img/coinflip/rbcoin.svg'
 import CoinflipSound from '../../assets/sounds/coinflip.mp3'
 import CoinflipIcon from '../icons/CoinflipIcon'
+import RedAnimation from '../../assets/img/coinflip/red-animation.png'
+import BlackAnimation from '../../assets/img/coinflip/black-animation.png'
+import CountDownText from '../battle/CountDownText'
 
 const CoinflipGameModal = (props) => {
+  let coinImage;
+  let timer;
   const coinflipSoundPlay = new Audio(CoinflipSound)
 
   const { socket, userObject, toastr } = injector
 
   const [data, setData] = createSignal({})
-  const [counter, setCounter] = createSignal(0)
+  const [counter, setCounter] = createSignal(3)
   const [isWinBgShown, setIsWinBgShown] = createSignal(false)
+  const [isCoinLoaded, setIsCoinLoaded] = createSignal(false)
+  const [endedGameCounter, setEndedGameCounter] = createSignal(2)
 
   const [spun, setSpun] = createSignal(false)
 
   let showCoinBgTimeout
+
+  const checkImageLoaded = () => {
+    const img = new Image();
+    img.src = data()?.side == 1 ? RedAnimation : BlackAnimation;
+
+    img.onload = () => {
+      setIsCoinLoaded(true);
+      coinImage.src = img.src
+    };
+
+    img.onerror = () => {
+      console.log('Error loading image.');
+    };
+  };
 
   createEffect(() => {
     console.log(userObject, 'user')
@@ -32,7 +53,26 @@ const CoinflipGameModal = (props) => {
         const id = props.searchParams?.id
         if (!data.error && data.data.games[id]) {
           console.log(data.data.games[id])
-          setData(data.data.games[id])
+          if (props.searchParams?.vuew) {
+            
+            timer = setInterval(() => {
+              console.log('here', endedGameCounter());
+              if (endedGameCounter() > 0) {
+                setCounter(endedGameCounter())
+                setEndedGameCounter(endedGameCounter() - 1)
+              } else {
+                clearInterval(timer)
+              }
+            }, 1000)
+            setData({...data.data.games[id], status: "counting"})
+            setTimeout(() => {
+              setData(data.data.games[id])
+              checkImageLoaded();
+            }, 3000)
+          } else {
+            setData(data.data.games[id])
+            checkImageLoaded();
+          }
         }
       })
     }
@@ -60,12 +100,14 @@ const CoinflipGameModal = (props) => {
         setData(data.data)
       }
     })
-    setInterval(() => {
-      if (data()?.status != 'open') {
-        const count = Math.floor((data()?.timestamp - Date.now()) / 1000)
-        setCounter(count <= 0 ? 0 : count)
-      }
-    }, 200)
+    if (!props.searchParams?.vuew) {
+      setInterval(() => {
+        if (data()?.status != 'open') {
+          const count = Math.floor((data()?.timestamp - Date.now()) / 1000)
+          setCounter(count <= 0 ? 0 : count)
+        }
+      }, 200)
+    }
   })
 
   const cancel = () => {
@@ -177,7 +219,8 @@ const CoinflipGameModal = (props) => {
             {data()?.status === 'ended' || data()?.status === 'spinning' ? (
               <>
                 <div
-                  class={`coinflip-animation scale-[150%] transform -translate-x-3 -translate-y-3 relative z-10 ${
+                  ref={coinImage}
+                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8] ${
                     data()?.side == 1 ? 'red' : 'black'
                   }`}
                 />
@@ -186,7 +229,7 @@ const CoinflipGameModal = (props) => {
               <img
                 alt='rbcoin'
                 src={RBCoin}
-                class={`w-[136px] duration-200 ${data()?.status === 'counting' && 'opacity-40'}`}
+                class={`w-[136px] duration-200 ${data()?.status === 'counting' && 'hidden'}`}
               />
             )}
             {isWinBgShown() && (
@@ -199,13 +242,16 @@ const CoinflipGameModal = (props) => {
                 isWinBgShown() && 'opacity-100'
               } transform scale-60 transition-opacity duration-700 blur-sm absolute z-0 left-0 top-0 w-full h-full rounded-full`}
             />
-            <p
-              class={`text-28 text-white font-semibold absolute ${
+            <div
+              class={`absolute ${
                 data()?.status === 'counting' ? '' : 'hidden'
               }`}
             >
-              {counter()}s
-            </p>
+              <CountDownText
+                text={counter()}
+                size={54}
+              />
+            </div>
           </div>
           <div
             class='absolute transform -translate-x-1/2 left-1/2 -top-0 h-full w-0.5 center'
