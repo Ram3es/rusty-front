@@ -64,7 +64,6 @@ const ItemCardSmall = (props) => {
       } font-SpaceGrotesk`}
       style={{
         transform: 'translate3d(0,0,0)' 
-
       }}
     >
       <div

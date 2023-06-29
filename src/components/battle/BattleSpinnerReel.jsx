@@ -1,26 +1,29 @@
-import {For, createSignal, createEffect} from "solid-js";
+import { For, createSignal, createEffect } from "solid-js";
 import {
+  clickingSound,
   containerRef,
   reelsSpinning,
   spinIndexes,
   spinLists,
   spinOffsets,
 } from "../../views/caseBattles/GameCaseBattle";
-import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
-import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
-import GoldText from "../shared/GoldText"
+import { setIsRolling } from "../../views/caseBattles/GameCaseBattle";
+import { spinnerTimings, otherOptions } from "../../libraries/caseSpinConfig";
+import GoldText from "../shared/GoldText";
 import { getCurrencyString } from "../mines_new/utils/tools";
-import Coin from "../../utilities/Coin"
-// import ObserverItem from "./ObserverItem";
+import Coin from "../../utilities/Coin";
 
-import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png"
-import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png"
-import bglogo_red from "../../assets/img/case-battles/bglogo_red.png"
-import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png"
-import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png"
+import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png";
+import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png";
+import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
+import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
+import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
 
 import confetti from "canvas-confetti";
-// import { Fireworks } from "fireworks-js";
+import {
+  playPullBackSound,
+  playWinSound,
+} from "../../utilities/Sounds/SoundButtonClick";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
 
@@ -40,27 +43,18 @@ const BattleSpinnerReel = ({
   isFastSpin,
   lineColor,
   randomFunction,
-  setBeginClickSound,
-  setBeginPullBackSound,
-  setBeginWinSound,
   containsConfettiWin,
-  gameType
+  gameType,
+  user,
 }) => {
-  createEffect(() => {
-    if (isFastSpin) {
-      setTimeMultiplier(spinnerTimings.fastSpinMultiplier);
-    } else {
-      setTimeMultiplier(1);
-    }
-  });
   const [reelItem, setReelItem] = createSignal();
   const [imgItem, setImgItem] = createSignal();
   const [reel, setReel] = createSignal();
   const [lineWidth, setLineWidth] = createSignal(0);
 
-  // const [fireworksContainer, setFireworksContainer] = createSignal();
-
-  // const [fireworksActive, setFireworksActive] = createSignal(false);
+  const [beginClickSound, setBeginClickSound] = createSignal(false);
+  const [beginPullBackSound, setBeginPullBackSound] = createSignal(false);
+  const [beginWinSound, setBeginWinSound] = createSignal(false);
 
   const [topIndex, setTopIndex] = createSignal(0);
   const [translateY, setTranslateY] = createSignal(0);
@@ -104,15 +98,19 @@ const BattleSpinnerReel = ({
     let moveAmount = (index - 1) * itemHeight;
     const spinOffSet = getSpinOffSet();
     const positiveOffSet = Math.floor(randomFunction() * 2);
+
     if (positiveOffSet) {
       moveAmount += spinOffSet;
     } else {
       moveAmount -= spinOffSet;
     }
+    
     setTopIndex(moveAmount);
-    if(spinnerIndex === 0){
+
+    if (spinnerIndex === 0) {
       setBeginClickSound(true);
     }
+
     setTimeout(() => {
       setTimeout(() => {
         correctForOffset(index);
@@ -129,15 +127,15 @@ const BattleSpinnerReel = ({
     setTimingFunction("cubic-bezier(0.25, 1, 0.5, 1)");
 
     setTopIndex(moveAmount);
-    if(spinnerIndex === 0){
+    if (spinnerIndex === 0) {
       setBeginPullBackSound(true);
     }
-      
+
     setTimeout(() => {
       if (isConfettiWin) {
         createConfetti();
       }
-      if(spinnerIndex === 0){
+      if (spinnerIndex === 0) {
         setBeginWinSound(true);
       }
       // createFireworks();
@@ -208,11 +206,10 @@ const BattleSpinnerReel = ({
       const color = spinList[spinIndexes()[spinnerIndex]].rarity;
       const ticks = 70;
       const confettiInterval = setInterval(() => {
-        
         confetti({
           particleCount,
           spread,
-          origin: {x: xA, y: yA},
+          origin: { x: xA, y: yA },
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
           ticks,
@@ -244,20 +241,41 @@ const BattleSpinnerReel = ({
   // };
 
   createEffect(() => {
-    if(gameType === "team"){
+    if (gameType === "team") {
       setLineWidth(reel().offsetWidth);
-    }else{
+    } else {
       setLineWidth(reel().offsetWidth - 42);
+    }
+  });
+
+  createEffect(() => {
+    if (beginClickSound()) {
+      setBeginClickSound(false);
+      if (user?.user?.sounds) {
+        clickingSound.currentTime = 0;
+        clickingSound.volume = user.user.sounds;
+        clickingSound.play();
+      }
+    }
+    if (beginPullBackSound()) {
+      setBeginPullBackSound(false);
+      playPullBackSound();
+    }
+
+    if (beginWinSound()) {
+      setBeginWinSound(false);
+      if (containsConfettiWin()) {
+        playWinSound();
+      }
     }
   });
 
   return (
     <div
       id="slot-screen"
-      class="relative gap-2 w-full h-full flex flex-col 
-      items-center justify-center overflow-hidden font-SpaceGrotesk"
+      class="relative gap-2 w-full h-full flex flex-col items-center justify-center overflow-hidden font-SpaceGrotesk"
     >
-      <div class={`overflow-y-hidden w-full overflow-x-hidden`}>
+      <div class="overflow-y-hidden w-full overflow-x-hidden">
         <div
           id="reels"
           ref={setReel}
@@ -288,8 +306,6 @@ const BattleSpinnerReel = ({
                 data-reel-item
               >
                 <div class="relative z-10 flex">
-                {/* {spinnerIndex === 0 &&  <ObserverItem />}  */}
-                 
                   <img
                     class={`h-24 z-20 transition-all duration-500`}
                     src={item.img}
@@ -311,10 +327,12 @@ const BattleSpinnerReel = ({
                       : "scale-0"
                   } `}
                 >
-                  <div class="text-[#A2A5C6] text-14 font-semibold">{item.name}</div>
+                  <div class="text-[#A2A5C6] text-14 font-semibold">
+                    {item.name}
+                  </div>
                   <div class="flex  items-center justify-center gap-1">
-                      <Coin width="5"/>
-                      <GoldText text={getCurrencyString(item.price)} size="13"/>
+                    <Coin width="5" />
+                    <GoldText text={getCurrencyString(item.price)} size="13" />
                   </div>
                 </div>
               </div>
@@ -329,7 +347,6 @@ const BattleSpinnerReel = ({
             : lineColor === "blue"
             ? "/assets/caseLineHorizontalBlue.svg"
             : "/assets/caseLineHorizontalGreen.svg"
-
         }
         alt="caseline"
         class={`absolute h-32  self-center transition-opacity duration-500
