@@ -10,8 +10,11 @@ import CoinflipGameSide from './CoinflipGameSide'
 import RBCoin from '../../assets/img/coinflip/rbcoin.svg'
 import CoinflipSound from '../../assets/sounds/coinflip.mp3'
 import CoinflipIcon from '../icons/CoinflipIcon'
+import RedAnimation from '../../assets/img/coinflip/red-animation.png'
+import BlackAnimation from '../../assets/img/coinflip/black-animation.png'
 
 const CoinflipGameModal = (props) => {
+  let coinImage;
   const coinflipSoundPlay = new Audio(CoinflipSound)
 
   const { socket, userObject, toastr } = injector
@@ -19,10 +22,25 @@ const CoinflipGameModal = (props) => {
   const [data, setData] = createSignal({})
   const [counter, setCounter] = createSignal(0)
   const [isWinBgShown, setIsWinBgShown] = createSignal(false)
+  const [isCoinLoaded, setIsCoinLoaded] = createSignal(false)
 
   const [spun, setSpun] = createSignal(false)
 
   let showCoinBgTimeout
+
+  const checkImageLoaded = () => {
+    const img = new Image();
+    img.src = data()?.side == 1 ? RedAnimation : BlackAnimation;
+
+    img.onload = () => {
+      setIsCoinLoaded(true);
+      coinImage.src = img.src
+    };
+
+    img.onerror = () => {
+      console.log('Error loading image.');
+    };
+  };
 
   createEffect(() => {
     console.log(userObject, 'user')
@@ -33,6 +51,7 @@ const CoinflipGameModal = (props) => {
         if (!data.error && data.data.games[id]) {
           console.log(data.data.games[id])
           setData(data.data.games[id])
+          checkImageLoaded();
         }
       })
     }
@@ -177,7 +196,8 @@ const CoinflipGameModal = (props) => {
             {data()?.status === 'ended' || data()?.status === 'spinning' ? (
               <>
                 <div
-                  class={`coinflip-animation scale-[150%] transform -translate-x-3 -translate-y-3 relative z-10 ${
+                  ref={coinImage}
+                  class={`${isCoinLoaded() ? 'coinflip-animation' : ''} relative z-10 scale-[.8] ${
                     data()?.side == 1 ? 'red' : 'black'
                   }`}
                 />
