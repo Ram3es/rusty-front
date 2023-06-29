@@ -16,14 +16,16 @@ import CountDownText from '../battle/CountDownText'
 
 const CoinflipGameModal = (props) => {
   let coinImage;
+  let timer;
   const coinflipSoundPlay = new Audio(CoinflipSound)
 
   const { socket, userObject, toastr } = injector
 
   const [data, setData] = createSignal({})
-  const [counter, setCounter] = createSignal(0)
+  const [counter, setCounter] = createSignal(3)
   const [isWinBgShown, setIsWinBgShown] = createSignal(false)
   const [isCoinLoaded, setIsCoinLoaded] = createSignal(false)
+  const [endedGameCounter, setEndedGameCounter] = createSignal(2)
 
   const [spun, setSpun] = createSignal(false)
 
@@ -51,8 +53,26 @@ const CoinflipGameModal = (props) => {
         const id = props.searchParams?.id
         if (!data.error && data.data.games[id]) {
           console.log(data.data.games[id])
-          setData(data.data.games[id])
-          checkImageLoaded();
+          if (props.searchParams?.vuew) {
+            
+            timer = setInterval(() => {
+              console.log('here', endedGameCounter());
+              if (endedGameCounter() > 0) {
+                setCounter(endedGameCounter())
+                setEndedGameCounter(endedGameCounter() - 1)
+              } else {
+                clearInterval(timer)
+              }
+            }, 1000)
+            setData({...data.data.games[id], status: "counting"})
+            setTimeout(() => {
+              setData(data.data.games[id])
+              checkImageLoaded();
+            }, 3000)
+          } else {
+            setData(data.data.games[id])
+            checkImageLoaded();
+          }
         }
       })
     }
@@ -80,12 +100,14 @@ const CoinflipGameModal = (props) => {
         setData(data.data)
       }
     })
-    setInterval(() => {
-      if (data()?.status != 'open') {
-        const count = Math.floor((data()?.timestamp - Date.now()) / 1000)
-        setCounter(count <= 0 ? 0 : count)
-      }
-    }, 200)
+    if (!props.searchParams?.vuew) {
+      setInterval(() => {
+        if (data()?.status != 'open') {
+          const count = Math.floor((data()?.timestamp - Date.now()) / 1000)
+          setCounter(count <= 0 ? 0 : count)
+        }
+      }, 200)
+    }
   })
 
   const cancel = () => {
