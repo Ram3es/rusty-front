@@ -24,7 +24,7 @@ import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.s
 import CaseLineGreen from "../../assets/img/case-battles/caseLineHorizontalGreen.svg";
 
 import confetti from "canvas-confetti";
-// import {createWorker} from "@solid-primitives/workers";
+
 // import { Fireworks } from "fireworks-js";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;

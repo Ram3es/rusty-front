@@ -24,7 +24,6 @@ import CaseLineGreen from "../../assets/img/case-battles/caseLineHorizontalGreen
 import confetti from "canvas-confetti";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
 // import { Fireworks } from "fireworks-js";
-import {wrap} from "comlink";
 import {init} from "snowf";
 
 const LAND_IN_MIDDLE_CHANCE = otherOptions.landInMiddleChanceVertical;
