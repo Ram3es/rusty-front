@@ -140,7 +140,7 @@ const GameCaseBattle = (props) => {
 
       newSpinList.push(rollItems()[r]);
     }
-    console.log("newSpinList", newSpinList);
+    // console.log("newSpinList", newSpinList);
     return newSpinList;
   };
 
@@ -217,7 +217,7 @@ const GameCaseBattle = (props) => {
         let spinList = generateSpinList(i);
         spinList[spinIndex] = spinnerOptions()[i].winningItem;
 
-        console.log(spinnerOptions()[i].winningItem);
+        // console.log(spinnerOptions()[i].winningItem);
 
         if (spinnerOptions()[i].winningItem.isConfetti) {
           setContainsConfettiWin(true);
