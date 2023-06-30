@@ -14,7 +14,6 @@ import BattleSpinnerReel from "../../components/battle/BattleSpinnerReelTest";
 import {otherOptions} from "../../libraries/caseSpinConfig";
 import {isNumber} from "chart.js/helpers";
 import Coin from "../../utilities/Coin";
-import Logo from "../../assets/smallLogo.svg";
 import Ranks from "../../utilities/Ranks";
 import RankLabel from "../../components/chat/RankLabel";
 import ItemPlaceholder from "../../assets/img/case/ItemPlaceholder.png";
@@ -24,15 +23,11 @@ import {URL} from "../../libraries/url";
 import BattleRoyaleIcon from "../../components/icons/BattleRoyaleIcon";
 import BattleCursedIcon from "../../components/icons/BattleCursedIcon";
 import BattleGroupIcon from "../../components/icons/BattleGroupIcon";
-import FairnessShieldIcon from "../../components/icons/cases/FairnessShield";
 import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBorders";
-import ArrowDownWithGradient from "../../components/icons/ArrowDownWithGradient";
-import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
 import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle.png";
-import {tippy, useTippy} from "solid-tippy";
+import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
 
-import RecentDropsItem from "../case/RecentDropsItem";
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
 import Spiner from "../../components/battle/Spiner";
@@ -47,9 +42,7 @@ import StackedCasesBar from "../../components/battle/StackedCasesBar";
 import CaseViewModal from "../../components/modals/CaseViewModal";
 import CountDownText from "../../components/battle/CountDownText";
 import {
-  playCountDownSound,
-  playPullBackSound,
-  playWinSound,
+  playCountDownSound, playPullBackSound, playWinSound
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
@@ -72,13 +65,6 @@ export const [spinLists, setSpinLists] = createSignal([]);
 
 export const clickingSound = new Audio(clickSeq);
 
-export const playClickAudio = () => {
-  // console.log('playClickAudio')
-};
-
-export const playEndAudio = () => {
-  // console.log("playEndAudio' ")
-};
 
 export const getJoinTeam = (mode, playerIndex) => {
   if (mode === "group") {
@@ -107,7 +93,6 @@ const GameCaseBattle = (props) => {
   const [rollItems, setRollItems] = createSignal([]);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [winnings, setWinnings] = createSignal([]);
-  const [containsBigWin, setContainsBigWin] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
   const [battleCases, setBattleCases] = createSignal([]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
@@ -167,7 +152,9 @@ const GameCaseBattle = (props) => {
 
   const generateSpinList = (playerIndex) => {
     setSpinOffsets([]);
+
     const newSpinList = [];
+
     for (let i = 0; i < 35; i++) {
       const r = Math.floor(
         createRandomFunction(game().id, game().currentRound, playerIndex, i)() *
@@ -249,9 +236,6 @@ const GameCaseBattle = (props) => {
         const spinIndex = getRandomIndex(i);
         let spinList = generateSpinList(i);
         spinList[spinIndex] = spinnerOptions()[i].winningItem;
-        if (spinnerOptions()[i].isBigWin) {
-          setContainsBigWin(true);
-        }
 
         if (spinnerOptions()[i].winningItem.isConfetti) {
           setContainsConfettiWin(true);
@@ -925,8 +909,8 @@ const GameCaseBattle = (props) => {
                                           game().currentRound,
                                           playerIndex
                                         );
-                                      return !!spinnerOptions()[playerIndex] &&
-                                        !!spinLists()[playerIndex] ? (
+                                      return (!!spinnerOptions()[playerIndex] &&
+                                        !!spinLists()[playerIndex]) ? (
                                         <BattleSpinnerReel
                                           spinnerIndex={playerIndex}
                                           isConfettiWin={
@@ -940,13 +924,7 @@ const GameCaseBattle = (props) => {
                                           isFastSpin={false}
                                           lineColor={getModeColor()}
                                           randomFunction={randomFunction}
-                                          setBeginClickSound={
-                                            setBeginClickSound
-                                          }
-                                          setBeginPullBackSound={
-                                            setBeginPullBackSound
-                                          }
-                                          setBeginWinSound={setBeginWinSound}
+                                          user={userObject}
                                           containsConfettiWin={
                                             containsConfettiWin
                                           }

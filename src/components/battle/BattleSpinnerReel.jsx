@@ -1,5 +1,6 @@
 import {For, createSignal, createEffect, onCleanup} from "solid-js";
 import {
+  clickingSound,
   containerRef,
   reelsSpinning,
   spinIndexes,
@@ -71,9 +72,9 @@ const BattleSpinnerReel = (props) => {
   const [reel, setReel] = createSignal();
   const [lineWidth, setLineWidth] = createSignal(0);
 
-  // const [fireworksContainer, setFireworksContainer] = createSignal();
-
-  // const [fireworksActive, setFireworksActive] = createSignal(false);
+  const [beginClickSound, setBeginClickSound] = createSignal(false);
+  const [beginPullBackSound, setBeginPullBackSound] = createSignal(false);
+  const [beginWinSound, setBeginWinSound] = createSignal(false);
 
   const [topIndex, setTopIndex] = createSignal(0);
   const [translateY, setTranslateY] = createSignal(0);
@@ -98,7 +99,7 @@ const BattleSpinnerReel = (props) => {
   const [spinComplete, setSpinComplete] = createSignal(false);
 
   createEffect(() => {
-    console.log(reelsSpinning());
+    // console.log(reelsSpinning());
     // console.log(reelItem());
     if (reelsSpinning()) {
       setTranslateY(calculateTopIndexOffset());
@@ -112,7 +113,7 @@ const BattleSpinnerReel = (props) => {
   });
   createEffect(() => {
     if (spinLists()) {
-      console.log("here spin", spinLists());
+      // console.log("here spin", spinLists());
       setReelItem(() => document.querySelector("[data-reel-item]"));
       // console.log(reelItem());
     }
@@ -128,6 +129,7 @@ const BattleSpinnerReel = (props) => {
     } else {
       moveAmount -= spinOffSet;
     }
+    
     setTopIndex(moveAmount);
     if (props.spinnerIndex === 0) {
       props.setBeginClickSound(true);
@@ -234,7 +236,7 @@ const BattleSpinnerReel = (props) => {
         confetti({
           particleCount,
           spread,
-          origin: {x: xA, y: yA},
+          origin: { x: xA, y: yA },
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
           ticks,
@@ -273,13 +275,34 @@ const BattleSpinnerReel = (props) => {
     }
   });
 
+  createEffect(() => {
+    if (beginClickSound()) {
+      setBeginClickSound(false);
+      if (user?.user?.sounds) {
+        clickingSound.currentTime = 0;
+        clickingSound.volume = user.user.sounds;
+        clickingSound.play();
+      }
+    }
+    if (beginPullBackSound()) {
+      setBeginPullBackSound(false);
+      playPullBackSound();
+    }
+
+    if (beginWinSound()) {
+      setBeginWinSound(false);
+      if (containsConfettiWin()) {
+        playWinSound();
+      }
+    }
+  });
+
   return (
     <div
       id="slot-screen"
-      class="relative gap-2 w-full h-full flex flex-col 
-      items-center justify-center overflow-hidden font-SpaceGrotesk"
+      class="relative gap-2 w-full h-full flex flex-col items-center justify-center overflow-hidden font-SpaceGrotesk"
     >
-      <div class={`overflow-y-hidden w-full overflow-x-hidden`}>
+      <div class="overflow-y-hidden w-full overflow-x-hidden">
         <div
           id="reels"
           ref={setReel}

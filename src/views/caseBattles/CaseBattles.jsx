@@ -191,6 +191,9 @@ const CaseBattles = (props) => {
                     (games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
                     games[id]?.cursed !== 1
                 }}
+                style={{
+                  transform: 'translate3d(0,0,0)' 
+                }}
               >
                 <div class='p-4 w-full flex gap-3 md:border-r border-dark-1617 relative z-10'>
                   <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>

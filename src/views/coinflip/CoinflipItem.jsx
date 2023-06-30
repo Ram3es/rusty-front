@@ -1,6 +1,8 @@
 import { For, createSignal, onMount } from 'solid-js'
-import injector from '../../injector/injector'
+
 import { NavLink } from 'solid-app-router'
+
+import injector from '../../injector/injector'
 
 import { useI18n } from '../../i18n/context'
 import { URL } from '../../libraries/url'

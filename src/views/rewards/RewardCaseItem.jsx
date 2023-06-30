@@ -186,13 +186,15 @@ const RewardCaseItem = (props) => {
       </div>
       {props?.user?.authenticated &&
         notAvailableCases()[0] === convertRomanToNormal(props?.item?.name) && (
-          <span class='absolute bottom-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lowercase reward-card--available font-bold font-SpaceGrotesk text-12'>
+          <div class='absolute bottom-1.5 left-1/2 transform -translate-x-1/2 -translate-y-1/2 lowercase flex items-center'>
+            <span class=' reward-card--available font-bold font-SpaceGrotesk text-12'>
             {(
               (props.user?.user?.wagered - props.user?.user?.level?.from * 1000) /
                 (props.user?.user?.level?.to * 10) || 99
             ).toFixed(2)}
             % till unlock
-          </span>
+            </span>
+          </div>
         )}
     </NavLink>
   )
