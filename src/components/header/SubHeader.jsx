@@ -30,16 +30,16 @@ import ArrowDown from "../icons/ArrowDown";
 import LoginButton from "../elements/LoginButton";
 import PVPMinesIcon from "../icons/PVPMinesIcon";
 import PlusIcon from "../icons/PlusIcon";
+import CloseIcon from "../icons/CloseIcon";
 
 const SubHeader = (props) => {
   let soundButtonMain;
   let soundWrapperMain;
   let notificationButtonMain;
-  let langWrapperMain;
   let langButtonMain;
   const { setToggles, userObject, socket, setUserObject } = injector;
   const location = useLocation();
-  const [, setActive] = isMenuActive;
+  const [activeMobileMenu, setActiveMobileMenu] = createSignal(false);
   const i18n = useI18n();
   const [isSoundModalOpen, setSoundModalOpen] = createSignal(false);
   const [isNotificationModalOpen, setNotificationModalOpen] =
@@ -309,7 +309,6 @@ const SubHeader = (props) => {
                   </button>
 
                   <ul
-                    ref={langWrapperMain}
                     class={`${
                       isLangModalOpen() ? "" : "hidden"
                     } absolute z-40 mt-1 w-full overflow-auto py-1 font-SpaceGrotesk text-13 text-gray-9a uppercase nav-lang-popup p-2 flex flex-col gap-1`}
@@ -353,7 +352,7 @@ const SubHeader = (props) => {
                           document.getElementById(
                             "scrollWrapper"
                           ).scrollTop = 0;
-                          setActive(false);
+                          setActiveMobileMenu(false);
                           setCurrPath(() => mode.url);
                         }
                       }}
@@ -505,9 +504,9 @@ const SubHeader = (props) => {
               )}
               <div
                 class="rounded-4 shadow-button flex border border-[#FFFFFF08] items-center justify-center cursor-pointer text-gray-9a h-10 w-10 lg:hidden"
-                onClick={() => setActive((prev) => !prev)}
+                onClick={() => setActiveMobileMenu((prev) => !prev)}
               >
-                <MobileBurgerMenuIcon />
+                {activeMobileMenu() ? <CloseIcon /> : <MobileBurgerMenuIcon />}
               </div>
             </div>
           </div>
@@ -527,11 +526,155 @@ const SubHeader = (props) => {
             }}
           />
         </div>
-        <MobileNav
+        {/* <MobileNav
           {...props}
           notifications={notifications()}
           removeNotification={removeNotification}
-        />
+        /> */}
+        {activeMobileMenu() && !isNotificationModalOpen() && (
+          <div
+            class={`absolute flex flex-col left-0 top-full w-full h-[calc(100vh-55px)] overflow-y-scroll p-6 gap-6 subheader-nav`}
+          >
+            <div class="flex flex-col gap-[18px]">
+              <For each={toggles}>
+                {(toggle) => (
+                  <NavLink
+                    href={`${
+                      toggle.name === "Affiliates" ||
+                      toggle.name === "Free Coins"
+                        ? `${location.pathname}${toggle.url}`
+                        : toggle.url
+                    }`}
+                    class={`gap-3 cursor-pointer group relative`}
+                    onClick={(e) => {
+                      if (toggle.url == URL.FAIRNESS) {
+                        e.preventDefault();
+                        setToggles("provablyFairModal", true);
+                      }
+                      setTimeout(() => {
+                        setCurrPath(() => window.location.pathname);
+                      }, 100);
+                    }}
+                  >
+                    <p
+                      class={`text-16 sm:text-14 text-current font-medium font-SpaceGrotesk ${
+                        toggle.url === URL.REWARDS
+                          ? "reward-label"
+                          : "text-gray-6a group-hover:text-gray-9aa"
+                      } transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                    >
+                      {toggle.name}
+                      {toggle.url === URL.REWARDS && (
+                        <span class="flex h-[3px] w-[3px] relative text-yellow-ffb">
+                          <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-75 transform"
+                            style={{
+                              "box-shadow":
+                                "0px 0px 5px 1px rgba(255, 180, 54, 0.72)",
+                            }}
+                          />
+                          <span class="relative inline-flex rounded-full h-[3px] w-[3px] bg-current" />
+                        </span>
+                      )}
+                    </p>
+                  </NavLink>
+                )}
+              </For>
+            </div>
+            <div class="w-full bg-[#27293D] h-[1px]" />
+            <div class="flex flex-col gap-[18px]">
+              <For each={supports}>
+                {(toggle) => (
+                  <NavLink
+                    href={`${toggle.url}`}
+                    class={`gap-3 cursor-pointer group relative`}
+                    onClick={() => {
+                      setTimeout(() => {
+                        setCurrPath(() => window.location.pathname);
+                      }, 100);
+                    }}
+                  >
+                    <p
+                      class={`text-16 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                    >
+                      {toggle.name}
+                    </p>
+                  </NavLink>
+                )}
+              </For>
+            </div>
+            <div class="w-full bg-[#27293D] h-[1px]" />
+            <div class="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  playMenuToggle();
+                  setLangModalOpen((prev) => !prev);
+                }}
+                ref={langButtonMain}
+                class="relative w-24 flex gap-4 items-center py-1"
+                aria-haspopup="listbox"
+                aria-expanded="true"
+                aria-labelledby="listbox-label"
+              >
+                <span class="block truncate">
+                  <For each={availableLocales()}>
+                    {(item) =>
+                      item.active ? (
+                        <span class="flex gap-[6.5px] items-center font-SpaceGrotesk font-bold text-16 lg:text-13 text-gray-9a uppercase">
+                          {" "}
+                          <img
+                            class="h-3 rounded-2"
+                            src={item.flag}
+                            alt="flag"
+                          />
+                          {item.title}
+                        </span>
+                      ) : (
+                        ""
+                      )
+                    }
+                  </For>
+                </span>
+                <span
+                  class={`pointer-events-none absolute inset-y-0 w-4 h-4 text-gray-9a center right-4 top-1/2 transform -translate-y-[9px] header-hang-toggle-wrapper`}
+                >
+                  <ArrowDown isOpen={isLangModalOpen()} />
+                </span>
+              </button>
+
+              <ul
+                class={`${
+                  isLangModalOpen() ? "" : "hidden"
+                } absolute z-40 w-full overflow-auto font-SpaceGrotesk text-13 text-gray-9a uppercase nav-lang-popup p-2 flex flex-col gap-2`}
+                tabindex="-1"
+                role="listbox"
+                aria-labelledby="listbox-label"
+                aria-activedescendant="listbox-option-3"
+              >
+                <For each={availableLocales()}>
+                  {(item) =>
+                    !item.active ? (
+                      <li
+                        onClick={() => toggleActiveLang(item.code)}
+                        class="text-gray-900 relative select-none p-1 cursor-pointer border-2 border-white rounded-6 border-opacity-5"
+                        id="listbox-option-0"
+                        role="option"
+                      >
+                        <span class="flex gap-1 items-center font-SpaceGrotesk font-bold text-16 text-gray-9a uppercase">
+                          <img src={item.flag} alt="flag" />
+                          {item.title}
+                        </span>
+                      </li>
+                    ) : (
+                      ""
+                    )
+                  }
+                </For>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
