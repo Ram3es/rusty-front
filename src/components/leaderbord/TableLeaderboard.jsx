@@ -34,13 +34,13 @@ const TableLeaderboard = (props) => {
                 <For each={props.players}>
                     {(player, idx) => {
                         return (
-                            <div class=' grid grid-cols-leaderboard-sm sm:grid-cols-leaderboard-table gap-y-4  leaderbord-table--row  h-fit sm:h-16 items-center   py-2 sm:py-0 pr-3 sm:pr-6 '>
-                                <div class=" col-span-2 sm:col-span-1 relative flex items-center">
+                            <div class=' grid grid-cols-6 grid-rows-2 sm:grid-rows-1 sm:grid-cols-leaderboard-table sm:gap-y-4  leaderbord-table--row  h-fit sm:h-16 items-center sm:py-0 sm:pr-6 '>
+                                <div class=" col-start-1 row-start-1 sm:col-span-1 relative flex pt-4 sm:pt-0 items-center">
                                     <div class="absolute left-0 leaderboard-tile spot center min-w-[48px] h-8">
                                         <span class=" text-xl font-SpaceGrotesk font-bold text-gradient--leaderboard-gold">#{idx() + 4}</span>
                                     </div>
                                 </div>
-                                <div class=' col-span-2 row-start-1 sm:col-span-1 sm:row-start-auto flex items-center gap-2 ml-3 sm:ml-0 '>
+                                <div class=' col-start-2 col-end-7 col-span-2 row-start-1 sm:col-span-1 sm:row-start-auto flex items-center pt-4 sm:pt-0 gap-2 ml-3 sm:ml-0 '>
                                     <img 
                                         src={player.avatar} 
                                         alt='avatar' 
@@ -67,7 +67,7 @@ const TableLeaderboard = (props) => {
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-span-2 sm:col-span-1 row-start-1 col-start-3 sm:row-start-auto sm:col-start-auto relative flex items-center min-h-[40px] h-full w-full">
+                                <div class="col-span-2 sm:col-span-1 row-start-3 col-start-1 col-end-7 sm:row-start-auto sm:col-start-auto relative flex items-center min-h-[64px] sm:min-h-[40px] h-full w-full">
                                     <div class=" absolute inset-0 leaderboard-tile flex flex-wrap items-center justify-center gap-x-2 text-yellow-ffb text-shadow-base ">
                                         <span>Wagered</span>
                                         <AmountWithCoin
@@ -78,7 +78,7 @@ const TableLeaderboard = (props) => {
                                         />
                                     </div>
                                 </div>
-                                <div class=" col-span-2 sm:col-span-1 flex justify-center sm:justify-end">
+                                <div class=" col-start-1 col-end-7 col-span-2 sm:col-span-1 flex justify-center sm:justify-end">
                                     <AmountWithCoin
                                         widthCoin='5'
                                         fontSize='14'
