@@ -11,7 +11,7 @@ import ChatEmojisButton from './ChatEmojisButton'
 import ChatSendButton from './ChatSendButton'
 import { EMOJIS } from './constants/emojis'
 import SoundIcon from '../icons/SoundIcon'
-import TooltipIcon from '../icons/TooltipIcon'
+import tabStore from '../nav/MobileNavStore'
 import RankLabel from './RankLabel'
 import LoginButton from '../elements/LoginButton'
 
@@ -21,7 +21,9 @@ const Chat = (p) => {
   const i18n = useI18n()
 
   const [msg, setMsg] = createSignal('')
-  const [active, setActive] = createSignal(false)
+
+  const [currentNavTab, setCurrentNavTab] = tabStore;
+  
   const [isEmojiesOpen, setEmojiesOpen] = createSignal(false)
   const [messageIdToDelete, setMessageIdToDelete] = createSignal()
   const [room, setRoom] = lang
@@ -141,20 +143,15 @@ const Chat = (p) => {
     <div
       id='chatHodler'
       class={`flex items-center flex-col w-full sm:w-[324px] h-full duration-200 z-30 ${
-        active() ? 'right-0' : '-right-full sm:-right-[324px]'
+        currentNavTab() === 'chat' ? 'right-0' : '-right-full sm:-right-[324px]'
       } llg:right-0 top-0 absolute llg:relative font-SpaceGrotesk`}
       style={{
         background:
           'linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)),linear-gradient(0deg, #1A1B30 100%, #21243B 100%)'
       }}
     >
-      <div
-        class={`absolute -left-16 bottom-28 sm:bottom-34 lg:bottom-4 w-12 h-12 rounded-4 bg-dark-28 hover flex llg:hidden justify-center items-center`}
-        onClick={() => setActive((prev) => !prev)}
-      >
-        <p class='text-20 text-yellow-ffb font-bold'>{active() ? '>' : '<'}</p>
-      </div>
-      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-32 sm:pt-0 llg:pt-0'>
+
+      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-[56px] pb-[69px] sm:pb-0 sm:pt-0'>
         <div
           class='w-full h-[48px] flex justify-between gap-4 items-center py-2 pl-3 pr-6 border-b border-dark-1617'
           style={{
@@ -162,25 +159,6 @@ const Chat = (p) => {
               'linear-gradient(0deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.08)), linear-gradient(90.04deg, #1A1B30 0%, #21243B 100%)'
           }}
         >
-          <div
-            class='flex sm:hidden justify-center items-center'
-            onClick={() => setActive((prev) => !prev)}
-          >
-            <svg
-              width='14'
-              height='14'
-              viewBox='0 0 14 14'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                fill-rule='evenodd'
-                clip-rule='evenodd'
-                d='M13.7071 1.70711C14.0976 1.31658 14.0976 0.683417 13.7071 0.292893C13.3166 -0.0976311 12.6834 -0.0976311 12.2929 0.292893L7 5.58579L1.70711 0.292893C1.31658 -0.0976311 0.683417 -0.0976311 0.292893 0.292893C-0.0976311 0.683417 -0.0976311 1.31658 0.292893 1.70711L5.58579 7L0.292893 12.2929C-0.0976311 12.6834 -0.0976311 13.3166 0.292893 13.7071C0.683417 14.0976 1.31658 14.0976 1.70711 13.7071L7 8.41421L12.2929 13.7071C12.6834 14.0976 13.3166 14.0976 13.7071 13.7071C14.0976 13.3166 14.0976 12.6834 13.7071 12.2929L8.41421 7L13.7071 1.70711Z'
-                fill='#8C98A9'
-              />
-            </svg>
-          </div>
           <div
             class='h-8 w-[63px] px-3 py-[7px] flex items-center justify-between gap-2 border-2 rounded'
             style={{

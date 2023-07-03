@@ -10,27 +10,20 @@ import { ranksBorderColor } from "../../libraries/constants";
 import Ranks from "../../utilities/Ranks";
 import { useI18n } from "../../i18n/context";
 import MobileBurgerMenuIcon from "../icons/MobileBurgerMenuIcon";
-import isMenuActive from "./IsMenuActive.jsx";
-import MobileNav from "./MobileNav";
 import { playMenuToggle } from "../../utilities/Sounds/SoundButtonClick";
 import roomStore from "../chat/RoomStore";
 import EnFlag from "../../assets/img/header/enFlag.svg";
 import EsFlag from "../../assets/img/header/esFlag.svg";
 import RuFlag from "../../assets/img/header/ruFlag.svg";
-import BattleIcon from "../../components/icons/BattleIcon";
-import CoinflipIcon from "../../components/icons/CoinflipIcon";
-import UpgraderIcon from "../../components/icons/UpgraderIcon";
-import WheelIcon from "../../components/icons/WheelIcon";
-import CaseOpeningIcon from "../../components/icons/CaseOpeningIcon";
-import MinesIcon from "../../components/icons/MinesIcon";
-import PlinkoIcon from "../../components/icons/PlinkoIcon";
 import ModeMark from "./ModeMark";
 import DarkButton from "../elements/DarkButton";
 import ArrowDown from "../icons/ArrowDown";
 import LoginButton from "../elements/LoginButton";
-import PVPMinesIcon from "../icons/PVPMinesIcon";
 import PlusIcon from "../icons/PlusIcon";
 import CloseIcon from "../icons/CloseIcon";
+import { navigationGameModes } from "../../libraries/navigation";
+import tabStore from "../nav/MobileNavStore";
+import MobileGameNavigation from "../nav/MobileGameNavigation";
 
 const SubHeader = (props) => {
   let soundButtonMain;
@@ -55,57 +48,8 @@ const SubHeader = (props) => {
   const [isLangModalOpen, setLangModalOpen] = createSignal(false);
   const [availableLocales, setAvailableLocales] = createSignal([]);
   const [setRoom] = roomStore;
-  const navigationGameModes = [
-    {
-      name: { en: "Case Battles", es: "case battles", ru: "case battles" },
-      svg: <BattleIcon />,
-      url: URL.GAMEMODES.CASE_BATTLES,
-      mark: "new",
-    },
-    {
-      name: { en: "Coinflip", es: "coinflip", ru: "Коинфлип" },
-      svg: <CoinflipIcon />,
-      url: URL.GAMEMODES.COINFLIP,
-      mark: "hot",
-    },
-    {
-      name: { en: "Upgrader", es: "upgrader", ru: "Апгрейдер" },
-      svg: <UpgraderIcon />,
-      url: URL.GAMEMODES.UPGRADER,
-      mark: "hot",
-    },
-    {
-      name: { en: "Wheel", es: "rueda", ru: "колесо" },
-      svg: <WheelIcon />,
-      url: URL.GAMEMODES.WHEEL,
-      mark: "soon",
-      disabled: true,
-    },
-    {
-      name: { en: "Mines", es: "Minas", ru: "Бомбы" },
-      svg: <MinesIcon />,
-      url: URL.GAMEMODES.MINES,
-      mark: "soon",
-      disabled: true,
-    },
-    {
-      name: { en: "Plinko", es: "Plinko", ru: "Плинко" },
-      svg: <PlinkoIcon />,
-      url: URL.GAMEMODES.PLINKO,
-      mark: "soon",
-      disabled: true,
-    },
-    {
-      name: { en: "Cases", es: "cases", ru: "cases" },
-      svg: <CaseOpeningIcon />,
-      url: URL.UNBOXING,
-    },
-    {
-      name: { en: "PVP Mines", es: "Minas PVP", ru: "PVP Бомбы" },
-      svg: <PVPMinesIcon />,
-      url: URL.GAMEMODES.PVP_MINES,
-    },
-  ];
+
+  const [currentNavTab, setCurrentNavTab] = tabStore;
 
   const toggles = [
     { name: "Affiliates", url: `?affiliates=true` },
@@ -352,7 +296,6 @@ const SubHeader = (props) => {
                           document.getElementById(
                             "scrollWrapper"
                           ).scrollTop = 0;
-                          setActiveMobileMenu(false);
                           setCurrPath(() => mode.url);
                         }
                       }}
@@ -402,7 +345,7 @@ const SubHeader = (props) => {
                 <div class="flex flex-row-reverse sm:flex-row items-center gap-[10px] sm:gap-6">
                   <div class="flex h-10">
                     <div class="balance-bg rounded-l-6 flex items-center">
-                      <div class="bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[113px] sm:w-[146px]">
+                      <div class="bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[90px] ssm:w-[113px] sm:w-[146px]">
                         <div
                           class="overflow-x-scroll w-full h-full px-2 sm:px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold"
                           style={{
@@ -526,15 +469,9 @@ const SubHeader = (props) => {
             }}
           />
         </div>
-        {/* <MobileNav
-          {...props}
-          notifications={notifications()}
-          removeNotification={removeNotification}
-        /> */}
+
         {activeMobileMenu() && !isNotificationModalOpen() && (
-          <div
-            class={`absolute flex flex-col left-0 top-full w-full h-[calc(100vh-55px)] overflow-y-scroll p-6 gap-6 subheader-nav`}
-          >
+          <div class="transition-all delay-700ease-in-out duration-700 absolute flex flex-col left-0 top-full w-full h-[calc(100vh-69px-56px)] overflow-y-scroll p-6 gap-6 subheader-nav">
             <div class="flex flex-col gap-[18px]">
               <For each={toggles}>
                 {(toggle) => (
@@ -594,9 +531,7 @@ const SubHeader = (props) => {
                       }, 100);
                     }}
                   >
-                    <p
-                      class={`text-16 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
-                    >
+                    <p class="text-16 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center">
                       {toggle.name}
                     </p>
                   </NavLink>
@@ -675,6 +610,7 @@ const SubHeader = (props) => {
             </div>
           </div>
         )}
+        {currentNavTab() === "games" && <MobileGameNavigation />}
       </div>
     </>
   );
