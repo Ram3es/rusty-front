@@ -1,4 +1,3 @@
-import Bg from "../../assets/img/home/homepage_bg.png";
 import Fallback from "../Fallback";
 import RustyOriginals from "../../components/new-home/RustyOriginals";
 import FreeRewards from "../../components/new-home/FreeRewards";
