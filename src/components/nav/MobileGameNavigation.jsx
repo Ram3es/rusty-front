@@ -11,7 +11,7 @@ const MobileGameNavigation = () => {
   const i18n = useI18n();
 
   return (
-    <div class="absolute left-0 top-full w-full h-[calc(100vh-69px-56px)] overflow-y-scroll subheader-nav">
+    <div class="absolute left-0 top-full w-full h-[calc(100vh-69px-56px)] overflow-y-scroll z-50 subheader-nav">
       <div class="grid grid-cols-2 p-4 gap-4">
         <For each={navigationGameModes}>
           {(mode) => (

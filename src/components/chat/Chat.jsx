@@ -142,7 +142,7 @@ const Chat = (p) => {
   return (
     <div
       id='chatHodler'
-      class={`flex items-center flex-col w-full sm:w-[324px] h-full duration-200 z-30 ${
+      class={`flex items-center flex-col w-full sm:w-[324px] h-[calc(100vh-56px-16px)] sm:h-full duration-200 z-30 ${
         currentNavTab() === 'chat' ? 'right-0' : '-right-full sm:-right-[324px]'
       } llg:right-0 top-0 absolute llg:relative font-SpaceGrotesk`}
       style={{
@@ -151,7 +151,7 @@ const Chat = (p) => {
       }}
     >
 
-      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-[56px] pb-[69px] sm:pb-0 sm:pt-0'>
+      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-[56px] sm:pt-0'>
         <div
           class='w-full h-[48px] flex justify-between gap-4 items-center py-2 pl-3 pr-6 border-b border-dark-1617'
           style={{

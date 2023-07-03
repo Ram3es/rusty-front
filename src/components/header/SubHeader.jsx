@@ -1,4 +1,4 @@
-import { createSignal, For, onMount } from "solid-js";
+import { createEffect, createSignal, For, onMount } from "solid-js";
 import { NavLink, useLocation } from "solid-app-router";
 import { SOCIAL, URL } from "../../libraries/url";
 import smallLogo from "../../assets/smallLogo.svg";
@@ -126,6 +126,20 @@ const SubHeader = (props) => {
       { title: "Ru", code: "ru", active: setRoom() == "ru", flag: RuFlag },
     ]);
   });
+
+  createEffect(() => {
+    if (activeMobileMenu() && currentNavTab() !== '') {
+      setActiveMobileMenu(false)
+    }
+    console.log(currentNavTab());
+  })
+
+  const toggleActiveMobileMenu = () => {
+    if (currentNavTab() !== '') {
+      setCurrentNavTab('')
+    }
+    setActiveMobileMenu((prev) => !prev)
+  }
 
   return (
     <>
@@ -447,7 +461,7 @@ const SubHeader = (props) => {
               )}
               <div
                 class="rounded-4 shadow-button flex border border-[#FFFFFF08] items-center justify-center cursor-pointer text-gray-9a h-10 w-10 lg:hidden"
-                onClick={() => setActiveMobileMenu((prev) => !prev)}
+                onClick={toggleActiveMobileMenu}
               >
                 {activeMobileMenu() ? <CloseIcon /> : <MobileBurgerMenuIcon />}
               </div>
