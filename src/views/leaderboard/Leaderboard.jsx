@@ -65,9 +65,9 @@ const Leaderboard = () => {
   return (
     <Fallback loaded={() => true}>
       <div class="w-full h-full pt-8 flex flex-col gap-4 relative min-h-screen">
-        <div class="w-full flex flex-col gap-16 ">
+        <div class="w-full flex flex-col gap-8 sm:gap-16 ">
           <LeaderbordBanner timer={timeLeft()} />
-          <div class=" flex items-center gap-4 mb-10 center scale-80 sm:scale-100">
+          <div class=" flex items-center gap-4 sm:mb-10 center scale-80 sm:scale-100">
             <svg width="135" height="3" viewBox="0 0 135 3" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M135 0L0 1.5V1.5L135 3V0Z" fill="url(#paint0_linear_2668_143059)"/>
               <defs>
@@ -77,7 +77,7 @@ const Leaderboard = () => {
                 </linearGradient>
               </defs>
             </svg>
-            <h1 class='text-gradient--leaderboard-gold text-2xl font-SpaceGrotesk font-bold text-center '>TOP 20 PLACES</h1>
+            <h1 class='text-gradient--leaderboard-gold text-20 sm:text-2xl w-full sm:w-max font-SpaceGrotesk font-bold text-center '>TOP 20 PLACES</h1>
             <svg class='rotate-180' width="135" height="3" viewBox="0 0 135 3" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M135 0L0 1.5V1.5L135 3V0Z" fill="url(#paint0_linear_2668_143059)"/>
               <defs>

@@ -10,7 +10,17 @@ import Guard from './img/banner-guard.png'
 const LeaderbordBanner = (props) => {
     return (
         <div class='relative'>
-            <div class="w-full overflow-hidden rounded-8 relative leaderbord-banner  ">
+            <div class=" absolute z-10 flex flex-col items-center  w-full -top-8 sm:top-0 font-bold font-SpaceGrotesk text-gray-9a py-6" >
+                <span class=' text-xs'>BAJOONGA ENDS IN</span>
+                <div class='flex  items-end text-yellow-ffb text-sm [&>span]:text-base [&>span]:text-white [&>span]:ml-1 '>
+                    <span>{props.timer.days}</span>D
+                    <span>{props.timer.hours}</span>H
+                    <span>{props.timer.minutes}</span>M
+                    <span>{props.timer.seconds}</span>S   
+                </div>
+                <span class='text-32 lg:text-80 bajoonga-prize mt-7 sm:mt-0'>${(2000).toLocaleString('en-US')}</span>
+            </div>
+            <div class="w-full overflow-hidden rounded-8 relative leaderbord-banner mt-12 sm:mt-0">
                 <img src={BannerImg} alt='banner' class=" w-full h-full" />
                 <img src={Mask} alt='banner' class="absolute top-0 left-0 w-full h-full" />
                 <img src={Trapeyoid} alt='trapezoid' class=" absolute h-full top-0 left-1/2 -translate-x-1/2" />
@@ -19,19 +29,10 @@ const LeaderbordBanner = (props) => {
                 <img src={Guard} alt='guard' class=" absolute  -bottom-6 right-6 h-full" />
                 <img src={Guard} alt='guard' class=" absolute  -bottom-6 left-6 h-full -scale-x-[1] " />
                   
-                <div class=" absolute flex flex-col items-center  w-full top-0 font-bold font-SpaceGrotesk text-gray-9a py-6" >
-                    <span class=' text-xs'>BAJOONGA ENDS IN</span>
-                    <div class='flex  items-end text-yellow-ffb text-sm [&>span]:text-base [&>span]:text-white [&>span]:ml-1 '>
-                        <span>{props.timer.days}</span>D
-                        <span>{props.timer.hours}</span>H
-                        <span>{props.timer.minutes}</span>M
-                        <span>{props.timer.seconds}</span>S   
-                    </div>
-                    <span class=' text-80 bajoonga-prize'>${(2000).toLocaleString('en-US')}</span>
-                </div>
+                
                 
             </div>
-            <img src={Bajoonga} alt='banner' class=" absolute w-1/4 h-auto -bottom-[10%] left-1/2 -translate-x-1/2" />
+            <img src={Bajoonga} alt='banner' class=" absolute w-[40%] sm:w-1/4 h-auto -bottom-[10%] left-1/2 -translate-x-1/2" />
         </div>
     )
 }
