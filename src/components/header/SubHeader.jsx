@@ -242,24 +242,40 @@ const SubHeader = (props) => {
                 </For>
               </div>
               <div class='flex gap-6'>
-                <For each={supports}>
-                  {(toggle) => (
-                    <NavLink
-                      href={`${toggle.url}`}
-                      class={`center gap-3 cursor-pointer group relative`}
-                      onClick={() => {
-                        setTimeout(() => {
-                          setCurrPath(() => window.location.pathname)
-                        }, 100)
-                      }}
-                    >
-                      <p
-                        class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+              <For each={supports}>
+                  {(toggle) =>
+                    toggle.name.toLowerCase() === "discord" ||
+                    toggle.name.toLowerCase() === "twitter" ||
+                    toggle.name.toLowerCase() === "support" ? (
+                      <NavLink
+                        href={`${toggle.url}`}
+                        target="_blank"
+                        class={`center gap-3 cursor-pointer group relative`}
                       >
-                        {toggle.name}
-                      </p>
-                    </NavLink>
-                  )}
+                        <p
+                          class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                        >
+                          {toggle.name}
+                        </p>
+                      </NavLink>
+                    ) : (
+                      <NavLink
+                        href={`${toggle.url}`}
+                        class={`center gap-3 cursor-pointer group relative`}
+                        onClick={() => {
+                          setTimeout(() => {
+                            setCurrPath(() => window.location.pathname);
+                          }, 100);
+                        }}
+                      >
+                        <p
+                          class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                        >
+                          {toggle.name}
+                        </p>
+                      </NavLink>
+                    )
+                  }
                 </For>
                 <div class='relative'>
                   <button

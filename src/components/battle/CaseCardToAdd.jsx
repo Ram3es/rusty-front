@@ -30,6 +30,9 @@ const CaseCardToAdd = (props) => {
       }}
       onMouseOver={() => setIsHovering(true)}
       onMouseOut={() => setIsHovering(false)}
+      style={{
+        transform: 'translate3d(0,0,0)' 
+      }}
     >
       <div
         class=" absolute left-0 top-0 w-full h-full z-0"

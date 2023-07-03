@@ -183,7 +183,7 @@ const AffiliatesModal = (props) => {
   });
 
   const copy = () => {
-    navigator.clipboard.writeText(`${URL}/r/${affiliate?.code}`);
+    navigator.clipboard.writeText(`${API}/r/${affiliate?.code}`);
     toastr({
       error: false,
       msg: "Successfully copied to clipboard!",
