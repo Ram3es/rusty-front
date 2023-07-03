@@ -46,6 +46,7 @@ import {
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
+import confetti, {create} from "canvas-confetti";
 
 import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg";
 import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.svg";
@@ -57,7 +58,7 @@ import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
 import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
 import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
 
-export const [containerRef, setContainerRef] = createSignal();
+export const [containerRef, setContainerRef] = createSignal(null);
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
 export const [spinIndexes, setSpinIndexes] = createSignal([]);
 export const [spinOffsets, setSpinOffsets] = createSignal([]);
@@ -89,7 +90,7 @@ const bglogos = {
 const GameCaseBattle = (props) => {
   const {socket, userObject, toastr} = injector;
 
-  const [game, setGame] = createSignal();
+  const [game, setGame] = createSignal(null);
   const [rollItems, setRollItems] = createSignal([]);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [winnings, setWinnings] = createSignal([]);
@@ -103,6 +104,7 @@ const GameCaseBattle = (props) => {
   const [beginClickSound, setBeginClickSound] = createSignal(false);
   const [spinQueue, setSpinQueue] = createSignal([]);
   // const [spinnerStatus, setSpinnerStatus] = createSignal({status: "inactive"});
+  const [confettiData, setConfettiData] = createSignal([]);
 
   const {changeStatus} = useSpinnerStatus();
 
@@ -111,7 +113,7 @@ const GameCaseBattle = (props) => {
   };
 
   let counter = 0;
-  let intervalId;
+  let intervalId = null;
 
   const getModeColor = () => {
     return (game().mode === "royal" || game().mode === "team") &&
@@ -174,16 +176,29 @@ const GameCaseBattle = (props) => {
     );
   };
 
+  let timeout1 = null;
+  let timeout2 = null;
   const updateGame = (inputGame) => {
-    setContainsConfettiWin(false);
+    if (confettiIntervals().length > 0) {
+      confettiIntervals().forEach((interval) => {
+        clearInterval(interval);
+      });
+      setConfettiIntervals([]);
+      setWinnings(game().players);
+      setHasCleanedUpConfetti(true);
 
+      console.log("FORCE CLEAN INTERVALS");
+    }
+    // setContainsConfettiWin(false);
+    clearTimeout(timeout1);
+    clearTimeout(timeout2);
     setRollItems([]);
     setSpinnerOptions([]);
     setGame(() => inputGame);
     if (inputGame.status === "playing") {
-      setTimeout(() => {
-        setWinnings(inputGame.players);
-      }, 5500);
+      // setTimeout(() => {
+      //   setWinnings(inputGame.players);
+      // }, 5500);
     } else {
       setWinnings(inputGame.players);
     }
@@ -237,8 +252,29 @@ const GameCaseBattle = (props) => {
         let spinList = generateSpinList(i);
         spinList[spinIndex] = spinnerOptions()[i].winningItem;
 
+        if (spinnerOptions()[i].isBigWin) {
+          setContainsBigWin(true);
+        }
+        
         if (spinnerOptions()[i].winningItem.isConfetti) {
           setContainsConfettiWin(true);
+          console.log("contains confetti win");
+          setConfettiData((prev) => {
+            const newConfettiData = [...prev];
+            newConfettiData.push({
+              item: spinnerOptions()[i].winningItem,
+            });
+            return newConfettiData;
+          });
+        } else {
+          setConfettiData((prev) => {
+            const newConfettiData = [...prev];
+            newConfettiData.push({
+              item: null,
+            });
+            return newConfettiData;
+          });
+          setContainsConfettiWin(false);
         }
 
         newSpinLists.push(spinList);
@@ -247,7 +283,9 @@ const GameCaseBattle = (props) => {
 
       setSpinIndexes(() => newSpinIndexes);
       setSpinLists(() => newSpinLists);
-
+      setConfettiFired(false);
+      setHasCleanedUpConfetti(false);
+      setConfettiIntervals([]);
       changeStatus("spinning");
       changeStatus("inactive");
     }
@@ -379,7 +417,7 @@ const GameCaseBattle = (props) => {
   });
 
   onCleanup(() => {
-    console.log('onCleanup!!!!!!!!!!!!!!');
+    console.log("onCleanup!!!!!!!!!!!!!!");
     setSpinLists([]);
     setSpinIndexes(null);
     setSpinOffsets([]);
@@ -492,6 +530,223 @@ const GameCaseBattle = (props) => {
       }
     }
   });
+
+  // const [confettiActive, setConfettiActive] = createSignal(false);
+  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
+  const [confettiCannonRefB, setConfettiCannonRefB] = createSignal();
+  const [confettiCannonRefC, setConfettiCannonRefC] = createSignal();
+  const [confettiCannonRefD, setConfettiCannonRefD] = createSignal();
+
+  // let confettiInterval;
+  // const createConfetti = () => {
+  //   if (!confettiActive()) {
+  //     setConfettiActive(true);
+
+  //     const rectA = confettiCannonRefA().getBoundingClientRect();
+
+  //     const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
+  //     const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+
+  //     // Fire confetti every 100 milliseconds (you can adjust this value)
+  //     const intervalDuration = 30;
+  //     const particleCount = 5;
+  //     const spread = 30;
+  //     const startVelocity = 25;
+  //     const colorCodes = {
+  //       purple: "#9c27b0",
+  //       gold: "#ffeb3b",
+  //       red: "#f44336",
+  //       blue: "#2196f3",
+  //       gray: "#9e9e9e",
+  //     };
+  //     const spinList = props.spinList;
+  //     const color = spinList[props.spinIndex].rarity;
+  //     const ticks = 70;
+
+  //     confettiInterval = setInterval(() => {
+  //       confetti({
+  //         particleCount,
+  //         spread,
+  //         origin: {x: xA, y: yA},
+  //         startVelocity,
+  //         colors: ["#FFFFFF", colorCodes[color]],
+  //         ticks,
+  //       });
+  //     }, intervalDuration);
+
+  //     // Clear the interval after 3 seconds
+  //     setTimeout(() => {
+  //       clearInterval(confettiInterval);
+  //       setConfettiActive(false);
+  //     }, 200);
+  //   }
+  // };
+
+  const fireCannon = (ref, item) => {
+    if (item) {
+      console.log("fire confetti");
+      const rectA = ref.getBoundingClientRect();
+
+      const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
+      const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+
+      // Fire confetti every 100 milliseconds (you can adjust this value)
+      const intervalDuration = 30;
+      const particleCount = 5;
+      const spread = 30;
+      const startVelocity = 25;
+      const colorCodes = {
+        purple: "#9c27b0",
+        gold: "#ffeb3b",
+        red: "#f44336",
+        blue: "#2196f3",
+        gray: "#9e9e9e",
+      };
+      const color = getColor(item.item.price);
+      const ticks = 70;
+
+      // const confettiInterval = setInterval(() => {
+      //   confetti({
+      //     particleCount,
+      //     spread,
+      //     origin: {x: xA, y: yA},
+      //     startVelocity,
+      //     colors: ["#FFFFFF", colorCodes[color]],
+      //     ticks,
+      //   });
+      // }, intervalDuration);
+
+      asyncInterval(
+        () => {
+          confetti({
+            particleCount,
+            spread,
+            origin: {x: xA, y: yA},
+            startVelocity,
+            colors: ["#FFFFFF", colorCodes[color]],
+            ticks,
+          });
+        },
+        70,
+        4
+      );
+
+      // setConfettiIntervals([...confettiIntervals(), confettiInterval]);
+    }
+  };
+
+  async function asyncInterval(func, delay, times) {
+    for (let i = 0; i < times; i++) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      func();
+    }
+  }
+
+  const [confettiIntervals, setConfettiIntervals] = createSignal([]);
+
+  const cleanUpConfetti = () => {
+    // if (confettiFired()) {
+    setHasCleanedUpConfetti(true);
+    confettiIntervals().forEach((t) => {
+      clearInterval(t);
+    });
+    setConfettiIntervals([]);
+    setWinnings(game().players);
+    // }
+    // else {
+    //   console.log("confetti not fired");
+    // }
+  };
+
+  const createConfetti = () => {
+    if (!confettiFired()) {
+      setConfettiFired(true);
+      for (let i = 0; i < game().playersQty; i++) {
+        const ref = [
+          confettiCannonRefA,
+          confettiCannonRefB,
+          confettiCannonRefC,
+          confettiCannonRefD,
+        ][i]();
+        if (confettiData()[i].item) {
+          fireCannon(ref, confettiData()[i]);
+        }
+      }
+      setConfettiData([]);
+    } else {
+      console.log("confetti already fired");
+    }
+  };
+
+  const [toIntersectA, setToIntersectA] = createSignal();
+  const [toIntersectB, setToIntersectB] = createSignal();
+
+  const [isIntersectingA, setIsIntersectingA] = createSignal(false);
+  const [isIntersectingB, setIsIntersectingB] = createSignal(false);
+
+  createEffect(() => {
+    if (toIntersectA()) {
+      let observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          setIsIntersectingA(entry.isIntersecting);
+        });
+      });
+
+      observer.observe(toIntersectA());
+
+      onCleanup(() => {
+        observer.unobserve(toIntersectA());
+      });
+    }
+    if (toIntersectB()) {
+      let observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          setIsIntersectingB(entry.isIntersecting);
+        });
+      });
+
+      observer.observe(toIntersectB());
+
+      onCleanup(() => {
+        observer.unobserve(toIntersectB());
+      });
+    }
+  });
+  const [lastAction, setLastAction] = createSignal({});
+  const [confettiFired, setConfettiFired] = createSignal(false);
+  const [hasCleanedUpConfetti, setHasCleanedUpConfetti] = createSignal(false);
+  createEffect(() => {
+    if (isIntersectingA()) {
+      if (!confettiFired()) {
+        console.log("activate", game().currentRound);
+        setLastAction({type: "activate", round: game().currentRound});
+        createConfetti();
+      }
+    }
+    // if (isIntersectingB()) {
+    //   if (!hasCleanedUpConfetti()) {
+    //     if (
+    //       lastAction().type !== "activate" &&
+    //       lastAction().round === game().currentRound
+    //     ) {
+    //       console.log("catch activate", game().currentRound);
+    //       setLastAction({type: "activate", round: game().currentRound});
+    //       createConfetti();
+    //     } else if (
+    //       lastAction().type === "activate" &&
+    //       lastAction().round === game().currentRound
+    //     ) {
+    //       console.log("clean up", game().currentRound);
+    //       setLastAction({type: "clean up", round: game().currentRound});
+    //       cleanUpConfetti();
+    //     } else {
+    //       console.log("clean up next round for some reason");
+    //     }
+    //   }
+    // }
+  });
+
+  const activate = (round) => {};
 
   return (
     <div class="flex flex-col">
@@ -935,11 +1190,37 @@ const GameCaseBattle = (props) => {
                                           // spinnerStatus={spinnerStatus}
                                           spinList={spinLists()[playerIndex]}
                                           spinIndex={spinIndexes()[playerIndex]}
+                                          setToIntersectA={setToIntersectA}
+                                          setToIntersectB={setToIntersectB}
                                         />
                                       ) : (
                                         <Spiner classes="w-9 text-yellow-ffb" />
                                       );
                                     }}
+                                    {playerIndex === 0 && (
+                                      <div
+                                        class={`absolute self-center h-20 w-20  -bottom-2  left-1/2 -translate-x-1/2`}
+                                        ref={setConfettiCannonRefA}
+                                      />
+                                    )}
+                                    {playerIndex === 1 && (
+                                      <div
+                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                                        ref={setConfettiCannonRefB}
+                                      />
+                                    )}
+                                    {playerIndex === 2 && (
+                                      <div
+                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                                        ref={setConfettiCannonRefC}
+                                      />
+                                    )}
+                                    {playerIndex === 3 && (
+                                      <div
+                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                                        ref={setConfettiCannonRefD}
+                                      />
+                                    )}
                                   </Match>
                                   <Match when={game().status === "open"}>
                                     {game().players[playerIndex + 1] ? (
@@ -1167,14 +1448,21 @@ const GameCaseBattle = (props) => {
                                 callbackFn={() => joinGame(playerIndex + 1)}
                               >
                                 <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                                  {game().fundBattle ? <div
-                                    class={"rounded-2 absolute discond-green-border right-0.5 -top-2 -left-5 z-10 px-1 -rotate-[10deg] w-14 center text-green-3e font-Quicksand font-bold text-14"}
-                                    style={{
-                                        background: "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",            
-                                    }}
+                                  {game().fundBattle ? (
+                                    <div
+                                      class={
+                                        "rounded-2 absolute discond-green-border right-0.5 -top-2 -left-5 z-10 px-1 -rotate-[10deg] w-14 center text-green-3e font-Quicksand font-bold text-14"
+                                      }
+                                      style={{
+                                        background:
+                                          "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
+                                      }}
                                     >
                                       -{game().fundPercent}%
-                                  </div> : ""}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
                                   <span class="w-max">Join</span>
                                   <Coin width="5" />
                                   <span class="text-gradient">
