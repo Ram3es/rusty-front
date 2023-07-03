@@ -1491,9 +1491,9 @@ const GameCaseBattle = (props) => {
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
-                        <div class="flex w-full px-5 py-10">
+                        <div class="flex w-full px-5 py-10 ">
                           {game().players[playerIndex + 1] && (
-                            <div class="flex gap-2 flex-wrap justify-center ">
+                            <div class="flex gap-2 flex-wrap mx-auto">
                               <For
                                 each={Array.from(
                                   Array(game().cases.length).keys()
