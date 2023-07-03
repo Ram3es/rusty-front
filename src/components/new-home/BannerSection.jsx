@@ -18,12 +18,12 @@ export const RoundedBtn = (props) => {
   return (
     <div
       onClick={() => props.handleClick()}
-      class={`${props.additionalClasses} cursor-pointer`}
+      class={`${props.additionalClasses} cursor-pointer w-8 h-8`}
     >
       <div
         class={`${
           props.background ?? "home-slider-btn"
-        }  w-8 h-8 rounded-full shadow-button center`}
+        } w-full h-full rounded-full shadow-button center`}
       >
         {props.children}
       </div>
@@ -54,26 +54,20 @@ const BannerSection = () => {
 
   return (
     <div class="center gap-5 w-full h-full">
-      <div
-        class="col-span-3 md:col-span-2 rounded-8 overflow-hidden w-full max-w-[1152px]"
-        style={{
-          background:
-            "radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
-        }}
-      >
-        <div class="grid grid-cols-[1fr_1fr] md:grid-cols-[1.5fr_1fr_1fr] ">
+      <div class="grid lg:col-span-2 rounded-8 overflow-hidden w-full lg:max-w-[1152px] lg:banner-section-bg">
+        <div class="grid grid-cols-[1fr_1fr] lg:grid-cols-[1.5fr_1fr_1fr] gap-y-4 lg:gap-y-0">
           <div
-            class={`h-[200px] min-w-[340px] col-span-2 md:col-span-1 relative home-welcome--bg p-[22px]`}
+            class={`h-[200px] rounded-8 min-w- lg:min-w-[340px] col-span-2 lg:col-span-1 relative home-welcome--bg p-[22px]`}
           >
             <img
               src={welcomeBg}
               alt="bg"
-              class="absolute left-0 top-0 w-full h-full mix-blend-luminosity"
+              class="absolute left-0 top-0 w-full h-full mix-blend-luminosity overflow-hidden"
             />
             <img
               src={intersect}
               alt="intersect"
-              class="absolute left-0 bottom-0 object-cover w-full"
+              class="absolute left-0 bottom-0 object-cover w-full overflow-hidden"
             />
             <h2 class="text-2xl font-bold font-SpaceGrotesk mx-auto text-center home-welcome--text">
               Welcome
@@ -112,7 +106,7 @@ const BannerSection = () => {
                     {userObject?.user?.username}
                   </span>
                 </div>
-                <div class="mt-4 flex justify-center items-center relative h-8 max-w-[232px]  mx-auto">
+                <div class="mt-4 flex justify-center items-center relative h-8 max-w-[232px] mx-auto">
                   <div class="w-full max-w-[200px] h-2 rounded-[2px] overflow-hidden home-progress-bg ">
                     <div
                       class="h-full rounded-[2px] duration-200"
@@ -137,16 +131,31 @@ const BannerSection = () => {
               </>
             </Show>
           </div>
-          <div class="relative grid home-daily--bg min-h-[200px]">
+          <div class="relative grid home-daily--bg min-h-[200px] col-span-1">
+            <div
+              class="absolute top-0 left-0 inset-0 w-full lg:hidden"
+              style={{
+                background:
+                  "radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+              }}
+            />
             <img src={ribbed} alt="bg" class="absolute inset-0 h-full w-full" />
             <FreeCasesSwiper />
           </div>
-          <div class=" flex flex-col items-center justify-between p-3 relative home-rakeback--bg">
-            <span class="text-gradient-green-secondary  font-SpaceGrotesk font-bold text-base ">
+
+          <div class="flex flex-col items-center justify-between p-3 relative home-rakeback--bg col-span-1">
+            <div
+              class="absolute top-0 left-0 inset-0 w-full lg:hidden"
+              style={{
+                background:
+                  "radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.12) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)",
+              }}
+            />
+            <span class="text-gradient-green-secondary font-SpaceGrotesk font-bold text-base z-10">
               Rakeback
             </span>
             <CaseGradientButton color="mint" callbackFn={() => rakebackClaim()}>
-              <div class="flex items-center gap-2 font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base ">
+              <div class="flex items-center gap-2 font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base">
                 <span>Claim</span>
                 <Coin width="5" />
                 <GreenText
@@ -155,7 +164,6 @@ const BannerSection = () => {
                 />
               </div>
             </CaseGradientButton>
-
             <img src={ribbed} class="absolute inset-0 min-h-full min-w-full" />
             <img
               src={coinsStack}
