@@ -6,6 +6,7 @@ import {
   spinIndexes,
   spinLists,
   spinOffsets,
+  onMount
 } from "../../views/caseBattles/GameCaseBattle";
 import {setIsRolling} from "../../views/caseBattles/GameCaseBattle";
 import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
@@ -25,6 +26,7 @@ import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.s
 import CaseLineGreen from "../../assets/img/case-battles/caseLineHorizontalGreen.svg";
 
 import confetti from "canvas-confetti";
+import useIntersectionObserver from "./useIntersectionObserver";
 
 // import { Fireworks } from "fireworks-js";
 
@@ -275,28 +277,6 @@ const BattleSpinnerReel = (props) => {
     }
   });
 
-  createEffect(() => {
-    if (beginClickSound()) {
-      setBeginClickSound(false);
-      if (user?.user?.sounds) {
-        clickingSound.currentTime = 0;
-        clickingSound.volume = user.user.sounds;
-        clickingSound.play();
-      }
-    }
-    if (beginPullBackSound()) {
-      setBeginPullBackSound(false);
-      playPullBackSound();
-    }
-
-    if (beginWinSound()) {
-      setBeginWinSound(false);
-      if (containsConfettiWin()) {
-        playWinSound();
-      }
-    }
-  });
-
   return (
     <div
       id="slot-screen"
@@ -336,7 +316,6 @@ const BattleSpinnerReel = (props) => {
                 data-reel-item
               >
                 <div class="relative z-10 flex">
-                  {/* {props.spinnerIndex === 0 &&  <ObserverItem />}  */}
                   {index() === 0 ? (
                     <img
                       class={`h-24 z-20 transition-all duration-500`}

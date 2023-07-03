@@ -85,8 +85,6 @@ const BattleSpinnerReel = (props) => {
 
   const [initialMoveAmount, setInitialMoveAmount] = createSignal(0);
 
-  let timeout1;
-
   const moveToIndex = () => {
     const itemHeight = reelItem().offsetHeight;
     let moveAmount = (props.spinIndex - 1) * itemHeight;
@@ -113,14 +111,14 @@ const BattleSpinnerReel = (props) => {
     return moveAmount;
   };
 
-  const handleEnd = () => {
-    if (props.isConfettiWin) {
-      createConfetti();
-    }
-    if (props.spinnerIndex === 0) {
-      props.setBeginWinSound(true);
-    }
-  };
+  // const handleEnd = () => {
+  //   if (props.isConfettiWin) {
+  //     createConfetti();
+  //   }
+  //   // if (props.spinnerIndex === 0) {
+  //   //   props.setBeginWinSound(true);
+  //   // }
+  // };
 
   const withinOtherReelBounds = (newOffset) => {
     for (let i = 0; i < spinOffsets().length; i++) {
@@ -156,52 +154,53 @@ const BattleSpinnerReel = (props) => {
     return newOffset;
   };
 
-  const [confettiActive, setConfettiActive] = createSignal(false);
-  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
+  // const [confettiActive, setConfettiActive] = createSignal(false);
+  // const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
 
-  const createConfetti = () => {
-    if (!confettiActive()) {
-      setConfettiActive(true);
+  // let confettiInterval;
+  // // const createConfetti = () => {
+  //   if (!confettiActive()) {
+  //     setConfettiActive(true);
 
-      const rectA = confettiCannonRefA().getBoundingClientRect();
+  //     const rectA = confettiCannonRefA().getBoundingClientRect();
 
-      const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-      const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+  //     const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
+  //     const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
 
-      // Fire confetti every 100 milliseconds (you can adjust this value)
-      const intervalDuration = 30;
-      const particleCount = 5;
-      const spread = 30;
-      const startVelocity = 25;
-      const colorCodes = {
-        purple: "#9c27b0",
-        gold: "#ffeb3b",
-        red: "#f44336",
-        blue: "#2196f3",
-        gray: "#9e9e9e",
-      };
-      const spinList = props.spinList;
-      const color = spinList[props.spinIndex].rarity;
-      const ticks = 70;
-      const confettiInterval = setInterval(() => {
-        confetti({
-          particleCount,
-          spread,
-          origin: {x: xA, y: yA},
-          startVelocity,
-          colors: ["#FFFFFF", colorCodes[color]],
-          ticks,
-        });
-      }, intervalDuration);
+  //     // Fire confetti every 100 milliseconds (you can adjust this value)
+  //     const intervalDuration = 30;
+  //     const particleCount = 5;
+  //     const spread = 30;
+  //     const startVelocity = 25;
+  //     const colorCodes = {
+  //       purple: "#9c27b0",
+  //       gold: "#ffeb3b",
+  //       red: "#f44336",
+  //       blue: "#2196f3",
+  //       gray: "#9e9e9e",
+  //     };
+  //     const spinList = props.spinList;
+  //     const color = spinList[props.spinIndex].rarity;
+  //     const ticks = 70;
 
-      // Clear the interval after 3 seconds
-      setTimeout(() => {
-        clearInterval(confettiInterval);
-        setConfettiActive(false);
-        clearTimeout(timeout1);
-      }, 200);
-    }
-  };
+  //     confettiInterval = setInterval(() => {
+  //       confetti({
+  //         particleCount,
+  //         spread,
+  //         origin: {x: xA, y: yA},
+  //         startVelocity,
+  //         colors: ["#FFFFFF", colorCodes[color]],
+  //         ticks,
+  //       });
+  //     }, intervalDuration);
+
+  //     // Clear the interval after 3 seconds
+  //     setTimeout(() => {
+  //       clearInterval(confettiInterval);
+  //       setConfettiActive(false);
+  //     }, 200);
+  //   }
+  // };
 
   createEffect(() => {
     if (props.gameType === "team") {
@@ -239,10 +238,10 @@ const BattleSpinnerReel = (props) => {
       }
 
       @keyframes otherItemAnimation {
-        0% { transform: scale(1); }
-        83% { transform: scale(1);}
-        91.7% {transform: scale(0);}
-        100% {transform: scale(0);}
+        0% { transform: scale(1); opacity: 1;}
+        83% { transform: scale(1); opacity: 1;}
+        91.7% {transform: scale(0); opacity: 0;}
+        100% {transform: scale(0); opacity: 0;}
       }
 
       @keyframes textAnimation {
@@ -253,44 +252,35 @@ const BattleSpinnerReel = (props) => {
       }
 
       @keyframes confettiAnimation {
-        0% {}
-        100% {color: red;}
+        0% { top: 150vh; }
+        83.6% { top: 150vh;}
+        83.7% {top: 0;}
+        85.7% {top: 0;}
+        85.7% {top: 150vh;}
+        100% {top: 150vh;}
       }
+      @keyframes confettiCleanupAnimation {
+        0% { top: 150vh; }
+        86.6% { top: 150vh;}
+        87.7% {top: 0;}
+        89.7% {top: 0;}
+        89.7% {top: 150vh;}
+        100% {top: 150vh;}
+      }
+
+      @keyframes dualConfettiAnimation {
+        0% { content: 'none'; top: 150vh;}
+        83.6% {  content: 'none'; top: 150vh;}
+        83.7% { content: 'fire'; top: 0;}
+        85.7% { content: 'none'; top: 150vh;}
+        86.6% {  content: 'none'; top: 150vh;}
+        87.7% { content: 'clean'; top: 0;}
+        89.7% { content: 'none'; top: 150vh;}
+        100% { content: 'none'; top: 150vh;}
+      }
+
         `);
     }
-  });
-
-  onMount(() => {
-    const handleAnimationEnd = () => {
-      console.log("animation ended");
-    };
-
-    // add the event listener
-
-    // create arr with events string hardcoded
-    const events = [
-      "animationend",
-      "transitionend",
-      "webkitAnimationEnd",
-      "oanimationend",
-      "MSAnimationEnd",
-      "webkitTransitionEnd",
-      "otransitionend",
-      "oTransitionEnd",
-      "msTransitionEnd",
-    ];
-    // loop through events and add event listener
-    events.forEach((event) => {
-      confettiCannonRefA().addEventListener(event, handleAnimationEnd);
-    });
-
-    // cleanup function will be called when component unmounts
-    onCleanup(() => {
-      // loop through events and remove event listener
-      events.forEach((event) => {
-        confettiCannonRefA().removeEventListener(event, handleAnimationEnd);
-      });
-    });
   });
 
   return (
@@ -311,7 +301,7 @@ const BattleSpinnerReel = (props) => {
           style={{
             "animation-name": `${`spinnerAnimation${props.spinnerIndex}`}`,
             "animation-duration": `5.5s`,
-            "animation-timing-function": timingFunction(),
+            "animation-timing-function": "cubic-bezier(.2,1,.53,1)",
             "animation-fill-mode": "forwards",
           }}
         >
@@ -321,15 +311,7 @@ const BattleSpinnerReel = (props) => {
                 <div
                   ref={setReelItem}
                   class={`h-32 flex flex-col gap-2 text-3xl 
-                transition-all duration-500 items-center
-                ${index() === props.spinIndex ? "winItemAnimation" : ""}
-                 ${
-                   getStatus() === "end"
-                     ? index() === props.spinIndex
-                       ? "scale-125 -translate-y-8"
-                       : "scale-0"
-                     : null
-                 }`}
+                transition-all duration-500 items-center`}
                   data-reel-item
                   style={{
                     "animation-name": `${
@@ -338,7 +320,8 @@ const BattleSpinnerReel = (props) => {
                         : "otherItemAnimation"
                     }`,
                     "animation-duration": `5.5s`,
-                    "animation-timing-function": timingFunction(),
+                    "animation-timing-function":
+                      "cubic-bezier(0.25, 1, 0.5, 1)",
                     "animation-fill-mode": "forwards",
                   }}
                 >
@@ -365,34 +348,57 @@ const BattleSpinnerReel = (props) => {
                       class="absolute z-10 scale-[1.4]"
                     />
                   </div>
-                  <div
-                    class={`flex flex-col items-center justify-center 
-                  transition-all duration-500 overflow-visible h-min
-                  ${
-                    getStatus() === "end" && index() === props.spinIndex
-                      ? "scale-1"
-                      : "scale-0"
-                  } `}
-                    style={{
-                      "animation-name": `${
-                        index() === props.spinIndex && "textAnimation"
-                      }`,
-                      "animation-duration": `5.5s`,
-                      "animation-timing-function": timingFunction(),
-                      "animation-fill-mode": "forwards",
-                    }}
-                  >
-                    <div class="text-[#A2A5C6] text-14 font-semibold">
-                      {item.name}
+                  {index() === props.spinIndex && (
+                    <div
+                      class={`flex flex-col items-center justify-center 
+                  transition-all duration-500 overflow-visible h-min `}
+                      style={{
+                        "animation-name": `${
+                          index() === props.spinIndex && "textAnimation"
+                        }`,
+                        "animation-duration": `5.5s`,
+                        "animation-timing-function":
+                          "cubic-bezier(0.25, 1, 0.5, 1)",
+                        "animation-fill-mode": "forwards",
+                      }}
+                    >
+                      <div class="text-[#A2A5C6] text-14 font-semibold">
+                        {item.name}
+                      </div>
+                      <div class="flex  items-center justify-center gap-1">
+                        <Coin width="5" />
+                        <GoldText
+                          text={getCurrencyString(item.price)}
+                          size="13"
+                        />
+                      </div>
                     </div>
-                    <div class="flex  items-center justify-center gap-1">
-                      <Coin width="5" />
-                      <GoldText
-                        text={getCurrencyString(item.price)}
-                        size="13"
+                  )}
+
+                  {/* {index() === props.spinIndex && (
+                    <>
+                      <div
+                        class="absolute w-2 h-2"
+                        ref={setToIntersectA}
+                        style={{
+                          "animation-name": "confettiAnimation",
+                          "animation-duration": `4.5s`,
+                          "animation-timing-function": timingFunction(),
+                          "animation-fill-mode": "forwards",
+                        }}
                       />
-                    </div>
-                  </div>
+                      <div
+                        class="absolute w-2 h-2"
+                        ref={setToIntersectB}
+                        style={{
+                          "animation-name": "confettiAnimation",
+                          "animation-duration": `4.6s`,
+                          "animation-timing-function": timingFunction(),
+                          "animation-fill-mode": "forwards",
+                        }}
+                      />
+                    </>
+                  )} */}
                 </div>
               )}
             </For>
@@ -412,24 +418,46 @@ const BattleSpinnerReel = (props) => {
             : CaseLineGreen
         }
         alt="caseline"
-        class={`absolute h-32  self-center transition-opacity duration-500
-          ${getStatus() === "end" ? "opacity-30" : "opacity-100"}`}
+        class={`absolute h-32  self-center transition-opacity duration-500 opacity-100
+         `}
+        // ${getStatus() === "end" ? "opacity-30" : "opacity-100"}
         style={{
           width: lineWidth() + "px",
         }}
       />
-      <div
-        class={`absolute self-center h-20 w-20
+      {/* <div
+        class={`absolute self-center h-20 w-20 
          -bottom-2`}
         ref={setConfettiCannonRefA}
-        style={{
-          "animation-name": "confettiAnimation",
-          "animation-duration": `5.04s`,
-          "animation-timing-function": timingFunction(),
-          "animation-fill-mode": "forwards",
-        }}
-        onAnimationend={() => console.log("animation ended")}
-      />
+      /> */}
+      {props.spinnerIndex === 0
+        ? () => {
+            return (
+              <>
+                <div
+                  class="absolute w-1 h-1 bg-white opacity-[0.01]"
+                  ref={props.setToIntersectA}
+                  style={{
+                    "animation-name": "confettiAnimation",
+                    "animation-duration": `5.5s`,
+                    "animation-timing-function": "linear",
+                    "animation-fill-mode": "forwards",
+                  }}
+                />
+                <div
+                  class="absolute w-1 h-1 bg-white opacity-[0.01]"
+                  ref={props.setToIntersectB}
+                  style={{
+                    "animation-name": "confettiCleanupAnimation",
+                    "animation-duration": `5.5s`,
+                    "animation-timing-function": "linear",
+                    "animation-fill-mode": "forwards",
+                  }}
+                />
+              </>
+            );
+          }
+        : null}
       {/* <div
         class={`absolute self-center w-max h-full oveDrflow-visible
          -bottom-2`}
