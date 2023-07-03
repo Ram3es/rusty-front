@@ -252,9 +252,9 @@ const GameCaseBattle = (props) => {
         let spinList = generateSpinList(i);
         spinList[spinIndex] = spinnerOptions()[i].winningItem;
 
-        if (spinnerOptions()[i].isBigWin) {
-          setContainsBigWin(true);
-        }
+        // if (spinnerOptions()[i].isBigWin) {
+        //   setContainsBigWin(true);
+        // }
         
         if (spinnerOptions()[i].winningItem.isConfetti) {
           setContainsConfettiWin(true);
