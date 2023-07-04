@@ -287,6 +287,8 @@ module.exports = {
           "linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
         "gray-button-gradient":
           "radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
+        "tiers-title-gradient":
+          "linear-gradient(45deg, rgba(255, 255, 255, 0.00) 20.07%, rgba(255, 255, 255, 0.03) 41.30%, rgba(0, 0, 0, 0.03) 68.93%, rgba(255, 255, 255, 0.03) 100%), radial-gradient(136.70% 122.50% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0.00) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0.24) 100%), linear-gradient(135deg, #1A1B30 0%, #191C35 100%)",
       },
       scale: {
         40: ".4",

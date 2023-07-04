@@ -280,7 +280,7 @@ const AffiliatesModal = (props) => {
       <div
         class="flex flex-col absolute top-[5%] w-full max-w-[830px] xll:w-1/2 xll:max-w-full">
         <div
-          class={`bg-dark-16 w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-max ${
+          class={`bg-dark-16 w-full max-w-[calc(100%-34px)] mx-auto flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden transform -translate-y-1/4 h-max ${
             !props.searchParams?.affiliates ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
@@ -314,12 +314,13 @@ const AffiliatesModal = (props) => {
                 </div>
               </div>
             </div>
-               
+               <div class="w-10">
                 <NavLink
                   href={props.pathname()}
                 >
                   <CloseButton />
                 </NavLink>
+              </div>
             </div>
           <div class="px-8 py-8 overflow-y-scroll flex-1 relative">
             <div
@@ -337,7 +338,7 @@ const AffiliatesModal = (props) => {
                     {i18n.t("coinflip.affiliates_true.Your affiliate code")}
                   </p>
                   
-                  <div class="flex items-center relative w-max lg:w-full h-10">
+                  <div class="flex items-center relative w-full h-10">
                   <div
                        class="w-full max-w-md p-[1px] rounded-[4px] h-full mt-1"
                        style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
@@ -463,7 +464,7 @@ const AffiliatesModal = (props) => {
                     Overview of your Affiliate Stats
                   </div>
                 </div>
-                <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <For each={stats}>
                     {(item) => (
                       <div class="w-full h-24 xll:h-24 fourk:h-32 flex justify-center items-center relative rounded-4 bg-dark-22">
@@ -503,9 +504,9 @@ const AffiliatesModal = (props) => {
                 <div
                   class="absolute left-0 top-0 w-full h-full rounded-4 overflow-hidden"
                 >
-                  <img alt="affiliateCoin1" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin1} class=" absolute right-5 top-5" />
-                  <img alt="affiliateCoin2" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin2} class=" absolute right-10 bottom-0" />
-                  <img alt="affiliateCoin3" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin3} class=" absolute left-5 top-1/2 -translate-y-1/2" />
+                  <img alt="affiliateCoin1" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin1} class=" absolute -right-5 sm:right-5 top-5" />
+                  <img alt="affiliateCoin2" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin2} class=" absolute -right-5 sm:right-10 bottom-20 sm:bottom-0" />
+                  <img alt="affiliateCoin3" style={{filter: 'drop-shadow(0px 48px 12px rgba(0, 0, 0, 0.12))'}} src={affiliateCoin3} class=" absolute -left-14 sm:left-5 top-1/2 -translate-y-1/2" />
                 </div>
                 <div class="w-full h-full center flex-col gap-4 z-10">
                   <div class="flex items-center justify-center -translate-y-2">
