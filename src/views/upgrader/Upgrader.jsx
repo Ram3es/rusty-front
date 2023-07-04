@@ -4,11 +4,6 @@ import MainUpgraderContainer from "../../components/upgrader/MainUpgraderContain
 
 import injector from "../../injector/injector";
 
-import {
-  playDeselectItemSound,
-  playSelectItemSound,
-} from "../../utilities/Sounds/ItemsSound";
-
 import {spin} from "../../components/upgrader/dome/Spinner";
 
 import Fallback from "../Fallback";
@@ -27,7 +22,6 @@ export const [isGameStarted, setIsGameStarted] = createSignal(false);
 export const [isAnimationShown, setIsAnimationShown] = createSignal(false);
 
 export const {socket, toastr, userObject} = injector;
-const [prevRoll, setPrevRoll] = createSignal("");
 
 export const bet = () => {
   // spin(0.5, 4000);
@@ -67,8 +61,6 @@ export const bet = () => {
 };
 
 const Upgrader = (props) => {
-  let upgraderAnimation;
-
   const [globalHistory, setGlobalHistory] = createSignal([]);
 
   // const [isItemsLoaded, setIsItemsLoaded] = createSignal(false);
@@ -76,36 +68,6 @@ const Upgrader = (props) => {
   const [search, setSearch] = createSignal("");
   const [itemsLimit, setItemsLimit] = createSignal(48);
   const {upgraderPageLoaded, onUpgraderPageLoad} = PageLoadState;
-
-  let pageWrapper;
-
-  // const checkImageLoaded = () => {
-  //   const updateStatus = (images) => {
-  //     setIsItemsLoaded(
-  //       images.map((image) => image.complete).every((item) => item === true)
-  //     );
-  //   };
-
-  //   const imagesLoaded = Array.from(pageWrapper.querySelectorAll("img"));
-
-  //   if (imagesLoaded.length === 0) {
-  //     setIsItemsLoaded(true);
-  //     return;
-  //   }
-  //   imagesLoaded.forEach((image) => {
-  //     image.addEventListener("load", () => updateStatus(imagesLoaded), {
-  //       once: true,
-  //     });
-  //     image.addEventListener("error", () => updateStatus(imagesLoaded), {
-  //       once: true,
-  //     });
-  //   });
-  // };
-
-  // const sendSearchReq = (value) => {
-  //   setSearch(value);
-  //   updateItems(false);
-  // };
 
   let observer;
 
@@ -119,7 +81,7 @@ const Upgrader = (props) => {
     }
     socket.emit(
       "steam:market",
-      {search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit()},
+      { search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit() },
       (data) => {
         if (data.msg) {
           toastr(data);
@@ -142,15 +104,21 @@ const Upgrader = (props) => {
               observer.disconnect();
             }
             setItems([...iv]);
-            observer = new IntersectionObserver(
-              function (entries) {
-                if (entries[0].isIntersecting === true) {
-                  updateItems();
-                }
-              },
-              {threshold: [0]}
-            );
-            observer.observe(document.querySelector("[data-upgrader-items-wrapper]").childNodes.item(items().length - 9));
+            if (data.data.total > items().length) {
+              observer = new IntersectionObserver(
+                function (entries) {
+                  if (entries[0].isIntersecting === true) {
+                    updateItems();
+                  }
+                },
+                { threshold: [0] }
+              );
+              observer.observe(
+                document.querySelector(
+                  "[data-upgrader-items-wrapper]"
+                ).childNodes.item(items().length - 9)
+              );
+            }
           } else if (iv[0]?.id !== items()[0]?.id) {
             setItems(iv);
           } else {
@@ -158,10 +126,6 @@ const Upgrader = (props) => {
               observer.disconnect();
             }
           }
-
-          // if (!isItemsLoaded()) {
-          //   checkImageLoaded();
-          // }
         }
       }
     );
@@ -203,61 +167,11 @@ const Upgrader = (props) => {
         }
       }
     });
-
-    // setInterval(() => {
-    //   if (upgraderAnimation) {
-    //     upgraderAnimation.classList.add("animate");
-    //     setTimeout(() => {
-    //       upgraderAnimation.classList.remove("animate");
-    //     }, 4900);
-    //   }
-    // }, 15000);
   });
 
   onCleanup(() => {
     socket.off("steam:market:update");
   });
-
-  createEffect(() => {
-    console.log(activeItem());
-  });
-
-  // const inputValueUpdate = (e) => {
-  //   const maxPrice = Math.round(activeItem()?.price * 0.9);
-  //   const maxBet = userObject.user.balance;
-  //   if (activeItem().price) {
-  //     if (maxBet > maxPrice) {
-  //       if (e.currentTarget.value > maxPrice) {
-  //         e.currentTarget.value = maxPrice;
-  //         setBetValue(maxPrice);
-  //       } else {
-  //         setBetValue(e.currentTarget.value);
-  //       }
-  //     } else {
-  //       if (e.currentTarget.value > maxBet) {
-  //         e.currentTarget.value = maxBet;
-  //         setBetValue(maxBet);
-  //       } else {
-  //         setBetValue(e.currentTarget.value);
-  //       }
-  //     }
-  //   } else {
-  //     e.currentTarget.value = 0;
-  //   }
-  // };
-
-  // const sorting = {
-  //   descending: {
-  //     en: "Descending",
-  //     es: "Descendiendo",
-  //     ru: "по убыванию",
-  //   },
-  //   ascending: {
-  //     en: "Ascending",
-  //     es: "Ascendente",
-  //     ru: "по возрастанию",
-  //   },
-  // };
 
   return (
     <Fallback loaded={upgraderPageLoaded}>
