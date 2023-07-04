@@ -1,4 +1,4 @@
-export const TESTMODE = true;
+export const TESTMODE = false;
 // const PATH = TESTMODE ? "https://82c9-2001-8003-442e-4800-2412-9996-1f70-91a.ngrok-free.app" : "https://rustyloot.gg";
 // const PATH = TESTMODE ? "http://localhost:1337" : "https://rustyloot.gg";
 const PATH = TESTMODE ? "http://157.245.38.175" : "https://rustyloot.gg";
