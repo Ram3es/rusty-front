@@ -23,19 +23,20 @@ const CoinFlipItemsRow = (props) => {
           {(skin) => (
             <div
               class="w-[60px] h-[60px] lg:w-[30px] llg:w-[40px] lg:xll:h-[60px] lg:h-[30px] llg:h-[40px] xll:w-[60px] flex items-center justify-center relative z-10"
-              style={{
-                filter: `drop-shadow(0px 0px ${props.mobile ? "5px" : "16px"} ${
-                  getCurrentStylesByPrice(skin.price).shadowLogoColor ?? 0
-                })`,
-              }}
+              
             >
               <svg
-                class="absolute w-[60px] lg:w-[30px] h-[60px] lg:h-[30px] llg:w-full llg:h-full"
+                class="absolute w-[40px] h-[46px] lg:w-[30px]  lg:h-[30px] llg:w-full llg:h-full"
                 width="42"
                 height="48"
                 viewBox="0 0 42 48"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  filter: `drop-shadow(0px 0px 16px ${
+                    getCurrentStylesByPrice(skin.price)[props.mobile ? 'shadowLogoColorMobile' : 'shadowLogoColor'] ?? 0
+                  })`,
+                }}
               >
                 <path
                   d="M41.049 39.1259C40.6635 39.012 40.2145 39.1036 39.8154 39.7713L33.7112 39.7891L32.8496 42.1405C32.756 42.3953 32.585 42.6156 32.3598 42.7714C32.1347 42.9272 31.8663 43.011 31.5911 43.0114L32.7702 39.7914H31.8768L31.0174 42.1383C30.9234 42.3933 30.752 42.6136 30.5265 42.7694C30.3009 42.9252 30.0322 43.0089 29.7567 43.0091L30.9358 39.7936H30.0424L29.1921 42.1405C29.099 42.3957 28.9282 42.6164 28.7029 42.7723C28.4776 42.9281 28.2089 43.0117 27.9336 43.0114L29.1104 39.8003L22.5346 39.8182H18.0245C18.1055 39.516 18.2859 39.2488 18.5373 39.0582C18.7887 38.8675 19.0971 38.7642 19.4145 38.7642H22.8158L28.0311 20.612H18.8362C16.4372 28.1462 14.0381 36.6518 11.6391 44.3824C11.2332 45.6865 12.2151 47.2854 13.6005 47.3055C22.0947 47.4015 30.5889 47.2117 39.0853 47.3055C39.3209 47.3085 39.5509 47.2342 39.739 47.0943C39.927 46.9544 40.0624 46.7569 40.1238 46.5328L41.7904 40.4925C41.8704 40.2145 41.8379 39.9168 41.6996 39.662C41.5613 39.4071 41.3281 39.215 41.049 39.1259Z"

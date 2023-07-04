@@ -6,7 +6,7 @@ const CoinflipUsersRow = (props) => {
   return (
     <div class={`${props.mobile ? 'col-span-3 row-start-1 h-full flex lg:hidden items-center gap-3' : 'lg:rounded-l-6 h-full flex items-center lg:border-r border-[#282b57] gap-5 px-6 lg:coinflip-list--background__secondary'} `}>
       <div
-        class={`relative border rounded-full w-12 h-12 p-[5px] ${
+        class={`relative border rounded-full w-9 ssm:w-12 h-9 ssm:h-12 p-1 ssm:p-[5px] ${
           props.game?.creator?.side === 1 ? "border-yellow-ffb" : "border-white"
         } ${
           props.game?.winner?.side &&
@@ -34,12 +34,12 @@ const CoinflipUsersRow = (props) => {
         />
         <img
           alt="coin"
-          class="w-6 h-6 absolute right-0 top-7"
+          class="w-4 h-4 ssm:w-6 ssm:h-6 absolute right-0 top-7"
           src={props.game?.creator?.side === 2 ? BlackCoin : RedCoin}
         />
       </div>
       <div
-        class={`relative border rounded-full w-12 h-12 p-[5px] ${
+        class={`relative border rounded-full w-9 ssm:w-12 h-9 ssm:h-12 p-[5px] ${
           props.game?.opponent?.avatar || props.game?.opponent?.bot
             ? props.game?.creator?.side === 1
               ? "border-white"
@@ -73,7 +73,7 @@ const CoinflipUsersRow = (props) => {
             />
             <img
               alt="coin"
-              class="w-6 h-6 absolute right-0 top-7"
+              class="w-4 h-4 ssm:w-6 ssm:h-6 absolute right-0 top-7"
               src={props.game?.creator?.side === 1 ? BlackCoin : RedCoin}
             />
           </>

@@ -56,7 +56,7 @@ const CoinflipItem = (props) => {
 
         <CoinFlipItemsRow skinList={skinList} />
       </div>
-      <div class="grid grid-cols-8 grid-rows-3 lg:grid-rows-none lg:grid-cols-[1fr_1fr_2fr] lg:justify-items-end items-center px-4 gap-4 xl:gap-1 xll:gap-6 fourk:gap-16">
+      <div class="grid grid-cols-8 grid-rows-3 lg:grid-rows-none lg:grid-cols-[1fr_1fr_2fr] lg:justify-items-end items-center px-4 gap-1 ssm:gap-4 xl:gap-1 xll:gap-6 fourk:gap-16">
         <CoinflipUsersRow game={props?.game} mobile />
         <div class="col-span-2 lg:col-auto row-start-1 lg:w-[100px]">
           {props.game?.isDoubleDown && (
@@ -72,9 +72,9 @@ const CoinflipItem = (props) => {
           )}
         </div>
         <div class="col-span-3 lg:col-auto row-start-1 lg:w-36 flex items-center">
-          <div class="flex items-center gap-[9px]">
+          <div class="flex items-center gap-1 ssm:gap-[9px]">
             <Coin width="6" />
-            <span class="font-bold text-16 llg:text-16 xll:text-19 font-SpaceGrotesk coinflip-game--price">
+            <span class="font-bold text-14 ssm:text-16 llg:text-16 xll:text-19 font-SpaceGrotesk coinflip-game--price truncate">
               {Number(
                 (props.game?.creator?.value || 0) +
                   (props.game?.opponent?.value || 0)
