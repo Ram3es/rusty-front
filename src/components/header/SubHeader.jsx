@@ -143,9 +143,9 @@ const SubHeader = (props) => {
 
   return (
     <>
-      <div class="relative z-40 h-14 md:h-full">
+      <div class="relative z-40 h-14 lg:h-full">
         <div
-          class="flex relative z-10 h-14 items-center px-4 py-2 sm:p-0 md:h-auto"
+          class="flex relative z-10 h-14 items-center px-4 py-2 lg:p-0 lg:h-auto"
           style={{
             "background-image": `url('${headerLogoBgVector}')`,
           }}
@@ -156,7 +156,7 @@ const SubHeader = (props) => {
           >
             <img
               alt="logo"
-              class={`max-w-[28px] sm:max-w-[62px] fourk:w-auto block`}
+              class={`max-w-[28px] lg:max-w-[62px] fourk:w-auto block`}
               src={smallLogo}
               style={{
                 filter: "drop-shadow(0px 0px 24px rgba(255, 194, 57, 0.16))",
@@ -187,7 +187,7 @@ const SubHeader = (props) => {
                       }}
                     >
                       <p
-                        class={`text-10 sm:text-14 text-current font-medium font-SpaceGrotesk ${
+                        class={`text-10 lg:text-14 text-current font-medium font-SpaceGrotesk ${
                           toggle.url === URL.REWARDS
                             ? "reward-label"
                             : "text-gray-6a group-hover:text-gray-9aa"
@@ -224,7 +224,7 @@ const SubHeader = (props) => {
                       }}
                     >
                       <p
-                        class={`text-10 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
+                        class={`text-10 lg:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center`}
                       >
                         {toggle.name}
                       </p>
@@ -298,7 +298,7 @@ const SubHeader = (props) => {
                 </div>
               </div>
             </div>
-            <div class="flex items-center sm:flex-grow  lg:justify-between lg:pr-10 gap-[10px] sm:gap-6 lg:gap-0">
+            <div class="flex items-center lg:flex-grow  lg:justify-between lg:pr-10 gap-[10px] lg:gap-6 lg:gap-0">
               <div class="hidden lg:flex gap-2 items-center h-full py-2">
                 <For each={navigationGameModes}>
                   {(mode) => (
@@ -356,12 +356,12 @@ const SubHeader = (props) => {
                 </For>
               </div>
               {userObject.authenticated ? (
-                <div class="flex flex-row-reverse sm:flex-row items-center gap-[10px] sm:gap-6">
+                <div class="flex flex-row-reverse lg:flex-row items-center gap-[10px] lg:gap-6">
                   <div class="flex h-10">
                     <div class="balance-bg rounded-l-6 flex items-center">
-                      <div class="bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[90px] ssm:w-[113px] sm:w-[146px]">
+                      <div class="bg-black bg-opacity-10 rounded-l-4 h-[calc(100%-4px)] flex m-0.5 w-[90px] slg:w-[113px] lg:w-[146px]">
                         <div
-                          class="overflow-x-scroll w-full h-full px-2 sm:px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold"
+                          class="overflow-x-scroll w-full h-full px-2 lg:px-3 bg-cover py-1 text-16 text-gray-e0 rounded-l-6 flex gap-2 items-center font-Lato font-bold"
                           style={{
                             background: `url(${balanceMaskBg})`,
                             "border-radius": "4px 4px 4px 4px",
@@ -378,13 +378,13 @@ const SubHeader = (props) => {
                     </div>
                     <NavLink
                       href={`${props.pathname()}?deposit=true`}
-                      class="w-10 sm:w-[108px] group py-3 px-4 lg:px-6 lg:py-2 text-14 green-btn-gradient border-2 border-green-1b/75 rounded-r-4 text-white flex gap-2 items-center justify-center font-SpaceGrotesk font-bold"
+                      class="w-10 lg:w-[108px] group py-3 px-4 lg:px-6 lg:py-2 text-14 green-btn-gradient border-2 border-green-1b/75 rounded-r-4 text-white flex gap-2 items-center justify-center font-SpaceGrotesk font-bold"
                     >
                       <span class="">
                         <PlusIcon />
                       </span>
                       <span
-                        class="hidden md:block group-hover:hidden"
+                        class="hidden lg:block group-hover:hidden"
                         style={{
                           "text-shadow": "0px 2px 2px rgba(0, 0, 0, 0.12)",
                         }}
@@ -393,7 +393,7 @@ const SubHeader = (props) => {
                       </span>
                     </NavLink>
                   </div>
-                  <div class="hidden md:flex gap-3">
+                  <div class="hidden lg:flex gap-3">
                     <NavLink href={`${props.pathname()}?withdraw=true`}>
                       <DarkButton>Withdraw</DarkButton>
                     </NavLink>
@@ -417,7 +417,7 @@ const SubHeader = (props) => {
                               />
                             </div>
                           </div>
-                          <div class="hidden sm:block absolute -right-1 -bottom-1">
+                          <div class="hidden lg:block absolute -right-1 -bottom-1">
                             <Ranks
                               staff={userObject?.user?.rank}
                               rank={userObject?.user?.level?.league}
@@ -433,7 +433,7 @@ const SubHeader = (props) => {
                       )}
                     </NavLink>
                     {userObject?.user?.level && (
-                      <div class="hidden sm:block w-full h-1 rounded-full overflow-hidden bg-dark-22">
+                      <div class="hidden lg:block w-full h-1 rounded-full overflow-hidden bg-dark-22">
                         <div
                           class="h-full rounded-full duration-200"
                           style={{
@@ -508,7 +508,7 @@ const SubHeader = (props) => {
                     }}
                   >
                     <p
-                      class={`text-16 sm:text-14 text-current font-medium font-SpaceGrotesk ${
+                      class={`text-16 lg:text-14 text-current font-medium font-SpaceGrotesk ${
                         toggle.url === URL.REWARDS
                           ? "reward-label"
                           : "text-gray-6a group-hover:text-gray-9aa"
@@ -545,7 +545,7 @@ const SubHeader = (props) => {
                       }, 100);
                     }}
                   >
-                    <p class="text-16 sm:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center">
+                    <p class="text-16 lg:text-14 text-current font-SpaceGrotesk text-gray-6a group-hover:text-gray-9aa transition duration-200 ease-in-out font-bold flex gap-2 items-center">
                       {toggle.name}
                     </p>
                   </NavLink>

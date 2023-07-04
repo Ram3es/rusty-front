@@ -39,7 +39,7 @@ const MobileBottomNavigation = () => {
   return (
     <>
       <div
-        class="relative h-[69px] w-full md:hidden"
+        class="relative h-[69px] w-full lg:hidden"
         style={{
           background:
             "radial-gradient(120.67% 100.29% at 12.70% 107.20%, rgba(255, 178, 54, 0.20) 0%, rgba(0, 0, 0, 0.00) 100%), linear-gradient(180deg, rgba(55, 57, 81, 0.00) 0%, rgba(55, 57, 81, 0.12) 100%), linear-gradient(135deg, rgba(28, 29, 51, 0.25) 0%, rgba(27, 29, 52, 0.25) 100%)",
