@@ -23,7 +23,7 @@ const FreeCasesSwiper = () => {
               rewardCases.cases[activeCase()]?.id
             }&daily=true`}
           >
-            <CaseGradientButton callbackFn={() => {}}>
+            <CaseGradientButton classList='h-7 lg:h-10' callbackFn={() => {}}>
               <span class="text-yellow-ffb font-SpaceGrotesk font-bold text-14">
                 Open Daily Case
               </span>

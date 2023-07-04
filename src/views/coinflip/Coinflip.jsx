@@ -99,12 +99,7 @@ const Coinflip = (props) => {
     <Fallback loaded={coinflipPageLoaded}>
       <div class='w-full h-full flex flex-col gap-10 relative pt-10 min-h-screen'>
         <div
-          class='rounded-6 flex gap-2 md:gap-0 items-center justify-between py-4'
-          style={{
-            background:
-              'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)',
-            border: '1px solid rgba(0, 0, 0, 0.05)'
-          }}
+          class='rounded-6 grid grid-cols-2 grid-rows-2 gap-4 lg:grid-cols-[2fr_0.5fr_0.5fr_2fr] lg:grid-rows-1 lg:gap-2 items-center justify-between py-4 lg:border lg:border-[#000000]/5 lg:coinflip-tooltip--background'
         >
           <Dropdown
             label='Sort by Price:'
@@ -112,8 +107,7 @@ const Coinflip = (props) => {
             itemsList={SORT_OPTIONS}
             submitItem={(direction) => setSortBy(direction)}
           />
-          <div class='flex items-center gap-2'>
-            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__gray'>
+            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__gray col-start-1 lg:col-start-2 row-start-2 lg:row-start-1'>
               <div
                 class='absolute inset-0 z-0 bg-repeat m-1 p-1'
                 style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
@@ -123,7 +117,7 @@ const Coinflip = (props) => {
                 {100 - historyRatio()}%
               </p>
             </div>
-            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__yellow'>
+            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__yellow col-start-2 lg:col-start-3 row-start-2 lg:row-start-1'>
               <div
                 class='absolute inset-0 z-0 bg-repeat m-1 p-1'
                 style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
@@ -133,15 +127,16 @@ const Coinflip = (props) => {
                 {historyRatio()}%
               </p>
             </div>
-          </div>
+          <div class='w-full lg:flex items-center lg:justify-end'>
           <NavLink href={URL.GAMEMODES.COINFLIP_CREATE}>
             <CaseGradientButton callbackFn={() => {}}>
-              <div class='center gap-2 text-yellow-ffb font-bold w-[100px] md:w-[157px]'>
+              <div class='w-full col-start-2 row-start-1 center gap-2 text-yellow-ffb font-bold lg:w-[157px]'>
                 <BattleRoyaleIcon additionClasses='w-4' />
-                <p class='font-SpaceGrotesk text-10 md:text-14 capitalize truncate'>{i18n.t('coinflip.Create coinflip')}</p>
+                <p class='font-SpaceGrotesk text-14 capitalize truncate'>{i18n.t('coinflip.Create coinflip')}</p>
               </div>
             </CaseGradientButton>
           </NavLink>
+          </div>
         </div>
         <div class='flex flex-col sm:flex-row justify-between items-center'>
           <div class='flex items-center gap-4 overflow-hidden relative w-full'>

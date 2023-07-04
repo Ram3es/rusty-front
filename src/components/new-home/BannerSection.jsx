@@ -154,7 +154,7 @@ const BannerSection = () => {
             <span class="text-gradient-green-secondary font-SpaceGrotesk font-bold text-base z-10">
               Rakeback
             </span>
-            <CaseGradientButton color="mint" callbackFn={() => rakebackClaim()}>
+            <CaseGradientButton classList='h-7 lg:h-10' color="mint" callbackFn={() => rakebackClaim()}>
               <div class="flex items-center gap-2 font-bold text-sm font-SpaceGrotesk text-green-27 text-shadow-base">
                 <span>Claim</span>
                 <Coin width="5" />

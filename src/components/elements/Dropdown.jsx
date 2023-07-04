@@ -59,7 +59,7 @@ const Dropdown = (props) => {
 
   return (
     <div class="relative" ref={dropdownWrapper}>
-      <GrayGradientButton 
+      <GrayGradientButton
         callbackFn={() => {
         setIsOpen((prev) => !prev)
       }}
@@ -68,7 +68,7 @@ const Dropdown = (props) => {
         aria-labelledby="listbox-label"
        >
         <div class="flex gap-1.5 text-13 font-bold font-SpaceGrotesk items-center">
-          <span class={`text-gray-9a w-max md:block hidden` }>
+          <span class={`text-gray-9a w-max` }>
             {props.label}
           </span>
           <span class="flex center gap-1.5 text-yellow-ffb">
