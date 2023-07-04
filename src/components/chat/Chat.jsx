@@ -151,7 +151,7 @@ const Chat = (p) => {
       }}
     >
 
-      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-[56px] sm:pt-0'>
+      <div class='flex items-center flex-col w-full h-full relative overflow-hidden pt-[56px] lg:pt-0'>
         <div
           class='w-full h-[48px] flex justify-between gap-4 items-center py-2 pl-3 pr-6 border-b border-dark-1617'
           style={{
