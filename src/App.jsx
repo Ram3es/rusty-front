@@ -3,23 +3,18 @@ import {
   onMount,
   createMemo,
   createSignal,
-  Show,
   Switch,
   Match,
-  useTransition,
-  lazy,
   createEffect,
 } from "solid-js";
-import {Routes, Route, useLocation, useSearchParams} from "solid-app-router";
+import { Routes, Route, useLocation, useSearchParams } from "solid-app-router";
 
-import Header from "./components/header/Header";
-import Nav from "./components/nav/Nav";
 import Chat from "./components/chat/Chat";
 import Home from "./views/home/Home";
 
 // const Home = lazy(() => import("./views/home/Home"))
 
-import {URL} from "./libraries/url";
+import { URL } from "./libraries/url";
 import Coinflip from "./views/coinflip/Coinflip";
 import CoinflipGameModal from "./components/modals/CoinflipGameModal";
 import PaymentModal from "./components/modals/PaymentModal";
@@ -52,8 +47,8 @@ import Chart from "chart.js/auto";
 import * as helpers from "chart.js/helpers";
 
 import i18n from "./i18n/config";
-import {createI18n} from "./i18n/context";
-import {I18nProvider} from "./components/I18nProvider";
+import { createI18n } from "./i18n/context";
+import { I18nProvider } from "./components/I18nProvider";
 import i18next from "i18next";
 import Rewards from "./views/rewards/Rewards";
 import Case from "./views/case/Case";
@@ -66,14 +61,13 @@ import CaseBattles from "./views/caseBattles/CaseBattles";
 import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
-import PlinkoContainer from "./components/plinko/PlinkoContainer";
-import {SpinnerStatusProvider} from "./utilities/hooks/spinnerStatus";
+import { SpinnerStatusProvider } from "./utilities/hooks/spinnerStatus";
 
-import {clickingSound} from "./views/caseBattles/GameCaseBattle";
+import { clickingSound } from "./views/caseBattles/GameCaseBattle";
+import MobileBottomNavigation from "./components/nav/MobileBottomNavigation";
 
 const App = () => {
-
-  const {userObject, setUserObject, setLeaderboards, toggles, socket} =
+  const { userObject, setUserObject, setLeaderboards, toggles, socket } =
     Injector;
   const location = useLocation();
   const pathname = createMemo(() => location.pathname);
@@ -462,6 +456,7 @@ const App = () => {
                 <Chat />
               </div>
             </div>
+            <MobileBottomNavigation pathname={pathname} />
           </div>
         </Fallback>
       </div>
