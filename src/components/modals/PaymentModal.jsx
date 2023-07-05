@@ -631,13 +631,13 @@ const PaymentModal = (props) => {
             }}
           >
             <div
-              class="flex relative w-full items-start lg:items-center justify-between pl-4 pr-8 lg:pr-0 lg:px-8  py-4 lg:py-6 bg-cover border border-black border-opacity-10 rounded-t-12 "
+              class="flex relative w-full items-start lg:items-center justify-between pl-4 pr-8 lg:pr-0 lg:px-8 py-4 lg:py-6 bg-cover border border-black border-opacity-10 rounded-t-12 "
               style={{
                 background:
                   "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)",
               }}
             >
-              <div class="center gap-3 flex-col lg:flex-row">
+              <div class="lg:center flex gap-3 flex-col lg:flex-row">
                 <NavLink href={`${props.pathname()}?deposit=true`}>
                   <div class="flex gap-2 items-center p-[7.5px] lg:p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
                     <ArrowBack />
@@ -692,7 +692,7 @@ const PaymentModal = (props) => {
                     </p>
                     {props.searchParams?.crypto ? (
                       <div
-                        class={`text-[#3EFF8B] text-12 px-1 py-0.5 rounded-l-4`}
+                        class={`text-[#3EFF8B] font-bold  font-Quicksand text-13 lg:text-12 px-1 lg:py-0.5 rounded-4`}
                         style={{
                           background:
                             "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
@@ -949,9 +949,9 @@ const PaymentModal = (props) => {
             <div
               class={`w-full ${
                 props.searchParams?.crypto ? "flex" : "hidden"
-              } flex-col gap-8 pb-12`}
+              } flex-col gap-4 lg:gap-8 lg:pb-12`}
             >
-              <div class="flex relative w-full items-center py-4 px-8 border-b border-black/10 gap-1 flex-wrap">
+              <div class="grid grid-cols-5 lg:flex relative w-full items-center p-4 lg:py-4 lg:px-8 border-b border-black/10 gap-[7px] lg:gap-1 flex-wrap">
                 <For each={Object.keys(cryptomethods)}>
                   {(m) => (
                     <NavLink href={cryptomethods[m].link}>
@@ -963,7 +963,7 @@ const PaymentModal = (props) => {
                         callbackFn={() => {}}
                       >
                         <div
-                          class={`w-8 h-6 rounded-3 center`}
+                          class={`ssm:w-8 ssm:h-6 rounded-3 center`}
                           style={{
                             background: cryptomethods[m].color,
                           }}
@@ -975,7 +975,7 @@ const PaymentModal = (props) => {
                   )}
                 </For>
               </div>
-              <div class="w-full center flex-col gap-6">
+              <div class="w-full center flex-col gap-4 lg:gap-6">
                 <div
                   class="p-3 rounded-8 overflow-hidden"
                   style={{
@@ -983,7 +983,7 @@ const PaymentModal = (props) => {
                       "linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
                   }}
                 >
-                  <div class="w-44 h-44 bg-white">
+                  <div class="w-[132px] lg:w-44 h-[132px] lg:h-44 bg-white">
                     <Img
                       style="w-full h-full min-w-full"
                       src={`data:image/png;base64,${crypto()?.QRcode || ""}`}
@@ -992,17 +992,17 @@ const PaymentModal = (props) => {
                 </div>
                 <div class="center flex-col gap-2 flex-1 bg-white/[0.02] px-8 py-4">
                   <div class="center flex-col w-full">
-                    <p class="text-14 text-gray-9a font-bold font-SpaceGrotesk capitalize">
+                    <p class="text-14 font-medium text-gray-9a lg:font-bold font-SpaceGrotesk capitalize">
                       {cryptomethods[props.searchParams?.method]?.name} deposit
                       address
                     </p>
-                    <p class="text-[#646683]">
+                    <p class="text-[#646683] text-center lg:text-start text-12  lg:text-16 font-bold lg:font-normal">
                       You can send any amount of{" "}
                       {cryptomethods[props.searchParams?.method]?.name} to this
                       address and receive equivalent in RustyLoot balance.
                     </p>
                     <div
-                      class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                      class="w-full max-w-md p-[2px] rounded-[4px] h-10 lg:h-full mt-2 lg:mt-1"
                       style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
@@ -1029,11 +1029,11 @@ const PaymentModal = (props) => {
                           }
                         }}
                       >
-                        <p class="text-14 text-white font-normal">
+                        <p class="text-14 text-white w-[200px] md:w-fit font-bold lg:font-normal truncate	font-SpaceGrotesk">
                           {crypto()?.address}
                         </p>
                         {crypto()?.address && (
-                          <div class="bg-gray-button-gradient p-2 rounded-4 border border-white/10">
+                          <div class="bg-gray-button-gradient p-1.5 lg:p-2 rounded-4 border border-white/10">
                             <svg
                               class="w-4"
                               xmlns="http://www.w3.org/2000/svg"

@@ -603,7 +603,7 @@ const SmallPaymentModal = (props) => {
                             </div>
                             {val.bonus ? (
                               <div
-                                class={`text-[#3EFF8B] font-bold lg:font-normal text-12 px-0.5 lg:px-1 lg:py-0.5 ${
+                                class={`text-[#3EFF8B] font-bold font-Quicksand lg:font-normal text-12 px-0.5 lg:px-1 lg:py-0.5 ${
                                   val.isHorizontal ? 'lg:relative absolute right-0 rounded-l-4' : 'w-full center'
                                 }`}
                                 style={{
