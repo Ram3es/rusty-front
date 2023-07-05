@@ -86,9 +86,9 @@ const Profile = (props) => {
       <div
         class={`rounded-xl flex flex-col absolute`}
         classList={{
-          'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-[85%] overflow-scroll': currentTab().name === 'game history',
-          'md:w-[650px] lg:w-[833px] w-[85%]': currentTab().name !== 'game history',
-          'h-[570px]':
+          'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-11/12 overflow-scroll': currentTab().name === 'game history',
+          'md:w-[650px] lg:w-[833px] w-11/12': currentTab().name !== 'game history',
+          'h-5/6 lg:h-[570px]':
             currentTab().name === 'transactions' ||
             currentTab().name === 'old seeds' ||
             currentTab().name === 'profile',
@@ -102,7 +102,7 @@ const Profile = (props) => {
           'backdrop-filter': 'blur(8px)'
         }}
       >
-        <div class='rounded-t-xl border border-black/10 w-full px-8 py-6 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
+        <div class='rounded-t-xl border border-black/10 w-full px-6 lg:px-8 py-6 relative transition-all duration-100 ease-out flex gap-3 lg:gap-0 justify-between items-center h-[88px]'>
           <div class='text-white font-SpaceGrotesk text-20 flex flex-col'>
             <span class='uppercase'>{currentTab().name}</span>
             <span class='text-gray-64 text-12'>{currentTab().subHeader}</span>
@@ -128,22 +128,24 @@ const Profile = (props) => {
           </NavLink>
         </div>
         <div
-          class={`relative px-[33px] pt-[23px] ${
-            currentTab().name !== 'profile' ? 'pb-6' : 'pb-9'
+          class={`relative px-4 lg:px-[33px] pt-4 lg:pt-[23px] ${
+            currentTab().name !== 'profile' ? 'pb-6' : 'pb-4 lg:pb-9'
           }`}
         >
           <div
             class='absolute inset-0 -z-10 h-[326px] bg-repeat-x mix-blend-luminosity'
             style={{ 'background-image': `url('${BgMainVector}')`, opacity: 0.002 }}
           />
-          <div class='flex gap-2 items-center capitalize flex-wrap'>
+          <div class='flex gap-2 items-center capitalize overflow-scroll'>
             <For each={tabVariants}>
               {(tab) => (
                 <TransparentButton
                   callbackFn={() => (tab.name !== 'current trades' ? setCurrentTab(tab) : null)}
                   isActive={currentTab().name === tab.name}
                 >
+                  <span class='truncate'>
                   {tab.name}
+                  </span>
                 </TransparentButton>
               )}
             </For>

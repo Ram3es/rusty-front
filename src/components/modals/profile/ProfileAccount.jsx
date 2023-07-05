@@ -34,8 +34,8 @@ const ProfileAccount = (props) => {
 
   return (
     <>
-      <div class='flex flex-col items-center pt-9 gap-6'>
-        <div class='scale-75 sm:scale-100 flex items-center justify-center'>
+      <div class='flex flex-col items-center lg:pt-9 gap-2 lg:gap-6'>
+        <div class='scale-[70%] lg:scale-100 flex items-center justify-center'>
           <svg
             width='135'
             height='5'
@@ -107,7 +107,7 @@ const ProfileAccount = (props) => {
           <RankLabel staff={userObject?.user?.rank} rank={userObject?.user?.level?.league} />
           <span class='text-gray-9aa truncate max-w-[116x]'>{userObject?.user?.username}</span>
         </div>
-        <div class='flex flex-col items-center justify-center gap-3'>
+        <div class='flex flex-col items-center justify-center gap-[4px] lg:gap-3'>
           <div class='flex justify-center items-center relative h-8 w-[220px] md:w-[497px]'>
             <div class='w-[220px] md:w-[484px] h-2 rounded-[1px] overflow-hidden home-progress-bg'>
               <div
@@ -145,7 +145,7 @@ const ProfileAccount = (props) => {
           </div>
         </div>
       </div>
-      <div class='pt-[32px] w-full grid place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[18px]'>
+      <div class='pt-[28px] lg:pt-[32px] w-full grid place-items-center grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[18px]'>
         <For each={stats}>
           {(item) => (
             <div class='w-[244px] h-24 xll:h-24 flex justify-center items-center relative rounded-4 bg-dark-22'>
