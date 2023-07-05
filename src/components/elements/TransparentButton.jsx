@@ -1,7 +1,7 @@
 const TransparentButton = (props) => {
   return (
     <div
-      class={`px-5 py-2 rounded-4 cursor-pointer border center text-14 font-SpaceGrotesk font-bold ${
+      class={`px-4 ssm:px-5 py-2 rounded-4 cursor-pointer border center text-14 font-SpaceGrotesk font-bold ${
         props.isFullWidth ? 'w-full' : 'w-max'
       } ${
         props.isActive
