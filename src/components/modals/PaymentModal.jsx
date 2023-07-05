@@ -764,16 +764,16 @@ const PaymentModal = (props) => {
                   )}
                   {(props.searchParams?.deposit ||
                     props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT) && (
-                    <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
-                      <div class="bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5 ">
-                        <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                    <div class="w-full lg:w-max balance-bg rounded-4 flex items-center drop-shadow-dark">
+                      <div class="w-full lg:w-max bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5">
+                        <div class="w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 justify-center lg:justify-start items-center font-SpaceGrotesk font-bold">
                           <Coin width="6" />
-                          <p class="text-gradient text-16 font-medium font-Oswald">
+                          <p class="text-gradient text-16 font-bold lg:font-medium font-SpaceGrotesk">
                             {items()
                               .reduce((prev, cur) => (prev += cur.price), 0)
                               .toLocaleString()}
                           </p>
-                          <p class="text-gradient text-14 uppercase">
+                          <p class="text-gradient text-14 font-bold uppercase truncate w-[80px] ssm:w-[120px]">
                             Inventory Value
                           </p>
                         </div>
@@ -841,7 +841,7 @@ const PaymentModal = (props) => {
                     props.searchParams?.crypto || props.searchParams?.giftcard
                       ? "hidden"
                       : "flex"
-                  } w-full flex-col min-h-full py-8 justify-between items-center gap-2 sm:gap-4 md:gap-8`}
+                  } w-full flex-col min-h-full py-4 lg:py-8 justify-between items-center gap-3 lg:gap-8`}
                 >
                   <div class="hidden lg:flex flex-col gap-2 max-h-[45vh] overflow-y-scroll border-b border-black/10 h-full px-8">
                     <For each={activeItems()}>
@@ -874,16 +874,24 @@ const PaymentModal = (props) => {
                       )}
                     </For>
                   </div>
-                  <div class="center flex-col w-full px-8 gap-3">
+                  <div class="center flex-col w-full px-4 lg:px-8 gap-3">
                     <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
-                      <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                      <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold  items-center"
+                      classList={{
+                        'text-green-27': props.searchParams?.deposit,
+                        'text-yellow-ffb': !props.searchParams?.deposit
+                      }}
+                      >
                         <span class="text-white">
                           {settings().amount}
                           {itemsTotal() > 0 && ` / ${itemsTotal()}`} items
                         </span>
                         <span>worth</span>
                         <Coin width="5" />
-                        <span class="text-gradient">
+                        <span  classList={{
+                        'text-gradient-green-secondary': props.searchParams?.deposit,
+                        'text-gradient': !props.searchParams?.deposit
+                      }}>
                           {Number(settings().value).toLocaleString()}
                         </span>
                       </div>
@@ -916,8 +924,14 @@ const PaymentModal = (props) => {
                             ? deposit(true)
                             : withdraw();
                         }}
+                        color={props.searchParams?.deposit ? 'mint' : 'yellow'}
                       >
-                        <div class="justify-center flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                        <div class="justify-center flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center"
+                        classList={{
+                          'text-green-27 text-shadow-base': props.searchParams?.deposit,
+                          'text-yellow-ffb': !props.searchParams?.deposit
+                        }}
+                        >
                           {props.searchParams?.giftcard
                             ? "redeem"
                             : props.searchParams?.deposit ||
