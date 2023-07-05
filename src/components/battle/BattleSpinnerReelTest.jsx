@@ -9,6 +9,7 @@ import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
 import GoldText from "../shared/GoldText";
 import {getCurrencyString} from "../mines_new/utils/tools";
 import Coin from "../../utilities/Coin";
+import CoinStack from "../../assets/img/case-battles/CoinStack.png";
 // import ObserverItem from "./ObserverItem";
 
 import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png";
@@ -264,21 +265,9 @@ const BattleSpinnerReel = (props) => {
         86.6% { top: 150vh;}
         87.7% {top: 0;}
         89.7% {top: 0;}
-        89.7% {top: 150vh;}
+        89.8% {top: 150vh;}
         100% {top: 150vh;}
       }
-
-      @keyframes dualConfettiAnimation {
-        0% { content: 'none'; top: 150vh;}
-        83.6% {  content: 'none'; top: 150vh;}
-        83.7% { content: 'fire'; top: 0;}
-        85.7% { content: 'none'; top: 150vh;}
-        86.6% {  content: 'none'; top: 150vh;}
-        87.7% { content: 'clean'; top: 0;}
-        89.7% { content: 'none'; top: 150vh;}
-        100% { content: 'none'; top: 150vh;}
-      }
-
         `);
     }
   });
@@ -366,7 +355,7 @@ const BattleSpinnerReel = (props) => {
                         {item.name}
                       </div>
                       <div class="flex  items-center justify-center gap-1">
-                        <Coin width="5" />
+                        <img src={CoinStack} alt="" />
                         <GoldText
                           text={getCurrencyString(item.price)}
                           size="13"
@@ -438,13 +427,13 @@ const BattleSpinnerReel = (props) => {
                   class="absolute w-1 h-1 bg-white opacity-[0.01]"
                   ref={props.setToIntersectA}
                   style={{
-                    "animation-name": "confettiAnimation",
+                    "animation-name": `confettiAnimation`,
                     "animation-duration": `5.5s`,
                     "animation-timing-function": "linear",
                     "animation-fill-mode": "forwards",
                   }}
                 />
-                <div
+                {/* <div
                   class="absolute w-1 h-1 bg-white opacity-[0.01]"
                   ref={props.setToIntersectB}
                   style={{
@@ -453,7 +442,7 @@ const BattleSpinnerReel = (props) => {
                     "animation-timing-function": "linear",
                     "animation-fill-mode": "forwards",
                   }}
-                />
+                /> */}
               </>
             );
           }

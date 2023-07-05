@@ -1,16 +1,10 @@
-import {
-  createEffect,
-  createSignal,
-  For,
-  onCleanup,
-  Show,
-} from "solid-js";
+import {createEffect, createSignal, For, onCleanup, Show} from "solid-js";
 import PageLoadState from "../../libraries/PageLoadState";
 import injector from "../../injector/injector";
 import Fallback from "../Fallback";
 import Coin from "../../utilities/Coin";
-import { URL } from "../../libraries/url";
-import { NavLink, useNavigate } from "solid-app-router";
+import {URL} from "../../libraries/url";
+import {NavLink, useNavigate} from "solid-app-router";
 import ArrowBack from "../../components/icons/ArrowBack";
 import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBorders";
 import AddCaseCard from "../../assets/img/case/AddCaseCard.png";
@@ -29,15 +23,20 @@ import GrayGradientButton from "../../components/elements/GrayGradientButton";
 import YellowGradientButton from "../../components/elements/CaseGradientButton";
 import TrashBinIcon from "../../components/icons/TrashBinIcon";
 import RangePercentScale from "../../components/elements/RangePercentScale";
-import { getProportionalPartByAmount } from "../../utilities/Numbers";
-import { tippy } from "solid-tippy";
+import {getProportionalPartByAmount} from "../../utilities/Numbers";
+import {tippy} from "solid-tippy";
 import InfoToolTip from "../../components/battle/InfoToolTip";
-import { getCurrencyString } from "../../components/mines_new/utils/tools";
+import {getCurrencyString} from "../../components/mines_new/utils/tools";
 import GoldText from "../../components/mines_new/MISC/GoldText";
 
 import dragula from "dragula";
 
-import { CB_BATTLE_VARIANTS, CB_CURSED_VARIANTS, CB_GROUP_VARIANTS, CB_ROYAL_VARIANTS } from "../../libraries/constants";
+import {
+  CB_BATTLE_VARIANTS,
+  CB_CURSED_VARIANTS,
+  CB_GROUP_VARIANTS,
+  CB_ROYAL_VARIANTS,
+} from "../../libraries/constants";
 
 const minLevelOptions = ["bronze", "silver", "gold1", "platinum1", "diamond"];
 const priceRanges = [
@@ -78,8 +77,8 @@ function filterByRange(arrayOfCases, range) {
 const CreateCaseBattle = (props) => {
   let itemsWrapper;
   const navigate = useNavigate();
-  const { createBattlesPageLoaded, onCreateBattlesPageLoaded } = PageLoadState;
-  const { socket, toastr } = injector;
+  const {createBattlesPageLoaded, onCreateBattlesPageLoaded} = PageLoadState;
+  const {socket, toastr} = injector;
   const [casesState, setCasesState] = createSignal([]);
   const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(false);
   const [placeholdersToShow, setPlaceholdersToShow] = createSignal(2);
@@ -91,19 +90,19 @@ const CreateCaseBattle = (props) => {
   const [playersState, setPlayersState] = createSignal({
     royal: {
       players: 2,
-      team: 0
+      team: 0,
     },
     cursed: {
       players: 2,
-      team: 0
+      team: 0,
     },
     group: {
       players: 2,
-      team: 0
-    }
-  })
+      team: 0,
+    },
+  });
 
-  const [currentBattle, setCurrentBattle] = createSignal(CB_BATTLE_VARIANTS[0]) 
+  const [currentBattle, setCurrentBattle] = createSignal(CB_BATTLE_VARIANTS[0]);
 
   const [modeToCreate, setModeToCreate] = createSignal({
     mode: "royal",
@@ -163,35 +162,35 @@ const CreateCaseBattle = (props) => {
   };
 
   const getModeForPlayersState = () => {
-    if (modeToCreate().mode === 'royal' && modeToCreate().cursed === 0) {
-      return 'royal';
-    } 
-
-    if (modeToCreate().mode === 'team' && modeToCreate().cursed === 0) {
-      return 'royal';
+    if (modeToCreate().mode === "royal" && modeToCreate().cursed === 0) {
+      return "royal";
     }
 
-    if (modeToCreate().mode === 'royal' && modeToCreate().cursed === 1) {
-      return 'cursed';
-    } 
+    if (modeToCreate().mode === "team" && modeToCreate().cursed === 0) {
+      return "royal";
+    }
 
-    if (modeToCreate().mode === 'team' && modeToCreate().cursed === 1) {
-      return 'cursed';
-    } 
+    if (modeToCreate().mode === "royal" && modeToCreate().cursed === 1) {
+      return "cursed";
+    }
 
-    if (modeToCreate().mode === 'group' && modeToCreate().cursed === 0) {
-      return 'group';
-    }  
+    if (modeToCreate().mode === "team" && modeToCreate().cursed === 1) {
+      return "cursed";
+    }
 
-    return 'group';
-  }
+    if (modeToCreate().mode === "group" && modeToCreate().cursed === 0) {
+      return "group";
+    }
+
+    return "group";
+  };
 
   createEffect(() => {
     if (props.loaded()) {
       onCreateBattlesPageLoaded(true);
       socket.emit(
         "battles:cases",
-        { price: sortBy() === sortOptions[1] ? "desc" : "asc" },
+        {price: sortBy() === sortOptions[1] ? "desc" : "asc"},
         (data) => {
           setCasesState(data.data.cases);
           getPlaceholdernumber();
@@ -250,7 +249,7 @@ const CreateCaseBattle = (props) => {
         const newIndex = Array.from(elements).indexOf(target);
         const oldIndex = Array.from(elements).indexOf(source);
         setModeToCreate((prev) => {
-          const newCasesObj = { ...prev };
+          const newCasesObj = {...prev};
           newCasesObj.cases.splice(
             newIndex,
             0,
@@ -279,7 +278,7 @@ const CreateCaseBattle = (props) => {
               const ind = prev.cases.findIndex(
                 (i) => i.caseId === item.id || i.caseId === item.caseId
               );
-              const newCasesObj = { ...prev };
+              const newCasesObj = {...prev};
               if (prev.cases[ind].qty - 1 === 0) {
                 newCasesObj.cases.splice(ind, 1);
               } else {
@@ -325,7 +324,7 @@ const CreateCaseBattle = (props) => {
                 if (c.caseId !== item.id && c.caseId !== item.caseId) {
                   return c;
                 } else {
-                  return { ...c, qty: c.qty + 1 };
+                  return {...c, qty: c.qty + 49};
                 }
               }),
             }));
@@ -481,25 +480,28 @@ const CreateCaseBattle = (props) => {
                 <CaseGradientButton
                   isFullWidth={true}
                   callbackFn={() => {
-                    setCurrentBattle('royal')
+                    setCurrentBattle("royal");
                     setPlayersState((prev) => {
                       return {
                         ...prev,
                         [getModeForPlayersState()]: {
-                          players:  playersState()[getModeForPlayersState()].players,
-                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
-                        }
-                      }
-                    })
+                          players:
+                            playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team
+                            ? 1
+                            : 0,
+                        },
+                      };
+                    });
                     setModeToCreate((prev) => {
                       return {
                         ...prev,
-                        mode: playersState().royal.team ? 'team' : 'royal',
+                        mode: playersState().royal.team ? "team" : "royal",
                         players: playersState().royal.players,
                         cursed: 0,
                       };
-                    })
-                  }                  }
+                    });
+                  }}
                   selected={
                     (modeToCreate().mode === "royal" ||
                       modeToCreate().mode === "team") &&
@@ -537,26 +539,28 @@ const CreateCaseBattle = (props) => {
                   isFullWidth={true}
                   color="green"
                   callbackFn={() => {
-                    setCurrentBattle('cursed')
+                    setCurrentBattle("cursed");
                     setPlayersState((prev) => {
                       return {
                         ...prev,
                         [getModeForPlayersState()]: {
-                          players:  playersState()[getModeForPlayersState()].players,
-                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
-                        }
-                      }
-                    })
+                          players:
+                            playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team
+                            ? 1
+                            : 0,
+                        },
+                      };
+                    });
                     setModeToCreate((prev) => {
                       return {
                         ...prev,
-                        mode: playersState().cursed.team ? 'team' : 'royal',
+                        mode: playersState().cursed.team ? "team" : "royal",
                         players: playersState().cursed.players,
                         cursed: 1,
                       };
-                    })
-                  }   
-                }
+                    });
+                  }}
                   selected={modeToCreate().cursed === 1}
                   rgb="218, 253, 9"
                   toggle
@@ -586,24 +590,27 @@ const CreateCaseBattle = (props) => {
                   isFullWidth={true}
                   color="blue"
                   callbackFn={() => {
-                    setCurrentBattle('group')
+                    setCurrentBattle("group");
                     setPlayersState((prev) => {
                       return {
                         ...prev,
                         [getModeForPlayersState()]: {
-                          players: playersState()[getModeForPlayersState()].players,
-                          team: playersState()[getModeForPlayersState()].team ? 1 : 0
-                        }
-                      }
-                    })
+                          players:
+                            playersState()[getModeForPlayersState()].players,
+                          team: playersState()[getModeForPlayersState()].team
+                            ? 1
+                            : 0,
+                        },
+                      };
+                    });
                     setModeToCreate((prev) => {
                       return {
                         ...prev,
-                        mode: 'group',
+                        mode: "group",
                         players: playersState().group.players,
-                        cursed: 0
-                      }
-                    })
+                        cursed: 0,
+                      };
+                    });
                   }}
                   selected={
                     modeToCreate().mode === "group" &&
@@ -637,38 +644,52 @@ const CreateCaseBattle = (props) => {
             </div>
             <div class="w-full border-t border-white border-opacity-5 hidden md:block" />
             <div class=" flex flex-col md:flex-row center gap-2">
-              <For each={currentBattle() === 'royal' ? CB_ROYAL_VARIANTS : currentBattle() === 'cursed' ? CB_CURSED_VARIANTS : CB_GROUP_VARIANTS}>
+              <For
+                each={
+                  currentBattle() === "royal"
+                    ? CB_ROYAL_VARIANTS
+                    : currentBattle() === "cursed"
+                    ? CB_CURSED_VARIANTS
+                    : CB_GROUP_VARIANTS
+                }
+              >
                 {(option) => (
                   <div
                     class={`w-max center px-5 py-3 ${
-                      option.qty === playersState()[getModeForPlayersState()].players 
-                      && (option.team === playersState()[getModeForPlayersState()].team || option.mode === 'group')
-                      && option.mode === getModeForPlayersState()
+                      option.qty ===
+                        playersState()[getModeForPlayersState()].players &&
+                      (option.team ===
+                        playersState()[getModeForPlayersState()].team ||
+                        option.mode === "group") &&
+                      option.mode === getModeForPlayersState()
                         ? "border-yellow-ffb text-white"
                         : "border-white border-opacity-5 text-gray-9a"
                     } border rounded-4 flex gap-1 items-center cursor-pointer`}
-                    onClick={() => {                      
+                    onClick={() => {
                       setPlayersState((prev) => {
-                        const updatedState = { ...prev }
+                        const updatedState = {...prev};
 
                         Object.keys(updatedState).forEach((key) => {
-                          updatedState[key].players = option.qty
-                          updatedState[key].team = updatedState[key].team === 'group' ? 0 : option.team
-                        })
+                          updatedState[key].players = option.qty;
+                          updatedState[key].team =
+                            updatedState[key].team === "group"
+                              ? 0
+                              : option.team;
+                        });
 
-                        return updatedState
-                      })
+                        return updatedState;
+                      });
 
                       setModeToCreate((prev) => ({
                         ...prev,
                         mode:
                           option.team === 1
-                            ? 'team'
-                            : option.mode === 'cursed'
-                            ? 'royal'
+                            ? "team"
+                            : option.mode === "cursed"
+                            ? "royal"
                             : option.mode,
-                        players: option.qty
-                      }))
+                        players: option.qty,
+                      }));
                     }}
                   >
                     <For each={Array.from(Array(option.qty).keys())}>
@@ -690,7 +711,8 @@ const CreateCaseBattle = (props) => {
                           </svg>
                           {index() + 1 !== option.qty &&
                             option.mode !== "group" &&
-                            (option.mode === "royal" && !option.team ||option.mode === "cursed" && !option.team ||
+                            ((option.mode === "royal" && !option.team) ||
+                              (option.mode === "cursed" && !option.team) ||
                               (option.team &&
                                 index() !== 0 &&
                                 index() !== 2)) && (
@@ -828,7 +850,7 @@ const CreateCaseBattle = (props) => {
                 <RangePercentScale
                   value={modeToCreate().borrowPercent}
                   setter={(per) =>
-                    setModeToCreate((prev) => ({ ...prev, borrowPercent: per }))
+                    setModeToCreate((prev) => ({...prev, borrowPercent: per}))
                   }
                   maxPercent={80}
                   hexColor="#27F278"
@@ -970,7 +992,7 @@ const CreateCaseBattle = (props) => {
                 <RangePercentScale
                   value={modeToCreate().fundPercent}
                   setter={(per) =>
-                    setModeToCreate((prev) => ({ ...prev, fundPercent: per }))
+                    setModeToCreate((prev) => ({...prev, fundPercent: per}))
                   }
                   maxPercent={100}
                   hexColor="#FFB436"
@@ -1127,7 +1149,7 @@ const CreateCaseBattle = (props) => {
               activeName={modeToCreate().minLevel}
               itemsList={minLevelOptions}
               submitItem={(level) =>
-                setModeToCreate((prev) => ({ ...prev, minLevel: level }))
+                setModeToCreate((prev) => ({...prev, minLevel: level}))
               }
             />
           </Show>
@@ -1215,7 +1237,7 @@ const CreateCaseBattle = (props) => {
                       onAddCase={() => {
                         setModeToCreate((prev) => ({
                           ...prev,
-                          cases: [...prev.cases, { caseId: item.id, qty: 1 }],
+                          cases: [...prev.cases, {caseId: item.id, qty: 1}],
                         }));
                         getPlaceholdernumber();
                       }}
@@ -1240,7 +1262,7 @@ const CreateCaseBattle = (props) => {
                                   i.caseId === item.id ||
                                   i.caseId === item.caseId
                               );
-                              const newCasesObj = { ...prev };
+                              const newCasesObj = {...prev};
                               newCasesObj.cases.splice(ind, 1);
                               return newCasesObj;
                             });
@@ -1297,7 +1319,7 @@ const CreateCaseBattle = (props) => {
               <div class="flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4">
                 <GrayGradientButton
                   callbackFn={() =>
-                    setModeToCreate((prev) => ({ ...prev, cases: [] }))
+                    setModeToCreate((prev) => ({...prev, cases: []}))
                   }
                 >
                   <div class="text-gray-9a center gap-2 ">

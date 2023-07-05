@@ -27,6 +27,7 @@ import GrayWrapperdWithBorders from "../../components/battle/GrayWrapperdWithBor
 import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle.png";
 import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
+import SmallItemCardNew from "../../components/battle/SmallItemCardNew";
 
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
@@ -42,11 +43,17 @@ import StackedCasesBar from "../../components/battle/StackedCasesBar";
 import CaseViewModal from "../../components/modals/CaseViewModal";
 import CountDownText from "../../components/battle/CountDownText";
 import {
-  playCountDownSound, playPullBackSound, playWinSound
+  playCountDownSound,
+  playPullBackSound,
+  playWinSound,
+  playCaseBattlesSound,
+  playCaseBattlesConfettiSound,
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
 import confetti, {create} from "canvas-confetti";
+import CoinStack from "../../assets/img/case-battles/CoinStack.png";
+import GoldText from "../../components/shared/GoldText";
 
 import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg";
 import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.svg";
@@ -65,7 +72,6 @@ export const [spinOffsets, setSpinOffsets] = createSignal([]);
 export const [spinLists, setSpinLists] = createSignal([]);
 
 export const clickingSound = new Audio(clickSeq);
-
 
 export const getJoinTeam = (mode, playerIndex) => {
   if (mode === "group") {
@@ -93,7 +99,6 @@ const GameCaseBattle = (props) => {
   const [game, setGame] = createSignal(null);
   const [rollItems, setRollItems] = createSignal([]);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
-  const [winnings, setWinnings] = createSignal([]);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
   const [battleCases, setBattleCases] = createSignal([]);
   const [caseViewModal, setCaseViewModal] = createSignal(false);
@@ -105,6 +110,7 @@ const GameCaseBattle = (props) => {
   const [spinQueue, setSpinQueue] = createSignal([]);
   // const [spinnerStatus, setSpinnerStatus] = createSignal({status: "inactive"});
   const [confettiData, setConfettiData] = createSignal([]);
+  const [playerRoundData, setPlayerRoundData] = createSignal([[]]);
 
   const {changeStatus} = useSpinnerStatus();
 
@@ -179,12 +185,38 @@ const GameCaseBattle = (props) => {
   let timeout1 = null;
   let timeout2 = null;
   const updateGame = (inputGame) => {
+    // setWinnings(game()?.players || []);
+    if (
+      playerRoundData()[0]?.length < inputGame.currentRound - 1 &&
+      inputGame?.status === "playing"
+    ) {
+      setPlayerRoundData(
+        setAllRoundData(inputGame.players, inputGame.currentRound)
+      );
+      console.log("SYNCING");
+      inputGame.status = "syncing";
+    } else if (
+      (game()?.players && game()?.status === "playing") ||
+      game()?.status === "syncing"
+    ) {
+      setPlayerRoundData(
+        updateRoundData(game().players, game().currentRound, playerRoundData())
+      );
+    } else {
+      setPlayerRoundData(new Array(inputGame.playersQty).fill([]));
+    }
+
+    if (inputGame.status === "ended") {
+      setPlayerRoundData(
+        setAllRoundData(inputGame.players, inputGame.currentRound)
+      );
+    }
+
     if (confettiIntervals().length > 0) {
       confettiIntervals().forEach((interval) => {
         clearInterval(interval);
       });
       setConfettiIntervals([]);
-      setWinnings(game().players);
       setHasCleanedUpConfetti(true);
 
       console.log("FORCE CLEAN INTERVALS");
@@ -195,14 +227,11 @@ const GameCaseBattle = (props) => {
     setRollItems([]);
     setSpinnerOptions([]);
     setGame(() => inputGame);
-    if (inputGame.status === "playing") {
-      // setTimeout(() => {
-      //   setWinnings(inputGame.players);
-      // }, 5500);
-    } else {
-      setWinnings(inputGame.players);
-    }
-    if (inputGame.status === "playing" && isNumber(inputGame.currentRound)) {
+
+    if (
+      inputGame.status === "playing" ||
+      (inputGame.status === "syncing" && isNumber(inputGame.currentRound))
+    ) {
       setRollItems(() =>
         inputGame.cases[inputGame.currentRound].items.map((item) => ({
           img: item.image?.replace("{url}", window.origin) || "",
@@ -247,6 +276,7 @@ const GameCaseBattle = (props) => {
       const newSpinIndexes = [];
       const newSpinLists = [];
 
+      setContainsConfettiWin(false);
       for (let i = 0; i < game().playersQty; i++) {
         const spinIndex = getRandomIndex(i);
         let spinList = generateSpinList(i);
@@ -255,7 +285,7 @@ const GameCaseBattle = (props) => {
         // if (spinnerOptions()[i].isBigWin) {
         //   setContainsBigWin(true);
         // }
-        
+
         if (spinnerOptions()[i].winningItem.isConfetti) {
           setContainsConfettiWin(true);
           console.log("contains confetti win");
@@ -274,7 +304,6 @@ const GameCaseBattle = (props) => {
             });
             return newConfettiData;
           });
-          setContainsConfettiWin(false);
         }
 
         newSpinLists.push(spinList);
@@ -286,9 +315,67 @@ const GameCaseBattle = (props) => {
       setConfettiFired(false);
       setHasCleanedUpConfetti(false);
       setConfettiIntervals([]);
-      changeStatus("spinning");
-      changeStatus("inactive");
+      if (game().status != "syncing") {
+        if (containsConfettiWin()) {
+          playCaseBattlesConfettiSound();
+        } else {
+          playCaseBattlesSound();
+        }
+        changeStatus("spinning");
+        changeStatus("inactive");
+      }
     }
+  };
+
+  const getSingleRoundData = (players, roundNumber) => {
+    const result = [];
+
+    // Iterate through each player in the object
+    for (let playerId in players) {
+      const player = players[playerId];
+      const roundKey = `round_${roundNumber}`;
+
+      // Add the round data to the result array if it exists
+      if (player[roundKey]) {
+        result.push(player[roundKey]);
+      } else {
+        result.push(null); // or some other default value
+      }
+    }
+    return result;
+  };
+
+  const updateRoundData = (players, roundNumber, playerRoundData) => {
+    // Get the single round data for all players
+    const singleRoundData = getSingleRoundData(players, roundNumber);
+
+    // Make a deep copy of playerRoundData to avoid reference issue
+    const updatedPlayerRoundData = JSON.parse(JSON.stringify(playerRoundData));
+
+    // Iterate through each player's round data
+    for (let i = 0; i < singleRoundData.length; i++) {
+      // If the player's round data array does not exist, initialize it
+      if (!updatedPlayerRoundData[i]) {
+        updatedPlayerRoundData[i] = [];
+      }
+
+      // Add the player's round data to their round data array
+      updatedPlayerRoundData[i].push(singleRoundData[i]);
+    }
+
+    return updatedPlayerRoundData;
+  };
+
+  const setAllRoundData = (players, totalRounds) => {
+    let allRoundData = [];
+
+    // Iterate through all rounds
+    for (let roundNumber = 0; roundNumber <= totalRounds; roundNumber++) {
+      // Get the round data for this round and add it to allRoundData
+      allRoundData = updateRoundData(players, roundNumber, allRoundData);
+    }
+
+    return allRoundData;
   };
 
   const callBot = (player_index) => {
@@ -590,7 +677,6 @@ const GameCaseBattle = (props) => {
       const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
       const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
 
-      // Fire confetti every 100 milliseconds (you can adjust this value)
       const intervalDuration = 30;
       const particleCount = 5;
       const spread = 30;
@@ -616,20 +702,31 @@ const GameCaseBattle = (props) => {
       //   });
       // }, intervalDuration);
 
-      asyncInterval(
-        () => {
-          confetti({
-            particleCount,
-            spread,
-            origin: {x: xA, y: yA},
-            startVelocity,
-            colors: ["#FFFFFF", colorCodes[color]],
-            ticks,
-          });
-        },
-        70,
-        4
-      );
+      // asyncInterval(
+      //   () => {
+      //     confetti({
+      //       particleCount,
+      //       spread,
+      //       origin: {x: xA, y: yA},
+      //       startVelocity,
+      //       colors: ["#FFFFFF", colorCodes[color]],
+      //       ticks,
+      //     });
+      //   },
+      //   70,
+      //   4
+      // );
+
+      for (let i = 0; i < 6; i++) {
+        confetti({
+          particleCount,
+          spread,
+          origin: {x: xA, y: yA},
+          startVelocity,
+          colors: ["#FFFFFF", colorCodes[color]],
+          ticks,
+        });
+      }
 
       // setConfettiIntervals([...confettiIntervals(), confettiInterval]);
     }
@@ -651,7 +748,7 @@ const GameCaseBattle = (props) => {
       clearInterval(t);
     });
     setConfettiIntervals([]);
-    setWinnings(game().players);
+    // setWinnings(game().players);
     // }
     // else {
     //   console.log("confetti not fired");
@@ -766,7 +863,7 @@ const GameCaseBattle = (props) => {
                 <div class="flex flex-col text-14 font-SpaceGrotesk font-bold text-gray-a2">
                   <span class="w-max">Battle Cost</span>
                   <div class="flex items-center gap-2">
-                    <Coin width="5" />
+                    <img src={CoinStack} alt="" />
                     <span class="text-gradient">
                       {getCurrencyString(game().totalValue)}
                     </span>
@@ -878,7 +975,7 @@ const GameCaseBattle = (props) => {
                 {game().status !== "ended" ? (
                   <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12">
                     <span class="w-max">{getCurrentRollItem().name}</span>
-                    <Coin width="5" />
+                    <img src={CoinStack} alt="" />
                     <span class="text-gradient text-shadow-gold-secondary">
                       {getCurrencyString(getCurrentRollItem().price)}
                     </span>
@@ -1167,7 +1264,8 @@ const GameCaseBattle = (props) => {
                                 <Switch>
                                   <Match
                                     when={
-                                      game().status === "playing" &&
+                                      (game().status === "playing" ||
+                                        game().status === "syncing") &&
                                       spinLists().length > 0 &&
                                       game().players["1"].round_0.id !== null
                                     }
@@ -1179,35 +1277,95 @@ const GameCaseBattle = (props) => {
                                           game().currentRound,
                                           playerIndex
                                         );
-                                      return (!!spinnerOptions()[playerIndex] &&
-                                        !!spinLists()[playerIndex]) ? (
-                                        <BattleSpinnerReel
-                                          spinnerIndex={playerIndex}
-                                          isConfettiWin={
-                                            spinnerOptions()[playerIndex]
-                                              .isConfettiWin || false
-                                          }
-                                          isBigWin={
-                                            spinnerOptions()[playerIndex]
-                                              .isBigWin
-                                          }
-                                          isFastSpin={false}
-                                          lineColor={getModeColor()}
-                                          randomFunction={randomFunction}
-                                          user={userObject}
-                                          containsConfettiWin={
-                                            containsConfettiWin
-                                          }
-                                          gameType={game().mode}
-                                          round={game().currentRound}
-                                          spinQueue={spinQueue}
-                                          setSpinQueue={setSpinQueue}
-                                          // spinnerStatus={spinnerStatus}
-                                          spinList={spinLists()[playerIndex]}
-                                          spinIndex={spinIndexes()[playerIndex]}
-                                          setToIntersectA={setToIntersectA}
-                                          setToIntersectB={setToIntersectB}
-                                        />
+                                      return !!spinnerOptions()[playerIndex] &&
+                                        !!spinLists()[playerIndex] ? (
+                                        game().status === "playing" ? (
+                                          <BattleSpinnerReel
+                                            spinnerIndex={playerIndex}
+                                            isConfettiWin={
+                                              spinnerOptions()[playerIndex]
+                                                .isConfettiWin || false
+                                            }
+                                            isBigWin={
+                                              spinnerOptions()[playerIndex]
+                                                .isBigWin
+                                            }
+                                            isFastSpin={false}
+                                            lineColor={getModeColor()}
+                                            randomFunction={randomFunction}
+                                            user={userObject}
+                                            containsConfettiWin={
+                                              containsConfettiWin
+                                            }
+                                            gameType={game().mode}
+                                            round={game().currentRound}
+                                            spinQueue={spinQueue}
+                                            setSpinQueue={setSpinQueue}
+                                            // spinnerStatus={spinnerStatus}
+                                            spinList={spinLists()[playerIndex]}
+                                            spinIndex={
+                                              spinIndexes()[playerIndex]
+                                            }
+                                            setToIntersectA={setToIntersectA}
+                                            setToIntersectB={setToIntersectB}
+                                          />
+                                        ) : (
+                                          <div class="h-32 flex flex-col gap-2 text-3xl  items-center scale-125 -translate-y-8">
+                                            <div class="relative z-10 flex">
+                                              <img
+                                                class={`h-24 z-20 transition-all duration-500`}
+                                                src={
+                                                  spinLists()[playerIndex][
+                                                    spinIndexes()[playerIndex]
+                                                  ].img
+                                                }
+                                                alt={
+                                                  spinLists()[playerIndex][
+                                                    spinIndexes()[playerIndex]
+                                                  ].name
+                                                }
+                                              />
+                                              <img
+                                                src={
+                                                  bglogos[
+                                                    spinLists()[playerIndex][
+                                                      spinIndexes()[playerIndex]
+                                                    ].rarity
+                                                  ]
+                                                }
+                                                alt={
+                                                  spinLists()[playerIndex][
+                                                    spinIndexes()[playerIndex]
+                                                  ].rarity + " glow"
+                                                }
+                                                class="absolute z-10 scale-[1.4]"
+                                              />
+                                            </div>
+                                            <div
+                                              class={`flex flex-col items-center justify-center 
+                                                   overflow-visible h-min `}
+                                            >
+                                              <div class="text-[#A2A5C6] text-14 font-semibold">
+                                                {
+                                                  spinLists()[playerIndex][
+                                                    spinIndexes()[playerIndex]
+                                                  ].name
+                                                }
+                                              </div>
+                                              <div class="flex  items-center justify-center gap-1">
+                                                <img src={CoinStack} alt="" />
+                                                <GoldText
+                                                  text={getCurrencyString(
+                                                    spinLists()[playerIndex][
+                                                      spinIndexes()[playerIndex]
+                                                    ].price
+                                                  )}
+                                                  size="13"
+                                                />
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )
                                       ) : (
                                         <Spiner classes="w-9 text-yellow-ffb" />
                                       );
@@ -1515,26 +1673,40 @@ const GameCaseBattle = (props) => {
                                 )}
                               >
                                 {(round) => (
-                                  <>
-                                    {winnings()[playerIndex + 1] &&
-                                    winnings()[playerIndex + 1][
-                                      `round_${round}`
-                                    ] ? (
-                                      <div class="w-30 h-30 center">
-                                        <ItemCardSmall
-                                          drop={
-                                            winnings()[playerIndex + 1][
-                                              `round_${round}`
+                                  <div>
+                                    {playerRoundData()[playerIndex][round] ? (
+                                      <div class="w-30 h-[7.5rem] center">
+                                        <SmallItemCardNew
+                                          item={
+                                            playerRoundData()[playerIndex][
+                                              round
                                             ]
                                           }
-                                          _case={game().cases[round]}
-                                          optimiseOff
+                                          color={getColor(
+                                            playerRoundData()[playerIndex][
+                                              round
+                                            ].item_price
+                                          )}
                                         />
                                       </div>
                                     ) : (
-                                      <img src={ItemPlaceholder} class="w-30" />
+                                      <>
+                                        {/* <img src={ItemPlaceholder} class="w-30" /> */}
+                                        <div
+                                          class="w-30 h-[7.5rem] flex items-center justify-center font-bold text-72
+                                        font-SpaceGrotesk rounded-md text-[#FFFFFF03]"
+                                          style={{
+                                            background: `linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%),
+                                                        radial-gradient(136.7% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%),
+                                                        linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.03) 41.3%, rgba(0, 0, 0, 0.03) 68.93%, 
+                                                        rgba(255, 255, 255, 0.03) 100%)`,
+                                          }}
+                                        >
+                                          {round}
+                                        </div>
+                                      </>
                                     )}
-                                  </>
+                                  </div>
                                 )}
                               </For>
                             </div>

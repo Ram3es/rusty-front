@@ -1,70 +1,62 @@
-import BattleIcon from "../components/icons/BattleIcon"
-import BattleActiveIcon from "../components/icons/BattleActiveIcon";
+
+import BattleIcon from "../components/icons/BattleIcon";
+import CaseOpeningIcon from "../components/icons/CaseOpeningIcon";
 import CoinflipIcon from "../components/icons/CoinflipIcon";
-import CoinflipActiveIcon from "../components/icons/CoinflipActiveIcon";
-import UpgraderIcon from "../components/icons/UpgraderIcon";
-import UpgraderActiveIcon from "../components/icons/UpgraderActiveIcon";
-import WheelIcon from "../components/icons/WheelIcon";
-import WheelActiveIcon from "../components/icons/WheelActiveIcon";
 import MinesIcon from "../components/icons/MinesIcon";
-import MinesActiveIcon from "../components/icons/MinesActiveIcon";
+import PVPMinesIcon from "../components/icons/PVPMinesIcon";
 import PlinkoIcon from "../components/icons/PlinkoIcon";
-import PlinkoActiveIcon from "../components/icons/PlinkoActiveIcon";
+import UpgraderIcon from "../components/icons/UpgraderIcon";
+import WheelIcon from "../components/icons/WheelIcon";
 import { URL } from "./url";
 
 export const navigationGameModes = [
   {
-    name: { en: "case battles", es: "case battles", ru: "case battles" },
+    name: { en: "Case Battles", es: "case battles", ru: "case battles" },
     svg: <BattleIcon />,
-    svgActive: <BattleActiveIcon />,
     url: URL.GAMEMODES.CASE_BATTLES,
-    isNew: true,
+    mark: "new",
   },
   {
-    name: { en: "coinflip", es: "coinflip", ru: "Коинфлип" },
+    name: { en: "Coinflip", es: "coinflip", ru: "Коинфлип" },
     svg: <CoinflipIcon />,
-    svgActive: <CoinflipActiveIcon />,
     url: URL.GAMEMODES.COINFLIP,
-    isHot: true
+    mark: "hot",
   },
   {
-    name: { en: "upgrader", es: "upgrader", ru: "Апгрейдер" },
+    name: { en: "Upgrader", es: "upgrader", ru: "Апгрейдер" },
     svg: <UpgraderIcon />,
-    svgActive: <UpgraderActiveIcon />,
     url: URL.GAMEMODES.UPGRADER,
-    isHot: true
+    mark: "hot",
   },
   {
-    name: { en: "wheel", es: "rueda", ru: "колесо" },
+    name: { en: "Wheel", es: "rueda", ru: "колесо" },
     svg: <WheelIcon />,
-    svgActive: <WheelActiveIcon/>,
     url: URL.GAMEMODES.WHEEL,
-    disabled: true
+    mark: "soon",
+    disabled: true,
   },
   {
-    name: { en: "mines", es: "Minas", ru: "Бомбы" },
+    name: { en: "Mines", es: "Minas", ru: "Бомбы" },
     svg: <MinesIcon />,
-    svgActive: <MinesActiveIcon />,
     url: URL.GAMEMODES.MINES,
-    disabled: true
+    mark: "soon",
+    disabled: true,
   },
   {
-    name: { en: "plinko", es: "Plinko", ru: "Плинко" },
+    name: { en: "Plinko", es: "Plinko", ru: "Плинко" },
     svg: <PlinkoIcon />,
-    svgActive: <PlinkoActiveIcon />,
     url: URL.GAMEMODES.PLINKO,
-    disabled: true
+    mark: "soon",
+    disabled: true,
   },
   {
-    name: { en: "cases", es: "cases", ru: "cases" },
-    svg: <BattleIcon />,
-    svgActive: <BattleActiveIcon />,
+    name: { en: "Cases", es: "cases", ru: "cases" },
+    svg: <CaseOpeningIcon />,
     url: URL.UNBOXING,
   },
   {
-    name: { en: "pvp mines", es: "Minas PVP", ru: "PVP Бомбы" },
-    svg: <MinesIcon />,
-    svgActive: <MinesActiveIcon />,
-    url: URL.GAMEMODES.PVP_MINES
+    name: { en: "PVP Mines", es: "Minas PVP", ru: "PVP Бомбы" },
+    svg: <PVPMinesIcon />,
+    url: URL.GAMEMODES.PVP_MINES,
   },
-]
+];

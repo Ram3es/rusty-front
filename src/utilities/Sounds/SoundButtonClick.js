@@ -9,6 +9,8 @@ import pullBack from "../../assets/sounds/pullBack.mp3";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import win from "../../assets/sounds/win.mp3";
 import winMax from "../../assets/sounds/winMax.mp3";
+import caseBattles from "../../assets/sounds/caseBattles.mp3";
+import caseBattlesConfetti from "../../assets/sounds/caseBattlesConfetti.mp3";
 
 import injector from "../../injector/injector";
 
@@ -23,6 +25,8 @@ const pullBackSound = new Audio(pullBack);
 const clickingSound = new Audio(clickSeq);
 const winSound = new Audio(win);
 const winMaxSound = new Audio(winMax);
+const caseBattlesSound = new Audio(caseBattles);
+const caseBattlesConfettiSound = new Audio(caseBattlesConfetti);
 
 const {userObject} = injector;
 
@@ -121,16 +125,18 @@ export const playWinMaxSound = () => {
   }
 };
 
-// pause all sounds if user leaves the page
-export const pauseAllSounds = () => {
-  soundButtonClick.pause();
-  soundOptionClick.pause();
-  soundMenuToggle.pause();
-  cashoutSound.pause();
-  placeBetSound.pause();
-  countDownSound.pause();
-  cashCountSound.pause();
-  pullBackSound.pause();
-  winSound.pause();
-  winMaxSound.pause();
+export const playCaseBattlesSound = () => {
+  if (userObject?.user?.sounds) {
+    caseBattlesSound.currentTime = 0;
+    caseBattlesSound.volume = userObject.user.sounds;
+    caseBattlesSound.play();
+  }
+};
+
+export const playCaseBattlesConfettiSound = () => {
+  if (userObject?.user?.sounds) {
+    caseBattlesConfettiSound.currentTime = 0;
+    caseBattlesConfettiSound.volume = userObject.user.sounds;
+    caseBattlesConfettiSound.play();
+  }
 };
