@@ -1,14 +1,14 @@
 const CaseSearchInput = (props) => {
   return (
     <div
-      class={`relative search-input rounded-4 h-10 pl-11 pr-10 ${
+      class={`relative search-input rounded-4 h-10 pl-7 pr-4 lg:pl-11 lg:pr-10 ${
         props.isFullWidth ? "w-full" : "w-80"
       } flex group ${
         props.search.length === 0 ? "text-gray-92" : "text-white"
-      } items-center pl-11 focus-within:border-2 focus-within:border-yellow-ff focus-within:text-yellow-ff`}
+      } items-center focus-within:border-2 focus-within:border-yellow-ff focus-within:text-yellow-ff`}
     >
       <svg
-        class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10"
+        class="absolute left-2 lg:left-4 top-1/2 transform -translate-y-1/2 z-10"
         width="16"
         height="16"
         viewBox="0 0 16 16"
@@ -50,7 +50,7 @@ const CaseSearchInput = (props) => {
         </div>
       )}
       <input
-        class="relative z-10 text-14 text-gray-92 font-medium font-SpaceGrotesk"
+        class="relative w-[60px] ssm:w-[100px] lg:w-full z-10 text-14 truncate text-gray-92 font-medium font-SpaceGrotesk"
         type="text"
         value={props.search}
         onInput={(e) => props.onInput(e.target.value)}

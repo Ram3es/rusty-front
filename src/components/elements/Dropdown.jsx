@@ -116,7 +116,7 @@ const Dropdown = (props) => {
               >
                 <Switch>
                   <Match when={!props.variant}>
-                    <span class="flex gap-1 items-center  text-14 text-yellow-ffb capitalize">
+                    <span class="flex gap-1 items-center text-14 text-yellow-ffb capitalize">
                       {item}
                     </span>
                   </Match>

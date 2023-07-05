@@ -10,9 +10,6 @@ import { useI18n } from '../../i18n/context'
 
 import RedCoin from '../../assets/img/coinflip/redcoin.svg'
 import BlackCoin from '../../assets/img/coinflip/blackcoin.svg'
-import YellowButtonBg from '../../assets/img/animatedButtonBg.jpg'
-import HeaderBg from '../../assets/img/modals/ModalHeaderBg.png'
-import YellowGradientButton from '../../components/elements/CaseGradientButton'
 
 import clickDepositSound from '../../assets/sounds/deposit.wav'
 const soundClickDeposit = new Audio(clickDepositSound)
@@ -239,31 +236,31 @@ const CoinflipCreateModal = (props) => {
     setItems((prev) => [...prev].sort((a, b) => (b.price - a.price) * (descending() ? 1 : -1)))
   }
 
-  const sorting = {
-    descending: {
-      en: 'Descending',
-      es: 'Descendiendo',
-      ru: 'по убыванию'
-    },
-    ascending: {
-      en: 'Ascending',
-      es: 'Ascendente',
-      ru: 'по возрастанию'
-    }
-  }
+  // const sorting = {
+  //   descending: {
+  //     en: 'Descending',
+  //     es: 'Descendiendo',
+  //     ru: 'по убыванию'
+  //   },
+  //   ascending: {
+  //     en: 'Ascending',
+  //     es: 'Ascendente',
+  //     ru: 'по возрастанию'
+  //   }
+  // }
 
-  const game = {
-    createGame: {
-      en: 'CREATING COINFLIP',
-      es: 'Unete al',
-      ru: 'Создать'
-    },
-    joinGame: {
-      en: 'JOIN COINFLIP',
-      es: 'Unirse',
-      ru: 'Присоединиться'
-    }
-  }
+  // const game = {
+  //   createGame: {
+  //     en: 'CREATING COINFLIP',
+  //     es: 'Unete al',
+  //     ru: 'Создать'
+  //   },
+  //   joinGame: {
+  //     en: 'JOIN COINFLIP',
+  //     es: 'Unirse',
+  //     ru: 'Присоединиться'
+  //   }
+  // }
 
   return (
     <Modal
@@ -300,7 +297,7 @@ const CoinflipCreateModal = (props) => {
           }}
         >
           <div
-            class='flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12'
+            class='flex relative w-full items-center justify-between pl-4 pr-8 lg:pr-0 lg:px-8 py-4 lg:py-6 bg-cover border border-black border-opacity-10 rounded-t-12'
             style={{
               background:
                 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
@@ -313,15 +310,15 @@ const CoinflipCreateModal = (props) => {
                   : i18n.t('coinflip.Create')}
               </p>
             </div>
-            <NavLink href={URL.GAMEMODES.COINFLIP} onClick={() => setItems([])} class='center'>
+            <NavLink href={URL.GAMEMODES.COINFLIP} onClick={() => setItems([])} class='flex items-center justify-between'>
               <CloseButton />
             </NavLink>
           </div>
           <div class='flex w-full flex-col xl:flex-row min-h-full justify-between'>
-            <div class={`w-full px-8 flex flex-col grow gap-8 py-4`}>
-              <div class='w-full h-20 sm:h-10 flex flex-col-reverse items-end sm:flex-row justify-between gap-2 relative z-10'>
-                <div class='flex gap-2 h-full'>
-                  <div class='w-full sm:w-80'>
+            <div class={`w-full px-4 lg:px-8 flex flex-col grow gap-[18px] lg:gap-8 py-4`}>
+              <div class='w-full h-20 lg:h-10 flex flex-col items-center lg:items-end lg:flex-row justify-between gap-2 relative z-10'>
+                <div class='flex items-center gap-2 h-full w-full'>
+                  <div class='w-full lg:w-80'>
                     <CaseSearchInput
                       search={search()}
                       onReset={() => setSearch('')}
@@ -334,13 +331,13 @@ const CoinflipCreateModal = (props) => {
                     activeName={descending() ? sortOptions[0] : sortOptions[1]}
                     itemsList={sortOptions}
                     submitItem={() => changeDescending()}
-                    label=' Sort by Price:'
+                    label='Sort by Price:'
                   />
                 </div>
-                <div class='center gap-2'>
-                  <div class='balance-bg rounded-4 flex items-center drop-shadow-dark'>
-                    <div class='bg-black bg-opacity-10 rounded-4 h-9 flex m-0.5'>
-                      <div class='w-full h-full px-4 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-[10.3px] items-center font-SpaceGrotesk font-bold'>
+                <div class='center gap-2 w-full'>
+                  <div class='w-full balance-bg rounded-4 flex items-center drop-shadow-dark'>
+                    <div class='bg-black w-full bg-opacity-10 rounded-4 h-9 flex m-0.5'>
+                      <div class='w-full h-full px-[11px] lg:px-4 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-[9px] lg:gap-[10.3px] items-center font-SpaceGrotesk font-bold'>
                         <div class='flex items-center gap-[9.2px]'>
                           <Coin width='6' />
                           <p class='text-gradient text-16 font-bold font-SpaceGrotesk'>
@@ -352,7 +349,7 @@ const CoinflipCreateModal = (props) => {
                               })}
                           </p>
                         </div>
-                        <span class='text-gradient text-14 uppercase '>Inventory Value</span>
+                        <span class='text-gradient text-14 uppercase truncate w-[80px] ssm:w-full'>Inventory Value</span>
                       </div>
                     </div>
                   </div>
@@ -403,7 +400,7 @@ const CoinflipCreateModal = (props) => {
               }}
             >
               <div
-                class={`flex w-full flex-row flex-wrap xl:flex-col items-stretch gap-2 sm:gap-4 md:gap-8 h-full`}
+                class={`hidden lg:flex w-full flex-row flex-wrap xl:flex-col items-stretch gap-2 sm:gap-4 md:gap-8 h-full`}
               >
                 <div class='flex flex-col gap-2 pt-4 max-h-full overflow-y-scroll border-b border-black/10 h-full px-8 '>
                   <For each={activeItems()}>
@@ -433,11 +430,11 @@ const CoinflipCreateModal = (props) => {
                   </For>
                 </div>
               </div>
-              <div class='w-full px-8 py-4 flex flex-row md:flex-col justify-center md:justify-between items-center gap-3'>
+              <div class='w-full px-4 lg:px-8 py-4 grid grid-cols-6 lg:flex lg:flex-col justify-center lg:justify-between items-center gap-3'>
                 <div
                   class={`${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'flex' : 'hidden'
-                  } text-gray-a2 flex items-center justify-center text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed font-bold rounded-4 font-SpaceGrotesk`}
+                  } col-span-2 lg:col-auto text-gray-a2 flex items-center justify-center text-12 px-3 h-6 bg-gray-a2/10 border border-gray-a2/20 border-dashed font-bold rounded-4 font-SpaceGrotesk`}
                 >
                   {Math.round(props.searchParams.value * 0.98)} -{' '}
                   {Math.round(props.searchParams.value * 1.02)}
@@ -445,7 +442,7 @@ const CoinflipCreateModal = (props) => {
                 <div
                   class={`${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'hidden' : 'center'
-                  } gap-3`}
+                  } gap-3 col-span-2 lg:col-auto`}
                 >
                   <div
                     class={`p-1 rounded-full ${
@@ -455,7 +452,7 @@ const CoinflipCreateModal = (props) => {
                       setSide(1)
                     }}
                   >
-                    <img alt='red-coin' src={RedCoin} class={`h-9 cursor-pointer`} />
+                    <img alt='red-coin' src={RedCoin} class={`h-7 lg:h-9 cursor-pointer`} />
                   </div>
                   <div
                     class={`p-1 rounded-full ${
@@ -465,18 +462,18 @@ const CoinflipCreateModal = (props) => {
                       setSide(2)
                     }}
                   >
-                    <img alt='black-coin' src={BlackCoin} class={`h-9 cursor-pointer`} />
+                    <img alt='black-coin' src={BlackCoin} class={`h-7 lg:h-9 cursor-pointer`} />
                   </div>
                 </div>
-                <div class='center gap-2 p-3 border rounded-4 border-white/10  w-[260px]'>
-                  <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold items-center flex-wrap'>
+                <div class='col-span-4 lg:col-auto center w-full gap-2 px-1 py-3 lg:px-3 border rounded-4 border-white/10 lg:w-[260px]'>
+                  <div class='w-full flex gap-2 text-14 font-SpaceGrotesk font-bold items-center flex-nowrap'>
                     <p class='text-white truncate'>
                       {settings().amount} / 20 items{' '}
                       <span class='text-yellow-ffb'>worth</span>
                     </p>
                     <div class='flex items-center gap-[7.93px]'>
                       <Coin width='5' />
-                      <span class='text-gradient'>
+                      <span class='text-gradient truncate'>
                         {Number(settings().value).toLocaleString('en-US', {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2
@@ -486,7 +483,7 @@ const CoinflipCreateModal = (props) => {
                   </div>
                 </div>
                 <button
-                  class='group bg--gold border--gold hover:bg--gold__secondary w-[260px] h-10 rounded-4 flex items-center justify-center active:scale-95 transition-colors'
+                  class='col-span-6 lg:col-auto group bg--gold border--gold hover:bg--gold__secondary w-full lg:w-[260px] h-10 rounded-4 flex items-center justify-center active:scale-95 transition-colors'
                   onClick={() => {
                     if (props.pathname() == URL.GAMEMODES.COINFLIP_JOIN) {
                       join()
@@ -502,7 +499,7 @@ const CoinflipCreateModal = (props) => {
                   </span>
                 </button>
                 <div
-                  class={`w-[260px] bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
+                  class={`col-span-6 lg:col-auto w-full lg:w-[260px] bg-gray-button-gradient font-SpaceGrotesk font-bold h-10 p-2 rounded-4 border text-gray-9a border-white/10 ${
                     props.pathname() == URL.GAMEMODES.COINFLIP_JOIN ? 'center' : 'hidden'
                   }`}
                   onClick={autoSelect}
