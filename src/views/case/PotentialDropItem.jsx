@@ -89,7 +89,7 @@ const PotentialDropItem = (props) => {
     }}>
       {isVisible() || props.optimiseOff ? (
         <div
-          class={`group ssm:w-[135px] lg:w-full ${
+          class={`group ssm:min-w-[135px] lg:w-full ${
             props.isHorizontal
               ? "lg:min-h-[84px] lg:w-[250px]"
               : `${props.wideCard ? "min-h-[180px]" : "h-[120px] lg:min-h-[212px] "}`
