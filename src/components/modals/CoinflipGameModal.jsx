@@ -149,14 +149,14 @@ const CoinflipGameModal = (props) => {
         href={URL.GAMEMODES.COINFLIP}
       />
       <div
-        class='rounded-xl flex flex-col absolute w-[350px] md:w-[650px] xl:w-[1280px]'
+        class='rounded-xl flex flex-col absolute top-4 md:top-32 w-[91.2%] xl:top-1/2 xl:left-1/2 xl:transform xl:-translate-x-1/2 xl:-translate-y-1/2 xl:w-[1280px]'
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
           'backdrop-filter': 'blur(8px)'
         }}
       >
-        <div class='rounded-t-12 border border-[#0000001F] w-full px-9 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]'>
+        <div class='rounded-t-12 border border-[#0000001F] w-full px-4 lg:px-9 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[72px] lg:h-[88px]'>
           <div class='flex items-center gap-2.5 text-gray-9a'>
             {userObject?.user?.id === data()?.creator?.id ||
             (userObject?.authenticated && userObject?.user?.id === data()?.opponent?.id) ? (
@@ -218,7 +218,7 @@ const CoinflipGameModal = (props) => {
           />
 
           <div
-            class='absolute z-30 transform -translate-x-1/2 left-1/2 -top-4 md:-top-12 w-[142px] md:w-[186px] h-[142px] md:h-[186px] rounded-full center'
+            class='absolute z-30 transform -translate-x-1/2 left-1/2 lg:-top-12 w-[90px] lg:w-[186px] h-[90px] lg:h-[186px] rounded-full center'
             style={{
               background:
                 'linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.03) 41.3%, rgba(0, 0, 0, 0.03) 68.93%, rgba(255, 255, 255, 0.03) 100%), radial-gradient(136.7% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -229,13 +229,13 @@ const CoinflipGameModal = (props) => {
           >
             <div
               ref={coinImage}
-              class={`${isCoinLoaded() ? 'coinflip-animation' : ''} ${data()?.status === 'ended' || data()?.status === 'spinning' ? "block relative" : "hidden absolute"} z-10 scale-[.8]`}
+              class={`${isCoinLoaded() ? 'coinflip-animation' : ''} ${data()?.status === 'ended' || data()?.status === 'spinning' ? "block relative" : "hidden absolute"} z-10 scale-[.5] lg:scale-[.8]`}
             />
             { data()?.status !== 'ended' && data()?.status !== 'spinning' ? (
               <img
                 alt='rbcoin'
                 src={RBCoin}
-                class={`w-[136px] duration-200 ${data()?.status === 'counting' && 'hidden'}`}
+                class={`w-[71px] lg:w-[136px] duration-200 ${data()?.status === 'counting' && 'hidden'}`}
               />
             ) : ""}
             {isWinBgShown() && (
@@ -276,13 +276,13 @@ const CoinflipGameModal = (props) => {
           />
         </div>
         <div
-          class='text-center py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-2 rounded-b-xl'
+          class='text-center py-4 lg:py-[23px] space-y-1 text-gray-9a text-11 font-SpaceGrotesk font-medium px-[27px] lg:px-2 rounded-b-xl'
           style={{
             background:
               'radial-gradient(102.36% 100% at 50% 0%, rgba(118, 124, 255, 0) 0%, rgba(118, 124, 255, 0.06) 100%), linear-gradient(89.63deg, #1A1B30 0.32%, #191C35 99.68%)'
           }}
         >
-          <p class='truncate'>Server seed hash: {data()?.hash}</p>
+          <p class='break-all lg:truncate'>Server seed hash: <br class='lg:hidden'/>{data()?.hash}</p>
           <div class='flex items-center justify-center gap-3'>
             <p>Game ID: {data()?.id}</p>
             {data()?.ticket && isWinBgShown() && <p class='text-yellow-ffb'>Ticket: {data()?.ticket}</p>}

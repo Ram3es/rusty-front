@@ -890,6 +890,11 @@ body::after {
       linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02)), 
       radial-gradient(100% 275.07% at 100% 0%, #1D2352 0%, #1D1F30 100%)
   }
+
+  .coinflip-tooltip--background {
+    background: linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)
+    
+  }
 }
 
 .scrolling-btn-image {

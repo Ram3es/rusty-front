@@ -97,14 +97,9 @@ const Coinflip = (props) => {
 
   return (
     <Fallback loaded={coinflipPageLoaded}>
-      <div class='w-full h-full flex flex-col gap-10 relative pt-10 min-h-screen'>
+      <div class='w-full h-full flex flex-col gap-4 lg:gap-10 relative pt-8 lg:pt-10 min-h-screen'>
         <div
-          class='rounded-6 flex gap-2 md:gap-0 items-center justify-between py-4'
-          style={{
-            background:
-              'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, #1A1C33 50.01%, rgba(25, 28, 53, 0) 98.24%)',
-            border: '1px solid rgba(0, 0, 0, 0.05)'
-          }}
+          class='rounded-6 grid grid-cols-2 grid-rows-2 gap-4 lg:grid-cols-[2fr_0.5fr_0.5fr_2fr] lg:grid-rows-1 lg:gap-2 items-center justify-between py-4 border border-[#000000]/5 coinflip-tooltip--background'
         >
           <Dropdown
             label='Sort by Price:'
@@ -112,8 +107,7 @@ const Coinflip = (props) => {
             itemsList={SORT_OPTIONS}
             submitItem={(direction) => setSortBy(direction)}
           />
-          <div class='flex items-center gap-2'>
-            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__gray'>
+            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__gray col-start-1 lg:col-start-2 row-start-2 lg:row-start-1'>
               <div
                 class='absolute inset-0 z-0 bg-repeat m-1 p-1'
                 style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
@@ -123,7 +117,7 @@ const Coinflip = (props) => {
                 {100 - historyRatio()}%
               </p>
             </div>
-            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__yellow'>
+            <div class='relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__yellow col-start-2 lg:col-start-3 row-start-2 lg:row-start-1'>
               <div
                 class='absolute inset-0 z-0 bg-repeat m-1 p-1'
                 style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
@@ -133,22 +127,23 @@ const Coinflip = (props) => {
                 {historyRatio()}%
               </p>
             </div>
-          </div>
+          <div class='w-full lg:flex items-center lg:justify-end'>
           <NavLink href={URL.GAMEMODES.COINFLIP_CREATE}>
             <CaseGradientButton callbackFn={() => {}}>
-              <div class='center gap-2 text-yellow-ffb font-bold w-[100px] md:w-[157px]'>
+              <div class='w-full col-start-2 row-start-1 center gap-2 text-yellow-ffb font-bold lg:w-[157px]'>
                 <BattleRoyaleIcon additionClasses='w-4' />
-                <p class='font-SpaceGrotesk text-10 md:text-14 capitalize truncate'>{i18n.t('coinflip.Create coinflip')}</p>
+                <p class='font-SpaceGrotesk text-14 capitalize truncate'>{i18n.t('coinflip.Create coinflip')}</p>
               </div>
             </CaseGradientButton>
           </NavLink>
+          </div>
         </div>
-        <div class='flex flex-col sm:flex-row justify-between items-center'>
-          <div class='flex items-center gap-4 overflow-hidden relative w-full'>
-            <p class='text-13 text-gray-a2 font-bold font-SpaceGrotesk hidden md:block w-full max-w-fit capitalize'>
+        <div class='flex flex-col lg:flex-row justify-between items-center'>
+          <div class='grid grid-cols-12 gap-4 overflow-hidden relative w-full'>
+            <p class='col-span-3 lg:col-span-1 text-13 text-gray-a2 font-bold font-SpaceGrotesk w-full max-w-fit capitalize truncate'>
               {i18n.t('recent flips')}
             </p>
-            <div class='flex gap-3 overflow-hidden md:mr-3'>
+            <div class='col-span-9 lg:col-span-11 flex gap-3 overflow-x-scroll lg:overflow-hidden lg:mr-3'>
               <For each={history()}>
                 {(val) => (
                   <img alt='coin' class='w-6 fourk:w-10' src={val == 1 ? RedCoin : BlackCoin} />
@@ -159,12 +154,11 @@ const Coinflip = (props) => {
         </div>
         <div class='w-full relative flex flex-col gap-2'>
           <div class='grid grid-cols-[1fr_1fr] items-center text-gray-a2 font-bold font-SpaceGrotesk text-13'>
-            <span class='md:hidden block'>Games</span>
-            <div class='hidden md:grid grid-cols-[12rem_1fr] items-center'>
+            <div class='hidden lg:grid grid-cols-[12rem_1fr] items-center'>
               <span>Players</span>
               <span class='hidden lg:block'>Items</span>
             </div>
-            <div class='hidden md:grid grid-cols-[1fr_1fr] fourk:grid-cols-[2fr_25rem] place-items-end items-center'>
+            <div class='hidden lg:grid grid-cols-[1fr_1fr] fourk:grid-cols-[2fr_25rem] place-items-end items-center'>
               <span class='col-san-2'>Amount</span>
               <span>Actions</span>
             </div>
