@@ -11,7 +11,7 @@ import {
 
 const SearchBar = () => {
   return (
-    <div class="flex w-full font-SpaceGrotesk text-[#9A9EC8]">
+    <div class="flex flex-col lg:flex-row w-full gap-1 lg:gap-0 font-SpaceGrotesk text-[#9A9EC8]">
       <div class="text-20 font-semibold">SELECT A SKIN</div>
       <div class="flex-1" />
       <div class="flex gap-2">

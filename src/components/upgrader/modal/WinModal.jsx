@@ -11,6 +11,7 @@ import {toWords} from "number-to-words";
 import GoldSellBtn from "./GoldSellBtn";
 import GrayGradientButton from "../../elements/GrayGradientButton";
 import SteamLogo from "../../../assets/img/new-upgrader/SteamLogo.svg";
+import GoldText from "../../shared/GoldText";
 
 const WinModal = () => {
   const {socket, toggles, setToggles, toastr} = injector;
@@ -66,7 +67,7 @@ const WinModal = () => {
       noContainer={true}
     >
       <div
-        class="absolute w-[472px] h-[366px] rounded-xl flex top-1/2 -translate-y-2/3 items-center justify-center p-[1px]"
+        class="absolute max-w-[calc(100vw-32px)] w-[472px] h-[366px] rounded-xl flex top-1/2 -translate-y-2/3 items-center justify-center p-[1px]"
         style={{
           background: `radial-gradient(26.38% 25.85% at 50% 0%, #FFB436 0%, rgba(255, 180, 54, 0) 100%)`,
         }}
@@ -91,8 +92,13 @@ const WinModal = () => {
             <img src={CloseIcon} alt="close icon" />
           </div>
           <div class="flex flex-col h-full items-center">
-            <div class="flex-1  w-full flex items-end justify-center text-[#9A9EC8] text-18 font-semibold">
-              <div class="p-3">
+            <div class="flex-1 flex-col w-full flex items-center justify-end ">
+              <GoldText
+                text={`CONGRATULATIONS`}
+                size={24}
+                noSmallDecimal
+              />
+              <div class="p-3 text-[#9A9EC8] text-18 font-semibold">
                 You won {determineArticle(upgradePercentage())}{" "}
                 <span class="text-white">
                   {getCurrencyString(upgradePercentage())}%
