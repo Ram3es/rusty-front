@@ -949,7 +949,7 @@ const PaymentModal = (props) => {
             <div
               class={`w-full ${
                 props.searchParams?.crypto ? "flex" : "hidden"
-              } flex-col gap-4 lg:gap-8 lg:pb-12`}
+              } flex-col gap-4 lg:gap-8`}
             >
               <div class="grid grid-cols-5 lg:flex relative w-full items-center p-4 lg:py-4 lg:px-8 border-b border-black/10 gap-[7px] lg:gap-1 flex-wrap">
                 <For each={Object.keys(cryptomethods)}>
