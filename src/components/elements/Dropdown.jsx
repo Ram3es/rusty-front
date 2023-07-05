@@ -67,14 +67,14 @@ const Dropdown = (props) => {
         aria-expanded="true"
         aria-labelledby="listbox-label"
        >
-        <div class="flex gap-1.5 text-13 font-bold font-SpaceGrotesk items-center">
+        <div class="flex gap-1.5 text-13 font-bold w-full font-SpaceGrotesk px-2 items-center">
           <span class={`text-gray-9a w-max` }>
             {props.label}
           </span>
-          <span class="flex center gap-1.5 text-yellow-ffb">
+          <span class="flex center gap-1.5 text-yellow-ffb w-full">
             <Switch>
               <Match when={!props.variant}>
-                <span class="capitalize">{props.activeName}</span>
+                <span class="capitalize w-full">{props.activeName}</span>
                 <ArrowDown isOpen={!isOpen()} />
               </Match>
               <Match when={props.variant === 'range'}>
@@ -96,7 +96,7 @@ const Dropdown = (props) => {
       <ul
         class={`${
           isOpen() ? "" : "hidden"
-        } absolute right-0 z-40 w-fit mt-2 p-2 font-Oswald text-14 text-white rounded-4 border border-white border-opacity-5 overflow-auto`}
+        } absolute w-full right-0 z-40 mt-2 p-2 font-Oswald text-14 text-white rounded-4 border border-white border-opacity-5 overflow-auto`}
         style={{ background: 'radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.12)), radial-gradient(100% 275.07% at 100% 0%, rgba(29, 35, 82, 1) 0%, rgba(29, 31, 48, 1) 100%)' }}
         tabindex="-1"
         role="listbox"

@@ -30,6 +30,7 @@ export const PvpMinesGameInfo = (props) => {
         <div class='flex items-center text-gray-9b gap-2 w-full'>
           {props.status === 'pending' ? (
             <YellowGradientButton
+              additionalClass='w-full'
               isFullWidth={true}
               callbackFn={props.onJoinGame}
             >
