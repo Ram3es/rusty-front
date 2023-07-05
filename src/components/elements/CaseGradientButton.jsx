@@ -2,7 +2,7 @@ import { playOptionClickSound } from "../../utilities/Sounds/SoundButtonClick";
 
 const CaseGradientButton = (props) => {
   return (
-    <div class={`rounded-4 h-10 z-10 flex items-center justify-center ${props.classList ?? 'p-[1px]' }`}
+    <div class={`rounded-4 h-10 z-10 flex items-center justify-center ${props.classList ?? 'p-[1px]' } ${props.additionalClass ?? ''}`}
      style={{
       background: `${!props.selected && props.toggle ? `linear-gradient(32.81deg, rgba(${props.rgb}, 0.32) 0%, rgba(0, 0, 0, 0) 35.12%),linear-gradient(0deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06))` : ""}`
       }}>
