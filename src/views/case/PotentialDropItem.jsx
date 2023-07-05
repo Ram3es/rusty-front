@@ -89,10 +89,10 @@ const PotentialDropItem = (props) => {
     }}>
       {isVisible() || props.optimiseOff ? (
         <div
-          class={`group w-full ${
+          class={`group w-[135px] lg:w-full ${
             props.isHorizontal
-              ? "min-h-[84px] w-[250px]"
-              : `${props.wideCard ? "min-h-[180px]" : "min-h-[212px] "}`
+              ? "lg:min-h-[84px] lg:w-[250px]"
+              : `${props.wideCard ? "min-h-[180px]" : "h-[120px] lg:min-h-[212px] "}`
           } rounded-4 relative cursor-pointer potential-drop--card ${
             styles()?.itemBg || ""
           } font-SpaceGrotesk
@@ -142,7 +142,7 @@ const PotentialDropItem = (props) => {
                   class={`${
                     props.isHorizontal
                       ? "h-[72px] w-[72px]"
-                      : `h-[142px] ${
+                      : `h-[72px] lg:h-[142px] ${
                           props.wideCard ? "w-[181px]" : "w-[142px]"
                         }`
                   } flex items-center justify-center relative`}
@@ -153,7 +153,7 @@ const PotentialDropItem = (props) => {
                   }}
                 >
                   <svg
-                    class="absolute opacity-20 group-hover:opacity-100"
+                    class={`${props.isHorizontal ? 'lg:w-[42px] lg:h-[46px]' : 'lg:w-[74px] lg:h-[82px]' }w-[50px] h-[56px] absolute opacity-20 group-hover:opacity-100`}
                     width={props.isHorizontal ? "42" : "74"}
                     height={props.isHorizontal ? "46" : "82"}
                     viewBox="0 0 74 82"
@@ -218,13 +218,13 @@ const PotentialDropItem = (props) => {
                 </div>
               </div>
               <div
-                class={`w-full overflow-hidden space-y-1.5 ${
+                class={`w-full flex items-center justify-center lg:inline-block overflow-hidden space-y-1.5 ${
                   props.isHorizontal
                     ? "flex flex-col justify-center pr-9"
                     : `${props.wideCard ? "px-3" : "px-4"}`
                 }`}
               >
-                <p class="text-13 text-gray-a2 group-hover:text-white font-bold truncate max-w-full">
+                <p class="hidden lg:block text-13 text-gray-a2 group-hover:text-white font-bold truncate max-w-full">
                   {props.skin?.name}
                 </p>
                 <div class="flex gap-1.5">

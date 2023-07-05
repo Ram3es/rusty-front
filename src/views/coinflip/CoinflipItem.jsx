@@ -89,7 +89,7 @@ const CoinflipItem = (props) => {
         <div class="col-span-8 lg:col-auto row-start-3 lg:row-auto flex items-center place-items-end gap-2 w-full lg:w-[180px] xxl:w-[197px] lg:justify-end">
           {(props.game?.status === "spinning" ||
             props.game?.status === "ended" ||
-            userObject.user.id === props.game?.creator?.id) && (
+            (props.game?.status !== 'pending' && userObject.user.id === props.game?.creator?.id)) && (
             <NavLink
               class={`px-4 w-full text-gray-9a h-10 flex items-center justify-center gap-2 relative rounded-4 border border-white/10`}
               href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}${
@@ -203,9 +203,9 @@ const CoinflipItem = (props) => {
                 </CaseGradientButton>
               </NavLink>
             )}
-          {userObject.user.id !== props.game?.creator?.id &&
+          {(userObject.user.id !== props.game?.creator?.id &&
             props.game?.status !== "spinning" &&
-            props.game?.status !== "ended" && (
+            props.game?.status !== "ended" || (props.game?.status === 'pending' && userObject.user.id === props.game?.creator?.id)) && (
               <NavLink
                 href={`${URL.GAMEMODES.COINFLIP_GAME}?id=${props.id}`}
                 class="flex items-center justify-center w-[51px] h-10 rounded-4 border border-white/10 text-gray-9a"
