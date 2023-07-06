@@ -84,7 +84,7 @@ const Profile = (props) => {
       <NavLink href={props.pathname()} class='w-full h-full absolute left-0 top-0' />
 
       <div
-        class={`rounded-xl flex flex-col absolute`}
+        class={`overflow-scroll rounded-xl flex flex-col absolute`}
         classList={{
           'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-11/12 overflow-scroll': currentTab().name === 'game history',
           'md:w-[650px] lg:w-[833px] w-11/12': currentTab().name !== 'game history',

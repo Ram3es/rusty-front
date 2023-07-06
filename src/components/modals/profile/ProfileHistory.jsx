@@ -136,10 +136,10 @@ const ProfileHistory = (props) => {
   })
 
   return (
-    <div class='flex flex-col gap-6'>
+    <div class='flex flex-col gap-4 lg:gap-6'>
       <div
-        class={`flex gap-2 items-center capitalize flex-wrap pb-3 ${
-          props?.type !== 'oldSeeds' ? 'pt-6' : ''
+        class={`flex gap-2 items-center capitalize overflow-scroll pb-3 ${
+          props?.type !== 'oldSeeds' ? 'pt-3 lg:pt-6' : ''
         }`}
       >
         {props?.type === 'history' && (
@@ -164,7 +164,7 @@ const ProfileHistory = (props) => {
                     {mode.svg}
                   </div>
                   <p
-                    class={`text-14 font-bold font-SpaceGrotesk  ${
+                    class={`text-14 truncate font-bold font-SpaceGrotesk  ${
                       currentHistory() === mode.value ? 'text-yellow-ffb' : 'text-gray-9b'
                     } group-hover:text-yellow-ffb`}
                   >

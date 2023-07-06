@@ -32,19 +32,22 @@ const CaseBattlesStructure = (props) => {
       >
         #{props?.val?.pf_id}
       </p>
-      <div class='flex items-center gap-2'>
+      <div class='col-start-1 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-x-2 lg:gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.bet_value).toLocaleString()}
         </p>
+        <span class='text-gray-9aa font-bold capitalize col-start-2 lg:hidden text-13'>Total</span>
       </div>
-      <div class='flex items-center gap-2'>
+      <div class='col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-x-2 lg:gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient-green-secondary font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.winnings).toLocaleString()}
         </p>
+        <span class='text-gray-9aa font-bold capitalize col-start-2 lg:hidden text-13'>Winnings</span>
       </div>
-      <div class={`flex gap-[5px] items-center text-gray-9a`}>
+      <div class={`col-start-1 row-start-3 lg:row-auto lg:col-auto grid items-center text-gray-9a`}>
+        <div class='flex gap-[5px] items-center'>
         <For each={Array.from(Array(Number(props?.val?.info)).keys())}>
           {(_, index) => (
             <>
@@ -78,9 +81,11 @@ const CaseBattlesStructure = (props) => {
             </>
           )}
         </For>
+        </div>
+        <span class='capitalize lg:hidden font-bold text-13 text-center'>Setup</span>
       </div>
       <div
-        class='flex items-center gap-1.5 font-bold text-14'
+        class='col-start-2 row-start-3 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-1.5 font-bold text-14'
         classList={{
           'text-yellow-ffb': getModeColor() === 'yellow',
           'text-[#DAFD09]': getModeColor() === 'green',
@@ -109,9 +114,10 @@ const CaseBattlesStructure = (props) => {
             ? 'Cursed'
             : 'Group'}
         </span>
+        <span class='capitalize lg:hidden text-gray-9aa col-start-2'>Mode</span>
       </div>
       <div
-        class={`flex items-center gap-2 ${
+        class={`col-start-1 row-start-4 lg:row-auto lg:col-auto flex items-center gap-2 ${
           props?.val?.winnings >= props?.val?.bet_value
             ? 'text-gradient-green-secondary'
             : 'text-gray-9aa'
@@ -121,10 +127,10 @@ const CaseBattlesStructure = (props) => {
           {props?.val?.winnings >= props?.val?.bet_value ? 'win' : 'loss'}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
-        {Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
+      <p class='col-start-2 row-start-4 lg:row-auto lg:col-auto text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
+        <span class='capitalize lg:hidden text-13 font-bold'>Borrowed Money</span>{' '}{Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
       </p>
-      <div class='w-full flex items-center justify-end overflow-hidden'>
+      <div class='col-start-2 row-start-1 lg:row-auto lg:col-auto w-full flex items-center lg:justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>

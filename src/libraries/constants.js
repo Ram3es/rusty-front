@@ -58,7 +58,7 @@ export const PROFILE_GAMES_STRUCTURE = {
   'case-battles': {
     headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
     structure: CaseBattlesStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-4 gap-y-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
   },
   cases: {
     headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
