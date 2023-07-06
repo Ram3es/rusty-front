@@ -120,14 +120,14 @@ const ProfileSettings = (props) => {
   })
 
   return (
-    <div class='w-full flex flex-col gap-6 pt-9 pb-14'>
+    <div class='w-full flex flex-col gap-4 lg:gap-6 pt-4 lg:pt-9 pb-14'>
       <div class='flex flex-col w-full gap-2'>
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Steam trade URL')}
         </p>
-        <div class='flex items-center justify-between w-full gap-4'>
+        <div class='flex flex-col lg:flex-row items-center justify-between w-full gap-4'>
           <div
-            class='lg:w-[624px] p-[2px] rounded-[4px] h-10'
+            class='w-full lg:w-[624px] p-[2px] rounded-[4px] h-10'
             style={{
               background:
                 'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
@@ -158,7 +158,7 @@ const ProfileSettings = (props) => {
                   {tradeurl()}
                 </p>
                 <div
-                  class='flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
+                  class='active:scale-95 transition-colors flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
                   onClick={save}
                 >
                   Save
@@ -168,7 +168,7 @@ const ProfileSettings = (props) => {
           </div>
 
           <GrayGradientButton
-            additionalClass='w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+            additionalClass='active:scale-95 transition-colors w-full lg:w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
             callbackFn={() =>
               window.open('http://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url')
             }
@@ -198,7 +198,7 @@ const ProfileSettings = (props) => {
         </p>
         <div class='relative'>
           <GrayGradientButton
-            additionalClass='w-[154px] h-10 justify-between text-gray-9a pl-4 px-3 pr-3 gap-[35px]'
+            additionalClass='active:scale-95 transition-colors w-full lg:w-[154px] h-10 lg:justify-between text-gray-9a pl-4 px-3 pr-3 relative lg:gap-[35px]'
             callbackFn={() => {
               playMenuToggle()
               setLangModalOpen((prev) => !prev)
@@ -210,14 +210,14 @@ const ProfileSettings = (props) => {
             <For each={availableLocales()}>
               {(item) =>
                 item.active && (
-                  <span class='flex gap-[8.5px] items-center font-SpaceGrotesk text-14 text-gray-9a capitalize'>
+                  <span class='lg:relative absolute left-4 lg:left-0 flex gap-[8.5px] items-center font-SpaceGrotesk text-14 text-gray-9a capitalize'>
                     <img class='w-[16.5px] h-[11.55px]' src={item.flag} alt='flag' />
                     {item.title}
                   </span>
                 )
               }
             </For>
-            <GrayGradientButton additionalClass='w-4 h-4 shadow-button text-gray-9a' noShadow>
+            <GrayGradientButton additionalClass='lg:relative absolute lg:right-0 mr-2 lg:mr-0 -right-2/4 w-4 h-4 shadow-button text-gray-9a' noShadow>
               <ArrowDown isOpen={isLangModalOpen()} />
             </GrayGradientButton>
           </GrayGradientButton>
@@ -225,7 +225,7 @@ const ProfileSettings = (props) => {
             ref={langWrapperMain}
             class={`${
               isLangModalOpen() ? '' : 'hidden'
-            } absolute w-[154px] flex flex-col gap-2 z-40 mt-1 bg-gray-button-gradient border-[#FFFFFF0A] border transition duration-300 overflow-auto p-2 font-SpaceGrotesk text-14 text-gray-9a capitalize bg-dark-20 rounded-4`}
+            } absolute w-full lg:w-[154px] flex flex-col gap-2 z-40 mt-1 bg-gray-button-gradient border-[#FFFFFF0A] border transition duration-300 overflow-auto p-2 font-SpaceGrotesk text-14 text-gray-9a capitalize bg-dark-20 rounded-4`}
             tabindex='-1'
             role='listbox'
             aria-labelledby='listbox-label'
@@ -287,7 +287,7 @@ const ProfileSettings = (props) => {
                 {clientSeed()}
               </p>
               <div
-                class='flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
+                class='active:scale-95 transition-colors flex items-center justify-center cursor-pointer center w-13 h-8 px-3 py-2 green-success-button-gradient text-[#27F278] text-12 font-SpaceGrotesk'
                 onClick={changeClientSeed}
               >
                 Save
@@ -300,9 +300,9 @@ const ProfileSettings = (props) => {
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Hash server seed')}
         </p>
-        <div class='flex items-center justify-between w-full gap-4'>
+        <div class='flex flex-col lg:flex-row items-center justify-between w-full gap-4'>
           <div
-            class='md:w-[624px] p-[2px] rounded-[4px] h-10'
+            class='w-full lg:w-[624px] p-[2px] rounded-[4px] h-10'
             style={{
               background:
                 'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));'
@@ -315,14 +315,14 @@ const ProfileSettings = (props) => {
                   'radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),radial-gradient(50% 465% at 0% 50%, rgba(255, 178, 54, 0.08) 0%, rgba(0, 0, 0, 0) 100%),linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)),linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02))'
               }}
             >
-              <p class='text-14 text-gray-6a font-medium w-[180px] md:w-[339px] truncate'>
+              <p class='text-14 text-gray-6a font-medium lg:w-[339px] truncate'>
                 {userObject?.user?.server_seed}
               </p>
             </div>
           </div>
 
           <GrayGradientButton
-            additionalClass='lg:w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+            additionalClass='active:scale-95  w-full lg:w-[124px] h-10 text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
             callbackFn={regenServerSeed}
           >
             <span>{i18n.t('profile_true.settings.Refresh')}</span>
@@ -331,42 +331,12 @@ const ProfileSettings = (props) => {
       </div>
 
       <GrayGradientButton
-          additionalClass='lg:w-[124px] h-10 text-gray-9a mx-auto font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
+          additionalClass='active:scale-95  w-full lg:w-[124px] h-10 text-gray-9a lg:mx-auto font-SpaceGrotesk text-14 font-bold cursor-pointer gap-[6.7px]'
           callbackFn={() => window.location = URL.SIGNOUT}
         >
           <span>Logout</span>
         </GrayGradientButton>
 
-      
-
-      {/* <div class='flex items-center gap-6 mt-4'>
-        <div class='flex hover' onClick={save}>
-          <div
-            class='cursor-pointer relative center hover w-20 sm:w-40 h-10 overflow-hidden rounded-2 bg-cover group scrolling-btn-wrapper'
-            style={{ 'background-image': `url(${YellowButtonBg})` }}
-          >
-            <div class='scrolling-btn-image hidden group-hover:block absolute left-0 top-0' />
-            <p class='absolute text-dark-16 text-12 sm:text-14 font-medium font-Oswald uppercase'>
-              {i18n.t('profile_true.settings.Save changes')}
-            </p>
-          </div>
-        </div>
-        <div
-          class='relative center cursor-pointer hover rounded-2 bg-cover group scrolling-btn-wrapper h-10 min-w-40 overflow-hidden'
-          style={{ 'background-image': `url(${YellowButtonBg})` }}
-          onClick={() => {
-            window.location = URL.SIGNOUT
-          }}
-        >
-          <div class='scrolling-btn-image hidden group-hover:block absolute left-0 top-0' />
-          <div class='absolute left-0.5 top-0.5 h-9 w-[calc(100%-4px)] bg-dark-13' />
-          <div class='absolute center'>
-            <p class='text-yellow-ff text-14 font-semibold font-Oswald uppercase'>
-              {i18n.t('profile_true.settings.Logout')}
-            </p>
-          </div>
-        </div>
-      </div> */}
     </div>
   )
 }
