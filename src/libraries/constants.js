@@ -89,7 +89,7 @@ export const PROFILE_SEEDS_STRUCTURE = {
   oldSeeds: {
     headings: ['old seeds'],
     structure: OldSeedsStructure,
-    grid: 'grid-cols-[4fr_1fr]'
+    grid: 'gap-4 lg:gap-0 lg:grid-cols-[4fr_1fr]'
   }
 }
 

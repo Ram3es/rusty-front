@@ -90,11 +90,10 @@ const Profile = (props) => {
           'md:w-[650px] lg:w-[833px] w-11/12': currentTab().name !== 'game history',
           'h-5/6 lg:h-[570px]':
             currentTab().name === 'transactions' ||
-            currentTab().name === 'old seeds' ||
             currentTab().name === 'profile',
           'fourk:h-[935px] overflow-scroll': currentTab().name === 'transactions',
           'h-[630px]': currentTab().name === 'settings',
-          'fourk:h-[870px] overflow-scroll': currentTab().name === 'old seeds'
+          'lg:h-[570px] fourk:h-[870px] overflow-scroll': currentTab().name === 'old seeds'
         }}
         style={{
           background:
