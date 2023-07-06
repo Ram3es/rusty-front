@@ -225,7 +225,7 @@ const ProfileHistory = (props) => {
           props?.type === 'history'
             ? 'history'
             : props?.type === 'transaction'
-            ? 'transaction '
+            ? 'transaction'
             : 'oldSeeds'
         }
       />
