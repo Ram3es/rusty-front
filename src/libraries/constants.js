@@ -38,7 +38,7 @@ export const PROFILE_GAMES_STRUCTURE = {
   plinko: {
     headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
     structure: PlinkoStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
+    grid: 'grid-cols-6 grid-rows-3 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
   },
   wheel: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
