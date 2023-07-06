@@ -28,42 +28,42 @@ export const PROFILE_GAMES_STRUCTURE = {
   coinflip: {
     headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
     structure: CoinflipStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr_0.5fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
   },
   mines: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
     structure: MinesStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr_0.5fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
   },
   plinko: {
     headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
     structure: PlinkoStructure,
-    grid: 'grid-cols-6 grid-rows-3 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
+    grid: 'grid-cols-6 grid-rows-[0.5fr_1fr_1fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
   },
   wheel: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
     structure: WheelStructure,
-    grid: 'grid-cols-2 grid-rows-3 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
   },
   'pvp-mines': {
     headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
     structure: PvpminesStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr_0.5fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
   },
   upgrader: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
     structure: UpgraderStructure,
-    grid: 'grid-cols-6 grid-rows-4 gap-2 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
+    grid: 'grid-cols-6 grid-rows-[0.5fr_1fr_1fr_0.5fr] gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
   },
   'case-battles': {
     headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
     structure: CaseBattlesStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-2 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr_0.5fr] gap-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
   },
   cases: {
     headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
     structure: CasesStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-2 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1.5fr_2fr_1.5fr_1.5fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_1fr_1fr] gap-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1.5fr_2fr_1.5fr_1.5fr]'
   }
 }
 
@@ -71,17 +71,17 @@ export const PROFILE_TRANSACTION_STRUCTURE = {
   skins: {
     headings: ['type', 'Transaction ID', 'amount', 'status'],
     structure: SkinsStructure,
-    grid: 'grid-cols-[2fr_1.5fr_1.5fr_1.5fr_1fr]'
+    grid: 'grid-cols-2 grid-rows-[0.5fr_1fr_0.5fr] gap-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[2fr_1.5fr_1.5fr_1.5fr_1fr]'
   },
   crypto: {
     headings: ['type', 'amount', 'Transaction ID'],
     structure: CryptoStructure,
-    grid: 'grid-cols-[2fr_1fr_2fr_1fr]'
+    grid: 'lg:gap-0 lg:grid-rows-none lg:grid-cols-[2fr_1fr_2fr_1fr]'
   },
   fiat: {
     headings: ['type', 'Transaction ID', 'amount', 'status'],
     structure: FiatStructure,
-    grid: 'grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'lg:gap-0 lg:grid-rows-none lg:grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
   }
 }
 
