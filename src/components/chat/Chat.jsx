@@ -132,6 +132,9 @@ const Chat = (p) => {
   }
 
   const toggleSounds = (volume) => {
+    if(userObject.authenticated === false){
+      setUserObject('user', (prev) => ({ ...prev, sounds: volume }));
+    }
     socket.emit('system:sounds:toggle', { volume: volume * 100 }, (data) => {
       if (!data.error) {
         setUserObject('user', (prev) => ({ ...prev, sounds: data.data.sounds / 100 }))

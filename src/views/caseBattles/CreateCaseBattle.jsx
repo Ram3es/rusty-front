@@ -324,7 +324,7 @@ const CreateCaseBattle = (props) => {
                 if (c.caseId !== item.id && c.caseId !== item.caseId) {
                   return c;
                 } else {
-                  return {...c, qty: c.qty + 49};
+                  return {...c, qty: c.qty + 1};
                 }
               }),
             }));

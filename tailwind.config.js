@@ -28,6 +28,7 @@ module.exports = {
         "reverse-spin": "reverse-spin 1s linear infinite",
         shake: "shake 0.6s",
         confettiAnimation: "confettiAnimationTimer 5s linear forwards",
+        slide: "slide 2s ease-in-out infinite",
       },
       keyframes: {
         stripes: {
@@ -103,6 +104,11 @@ module.exports = {
           "0%": {display: "none"},
           "99.9%": {display: "none"},
           "100%": {display: "block"},
+        },
+        slide: {
+          "0%": {transform: "translateX(0%)"},
+          "50%": {transform: "translateX(-15%)"},
+          "100%": {transform: "translateX(0%)"},
         },
       },
       boxShadow: {
