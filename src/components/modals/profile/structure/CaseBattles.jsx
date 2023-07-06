@@ -37,14 +37,14 @@ const CaseBattlesStructure = (props) => {
         <p class='text-14 text-gradient font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.bet_value).toLocaleString()}
         </p>
-        <span class='text-gray-9aa font-bold capitalize col-start-2 lg:hidden text-13'>Total</span>
+        <span class='text-gray-a2 font-bold capitalize col-start-2 lg:hidden text-13'>Total</span>
       </div>
       <div class='col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-x-2 lg:gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient-green-secondary font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.winnings).toLocaleString()}
         </p>
-        <span class='text-gray-9aa font-bold capitalize col-start-2 lg:hidden text-13'>Winnings</span>
+        <span class='text-gray-a2 font-bold capitalize col-start-2 lg:hidden text-13'>Winnings</span>
       </div>
       <div class={`col-start-1 row-start-3 lg:row-auto lg:col-auto grid items-center text-gray-9a`}>
         <div class='flex gap-[5px] items-center'>
@@ -82,7 +82,7 @@ const CaseBattlesStructure = (props) => {
           )}
         </For>
         </div>
-        <span class='capitalize lg:hidden font-bold text-13 text-center'>Setup</span>
+        <span class='capitalize lg:hidden text-gray-a2 font-bold text-13 text-center'>Setup</span>
       </div>
       <div
         class='col-start-2 row-start-3 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-1.5 font-bold text-14'
@@ -114,7 +114,7 @@ const CaseBattlesStructure = (props) => {
             ? 'Cursed'
             : 'Group'}
         </span>
-        <span class='capitalize lg:hidden text-gray-9aa col-start-2'>Mode</span>
+        <span class='capitalize lg:hidden text-gray-a2 col-start-2'>Mode</span>
       </div>
       <div
         class={`col-start-1 row-start-4 lg:row-auto lg:col-auto flex items-center gap-2 ${
@@ -128,7 +128,7 @@ const CaseBattlesStructure = (props) => {
         </p>
       </div>
       <p class='col-start-2 row-start-4 lg:row-auto lg:col-auto text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
-        <span class='capitalize lg:hidden text-13 font-bold'>Borrowed Money</span>{' '}{Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
+        <span class='capitalize lg:hidden text-13 font-bold text-gray-a2'>Borrowed Money</span>{' '}{Number(props?.val?.extra_data.split('_')[1]) ? 'yes' : 'no'}
       </p>
       <div class='col-start-2 row-start-1 lg:row-auto lg:col-auto w-full flex items-center lg:justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>

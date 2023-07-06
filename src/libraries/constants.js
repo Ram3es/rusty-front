@@ -28,37 +28,37 @@ export const PROFILE_GAMES_STRUCTURE = {
   coinflip: {
     headings: ['Game ID', 'total', 'wager', 'winnings', 'chance', 'results', 'results'],
     structure: CoinflipStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-4 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_4.5rem_4.5rem_8rem_1fr]'
   },
   mines: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
     structure: MinesStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
   },
   plinko: {
     headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
     structure: PlinkoStructure,
-    grid: 'grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
   },
   wheel: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
     structure: WheelStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
   },
   'pvp-mines': {
     headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
     structure: PvpminesStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
   },
   upgrader: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
     structure: UpgraderStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
   },
   'case-battles': {
     headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
     structure: CaseBattlesStructure,
-    grid: 'grid-cols-2 grid-rows-4 gap-y-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-4 gap-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_5rem_8rem_1fr]'
   },
   cases: {
     headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
