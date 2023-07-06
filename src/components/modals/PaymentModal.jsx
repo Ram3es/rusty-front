@@ -235,19 +235,18 @@ const PaymentModal = (props) => {
   onMount(() => {
     if (
       ((props.searchParams?.deposit && props.searchParams?.items) ||
-        props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT) &&
-      items().length === 0
+        (props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT &&
+      items().length === 0))
     ) {
       updateInventory();
     } else if (props.searchParams?.withdraw && items().length === 0) {
+      socket.on("steam:market:update", () => {
+        updateItems(false);
+      });
       updateItems(false);
     } else if (!props.searchParams?.withdraw) {
       setItemsLimit(45);
     }
-
-    socket.on("steam:market:update", () => {
-      updateItems(false);
-    });
 
     if (
       (props.searchParams?.deposit && props.searchParams?.items) ||
@@ -579,9 +578,6 @@ const PaymentModal = (props) => {
     },
   };
 
-  onCleanup(() => {
-    socket.off("steam:market:update");
-  });
 
   return (
     <Modal

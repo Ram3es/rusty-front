@@ -10,13 +10,13 @@ import PvpMinesGameInfo from "./PvpMinesGameInfo"
 
 const PvpMinesLobbyCard = (props) => {
     return (
-        <div class="flex flex-col sm:flex-row gap-4 p-4 w-full pvp-game-card min-h-[132px] max-w-[436px] " classList={{
+        <div class="flex flex-row gap-4 p-4 w-full pvp-game-card min-h-[132px] max-w-[436px] " classList={{
             'pvp-open-game': props.status === 'pending',
             'pvp-playing-game': props.status === 'started' || props.status === 'counting',
             'pvp-ended-game' : props.status === 'ended'
         }}>
            <div 
-             class="flex flex-row sm:flex-col justify-center items-center  mx-auto sm:mx-0 py-2 sm:py-4 gap-2 h-full min-w-[4rem] w-1/2 sm:w-16 font-bold font-SpaceGrotesk"
+             class="flex flex-col justify-center items-center mx-0 py-2 sm:py-4 gap-2 h-full sm:min-w-[4rem] w-16 sm:w-16 font-bold font-SpaceGrotesk"
              classList={{
                 "game-active text-sm text-yellow-ffb [&>svg]:drop-shadow-gold": props.status === 'pending' || props.status === 'counting',
                 "game-active text-10 text-yellow-ffb [&>svg]:drop-shadow-gold": props.status === 'started' ,
@@ -43,14 +43,16 @@ const PvpMinesLobbyCard = (props) => {
                 />
                 <PvpMinesQtyInfo quantity={props.minesQty} />
               </div>
-              <div class="flex gap-2 mx-auto w-fit sm:w-full">
+              <div class="flex gap-2 mx-auto w-full">
                 <PvpMinesGameInfo
                   onJoinGame={props.status === 'pending' && props.joinToGame } 
                   status={props.status}
                   playersQty={props.playersRequired}
                   totalValue={ props.game.winner?.value || props.status === 'started' && (props.game.value * props.playersRequired) ||  props.game.value} 
                   />
-                <PreviewButton link={`${URL.GAMEMODES.PVP_MINES}?pvpid=${props.gameId}`} />
+                <div class="min-w-[69px] flex justify-end">
+                  <PreviewButton link={`${URL.GAMEMODES.PVP_MINES}?pvpid=${props.gameId}`} />
+                </div>
               </div>
            </div>
         </div>

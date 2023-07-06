@@ -11,6 +11,11 @@ import win from "../../assets/sounds/win.mp3";
 import winMax from "../../assets/sounds/winMax.mp3";
 import caseBattles from "../../assets/sounds/caseBattles.mp3";
 import caseBattlesConfetti from "../../assets/sounds/caseBattlesConfetti.mp3";
+import counter35 from "../../assets/sounds/counter35.mp3";
+import counter45 from "../../assets/sounds/counter45.mp3";
+import counter55 from "../../assets/sounds/counter55.mp3";
+import counter60 from "../../assets/sounds/counter60.mp3";
+import counter65 from "../../assets/sounds/counter65.mp3";
 
 import injector from "../../injector/injector";
 
@@ -27,6 +32,12 @@ const winSound = new Audio(win);
 const winMaxSound = new Audio(winMax);
 const caseBattlesSound = new Audio(caseBattles);
 const caseBattlesConfettiSound = new Audio(caseBattlesConfetti);
+
+const counter35Sound = new Audio(counter35);
+const counter45Sound = new Audio(counter45);
+const counter55Sound = new Audio(counter55);
+const counter60Sound = new Audio(counter60);
+const counter65Sound = new Audio(counter65);
 
 const {userObject} = injector;
 
@@ -125,18 +136,91 @@ export const playWinMaxSound = () => {
   }
 };
 
+let playingSounds = [];
+
 export const playCaseBattlesSound = () => {
   if (userObject?.user?.sounds) {
-    caseBattlesSound.currentTime = 0;
-    caseBattlesSound.volume = userObject.user.sounds;
-    caseBattlesSound.play();
+    const sound = new Audio(caseBattles);
+    sound.currentTime = 0;
+    sound.volume = userObject.user.sounds;
+    sound.play();
+    playingSounds.push(sound);
   }
 };
 
 export const playCaseBattlesConfettiSound = () => {
   if (userObject?.user?.sounds) {
-    caseBattlesConfettiSound.currentTime = 0;
-    caseBattlesConfettiSound.volume = userObject.user.sounds;
-    caseBattlesConfettiSound.play();
+    const sound = new Audio(caseBattlesConfetti);
+    sound.currentTime = 0;
+    sound.volume = userObject.user.sounds;
+    sound.play();
+    playingSounds.push(sound);
   }
+};
+
+export const playCounter35Sound = () => {
+  if (userObject?.user?.sounds) {
+    counter35Sound.currentTime = 0;
+    counter35Sound.volume = userObject.user.sounds;
+    counter35Sound.play();
+  }
+};
+
+export const playCounter45Sound = () => {
+  if (userObject?.user?.sounds) {
+    counter45Sound.currentTime = 0;
+    counter45Sound.volume = userObject.user.sounds;
+    counter45Sound.play();
+  }
+};
+
+export const playCounter55Sound = () => {
+  if (userObject?.user?.sounds) {
+    counter55Sound.currentTime = 0;
+    counter55Sound.volume = userObject.user.sounds;
+    counter55Sound.play();
+  }
+};
+
+export const playCounter60Sound = () => {
+  if (userObject?.user?.sounds) {
+    counter60Sound.currentTime = 0;
+    counter60Sound.volume = userObject.user.sounds;
+    counter60Sound.play();
+  }
+};
+
+export const playCounter65Sound = () => {
+  if (userObject?.user?.sounds) {
+    counter65Sound.currentTime = 0;
+    counter65Sound.volume = userObject.user.sounds;
+    counter65Sound.play();
+  }
+};
+
+export const stopCaseBattlesSound = () => {
+  caseBattlesSound.pause();
+  caseBattlesSound.currentTime = 0;
+  caseBattlesConfettiSound.pause();
+  caseBattlesConfettiSound.currentTime = 0;
+
+  counter35Sound.pause();
+  counter35Sound.currentTime = 0;
+
+  counter45Sound.pause();
+  counter45Sound.currentTime = 0;
+
+  counter55Sound.pause();
+  counter55Sound.currentTime = 0;
+
+  counter60Sound.pause();
+  counter60Sound.currentTime = 0;
+
+  counter65Sound.pause();
+  counter65Sound.currentTime = 0;
+
+  playingSounds.forEach((sound) => {
+    sound.pause();
+    sound.currentTime = 0;
+  });
 };

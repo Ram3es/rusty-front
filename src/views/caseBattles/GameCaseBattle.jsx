@@ -28,6 +28,7 @@ import bgVectorCaseBattle from "../../assets/img/case-battles/bgVectorCaseBattle
 import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
 import SmallItemCardNew from "../../components/battle/SmallItemCardNew";
+import UserBadge from "../../components/battle/UserBadge";
 
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
@@ -54,6 +55,7 @@ import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
 import confetti, {create} from "canvas-confetti";
 import CoinStack from "../../assets/img/case-battles/CoinStack.png";
 import GoldText from "../../components/shared/GoldText";
+import ResultsAnimation from "../../components/battle/ResultsAnimation";
 
 import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg";
 import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.svg";
@@ -111,6 +113,8 @@ const GameCaseBattle = (props) => {
   // const [spinnerStatus, setSpinnerStatus] = createSignal({status: "inactive"});
   const [confettiData, setConfettiData] = createSignal([]);
   const [playerRoundData, setPlayerRoundData] = createSignal([[]]);
+
+  const [showResults, setShowResults] = createSignal(false);
 
   const {changeStatus} = useSpinnerStatus();
 
@@ -186,6 +190,9 @@ const GameCaseBattle = (props) => {
   let timeout2 = null;
   const updateGame = (inputGame) => {
     // setWinnings(game()?.players || []);
+    if (inputGame?.status === "results") {
+      setShowResults(true);
+    }
     if (
       playerRoundData()[0]?.length < inputGame.currentRound - 1 &&
       inputGame?.status === "playing"
@@ -474,6 +481,7 @@ const GameCaseBattle = (props) => {
                     updateGame(t);
                     counter++;
                   } else {
+                    updateGame({...data.data.game, status: "results"});
                     updateGame({...data.data.game, status: "ended"});
                     clearInterval(intervalId);
                   }
@@ -988,7 +996,7 @@ const GameCaseBattle = (props) => {
               </GrayWrapperdWithBorders>
             </div>
             <div class="overflow-auto">
-              <div class="w-fit md:w-full flex flex-col gap-8">
+              <div class="w-fit md:w-full flex flex-col gap-3">
                 <div class="relative">
                   <div
                     class="relative w-full flex items-center justify-center p-[1px] rounded-t-8"
@@ -1221,43 +1229,52 @@ const GameCaseBattle = (props) => {
                                   (getModeColor() === "yellow" ? (
                                     <div class="absolute z-40 text-yellow-ffb center right-0 top-0 h-full border-r border-black border-opacity-10">
                                       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        <GrayWrapperdWithBorders
-                                          classes="rounded-6"
-                                          gradientColor={getModeColor()}
-                                        >
-                                          <BattleRoyaleIcon
-                                            additionClasses="w-6 m-2"
-                                            glowColor={"255, 180, 54"}
-                                          />
-                                        </GrayWrapperdWithBorders>
+                                        {game().status !== "ended" &&
+                                        game().status !== "results" ? (
+                                          <GrayWrapperdWithBorders
+                                            classes="rounded-6"
+                                            gradientColor={getModeColor()}
+                                          >
+                                            <BattleRoyaleIcon
+                                              additionClasses="w-6 m-2"
+                                              glowColor={"255, 180, 54"}
+                                            />
+                                          </GrayWrapperdWithBorders>
+                                        ) : null}
                                       </div>
                                     </div>
                                   ) : getModeColor() === "green" ? (
                                     <div class="absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10">
                                       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        <GrayWrapperdWithBorders
-                                          classes="rounded-6"
-                                          gradientColor={getModeColor()}
-                                        >
-                                          <BattleCursedIcon
-                                            additionClasses="w-7 m-2"
-                                            glowColor={"218, 253, 9"}
-                                          />
-                                        </GrayWrapperdWithBorders>
+                                        {game().status !== "ended" &&
+                                        game().status !== "results" ? (
+                                          <GrayWrapperdWithBorders
+                                            classes="rounded-6"
+                                            gradientColor={getModeColor()}
+                                          >
+                                            <BattleCursedIcon
+                                              additionClasses="w-7 m-2"
+                                              glowColor={"218, 253, 9"}
+                                            />
+                                          </GrayWrapperdWithBorders>
+                                        ) : null}
                                       </div>
                                     </div>
                                   ) : (
                                     <div class="absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10">
                                       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
-                                        <GrayWrapperdWithBorders
-                                          classes="rounded-6"
-                                          gradientColor={getModeColor()}
-                                        >
-                                          <BattleGroupIcon
-                                            additionClasses="w-7 mx-1 my-2"
-                                            glowColor="90, 195, 255"
-                                          />
-                                        </GrayWrapperdWithBorders>
+                                        {game().status !== "ended" &&
+                                        game().status !== "results" ? (
+                                          <GrayWrapperdWithBorders
+                                            classes="rounded-6"
+                                            gradientColor={getModeColor()}
+                                          >
+                                            <BattleGroupIcon
+                                              additionClasses="w-7 mx-1 my-2"
+                                              glowColor="90, 195, 255"
+                                            />
+                                          </GrayWrapperdWithBorders>
+                                        ) : null}
                                       </div>
                                     </div>
                                   ))}
@@ -1418,7 +1435,8 @@ const GameCaseBattle = (props) => {
                                     </div>
                                   </Match>
                                 </Switch>
-                                <div
+
+                                {/* <div
                                   class={`w-full center transition-all duration-200 ${
                                     game().status === "ended"
                                       ? "scale-100"
@@ -1489,10 +1507,31 @@ const GameCaseBattle = (props) => {
                                       </div>
                                     )
                                   ) : null}
-                                </div>
+                                </div> */}
                               </div>
                             )}
                           </For>
+                          <Switch>
+                            <Match
+                              when={showResults() && game().status === "ended"}
+                            >
+                              <ResultsAnimation
+                                game={game}
+                                getModeColorRgb={getModeColorRgb}
+                                getGradientForWinners={getGradientForWinners}
+                              />
+                            </Match>
+                            <Match
+                              when={!showResults() && game().status === "ended"}
+                            >
+                              <ResultsAnimation
+                                game={game}
+                                getModeColorRgb={getModeColorRgb}
+                                getGradientForWinners={getGradientForWinners}
+                                noAnimation
+                              />
+                            </Match>
+                          </Switch>
                         </div>
                       </div>
                     </div>
@@ -1501,7 +1540,13 @@ const GameCaseBattle = (props) => {
                 <div
                   class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
                     game().playersQty
-                  }`}
+                  }
+                  ${
+                    game().status !== "ended" && game().status !== "results"
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }
+                  `}
                   style={{
                     background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, ${
                       game().status === "ended" ? 0 : "0.07"
@@ -1511,7 +1556,7 @@ const GameCaseBattle = (props) => {
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex, index) => (
                       <div
-                        class={`center relative llg:h-20 ${
+                        class={`center relative pb-2 ${
                           game().status !== "ended" ||
                           isWinner(game().winners, playerIndex)
                             ? `opacity-100 ${
@@ -1536,7 +1581,7 @@ const GameCaseBattle = (props) => {
                       >
                         {game().players[playerIndex + 1] ? (
                           <div class="center p-2">
-                            <div class="py-3 pl-2 pr-6 flex flex-wrap gap-2 center">
+                            <div class=" pl-2 pr-6 flex flex-wrap gap-2 center">
                               <div class="w-max">
                                 <UserGameAvatar
                                   mode={
@@ -1557,47 +1602,10 @@ const GameCaseBattle = (props) => {
                                   name={game().players[playerIndex + 1]?.name}
                                 />
                               </div>
-                              <div class="space-y-2 mt-1 w-fit">
-                                <div
-                                  class="flex flex-wrap center  gap-2 text-sm font-bold h-wit max-w-[214px] whitespace-nowrap pl-2 py-1 pr-3 rounded"
-                                  style={{
-                                    background:
-                                      "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
-                                    "box-shadow":
-                                      "0px 2px 2px rgba(0, 0, 0, 0.12)",
-                                  }}
-                                >
-                                  <Ranks
-                                    width={5}
-                                    staff={
-                                      game().players[playerIndex + 1]?.avatar
-                                        ? game().players[playerIndex + 1]
-                                            .rank || 0
-                                        : 7
-                                    }
-                                    rank={
-                                      game().players[playerIndex + 1].level
-                                        ?.league || "bronze"
-                                    }
-                                  />
-                                  <RankLabel
-                                    staff={
-                                      game().players[playerIndex + 1]?.avatar
-                                        ? game().players[playerIndex + 1]
-                                            .rank || 0
-                                        : 7
-                                    }
-                                    rank={
-                                      game().players[playerIndex + 1].level
-                                        ?.league || "bronze"
-                                    }
-                                  />
-                                  <span class="text-gray-9aa truncate max-w-[100px]">
-                                    {game().players[playerIndex + 1].username ||
-                                      "Terry"}
-                                  </span>
-                                </div>
-                              </div>
+                              <UserBadge
+                                game={game}
+                                playerIndex={playerIndex}
+                              />
                             </div>
                           </div>
                         ) : game().owner === userObject.user.id &&
@@ -1664,9 +1672,9 @@ const GameCaseBattle = (props) => {
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
-                        <div class="flex w-full px-5 py-10 ">
+                        <div class="flex w-full px-5 py-10 pt-12 ">
                           {game().players[playerIndex + 1] && (
-                            <div class="flex gap-2 flex-wrap mx-auto">
+                            <div class="flex gap-2 flex-wrap justify-center w-full">
                               <For
                                 each={Array.from(
                                   Array(game().cases.length).keys()
@@ -1691,8 +1699,11 @@ const GameCaseBattle = (props) => {
                                       </div>
                                     ) : (
                                       <>
-                                        {/* <img src={ItemPlaceholder} class="w-30" /> */}
-                                        <div
+                                        <img
+                                          src={ItemPlaceholder}
+                                          class="w-30 h-[7.5rem] center"
+                                        />
+                                        {/* <div
                                           class="w-30 h-[7.5rem] flex items-center justify-center font-bold text-72
                                         font-SpaceGrotesk rounded-md text-[#FFFFFF03]"
                                           style={{
@@ -1703,7 +1714,7 @@ const GameCaseBattle = (props) => {
                                           }}
                                         >
                                           {round}
-                                        </div>
+                                        </div> */}
                                       </>
                                     )}
                                   </div>
