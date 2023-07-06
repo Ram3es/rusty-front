@@ -8,7 +8,7 @@ const CaseGradientButton = (props) => {
       }}>
       <div class={`${!props.selected && props.toggle && "bg-[#19171f]"} h-full rounded-4 w-full`}>
         <div
-          class={`h-full rounded-4 px-4 ${
+          class={`h-full rounded-4 px-3 lg:px-4 ${
             !props.color || props.color === 'yellow' ? `yellow-button-gradient${!props.selected  && props.toggle ? "-not-selected w-full" : ""}` 
             : props.color  === 'green' ? `green-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}` 
             : props.color  === 'blue' ? `blue-button-gradient${!props.selected && props.toggle ? "-not-selected" : ""}`

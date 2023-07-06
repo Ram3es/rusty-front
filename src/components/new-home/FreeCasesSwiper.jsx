@@ -24,7 +24,7 @@ const FreeCasesSwiper = () => {
             }&daily=true`}
           >
             <CaseGradientButton classList='h-7 lg:h-10' callbackFn={() => {}}>
-              <span class="text-yellow-ffb font-SpaceGrotesk font-bold text-14">
+              <span class="text-yellow-ffb font-SpaceGrotesk truncate font-bold text-14">
                 Open Daily Case
               </span>
             </CaseGradientButton>
