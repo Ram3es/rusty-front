@@ -81,7 +81,7 @@ export const PROFILE_TRANSACTION_STRUCTURE = {
   fiat: {
     headings: ['type', 'Transaction ID', 'amount', 'status'],
     structure: FiatStructure,
-    grid: 'lg:gap-0 lg:grid-rows-none lg:grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'grid-cols-[1.3fr_0.7fr] grid-rows-[0.5fr_1fr_0.5fr] gap-4 lg:gap-0 lg:grid-rows-none lg:grid-cols-[2fr_1fr_1fr_1fr_1.5fr]'
   }
 }
 
