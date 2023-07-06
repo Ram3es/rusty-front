@@ -50,7 +50,7 @@ const CaseSearchInput = (props) => {
         </div>
       )}
       <input
-        class="relative w-[60px] ssm:w-[100px] lg:w-full z-10 text-14 truncate text-gray-92 font-medium font-SpaceGrotesk"
+        class="relative w-[60px] ssm:w-[100px] sm:min-w-32 z-10 text-14 truncate text-gray-92 font-medium font-SpaceGrotesk"
         type="text"
         value={props.search}
         onInput={(e) => props.onInput(e.target.value)}

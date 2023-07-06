@@ -627,15 +627,15 @@ const PaymentModal = (props) => {
             }}
           >
             <div
-              class="flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12 "
+              class="flex relative w-full items-start lg:items-center justify-between pl-4 pr-8 lg:pr-0 lg:px-8 py-4 lg:py-6 bg-cover border border-black border-opacity-10 rounded-t-12 "
               style={{
                 background:
                   "linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)",
               }}
             >
-              <div class="center gap-3 flex-col sm:flex-row">
+              <div class="lg:center flex gap-3 flex-col lg:flex-row">
                 <NavLink href={`${props.pathname()}?deposit=true`}>
-                  <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
+                  <div class="flex gap-2 items-center p-[7.5px] lg:p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max">
                     <ArrowBack />
                     <span class="font-SpaceGrotesk text-14 text-gray-9a">
                       Back to Methods
@@ -688,7 +688,7 @@ const PaymentModal = (props) => {
                     </p>
                     {props.searchParams?.crypto ? (
                       <div
-                        class={`text-[#3EFF8B] text-12 px-1 py-0.5 rounded-l-4`}
+                        class={`text-[#3EFF8B] font-bold  font-Quicksand text-13 lg:text-12 px-1 lg:py-0.5 rounded-4`}
                         style={{
                           background:
                             "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
@@ -722,27 +722,12 @@ const PaymentModal = (props) => {
                   props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT
                     ? "flex"
                     : "hidden"
-                } flex-col gap-8 px-8 pb-2 relative py-2`}
+                } flex-col gap-4 lg:gap-8 px-4 lg:px-8 pb-2 relative py-2`}
               >
-                <div class="w-full h-20 sm:h-10 flex flex-col-reverse items-end sm:flex-row justify-between gap-2 relative z-10">
-                  <div class="flex gap-2 h-full">
-                    <div class="flex-1 h-full bg-dark-1c relative center">
-                      <svg
-                        class="absolute left-4"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5.66448 10.5779C6.63277 10.5779 7.53638 10.2975 8.2974 9.81389L11.6119 13.128C11.7721 13.2882 12.0324 13.2931 12.1975 13.1281L12.1976 13.128L13.1299 12.1958C13.2955 12.0302 13.2846 11.7654 13.1294 11.6101L13.1294 11.6101L9.81525 8.2964C10.2986 7.53519 10.5789 6.63189 10.5789 5.66395C10.5789 2.95025 8.3784 0.75 5.66446 0.75C2.95054 0.75 0.75 2.95025 0.75 5.66395C0.75 8.37765 2.95054 10.5779 5.66448 10.5779ZM5.66446 8.9805C3.83244 8.9805 2.34751 7.49569 2.34751 5.66395C2.34751 3.83221 3.83246 2.3474 5.66446 2.3474C7.49646 2.3474 8.98141 3.83221 8.98141 5.66395C8.98141 7.49569 7.49648 8.9805 5.66446 8.9805Z"
-                          fill="#475A76"
-                          stroke="#475A76"
-                          stroke-width="0.5"
-                        />
-                      </svg>
-                      <div class="w-full sm:w-80">
+                <div class="w-full h-20 lg:h-10 flex flex-col items-end lg:flex-row justify-between gap-2 relative z-10">
+                  <div class="w-full lg:w-max flex gap-2 h-full">
+                    <div class="w-full flex-1 h-full bg-dark-1c">
+                      <div class="w-full lg:w-80">
                         <CaseSearchInput
                           search={search()}
                           onReset={() => setSearch("")}
@@ -750,9 +735,6 @@ const PaymentModal = (props) => {
                           isFullWidth
                         />
                       </div>
-                      {/* <svg class="absolute right-4" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M9.55391 19C9.95778 18.94 10.3658 18.8983 10.7655 18.8174C12.838 18.3991 14.5526 17.3596 15.9122 15.7298C17.0619 14.3508 17.7578 12.7563 17.9414 10.9663C18.2571 7.89433 17.2977 5.27557 15.0617 3.16272C13.7639 1.936 12.2155 1.18026 10.4612 0.91009C7.65781 0.478237 5.17112 1.21051 3.02074 3.08814C2.95729 3.14342 2.8954 3.20027 2.80823 3.27851C2.8041 3.1841 2.79894 3.11995 2.79894 3.0558C2.79843 2.30736 2.80101 1.55944 2.79636 0.810993C2.79533 0.689469 2.78089 0.561165 2.74066 0.447986C2.63182 0.14235 2.30429 -0.0422828 1.99223 0.00830876C1.66469 0.0615081 1.40936 0.332721 1.40524 0.669128C1.39544 1.42331 1.40008 2.17801 1.39957 2.93219C1.39905 3.58153 1.39699 4.23088 1.4006 4.88022C1.40266 5.28704 1.56153 5.51601 1.93961 5.64431C3.30494 6.10798 4.67131 6.56956 6.0387 7.02645C6.44928 7.16362 6.82737 6.97586 6.95632 6.58938C7.08321 6.20864 6.88565 5.82373 6.47507 5.68395C5.46874 5.34076 4.45931 5.0054 3.40398 4.65074C3.67117 4.39882 3.90792 4.15421 4.16685 3.93567C5.2815 2.99321 6.56225 2.40593 7.99927 2.20722C9.96655 1.93496 11.7904 2.34699 13.4389 3.48504C14.8373 4.45098 15.8338 5.74497 16.3718 7.36286C17.1842 9.80638 16.8855 12.1305 15.4702 14.2824C14.5288 15.7136 13.2347 16.7192 11.6285 17.2668C9.21141 18.0904 6.91609 17.7847 4.78427 16.3598C3.59276 15.5634 2.70919 14.4869 2.10931 13.1804C1.52852 11.9161 1.29744 10.584 1.43258 9.19198C1.45115 9.00161 1.47694 8.81176 1.50376 8.62191C1.5605 8.22135 1.31549 7.8573 0.943596 7.79367C0.538691 7.72482 0.186396 7.97883 0.122437 8.3966C-0.238626 10.7504 0.20084 12.9415 1.50634 14.925C2.85001 16.9664 4.72753 18.2541 7.09817 18.7872C7.50204 18.8779 7.91932 18.9103 8.3299 18.9708C8.37169 18.977 8.41243 18.9895 8.45318 18.9994L9.55391 19Z" fill="#475A76"/>
-                                      </svg> */}
                     </div>
                     <Dropdown
                       activeName={
@@ -762,24 +744,11 @@ const PaymentModal = (props) => {
                       submitItem={() => changeDescending()}
                       label=" Sort by Price:"
                     />
-                    {/* <div
-                      class={`w-10 h-full bg-dark-1c cursor-pointer text-white ${
-                        props.searchParams?.deposit ||
-                        props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT
-                          ? "center"
-                          : "hidden"
-                      }`}
-                      onClick={refresh}
-                    >
-                      <svg ref={spinArrow} width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12.7379 25.5C13.2764 25.4211 13.8205 25.3662 14.3535 25.2598C17.117 24.7094 19.4031 23.3417 21.2161 21.1971C22.7492 19.3826 23.677 17.2847 23.9218 14.9294C24.3428 10.8873 23.0635 7.44155 20.082 4.66148C18.3515 3.04738 16.2868 2.05298 13.9477 1.69749C10.2096 1.12926 6.89384 2.09278 4.0265 4.56334C3.9419 4.63609 3.85937 4.71089 3.74313 4.81383C3.73763 4.68962 3.73075 4.60521 3.73075 4.52079C3.73006 3.536 3.7335 2.55189 3.72731 1.5671C3.72594 1.4072 3.70668 1.23838 3.65303 1.08946C3.50791 0.687303 3.07117 0.444365 2.65507 0.510933C2.21833 0.580932 1.87788 0.937791 1.87237 1.38043C1.85931 2.37278 1.8655 3.36581 1.86481 4.35815C1.86412 5.21255 1.86137 6.06696 1.86619 6.92136C1.86894 7.45665 2.08077 7.75792 2.58491 7.92674C4.40546 8.53683 6.22739 9.14418 8.05068 9.74535C8.59816 9.92584 9.1023 9.67878 9.27424 9.17026C9.44343 8.66928 9.18001 8.16282 8.63254 7.9789C7.29069 7.52733 5.94471 7.08606 4.53751 6.6194C4.89378 6.28793 5.20947 5.96607 5.55474 5.67853C7.04103 4.43844 8.74878 3.66571 10.6649 3.40424C13.2881 3.04601 15.7201 3.58816 17.9182 5.08559C19.7828 6.35656 21.1116 8.05919 21.8289 10.188C22.9122 13.4032 22.514 16.4612 20.6267 19.2927C19.3715 21.1758 17.6459 22.499 15.5041 23.2195C12.2812 24.3031 9.22059 23.901 6.37801 22.0261C4.78924 20.9782 3.61108 19.5617 2.81119 17.8426C2.03675 16.1791 1.72863 14.4264 1.90883 12.5947C1.93359 12.3442 1.96798 12.0944 2.00374 11.8446C2.0794 11.3176 1.7527 10.8386 1.25681 10.7548C0.716908 10.6643 0.247156 10.9985 0.161871 11.5482C-0.319574 14.6453 0.266413 17.5283 2.00718 20.1382C3.79884 22.8242 6.30235 24.5186 9.46338 25.22C10.0019 25.3394 10.5583 25.382 11.1058 25.4616C11.1615 25.4698 11.2158 25.4863 11.2702 25.4993L12.7379 25.5Z" fill="#475A76"/>
-                      </svg>
-                    </div> */}
                   </div>
                   {props.searchParams?.withdraw && (
-                    <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
-                      <div class="bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5 ">
-                        <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                    <div class="w-full  lg:w-max balance-bg rounded-4 flex items-center drop-shadow-dark">
+                      <div class="w-full lg:w-max  bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5 ">
+                        <div class="w-full justify-center lg:justify-start h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
                           <Coin width="6" />
                           <p class="text-gradient text-16 font-medium font-Oswald">
                             <Countup props={userObject?.user?.balance || 0} />
@@ -791,16 +760,16 @@ const PaymentModal = (props) => {
                   )}
                   {(props.searchParams?.deposit ||
                     props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT) && (
-                    <div class="balance-bg rounded-4 flex items-center drop-shadow-dark">
-                      <div class="bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5 ">
-                        <div class=" w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 items-center font-Lato font-bold">
+                    <div class="w-full lg:w-max balance-bg rounded-4 flex items-center drop-shadow-dark">
+                      <div class="w-full lg:w-max bg-black bg-opacity-10 rounded-4 h-[calc(100%-4px)] flex m-0.5">
+                        <div class="w-full h-full px-3 bg-cover py-1 text-16 text-gray-e0 rounded-4 flex gap-2 justify-center lg:justify-start items-center font-SpaceGrotesk font-bold">
                           <Coin width="6" />
-                          <p class="text-gradient text-16 font-medium font-Oswald">
+                          <p class="text-gradient text-16 font-bold lg:font-medium font-SpaceGrotesk">
                             {items()
                               .reduce((prev, cur) => (prev += cur.price), 0)
                               .toLocaleString()}
                           </p>
-                          <p class="text-gradient text-14 uppercase">
+                          <p class="text-gradient text-14 font-bold uppercase truncate w-[80px] ssm:w-[120px]">
                             Inventory Value
                           </p>
                         </div>
@@ -868,16 +837,9 @@ const PaymentModal = (props) => {
                     props.searchParams?.crypto || props.searchParams?.giftcard
                       ? "hidden"
                       : "flex"
-                  } w-full flex-col min-h-full py-8 justify-between items-center gap-2 sm:gap-4 md:gap-8`}
+                  } w-full flex-col min-h-full py-4 lg:py-8 justify-between items-center gap-3 lg:gap-8`}
                 >
-                  {/* <div class={`${searchParams?.withdraw ? "flex" : "hidden"} gap-2`}>
-                                  <Coin />
-                                  <div class="flex flex-col gap-1">
-                                      <p class="text-16 text-white font-bold leading-none">{Number(wager()).toLocaleString()}</p>
-                                      <p class="text-14 text-gray-8c font-normal">Wager left</p>
-                                  </div>
-                              </div> */}
-                  <div class="flex flex-col gap-2 max-h-[45vh] overflow-y-scroll border-b border-black/10 h-full px-8">
+                  <div class="hidden lg:flex flex-col gap-2 max-h-[45vh] overflow-y-scroll border-b border-black/10 h-full px-8">
                     <For each={activeItems()}>
                       {(item, index) => (
                         <div class="relative">
@@ -908,16 +870,24 @@ const PaymentModal = (props) => {
                       )}
                     </For>
                   </div>
-                  <div class="center flex-col w-full px-8 gap-3">
+                  <div class="center flex-col w-full px-4 lg:px-8 gap-3">
                     <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
-                      <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                      <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold  items-center"
+                      classList={{
+                        'text-green-27': props.searchParams?.deposit,
+                        'text-yellow-ffb': !props.searchParams?.deposit
+                      }}
+                      >
                         <span class="text-white">
                           {settings().amount}
                           {itemsTotal() > 0 && ` / ${itemsTotal()}`} items
                         </span>
                         <span>worth</span>
                         <Coin width="5" />
-                        <span class="text-gradient">
+                        <span  classList={{
+                        'text-gradient-green-secondary': props.searchParams?.deposit,
+                        'text-gradient': !props.searchParams?.deposit
+                      }}>
                           {Number(settings().value).toLocaleString()}
                         </span>
                       </div>
@@ -937,6 +907,7 @@ const PaymentModal = (props) => {
                           }}
                         />
                       </div>
+                      <div class='w-full'>
                       <YellowGradientButton
                         isFullWidth={true}
                         callbackFn={() => {
@@ -949,8 +920,14 @@ const PaymentModal = (props) => {
                             ? deposit(true)
                             : withdraw();
                         }}
+                        color={props.searchParams?.deposit ? 'mint' : 'yellow'}
                       >
-                        <div class="flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                        <div class="justify-center flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center"
+                        classList={{
+                          'text-green-27 text-shadow-base': props.searchParams?.deposit,
+                          'text-yellow-ffb': !props.searchParams?.deposit
+                        }}
+                        >
                           {props.searchParams?.giftcard
                             ? "redeem"
                             : props.searchParams?.deposit ||
@@ -959,6 +936,7 @@ const PaymentModal = (props) => {
                             : buttonName.withdraw[i18n.language]}
                         </div>
                       </YellowGradientButton>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -967,9 +945,9 @@ const PaymentModal = (props) => {
             <div
               class={`w-full ${
                 props.searchParams?.crypto ? "flex" : "hidden"
-              } flex-col gap-8 pb-12`}
+              } flex-col gap-4 lg:gap-8`}
             >
-              <div class="flex relative w-full items-center py-4 px-8 border-b border-black/10 gap-1 flex-wrap">
+              <div class="grid grid-cols-5 lg:flex relative w-full items-center p-4 lg:py-4 lg:px-8 border-b border-black/10 gap-[7px] lg:gap-1 flex-wrap">
                 <For each={Object.keys(cryptomethods)}>
                   {(m) => (
                     <NavLink href={cryptomethods[m].link}>
@@ -981,7 +959,7 @@ const PaymentModal = (props) => {
                         callbackFn={() => {}}
                       >
                         <div
-                          class={`w-8 h-6 rounded-3 center`}
+                          class={`ssm:w-8 ssm:h-6 rounded-3 center`}
                           style={{
                             background: cryptomethods[m].color,
                           }}
@@ -993,7 +971,7 @@ const PaymentModal = (props) => {
                   )}
                 </For>
               </div>
-              <div class="w-full center flex-col gap-6">
+              <div class="w-full center flex-col gap-4 lg:gap-6">
                 <div
                   class="p-3 rounded-8 overflow-hidden"
                   style={{
@@ -1001,7 +979,7 @@ const PaymentModal = (props) => {
                       "linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
                   }}
                 >
-                  <div class="w-44 h-44 bg-white">
+                  <div class="w-[132px] lg:w-44 h-[132px] lg:h-44 bg-white">
                     <Img
                       style="w-full h-full min-w-full"
                       src={`data:image/png;base64,${crypto()?.QRcode || ""}`}
@@ -1010,17 +988,17 @@ const PaymentModal = (props) => {
                 </div>
                 <div class="center flex-col gap-2 flex-1 bg-white/[0.02] px-8 py-4">
                   <div class="center flex-col w-full">
-                    <p class="text-14 text-gray-9a font-bold font-SpaceGrotesk capitalize">
+                    <p class="text-14 font-medium text-gray-9a lg:font-bold font-SpaceGrotesk capitalize">
                       {cryptomethods[props.searchParams?.method]?.name} deposit
                       address
                     </p>
-                    <p class="text-[#646683]">
+                    <p class="text-[#646683] text-center lg:text-start text-12  lg:text-16 font-bold lg:font-normal">
                       You can send any amount of{" "}
                       {cryptomethods[props.searchParams?.method]?.name} to this
                       address and receive equivalent in RustyLoot balance.
                     </p>
                     <div
-                      class="w-full max-w-md p-[2px] rounded-[4px] h-full mt-1"
+                      class="w-full max-w-md p-[2px] rounded-[4px] h-10 lg:h-full mt-2 lg:mt-1"
                       style="background: radial-gradient(100% 930% at 100% 50%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%),
                  radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.07) 0%, rgba(118, 124, 255, 0) 100%),
                  linear-gradient(84.53deg, rgba(255, 138, 54, 0.16) 0%, rgba(0, 0, 0, 0) 15.36%),
@@ -1047,11 +1025,11 @@ const PaymentModal = (props) => {
                           }
                         }}
                       >
-                        <p class="text-14 text-white font-normal">
+                        <p class="text-14 text-white w-[200px] md:w-fit font-bold lg:font-normal truncate	font-SpaceGrotesk">
                           {crypto()?.address}
                         </p>
                         {crypto()?.address && (
-                          <div class="bg-gray-button-gradient p-2 rounded-4 border border-white/10">
+                          <div class="bg-gray-button-gradient p-1.5 lg:p-2 rounded-4 border border-white/10">
                             <svg
                               class="w-4"
                               xmlns="http://www.w3.org/2000/svg"

@@ -475,7 +475,7 @@ const SmallPaymentModal = (props) => {
         }}
       >
         <div
-          class={`w-full relative flex flex-col gap-6 transition-all rounded-12 overflow-hidden transform -translate-y-1/4 ${
+          class={`w-full relative flex flex-col gap-4 lg:gap-6 transition-all rounded-12 overflow-hidden transform -translate-y-1/4 ${
             !props.searchParams?.deposit && !props.searchParams?.cryptoDeposit
               ? ''
               : '-translate-y-0'
@@ -487,30 +487,28 @@ const SmallPaymentModal = (props) => {
           }}
         >
           <div
-            class='flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12 '
+            class='flex relative gap-4 lg:gap-0 w-full items-center justify-between p-4 lg:px-8 lg:py-6 bg-cover border border-black border-opacity-10 rounded-t-12 '
             style={{
               background:
                 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
             }}
           >
-            <div class='flex gap-4'>
+            <div class='flex gap-1.5 lg:gap-4'>
               <TransparentButton isActive={true} callbackFn={() => {}}>
                 <span class='text-yellow-ffa px-2 text-14 center'>Deposit</span>
               </TransparentButton>
-              <div class='flex gap-2'>
                 <NavLink href={`${URL.WITHDRAW.MAIN}?withdraw=true`}>
                   <TransparentButton isActive={false} callbackFn={() => {}}>
                     Withdraw
                   </TransparentButton>
                 </NavLink>
-              </div>
             </div>
-            <NavLink href={`${props.pathname()}`} class='center  cursor-pointer'>
+            <NavLink href={`${props.pathname()}`} class='center cursor-pointer'>
               <CloseButton />
             </NavLink>
           </div>
           <div
-            class='w-full px-8 pb-8 flex flex-col gap-6 overflow-y-scroll relative'
+            class='w-full px-4 lg:px-8 pb-8 flex flex-col gap-6 overflow-y-scroll relative'
             style={{
               'max-height': 'calc(80vh - 60px)'
             }}
@@ -527,14 +525,32 @@ const SmallPaymentModal = (props) => {
                   }`}
                 >
                   <p class='text-14 text-gray-9a font-bold font-SpaceGrotesk'>{method.name}</p>
-                  <div class='w-full flex flex-wrap gap-3'>
+                  <div class={`grid gap-4 ${method.name.toLowerCase() === 'steam methods' ? 'grid-cols-2 sm:grid-cols-3' : method.name.toLowerCase() === 'crypto methods' ? 'grid-cols-3' : ''} w-full lg:flex lg:flex-wrap lg:gap-3`}>
                     <For each={method.methods}>
                       {(val) => (
                         <NavLink
                           href={`${props.pathname()}${val.link ?? ''}`}
-                          class={`w-max ${
-                            val.isHorizontal ? 'min-w-[164px] h-[72px]' : 'min-w-[110px] h-[126px]'
-                          } flex items-center relative center rounded-4 bg-cover`}
+                          class={`w-full lg:w-max ${
+                            val.isHorizontal
+                              ? `${
+                                  method.name.toLowerCase() ===
+                                    "steam methods" && "ssm:w-[148px] h-16"
+                                } 
+                                 ${
+                                   method.name.toLowerCase() ===
+                                     "cash methods" && "h-[72px]"
+                                 } 
+                             lg:min-w-[164px] lg:h-[72px]`
+                              : ` ${
+                                method.name.toLowerCase() ===
+                                  "crypto methods" && " col-span-1 w-full  h-[126px] "
+                              } lg:min-w-[110px] lg:h-[126px]`
+                          } flex items-center ${
+                            method.name.toLowerCase() === "steam methods" ||
+                            method.name.toLowerCase() === "crypto methods"
+                              ? "center"
+                              : "lg:center"
+                          } relative rounded-4 bg-cover`}
                           onClick={(e) => {
                             if (val.click) {
                               e.preventDefault()
@@ -542,11 +558,11 @@ const SmallPaymentModal = (props) => {
                             }
                           }}
                           style={{
-                            background: val.bgImage ? `url(${val.bgImage})` : val.bgColor
+                            background: val.bgImage ? `url(${val.bgImage})` : val.bgColor,
                           }}
                         >
                           <div
-                            class={`center relative ${
+                            class={`center  ${
                               val.isHorizontal ? 'flex-row gap-4' : 'flex-col gap-3 py-4 w-full'
                             }`}
                             style={
@@ -558,7 +574,7 @@ const SmallPaymentModal = (props) => {
                             }
                           >
                             <div
-                              class={`w-12 h-9 rounded-3 center ${
+                              class={`${method.name.toLowerCase() === 'steam methods' ? 'w-[43px] h-8' : method.name.toLowerCase() === 'cash methods' ? 'w-[49px] h-11' : 'w-12 h-9'} lg:w-12 lg:h-9 rounded-3 center ${
                                 val.bonus ? (val.isHorizontal ? 'ml-4' : '') : '-ml-2'
                               }`}
                               style={{
@@ -572,23 +588,23 @@ const SmallPaymentModal = (props) => {
                                 val.bonus
                                   ? val.isHorizontal
                                     ? 'flex-col'
-                                    : 'items-end gap-1'
-                                  : '-ml-2 flex-col'
+                                    : 'items-end font-bold lg:font-normal gap-1'
+                                  : 'lg:-ml-2 flex-col'
                               }`}
                             >
-                              <p class='text-14 text-white font-medium font-SpaceGrotesk'>
+                              <p class={`${method.name.toLowerCase() === 'steam methods' || method.name.toLowerCase() === 'cash methods' ? 'text-16' : 'text-12'} lg:text-14 text-white font-bold lg:font-medium font-SpaceGrotesk`}>
                                 {val.name}
                               </p>
                               {val.methodMame && (
-                                <p class='text-gray-9a text-12 font-SpaceGrotesk'>
+                                <p class='text-gray-9a font-bold lg:font-normal text-12 font-SpaceGrotesk'>
                                   {val.methodMame}
                                 </p>
                               )}
                             </div>
                             {val.bonus ? (
                               <div
-                                class={`text-[#3EFF8B] text-12 px-1 py-0.5 ${
-                                  val.isHorizontal ? 'rounded-l-4' : 'w-full center'
+                                class={`text-[#3EFF8B] font-bold font-Quicksand lg:font-normal text-12 px-0.5 lg:px-1 lg:py-0.5 ${
+                                  val.isHorizontal ? 'lg:relative absolute right-0 rounded-l-4' : 'w-full center'
                                 }`}
                                 style={{
                                   background:
