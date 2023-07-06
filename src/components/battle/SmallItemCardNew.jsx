@@ -101,7 +101,7 @@ const SmallItemCardNew = (props) => {
         class="absolute flex items-center justify-center h-[72px] w-[72px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
       flex-col"
       >
-        <img src={props.item.image} alt="" class="h-full w-full" />
+        <img src={props.item.image} alt="" class="h-fulll" />
         <div class="group-hover:opacity-0 transition-opacity duration-100">
           <div class="flex items-center justify-center gap-1 translate-y-1">
             <img src={CoinStack} alt="" />
