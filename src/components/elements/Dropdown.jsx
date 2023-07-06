@@ -68,7 +68,7 @@ const Dropdown = (props) => {
         aria-labelledby="listbox-label"
        >
         <div class="flex gap-1.5 text-13 font-bold w-full font-SpaceGrotesk px-2 items-center">
-          <span class={`text-gray-9a w-max` }>
+          <span class={`text-gray-9a w-max whitespace-nowrap` }>
             {props.label}
           </span>
           <span class="flex center gap-1.5 text-yellow-ffb w-full">
