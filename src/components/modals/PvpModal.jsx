@@ -156,10 +156,7 @@ const PvpModal = (props) => {
         href={props.pathname()}
       />
       <div
-        class="flex flex-col relative w-full"
-        style={{
-          "max-width": "1184px",
-        }}
+        class="flex flex-col relative w-full max-w-[calc(100vw-32px)] md:max-w-[1184px]"
       >
         <div
           class={`w-full relative overflow-hidden flex flex-col gap-2 backdrop-blur sm:gap-0 rounded-12 transition-all transform -translate-y-1/4 ${
@@ -174,9 +171,9 @@ const PvpModal = (props) => {
             class="absolute left-0 top-0 w-full h-full rounded-12 opacity-50"
             style={{ "background-image": `url('${footerLogoBgVector}')` }}
           />
-          <div class="flex relative">
+          <div class="flex absolute right-4 lg:right-8 top-1 md:top-8 z-20">
             <NavLink href={`${props.pathname()}`}>
-              <CloseButton />
+              <CloseButton isRelative={true} />
             </NavLink>
           </div>
 
@@ -549,8 +546,8 @@ const PvpModal = (props) => {
               </div>
             </div>
           </div>
-          <div class="w-full px-8 py-7 bg-[#191C35] relative z-10 flex justify-between">
-            <div class="flex flex-col gap-1 font-SpaceGrotesk font-bold">
+          <div class="w-full px-8 py-7 bg-[#191C35] relative z-10 flex flex-col md:flex-row gap-2 md:gap-0 items-center justify-between">
+            <div class="flex flex-row-reverse md:flex-col items-center md:items-start gap-1 font-SpaceGrotesk font-bold">
               <div class=" text-13 text-gray-a2">Total Pot</div>
               <div class="flex gap-2 text-gradient-green-secondary text-14">
                 <Coin width="6" />

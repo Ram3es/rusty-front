@@ -1,8 +1,7 @@
 const ExplodedMine = () => {
   return (
     <svg
-      width="128"
-      height="128"
+      class="w-[72px] h-[72px] lg:w-[128px] lg:h-[128px]"
       viewBox="17 17 128 128"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
