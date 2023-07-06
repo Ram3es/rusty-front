@@ -33,27 +33,27 @@ export const PROFILE_GAMES_STRUCTURE = {
   mines: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'mines', 'result'],
     structure: MinesStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
+    grid: 'grid-cols-2 grid-rows-4 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_1fr]'
   },
   plinko: {
     headings: ['Game ID', 'wager', 'winnings', 'difficulty', 'rows', 'multiplier'],
     structure: PlinkoStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1.7fr_1.7fr_1fr_1fr_1fr_2fr]'
   },
   wheel: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
     structure: WheelStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
   },
   'pvp-mines': {
     headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
     structure: PvpminesStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
   },
   upgrader: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],
     structure: UpgraderStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
+    grid: 'grid-cols-6 grid-rows-4 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_8rem_8rem_8rem_8rem_1fr]'
   },
   'case-battles': {
     headings: ['Game ID', 'cost', 'winnings', 'setup', 'mode', 'result', 'borrowed money'],
@@ -63,7 +63,7 @@ export const PROFILE_GAMES_STRUCTURE = {
   cases: {
     headings: ['Game ID', 'cost', 'winnings', 'case', 'result', 'drop'],
     structure: CasesStructure,
-    grid: 'grid-cols-[8rem_1fr_1fr_1.5fr_2fr_1.5fr_1.5fr]'
+    grid: 'lg:gap-0 lg:grid-rows-none lg:grid-cols-[8rem_1fr_1fr_1.5fr_2fr_1.5fr_1.5fr]'
   }
 }
 

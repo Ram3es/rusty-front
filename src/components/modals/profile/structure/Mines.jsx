@@ -16,22 +16,22 @@ const MinesStructure = (props) => {
       }}>
         #{props?.val?.pf_id}{' '}
       </p>
-      <div class='flex items-center gap-2'>
+      <div class='col-start-1 row-start-2 lg:row-auto lg:col-auto flex items-center gap-2'>
         <Coin width='4' />
         <p class='text-14 text-gradient font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.bet_value).toLocaleString()}{' '}
         </p>
       </div>
-      <div class={`flex items-center gap-2`}>
+      <div class={`col-start-2 row-start-2 lg:row-auto lg:col-auto flex items-center gap-2`}>
         <Coin width='4' />
         <p class='text-14 text-gradient-green-secondary font-bold font-SpaceGrotesk uppercase my-auto'>
           {Number(props?.val?.winnings).toLocaleString()}
         </p>
       </div>
-      <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
+      <p class='col-start-1 row-start-3 lg:row-auto lg:col-auto text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10'>
         {(props?.val?.winnings / props?.val?.bet_value || 0).toFixed(2)}x{' '}
       </p>
-      <div class='flex items-center gap-[5px]'>
+      <div class='col-start-2 row-start-3 lg:row-auto lg:col-auto flex items-center gap-[5px]'>
         <svg
           width='22'
           height='20'
@@ -72,7 +72,7 @@ const MinesStructure = (props) => {
           {props?.val?.info}
         </p>
       </div>
-      <div class='flex items-center gap-2'>
+      <div class='col-start-1 row-start-4 lg:row-auto lg:col-auto flex items-center gap-2'>
         <p
           class={`text-14 font-bold font-SpaceGrotesk uppercase my-auto ${
             props?.val?.winnings <= 0 ? 'text-gradient-red' : 'text-gradient-green-secondary'
@@ -203,7 +203,7 @@ const MinesStructure = (props) => {
           </>
         )}
       </div>
-      <div class='w-full flex items-center justify-end overflow-hidden'>
+      <div class='col-start-2 row-start-1 lg:row-auto lg:col-auto  flex items-center justify-end overflow-hidden'>
         <p class='text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate'>
           {date}
         </p>
