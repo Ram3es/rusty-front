@@ -1,3 +1,4 @@
+import {createSignal} from "solid-js";
 import GoldText from "../shared/GoldText";
 import {getCurrencyString} from "../mines_new/utils/tools";
 import CoinStack from "../../assets/img/case-battles/CoinStack.png";
@@ -83,19 +84,38 @@ const SmallItemCardNew = (props) => {
     //     </div>
     //   </div>
     // </div>
-    <div class="relative">
+    <div class="relative group overflow-x-hidden">
       <img src={smallBg[props.color]} alt="" class="" />
       <div
-        class="absolute flex items-center justify-center h-[55%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+        class={`${
+          !props.item.isConfetti &&
+          "opacity-0 group-hover:opacity-100 transition-opacity duration-100"
+        } absolute top-2 left-3 font-semibold z-50 text-11 font-SpaceGrotesk`}
+        style={{
+          color: `rgba(${rgb[props.color]}, 1)`,
+        }}
+      >
+        {props.item?.chance}%
+      </div>
+      <div
+        class="absolute flex items-center justify-center h-[72px] w-[72px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
       flex-col"
       >
-        <img src={props.item.image} alt="" class="h-[100%]" />
-        <div class="flex items-center justify-center gap-1 translate-y-1">
-          <img src={CoinStack} alt="" />
-          <GoldText
-            text={getCurrencyString(props.item.item_price)}
-            size={"15"}
-          />
+        <img src={props.item.image} alt="" class="h-full w-full" />
+        <div class="group-hover:opacity-0 transition-opacity duration-100">
+          <div class="flex items-center justify-center gap-1 translate-y-1">
+            <img src={CoinStack} alt="" />
+            <GoldText
+              text={getCurrencyString(props?.item?.item_price)}
+              size={"15"}
+            />
+          </div>
+        </div>
+        <div
+          class="opacity-0 group-hover:opacity-100 absolute font-SpaceGrotesk text-[#A2A5C6] font-semibold  -bottom-4 transition-opacity duration-100
+          w-[90px] text-13 truncate text-center"
+        >
+          {props.item.name}
         </div>
       </div>
     </div>
