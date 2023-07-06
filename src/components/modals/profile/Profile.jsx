@@ -86,14 +86,14 @@ const Profile = (props) => {
       <div
         class={`overflow-scroll rounded-xl flex flex-col absolute`}
         classList={{
-          'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-11/12 overflow-scroll': currentTab().name === 'game history',
+          'fourk:w-[1208px] fourk:h-[935px] h-[80%] w-11/12 ': currentTab().name === 'game history',
           'md:w-[650px] lg:w-[833px] w-11/12': currentTab().name !== 'game history',
           'h-5/6 lg:h-[570px]':
             currentTab().name === 'transactions' ||
             currentTab().name === 'profile',
-          'fourk:h-[935px] overflow-scroll': currentTab().name === 'transactions',
-          'h-[630px]': currentTab().name === 'settings',
-          'lg:h-[570px] fourk:h-[870px] overflow-scroll': currentTab().name === 'old seeds'
+          'fourk:h-[935px]': currentTab().name === 'transactions',
+          'h-5/6 lg:h-[630px]': currentTab().name === 'settings',
+          'lg:h-[570px] fourk:h-[870px]': currentTab().name === 'old seeds'
         }}
         style={{
           background:

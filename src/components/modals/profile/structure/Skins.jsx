@@ -137,7 +137,7 @@ const SkinsStructure = (props) => {
       <p class="col-start-1 row-start-1 lg:row-auto lg:col-auto text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10">
         {props?.val?.offer_id || "-"}
       </p>
-      <div class="col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-y-0 gap-2">
+      <div class="col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] md:grid-cols-[2rem_1fr]  lg:flex items-center gap-y-0 gap-2">
         <Coin />
         <p
           class={`text-14 font-bold font-SpaceGrotesk uppercase my-auto ${

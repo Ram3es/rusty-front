@@ -120,7 +120,7 @@ const ProfileSettings = (props) => {
   })
 
   return (
-    <div class='w-full flex flex-col gap-4 lg:gap-6 pt-4 lg:pt-9 pb-14'>
+    <div class='w-full flex flex-col gap-4 lg:gap-6 pt-4 lg:pt-9 lg:pb-14'>
       <div class='flex flex-col w-full gap-2'>
         <p class='text-14 text-gray-9a font-medium font-SpaceGrotesk capitalize'>
           {i18n.t('profile_true.settings.Steam trade URL')}

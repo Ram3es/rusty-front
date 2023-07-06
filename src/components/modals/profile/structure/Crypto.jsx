@@ -76,7 +76,7 @@ const CryptoStructure = (props) => {
           Type
         </span>
       </div>
-      <div class="col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] lg:flex items-center gap-y-0 gap-[7.3px]">
+      <div class="col-start-2 row-start-2 lg:row-auto lg:col-auto grid grid-cols-[1rem_1fr] md:grid-cols-[2rem_1fr] lg:flex items-center gap-y-0 gap-[7.3px]">
         <Coin />
         <p
           class={`text-14 font-bold font-SpaceGrotesk uppercase my-auto text-gradient-green-secondary`}
