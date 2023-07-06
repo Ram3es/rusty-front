@@ -43,12 +43,12 @@ export const PROFILE_GAMES_STRUCTURE = {
   wheel: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'result'],
     structure: WheelStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'grid-cols-2 grid-rows-3 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1.5fr]'
   },
   'pvp-mines': {
     headings: ['Game ID', 'wager', 'winnings', 'players', 'mode', 'result'],
     structure: PvpminesStructure,
-    grid: 'lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
+    grid: 'grid-cols-2 grid-rows-4 gap-4 lg:grid-rows-none lg:gap-0 lg:grid-cols-[8rem_1fr_1fr_1fr_1fr_1fr_1.5fr]'
   },
   upgrader: {
     headings: ['Game ID', 'wager', 'winnings', 'multiplier', 'chance', 'result', 'status'],

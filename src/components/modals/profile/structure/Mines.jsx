@@ -224,7 +224,7 @@ const MinesStructure = (props) => {
           </>
         )}
       </div>
-      <div class="col-start-2 row-start-1 lg:row-auto lg:col-auto  flex items-center justify-end overflow-hidden">
+      <div class="col-start-2 row-start-1 lg:row-auto lg:col-auto flex items-center justify-end overflow-hidden">
         <p class="text-14 font-bold font-SpaceGrotesk text-gray-9aa uppercase my-auto relative z-10 truncate">
           {date}
         </p>
