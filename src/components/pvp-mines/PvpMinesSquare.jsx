@@ -35,7 +35,7 @@ const PvpMinesSquare = (props) => {
 
   return (
     
-    <div class={`w-[96px] h-[96px]`} style="perspective: 1000px">
+    <div class={`w-[55px] h-[55px] lg:w-[96px] lg:h-[96px]`} style="perspective: 1000px">
       <div
         class={`relative w-full h-full transition-all duration-[0.2s] rounded-lg border-[#FFFFFF08] border-[1px] ${
           startAnimation() ? "pointer-events-none" : "cursor-pointer"

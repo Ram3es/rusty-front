@@ -1,11 +1,10 @@
 const Logo = (props) => {
   return (
     <svg
+      class="w-[26px] h-[26px] lg:w-[50px] lg:h-[50px]"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
-      width="50"
-      height="50"
       viewBox="0 0 1080 1080"
       xml:space="preserve"
     >
