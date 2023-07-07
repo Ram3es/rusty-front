@@ -1,5 +1,6 @@
 import MaskUnselectedItem from "../../../assets/img/new-upgrader/MaskUnselectedItem.svg";
 import PotentialDropItem from "../../../views/case/PotentialDropItem";
+import NewPotentialDropItem from "../../shared/NewPotentialDropItem";
 import GoldText from "../../shared/GoldText";
 
 import {activeItem, betValue} from "../../../views/upgrader/Upgrader";
@@ -7,7 +8,7 @@ import {activeItem, betValue} from "../../../views/upgrader/Upgrader";
 const SelectedItem = () => {
   return (
     <div
-      class={`flex-1 bg-[#00000014] flex flex-col items-center font-SpaceGrotesk text-13 ${
+      class={`flex-1 bg-[#00000014] flex flex-col items-center justify-between font-SpaceGrotesk text-13 ${
         !activeItem() && "pt-9"
       }
     text-[#9A9EC8]`}
@@ -35,9 +36,13 @@ const SelectedItem = () => {
       )}
 
       <div class={`${activeItem() && "pt-[10%]"}`}>Your Selection</div>
-      <div class={`flex h-full items-center ${activeItem() && "pb-[10%]"}`}>
+      <div
+        class={`flex w-[190px] h-[235px] items-center justify-center ${
+          activeItem() && ""
+        }`}
+      >
         {activeItem() ? (
-          <PotentialDropItem skin={activeItem()} smallImg wideCard />
+          <NewPotentialDropItem item={activeItem()} />
         ) : (
           <img src={MaskUnselectedItem} alt="" class="" />
         )}

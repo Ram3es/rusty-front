@@ -8,7 +8,7 @@ import {spin} from "../../components/upgrader/dome/Spinner";
 
 import Fallback from "../Fallback";
 import PageLoadState from "../../libraries/PageLoadState";
-import { sortBy } from "../../components/upgrader/itemsList/ItemsListContainer";
+import {sortBy} from "../../components/upgrader/itemsList/ItemsListContainer";
 
 export const [currentGameId, setCurrentGameId] = createSignal("");
 export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
@@ -66,7 +66,7 @@ const Upgrader = (props) => {
   // const [isItemsLoaded, setIsItemsLoaded] = createSignal(false);
 
   const [search, setSearch] = createSignal("");
-  const [itemsLimit, setItemsLimit] = createSignal(48);
+  const [itemsLimit, setItemsLimit] = createSignal(9999);
   const {upgraderPageLoaded, onUpgraderPageLoad} = PageLoadState;
 
   let observer;
@@ -81,7 +81,7 @@ const Upgrader = (props) => {
     }
     socket.emit(
       "steam:market",
-      { search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit() },
+      {search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit()},
       (data) => {
         if (data.msg) {
           toastr(data);
@@ -99,32 +99,8 @@ const Upgrader = (props) => {
           if (shouldLimitUpdate) {
             iv = [...items(), ...iv];
           }
-          if (observerReload || items().length !== data.data.total) {
-            if (observer) {
-              observer.disconnect();
-            }
-            setItems([...iv]);
-            if (data.data.total > items().length) {
-              observer = new IntersectionObserver(
-                function (entries) {
-                  if (entries[0].isIntersecting === true) {
-                    updateItems();
-                  }
-                },
-                { threshold: [0] }
-              );
-              observer.observe(
-                document.querySelector(
-                  "[data-upgrader-items-wrapper]"
-                ).childNodes.item(items().length - 9)
-              );
-            }
-          } else if (iv[0]?.id !== items()[0]?.id) {
+          if (iv[0]?.id !== items()[0]?.id) {
             setItems(iv);
-          } else {
-            if (observer) {
-              observer.disconnect();
-            }
           }
         }
       }
