@@ -173,15 +173,15 @@ const RecentDropsItem = (props) => {
                     </div>
                     <div class='group-hover:hidden flex items-center justify-center overflow-hidden'>
                         <div class='flex gap-1.5'>
-                            <Coin width='5' />
+                            <Coin width='5' additionalClasses="w-[13px] lg:w-5"  />
                             <span class='font-bold text-9 lg:text-sm potential-drop--price truncate'>
                                 {Number(props?.drop?.price).toLocaleString()}
                             </span>
                         </div>
                     </div>
-                    <div class='group-hover:block hidden text-center font-bold mx-1'>
+                    <div class='group-hover:block hidden text-center font-bold mx-1 px-1'>
                         <p class='text-white text-9 lg:text-10'>Unboxed by:</p>
-                        <p class='text-gray-9aa text-9 lg:text-sm'>{props.drop.username}</p>
+                        <p class='text-gray-9aa text-9 lg:text-sm truncate'>{props.drop.username}</p>
                     </div>
                 </div>
             </div>
