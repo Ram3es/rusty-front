@@ -4,7 +4,6 @@ import {
   For,
   createEffect,
   onCleanup,
-  onMount,
   createMemo,
 } from "solid-js";
 import {URL} from "../../libraries/url";
@@ -364,9 +363,9 @@ const CaseUnboxing = (props) => {
   return (
     <>
       {rollCase() && (
-        <div class="w-full h-full flex flex-col gap-8 relative min-h-screen pt-8">
-          <div class="px-4 xl:px-8 xxl:px-14 flex flex-col gap-8">
-            <div class="flex justify-between flex-col md:flex-row">
+        <div class="w-full h-full flex flex-col gap-8 relative min-h-screen pt-4 lg:pt-8">
+          <div class="lg:px-4 xl:px-8 xxl:px-14 flex flex-col gap-6 lg:gap-8">
+            <div class="flex justify-between flex-col lg:flex-row">
               <NavLink
                 href={!props.searchParams.daily ? URL.UNBOXING : URL.REWARDS}
               >
@@ -377,9 +376,9 @@ const CaseUnboxing = (props) => {
                   </span>
                 </div>
               </NavLink>
-              <div class="flex flex-col items-end font-SpaceGrotesk text-11 text-gray-9a">
+              <div class="mt-[14px] lg:mt-0 flex flex-col lg:items-end font-SpaceGrotesk text-11 text-gray-9a">
                 <For each={fairnessHash()}>
-                  {(hash) => <p>Server Seed Hash: {hash}</p>}
+                  {(hash) => <p class='break-all'>Server Seed Hash: {hash}</p>}
                 </For>
                 <p>Client Seed: {userObject.user.client_seed}</p>
               </div>
@@ -457,17 +456,17 @@ const CaseUnboxing = (props) => {
             </div>
 
             <div
-              class="relative min-h-[80px] flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0 px-2 sm:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 "
+              class="relative min-h-[80px] flex flex-col lg:flex-row justify-between lg:items-center gap-3 lg:gap-0 py-4 lg:py-0 px-4 lg:px-6 xl:px-8 rounded-8 border border-black border-opacity-5 "
               style={{
                 background:
                   "radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
               }}
             >
-              <div class="flex flex-col items-center md:items-start md:justify-start gap-1 mr-2">
-                <div class="text-white font-SpaceGrotesk font-bold text-19">
+              <div class="flex flex-col gap-0.5 lg:gap-1 lg:mr-2">
+                <div class="text-white font-SpaceGrotesk font-bold text-20 lg:text-19">
                   {rollCase().name}
                 </div>
-                <div class="flex gap-1.5 items-center">
+                <div class="flex gap-[9px] lg:gap-1.5 items-center">
                   <Coin width="5" />
                   <span class="font-bold text-md potential-drop--price">
                     {!props.searchParams.daily
@@ -481,15 +480,15 @@ const CaseUnboxing = (props) => {
               <div
                 class={`${
                   isRolling() ? "opacity-[.03]" : "opacity-100"
-                } h-full w-full md:w-fit center flex flex-col xxl:flex-row gap-2 xxl:gap-1 py-2 xxl:py-0 bg-white bg-opacity-[0.01]  border border-white border-opacity-5`}
+                } h-full w-full lg:w-fit lg:center flex flex-col xxl:flex-row gap-[20px] lg:gap-2 xxl:gap-1 lg:py-2 xxl:py-0 lg:bg-white lg:bg-opacity-[0.01] lg:border border-white border-opacity-5`}
               >
                 {!props.searchParams.daily ? (
-                  <div class=" gap-4 px-8 center h-full border-r border-black border-opacity-[0.16] scale-[0.8] ssm:scale-100">
-                    <div class=" font-SpaceGrotesk text-14 text-gray-9a ">
+                  <div class="gap-4 lg:px-8 flex items-center lg:justify-center h-full">
+                    <div class=" font-SpaceGrotesk text-14 text-gray-9a break-words">
                       Case Amount:
                     </div>
                     <div
-                      class={`gap-1 center ${
+                      class={`gap-2 lg:gap-1 center ${
                         isRolling() && "pointer-events-none"
                       }`}
                     >
@@ -515,7 +514,7 @@ const CaseUnboxing = (props) => {
                 )}
                 <div class="relative">
                   <div
-                    class={`flex justify-center gap-2 w-full px-6 scale-[0.8] ssm:scale-100 ${
+                    class={`flex lg:justify-center gap-2 w-full lg:px-6 ${
                       !userObject.authenticated ||
                       (props.searchParams.daily &&
                         (notAvailableCases().includes(
@@ -578,8 +577,8 @@ const CaseUnboxing = (props) => {
                       </button>
                     )}
                     {!props.searchParams.daily && (
-                      <div class={`${isRolling() && "pointer-events-none"}`}>
-                        <CaseGradientButton callbackFn={() => startGame(false)}>
+                      <div class={`w-full ${isRolling() && "pointer-events-none"}`}>
+                        <CaseGradientButton isFullWidth callbackFn={() => startGame(false)}>
                           <div
                             class={`flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center `}
                           >
@@ -594,8 +593,8 @@ const CaseUnboxing = (props) => {
                         </CaseGradientButton>
                       </div>
                     )}
-                    <div class={`${isRolling() && "pointer-events-none"}`}>
-                      <GrayGradientButton callbackFn={() => startGame(true)}>
+                    <div class={`w-full ${isRolling() && "pointer-events-none"}`}>
+                      <GrayGradientButton isFullWidth callbackFn={() => startGame(true)}>
                         <span
                           class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}
                         >
@@ -619,8 +618,9 @@ const CaseUnboxing = (props) => {
                     )}
                 </div>
               </div>
+              <div class='my-2 w-full h-[1px] bg-black bg-opacity-[.16] lg:hidden' />
               <div
-                class={`flex ssm:flex-wrap justify-end gap-3 py-2 pl-2 scale-[0.8] ssm:scale-100 text-14 font-SpaceGrotesk text-gray-9a`}
+                class={`flex ssm:flex-wrap lg:justify-end gap-3 lg:py-2 pl-2 text-14 font-SpaceGrotesk text-gray-9a`}
               >
                 <div
                   class={`h-11 center drop-shadow-sm rounded-4 group border-opacity-20 hover:border-opacity-20 border cursor-pointer px-2 flex items-center gap-3 shrink-0
