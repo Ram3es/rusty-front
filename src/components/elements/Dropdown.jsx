@@ -58,7 +58,7 @@ const Dropdown = (props) => {
   document.addEventListener("mousedown", handleClick);
 
   return (
-    <div class="relative" ref={dropdownWrapper}>
+    <div class="relative" classList={{'w-full': props.isFullWidth}} ref={dropdownWrapper}>
       <GrayGradientButton
         callbackFn={() => {
         setIsOpen((prev) => !prev)
