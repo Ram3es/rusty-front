@@ -659,7 +659,7 @@ const CaseUnboxing = (props) => {
               </div>
               {isRolling() && (
                 <div
-                  class={`absolute md:left-1/2 md:-translate-x-1/2 top-24 md:top-auto ${
+                  class={`absolute left-1/2 -translate-x-1/2 top-28 lg:top-auto ${
                     isRolling() && "pointer-events-none"
                   }`}
                 >
