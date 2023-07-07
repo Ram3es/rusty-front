@@ -18,7 +18,7 @@ const CaseCardToAdd = (props) => {
 
   return (
     <div
-      class={`case-card-background border border-opacity-5 group h-[256px] w-[216px] flex flex-col  ${
+      class={`case-card-background border border-opacity-5 group h-[256px] w-full lg:w-[216px] flex flex-col  ${
         props.isAdded && props.isActiveBorderShown
           ? "border-yellow-ffb border-1 border-opacity-100"
           : "border-transparent"
@@ -47,7 +47,7 @@ const CaseCardToAdd = (props) => {
       >
         <img
           class={`absolute h-[110px] group-hover:rotate-6 top-4 ${
-            props.isAdded ? "scale-[1.4]" : "scale-150"
+            props.isAdded ? "scale-[1.1] lg:scale-[1.4]" : "scale-[1.2] lg:scale-150"
           }`}
           src={
             props.item.image
@@ -119,7 +119,7 @@ const CaseCardToAdd = (props) => {
           </span>
         )}
       </div>
-      <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient  min-h-[48px] relative z-10">
+      <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient min-h-[48px] relative z-10">
         <div class="flex items-center gap-2">
           <Coin width={5} />
           <GoldText

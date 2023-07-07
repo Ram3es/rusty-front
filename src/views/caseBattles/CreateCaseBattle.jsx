@@ -303,7 +303,7 @@ const CreateCaseBattle = (props) => {
           </svg>
         </RoundedButton>
         <div
-          class="h-9 w-[76px] counter-border center rounded-full text-yellow-ffb font-SpaceGrotesk font-bold text-16 text-shadow-gold-secondary"
+          class="h-9 w-[56px] ssm:w-[76px] counter-border center rounded-full text-yellow-ffb font-SpaceGrotesk font-bold text-16 text-shadow-gold-secondary"
           style={{
             background: "rgba(26, 28, 48, 1)",
             filter:
@@ -356,7 +356,7 @@ const CreateCaseBattle = (props) => {
 
   return (
     <Fallback loaded={createBattlesPageLoaded}>
-      <div class="flex flex-col py-6 gap-6">
+      <div class="flex flex-col pb-4 lg:py-6 gap-6">
         <div class="px-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)]">
           <div class="flex items-center justify-between mb-4">
             <NavLink href={URL.GAMEMODES.CASE_BATTLES}>
@@ -400,13 +400,13 @@ const CreateCaseBattle = (props) => {
               </div>
             </GrayWrapperdWithBorders>
           </div>
-          <div class="flex flex-col gap-2 px-4 xl:px-8 xxl:px-32 my-6 llg:max-w-[calc(100vw-324px)]">
+          <div class="flex flex-col gap-2 px-4 xl:px-8 xxl:px-32 my-4 lg:my-6 llg:max-w-[calc(100vw-324px)]">
             <div
               ref={itemsWrapper}
-              class="grid mt-6 grid-cols-battle-create gap-2 "
+              class="grid lg:mt-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-battle-create gap-4 lg:gap-2"
             >
               <div
-                class="mx-auto h-[256px] w-[214px] bg-full cursor-pointer exclude-card"
+                class="mx-auto h-[256px] w-full lg:w-[214px] bg-full cursor-pointer exclude-card"
                 style={{
                   "background-image": `url(${AddCaseCard})`,
                 }}
@@ -420,7 +420,7 @@ const CreateCaseBattle = (props) => {
                   return (
                     <div class="item-drop">
                       <div
-                        class="relative w-max mx-auto pointer-events-auto"
+                        class="relative w-full lg:w-max mx-auto pointer-events-auto"
                         style={{
                           "touch-action": "none",
                         }}
@@ -461,7 +461,7 @@ const CreateCaseBattle = (props) => {
                 <For each={Array.from(Array(placeholdersToShow()).keys())}>
                   {() => (
                     <div
-                      class="mx-auto h-[256px] w-[214px] bg-full exclude-card"
+                      class="mx-auto h-[256px] w-full lg:w-[214px] bg-full exclude-card"
                       style={{
                         "background-image": `url(${CasePlaceholder})`,
                       }}
@@ -474,8 +474,8 @@ const CreateCaseBattle = (props) => {
         </div>
 
         <div class="center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:w-[calc(100vw-324px)] bg-control-panel">
-          <div class="md:w-[616px] flex flex-row md:flex-col justify-between px-6 md:px-14 py-4 border-white border border-opacity-5 gap-6 sm:gap-16 md:gap-4">
-            <div class="flex flex-col justify-between md:flex-row gap-2 w-full">
+          <div class="grid grid-cols-2 lg:w-[616px] lg:flex lg:flex-col justify-between px-4 lg:px-14 py-4 border-white border border-opacity-5 gap-4">
+            <div class="col-span-2 grid grid-cols-2 lg:flex flex-col justify-between lg:flex-row gap-2 lg:w-full">
               <div>
                 <CaseGradientButton
                   isFullWidth={true}
@@ -527,7 +527,7 @@ const CreateCaseBattle = (props) => {
                         modeToCreate().cursed !== 1
                           ? "text-yellow-ffb"
                           : "text-[#9A9EC8]"
-                      } font-SpaceGrotesk text-14 sm:text-16 font-bold`}
+                      } font-SpaceGrotesk truncate text-14 sm:text-16 font-bold`}
                     >
                       Battle Royale
                     </span>
@@ -574,7 +574,7 @@ const CreateCaseBattle = (props) => {
                       }`}
                     />
                     <span
-                      class={`font-SpaceGrotesk text-14 sm:text-16 font-bold ${
+                      class={`truncate font-SpaceGrotesk text-14 sm:text-16 font-bold ${
                         modeToCreate().cursed === 1
                           ? "text-[#DAFD09]"
                           : "text-[#9A9EC8]"
@@ -634,7 +634,7 @@ const CreateCaseBattle = (props) => {
                         modeToCreate().cursed !== 1
                           ? "text-[#5AC3FF]"
                           : "text-[#9A9EC8]"
-                      } font-SpaceGrotesk text-14 sm:text-16 font-bold`}
+                      } truncate font-SpaceGrotesk text-14 sm:text-16 font-bold`}
                     >
                       Group Mode
                     </span>
@@ -642,8 +642,8 @@ const CreateCaseBattle = (props) => {
                 </CaseGradientButton>
               </div>
             </div>
-            <div class="w-full border-t border-white border-opacity-5 hidden md:block" />
-            <div class=" flex flex-col md:flex-row center gap-2">
+            <div class="w-full border-t border-white border-opacity-5 col-span-2" />
+            <div class="col-span-2 grid grid-cols-2 lg:flex lg:center gap-2">
               <For
                 each={
                   currentBattle() === "royal"
@@ -655,7 +655,7 @@ const CreateCaseBattle = (props) => {
               >
                 {(option) => (
                   <div
-                    class={`w-max center px-5 py-3 ${
+                    class={`w-full lg:w-max center px-5 py-3 ${
                       option.qty ===
                         playersState()[getModeForPlayersState()].players &&
                       (option.team ===
@@ -728,17 +728,17 @@ const CreateCaseBattle = (props) => {
           </div>
         </div>
 
-        <div class="flex flex-col items-center justify-center xl:items-stretch xl:flex-row gap-4 text-gray-66 px-4 xl:px-8 xxl:px-14">
-          <div class="flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]">
+        <div class="grid grid-cols-1 lg:grid-cols-3 items-center justify-center xl:items-stretch xl:flex-row gap-4 text-gray-66 px-4 xl:px-8 xxl:px-14">
+          <div class="flex flex-col min-w-full xll:min-w-[420px] fourk:min-w-[439px]">
             <div
-              class={`flex items-center justify-between rounded-6 h-[60px]`}
+              class={`grid grid-cols-[1.7fr_0.3fr] items-center justify-between rounded-6 min-h-[60px]`}
               style={{
                 background:
                   "radial-gradient(50% 100% at 50% 0%, rgba(39, 242, 120, 0.12) 0%, rgba(39, 242, 120, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
               }}
             >
-              <div class="grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
-                <div class="border border-green-27/30 rounded-4 w-9 h-9 flex items-center justify-center">
+              <div class="grow px-3 lg:px-4 py-2 lg:py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
+                <div class="shrink-0 border border-green-27/30 rounded-4 w-9 h-9 flex items-center justify-center">
                   <div
                     class="w-full h-full rounded-4 flex items-center justify-center"
                     style={{
@@ -874,16 +874,16 @@ const CreateCaseBattle = (props) => {
             )}
           </div>
 
-          <div class="flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]">
+          <div class="flex flex-col min-w-full xll:min-w-[420px] fourk:min-w-[439px]">
             <div
-              class={`flex items-center justify-between rounded-6 h-[60px]`}
+              class={`grid grid-cols-[1.7fr_0.3fr] items-center justify-between rounded-6 min-h-[60px]`}
               style={{
                 background:
                   "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.12) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
               }}
             >
-              <div class="grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
-                <div class="border border-yellow-ffb/30 rounded-4 w-9 h-9 flex items-center justify-center">
+              <div class="grow px-3 lg:px-4 py-2 lg:py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
+                <div class="shrink-0 border border-yellow-ffb/30 rounded-4 w-9 h-9 flex items-center justify-center">
                   <div
                     class="w-full h-full flex items-center justify-center rounded-4"
                     style={{
@@ -1012,16 +1012,16 @@ const CreateCaseBattle = (props) => {
             )}
           </div>
 
-          <div class="flex flex-col min-w-[360px] xll:min-w-[420px] fourk:min-w-[439px]">
+          <div class="flex flex-col min-w-full xll:min-w-[420px] fourk:min-w-[439px]">
             <div
-              class={`flex items-center justify-between rounded-6 h-[60px]`}
+              class={`grid grid-cols-[1.7fr_0.3fr] items-center justify-between rounded-6 min-h-[60px]`}
               style={{
                 background:
                   "radial-gradient(50% 100% at 50% 0%, rgba(159, 151, 249, 0.12) 0%, rgba(159, 151, 249, 0) 100%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
               }}
             >
-              <div class="grow px-4 py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
-                <div class="border border-purple-9f/30 rounded-4 w-9 h-9 flex items-center justify-center">
+              <div class="grow px-3 lg:px-4 py-2 lg:py-3 flex gap-3 border border-white border-opacity-5 rounded-l h-full">
+                <div class="shrink-0 border border-purple-9f/30 rounded-4 w-9 h-9 flex items-center justify-center">
                   <div
                     class="w-full h-full flex items-center justify-center rounded-4"
                     style={{
@@ -1096,13 +1096,13 @@ const CreateCaseBattle = (props) => {
           </div>
         </div>
 
-        <div class="center flex flex-col-reverse sm:flex-row gap-4 p-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)] bg-control-panel">
+        <div class="lg:center flex flex-col-reverse lg:flex-row gap-4 p-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)] bg-control-panel">
           <CaseGradientButton
-            isFullWidth={false}
+            isFullWidth={true}
             callbackFn={() => createBattle()}
             color={getModeColor()}
           >
-            <div class="flex gap-2 items-center">
+            <div class="justify-center w-full flex gap-2 items-center">
               {getModeColor() === "yellow" ? (
                 <BattleRoyaleIcon additionClasses="w-5 text-yellow-ffb" />
               ) : getModeColor() === "green" ? (
@@ -1111,7 +1111,7 @@ const CreateCaseBattle = (props) => {
                 <BattleGroupIcon additionClasses="text-[#5AC3FF] w-5" />
               )}
               <span
-                class={`text-yellow-ffb font-SpaceGrotesk text-16 font-bold`}
+                class={`truncate text-yellow-ffb font-SpaceGrotesk text-16 font-bold`}
                 classList={{
                   "text-yellow-ffb": getModeColor() === "yellow",
                   "text-[#DAFD09]": getModeColor() === "green",
@@ -1143,7 +1143,9 @@ const CreateCaseBattle = (props) => {
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>
-            <Dropdown
+           <div class='w-max'>
+           <Dropdown
+              isFullWidth
               label="Min Level:"
               variant="level"
               activeName={modeToCreate().minLevel}
@@ -1152,6 +1154,7 @@ const CreateCaseBattle = (props) => {
                 setModeToCreate((prev) => ({...prev, minLevel: level}))
               }
             />
+           </div>
           </Show>
         </div>
       </div>

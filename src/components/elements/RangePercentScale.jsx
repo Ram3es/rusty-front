@@ -46,12 +46,12 @@ const RangePercentScale = (props) => {
   let percentIndex = 0
 
   return (
-    <div class='mb-4 px-4 flex flex-col items-center justify-center w-[330px] xll:w-[350px] fourk:w-[375px]'>
+    <div class='mb-4 px-4 flex flex-col items-center justify-center w-[260px] ssm:w-[330px] xll:w-[350px] fourk:w-[375px]'>
       <div class='flex justify-center w-full'>
         <input
           ref={inputRef}
           type='range'
-          class='borrow-slider h-1.5 rounded-1 appearance-none w-[330px] xll:min-w-[350px] fourk:min-w-[375px] z-10'
+          class='borrow-slider h-1.5 rounded-1 appearance-none w-[260px] ssm:w-[330px] xll:min-w-[350px] fourk:min-w-[375px] z-10'
           min='0'
           max='100'
           step='1'
