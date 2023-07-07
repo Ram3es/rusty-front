@@ -2,7 +2,7 @@ const Coin = (props) => {
   return (
     <div
       class={`shrink-0 ${props.color ? `text-${props.color}` : "text-white"} ${
-        props.width ? `w-${props.width}` : "w-[18px] sm:w-8"
+        props.width ? `w-[13px] lg:w-${props.width}` : "w-[18px] sm:w-8"
       }`}
     >
       <svg

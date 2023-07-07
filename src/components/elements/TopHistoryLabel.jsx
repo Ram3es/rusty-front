@@ -1,6 +1,6 @@
 const TopHistoryLabel = (props) => {
   return (
-    <div class='z-10 w-[100px] flex items-center justify-center gap-1 py-[3px] px-1.5 label_background--gradient__gold rounded border border-transparent'>
+    <div class='z-10 w-[100px] flex items-center justify-center gap-1 lg:py-[3px] px-1.5 label_background--gradient__gold rounded border border-transparent'>
       <svg
         width='13'
         height='12'

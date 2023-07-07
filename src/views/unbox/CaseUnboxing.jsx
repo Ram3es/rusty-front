@@ -678,20 +678,20 @@ const CaseUnboxing = (props) => {
               )}
             </div>
           </div>
-          <div class="flex flex-col gap-4 grow px-4 xl:px-8 xxl:px-14 pt-5">
+          <div class="flex flex-col gap-8 lg:gap-4 grow lg:px-4 xl:px-8 xxl:px-14 lg:pt-5">
             <div class="w-full flex flex-col gap-4">
               <div class="w-full">
                 <p class="text-yellow-ffb font-medium text-base capitalize font-SpaceGrotesk">
-                  potential drops
+                  You can unbox:
                 </p>
               </div>
-              <div class="w-full grid grid-cols-potential-drop--item gap-3">
+              <div class="w-full grid grid-cols-2 lg:grid-cols-potential-drop--item gap-4 lg:gap-3">
                 <For
                   each={
                     rollCase()?.items.sort((a, b) => b.price - a.price) || []
                   }
                 >
-                  {(item) => <PotentialDropItem skin={item} />}
+                  {(item) => <PotentialDropItem mobileTellCard skin={item} />}
                 </For>
               </div>
             </div>
