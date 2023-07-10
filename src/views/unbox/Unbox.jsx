@@ -123,7 +123,7 @@ const Unbox = (props) => {
                 />
                 <div class='relative grow z-10 px-4 pb-5 pt-9 flex flex-col justify-between items-center'>
                   <img
-                    class='w-auto h-[86px] lg:h-[127px] scale-150 absolute group-hover:rotate-6 top-6'
+                    class='w-auto h-[86px] lg:h-[127px] scale-150 absolute group-hover:rotate-6 top-10 lg:top-6'
                     src={item.image ? item.image.replace('{url}', window.origin) : ''}
                     alt={item.name}
                     style={{
