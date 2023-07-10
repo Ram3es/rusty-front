@@ -32,7 +32,7 @@ const OldSeedsStructure = (props) => {
       </p>
       <div class='w-full flex items-center justify-end overflow-hidden h-10'>
         <GrayGradientButton
-          additionalClass='w-[134px] h-full text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer my-auto'
+          additionalClass='w-full lg:w-[134px] h-full text-gray-9a font-SpaceGrotesk text-14 font-bold cursor-pointer my-auto'
           callbackFn={() => copyToClipboard(props.val.server_seed)}
         >
           <span>Copy</span>

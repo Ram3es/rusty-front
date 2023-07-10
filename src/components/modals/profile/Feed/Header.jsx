@@ -2,7 +2,7 @@ import { For } from 'solid-js'
 
 const Header = (props) => {
   return (
-    <div class={`w-full px-4 grid ${props?.grid} overflow-hidden relative`}>
+    <div class={`hidden w-full px-4 lg:grid ${props?.grid} overflow-hidden relative`}>
       <For each={props?.headings}>
         {(val) => (
           <div class='flex items-center text-13 text-gray-a2 font-bold font-SpaceGrotesk capitalize'>
