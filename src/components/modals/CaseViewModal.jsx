@@ -19,14 +19,14 @@ const CaseViewModal = (props) => {
         onClick={props.handleClose}
       />
       <div
-        class="rounded-xl flex flex-col absolute top-32 w-[768px] max-h-[600px] overflow-x-scroll"
+        class="rounded-xl flex flex-col absolute w-11/12 h-5/6 lg:top-32 lg:w-[768px] lg:max-h-[600px] overflow-x-scroll"
         style={{
           background:
             "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
           // "backdrop-filter": "blur(8px)",
         }}
       >
-        <div class="w-full pl-[22px] pr-8 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]">
+        <div class="w-full px-6 lg:pl-[22px] lg:pr-8 py-5 relative transition-all duration-100 ease-out flex justify-between items-center h-[88px]">
           <div class="flex items-center gap-1">
             <div
               class="w-[68px] h-[49px]"
@@ -79,11 +79,11 @@ const CaseViewModal = (props) => {
             </svg>
           </div>
         </div>
-        <div class="flex flex-col gap-2 overflow-hidden py-6 px-[22px] bg-dark-secondary overflow-y-auto">
-          <p class="text-yellow-ffb font-medium text-base font-SpaceGrotesk">
+        <div class="flex flex-col gap-2 overflow-hidden py-4 lg:py-6 px-4 lg:px-[22px] bg-dark-secondary overflow-y-auto">
+          <p class="text-yellow-ffb font-medium text-base font-SpaceGrotesk pt-1 lg:pt-0">
             You can unbox:
           </p>
-          <div class="w-full grid grid-cols-potential-drop--item gap-2">
+          <div class="w-full grid grid-cols-2 lg:grid-cols-potential-drop--item gap-4 lg:gap-2">
             <For
               each={
                 props.item.items
@@ -100,7 +100,7 @@ const CaseViewModal = (props) => {
               }
             >
               {(potentialDropItem) => (
-                <PotentialDropItem skin={potentialDropItem} />
+                <PotentialDropItem mobileTellCard skin={potentialDropItem} />
               )}
             </For>
           </div>
