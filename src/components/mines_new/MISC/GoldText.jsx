@@ -4,7 +4,7 @@ const GoldText = (props) => {
       class={`
         ${props.size ? `text-[${props.size}px]`: 'text-[14.3719px]'} 
         ${props.gradient ?? ' gold-text' }
-        font-SpaceGrotesk`}
+        font-SpaceGrotesk ${props.currentText ? 'text-current' : ''}`}
       style={{
         'font-size': `${props.size ? props.size : '14.3719'}px`,
         'font-weight': `${props.notBold ? 'normal' : 'bold'}`

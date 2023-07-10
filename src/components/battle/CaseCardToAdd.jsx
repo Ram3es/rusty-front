@@ -18,11 +18,11 @@ const CaseCardToAdd = (props) => {
 
   return (
     <div
-      class={`case-card-background border border-opacity-5 group h-[256px] w-full lg:w-[216px] flex flex-col  ${
+      class={`case-card-background border border-opacity-5 group w-full lg:w-[216px] flex flex-col ${
         props.isAdded && props.isActiveBorderShown
           ? "border-yellow-ffb border-1 border-opacity-100"
           : "border-transparent"
-      } relative rounded-6 overflow-hidden`}
+      } relative rounded-6 overflow-hidden ${props.mobileSmallCard ? 'h-[215px] lg:h-[256px]' : 'h-[256px]'}`}
       onClick={() => {
         if (!props.isAdded) {
           props.onAddCase();
@@ -43,12 +43,16 @@ const CaseCardToAdd = (props) => {
       <div
         class={`relative grow z-10 px-4 ${
           !props.isAdded && "pb-5"
-        } pb-2 pt-0 flex flex-col justify-end items-center`}
+        } ${props.mobileSmallCard ? 'pb-4 lg:pb-2' : 'pb-2'} pt-0 flex flex-col justify-end items-center`}
       >
         <img
-          class={`absolute h-[110px] group-hover:rotate-6 top-4 ${
-            props.isAdded ? "scale-[1.1] lg:scale-[1.4]" : "scale-[1.2] lg:scale-150"
+          class={`absolute group-hover:rotate-6 top-4 ${
+            props.isAdded && !props.mobileSmallCard ? "scale-[1.1] lg:scale-[1.4]" : "scale-[1.2] lg:scale-150"
           }`}
+          classList={{
+            'h-[64px] lg:h-[110px]': props.mobileSmallCard,
+            'h-[110px]': !props.mobileSmallCard
+          }}
           src={
             props.item.image
               ? props.item.image
@@ -62,11 +66,14 @@ const CaseCardToAdd = (props) => {
             transition: isMounting() ? `none` : `all 0.15s ease-in-out`, // dynamically adjust transition
           }}
         />
-        <div class="h-[110px] w-full relative" />
-        {!props.isAdded ? (
+        <div class="lg:w-full relative" classList={{
+          'h-[64px] lg:h-[110px]': props.mobileSmallCard,
+          'h-[110px]': !props.mobileSmallCard
+        }} />
+        {!props.isAdded || (props.mobileSmallCard && !props.isAdded) ? (
           <>
             <div
-              class={`w-full block  mt-5 ${isHovering() && "scale-x-0"}`}
+              class={`w-full ${props.mobileSmallCard ? 'hidden lg:block' : 'block'} mt-5 ${isHovering() && "scale-x-0"}`}
               style={{
                 transition: `all 0.15s ease-in-out`,
               }}
@@ -81,8 +88,10 @@ const CaseCardToAdd = (props) => {
             </div>
 
             <div
-              class={`absolute min-w-[182px] mt-5 scale-x-0 ${
-                isHovering() && "scale-x-100"
+              class={`absolute lg:min-w-[182px] mt-5 ${
+                props.mobileSmallCard 
+                  ? `${isHovering() ? "scale-x-100 lg:scale-x-100" : 'scale-x-100 lg:scale-x-0'}` 
+                    : `${isHovering() ? "scale-x-100" : 'scale-x-0'}`
               }`}
               style={{
                 transition: `all 0.15s ease-in-out`,
@@ -108,7 +117,7 @@ const CaseCardToAdd = (props) => {
                       fill="#FFB436"
                     />
                   </svg>
-                  <span>Add Case</span>
+                  <span class='truncate'>Add Case</span>
                 </div>
               </GradientButton>
             </div>
@@ -120,15 +129,15 @@ const CaseCardToAdd = (props) => {
         )}
       </div>
       <div class="w-full center h-max flex-col gap-2 center py-3 bg-dark-radial-gradient min-h-[48px] relative z-10">
-        <div class="flex items-center gap-2">
+        <div class="text-14 lg:text-16 flex items-center gap-2">
           <Coin width={5} />
           <GoldText
             text={getCurrencyString(props.item.price.toString())}
-            size="16"
+            currentText
           />
         </div>
         {props.isAdded && props.children && (
-          <div class="w-full flex justify-between items-center">
+          <div class="w-full flex justify-center items-center">
             {props.children}
           </div>
         )}

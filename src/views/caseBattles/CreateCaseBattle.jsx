@@ -80,7 +80,7 @@ const CreateCaseBattle = (props) => {
   const {createBattlesPageLoaded, onCreateBattlesPageLoaded} = PageLoadState;
   const {socket, toastr} = injector;
   const [casesState, setCasesState] = createSignal([]);
-  const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(false);
+  const [isAddCaseModalOpen, setIsAddCaseModalOpen] = createSignal(true);
   const [placeholdersToShow, setPlaceholdersToShow] = createSignal(2);
   const [search, setSearch] = createSignal("");
   const [priceRange, setPriceRange] = createSignal(priceRanges[0]);
@@ -303,7 +303,7 @@ const CreateCaseBattle = (props) => {
           </svg>
         </RoundedButton>
         <div
-          class="h-9 w-[56px] ssm:w-[76px] counter-border center rounded-full text-yellow-ffb font-SpaceGrotesk font-bold text-16 text-shadow-gold-secondary"
+          class="h-9 w-[36px] ssm:w-[56px] md:w-[76px] counter-border center rounded-full text-yellow-ffb font-SpaceGrotesk font-bold text-16 text-shadow-gold-secondary"
           style={{
             background: "rgba(26, 28, 48, 1)",
             filter:
@@ -1167,39 +1167,64 @@ const CreateCaseBattle = (props) => {
           }}
         >
           <div
-            class="flex flex-col rounded-12 overflow-hidden"
+            class="w-11/12 h-5/6 lg:w-auto lg:h-auto flex flex-col rounded-12 overflow-hidden"
             style={{
               background:
                 "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div class="flex justify-between items-start px-4 ssm:px-8 py-6 border-black border-opacity-10 border rounded-t-12">
-              <div class="flex flex-wrap gap-4 items-center">
-                <div class="w-full sm:w-80">
+            <div class="lg:flex lg:justify-between items-start px-4 lg:px-8 py-4 lg:py-6 border-black border-opacity-10 border rounded-t-12">
+              <div class="grid grid-cols-2 lg:flex gap-4 items-center">
+                <div class="col-span-2 w-full lg:w-80 gap-2 grid grid-cols-[1.7fr_0.3fr]">
                   <CaseSearchInput
                     search={search()}
                     onReset={() => setSearch("")}
                     onInput={(text) => setSearch(text)}
                     isFullWidth
                   />
+                  <div
+                class="lg:hidden p-3.5 center border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
+                onClick={() => setIsAddCaseModalOpen(false)}
+              >
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z"
+                    fill="#9A9EC8"
+                  />
+                </svg>
+              </div>
                 </div>
+                <div class='col-span-2'>
                 <Dropdown
                   activeName={sortBy()}
                   itemsList={sortOptions}
                   submitItem={(sort) => setSortBy(sort)}
                   label=" Sort by Price:"
+                  isFullWidth
                 />
+                </div>
+                <div class='col-span-2'>
                 <Dropdown
                   activeName={priceRange()}
                   itemsList={priceRanges}
                   submitItem={(price) => setPriceRange(price)}
                   label="Price Range:"
                   variant="range"
+                  isFullWidth
                 />
+                </div>
               </div>
               <div
-                class="p-3.5 ml-2 border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
+                class="hidden lg:block p-3.5 ml-2 border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
                 onClick={() => setIsAddCaseModalOpen(false)}
               >
                 <svg
@@ -1218,7 +1243,7 @@ const CreateCaseBattle = (props) => {
                 </svg>
               </div>
             </div>
-            <div class="grid py-6 grid-cols-battle-create px-12 gap-2 max-w-[1184px] w-full bg-dark-secondary h-[60vh] overflow-y-scroll">
+            <div class="grid px-4 py-4 lg:py-6 grid-cols-2 lg:grid-cols-battle-create lg:px-12 gap-4 lg:gap-2 max-w-[1184px] w-full bg-dark-secondary h-[60vh] overflow-y-scroll">
               <For
                 each={filterByRange(
                   casesState().filter((c) =>
@@ -1228,7 +1253,7 @@ const CreateCaseBattle = (props) => {
                 )}
               >
                 {(item) => (
-                  <div class="relative w-fit mx-auto">
+                  <div class="relative w-full lg:w-fit mx-auto">
                     <CaseCardToAdd
                       item={item}
                       isAdded={
@@ -1244,11 +1269,12 @@ const CreateCaseBattle = (props) => {
                         }));
                         getPlaceholdernumber();
                       }}
+                      mobileSmallCard={true}
                     >
                       {!modeToCreate().cases.every(
                         (caseItem) => caseItem.caseId !== item.id
                       ) && (
-                        <div class="w-full flex justify-between items-center">
+                        <div class="px-3 w-full flex justify-center items-center">
                           {counter(item)}
                         </div>
                       )}
@@ -1256,7 +1282,7 @@ const CreateCaseBattle = (props) => {
                     {!modeToCreate().cases.every(
                       (caseItem) => caseItem.caseId !== item.id
                     ) && (
-                      <div class="absolute right-3 top-3 z-10">
+                      <div class="absolute right-2 lg:right-3 top-2 lg:top-3 z-10">
                         <RoundedButton
                           onClick={() => {
                             setModeToCreate((prev) => {
@@ -1293,8 +1319,8 @@ const CreateCaseBattle = (props) => {
                 )}
               </For>
             </div>
-            <div class="flex justify-between items-center px-4 ssm:px-8  py-6 border-black border-opacity-10 border  ">
-              <GrayWrapperdWithBorders classes="rounded-[4px] w-max">
+            <div class="flex flex-col gap-3 lg:gap-0 lg:flex-row justify-between items-center px-4 lg:px-8 py-4 lg:py-6 border-black border-opacity-10 border">
+              <GrayWrapperdWithBorders classes="rounded-[4px] w-full lg:w-max">
                 <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center py-2.5 px-8 sm:px-12 ">
                   <span class="w-max">
                     {modeToCreate().cases.reduce(
@@ -1319,21 +1345,21 @@ const CreateCaseBattle = (props) => {
                   />
                 </div>
               </GrayWrapperdWithBorders>
-              <div class="flex flex-wrap justify-end ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4">
+              <div class="grid grid-cols-2 lg:flex justify-end lg:ml-2 gap-2 text-14 font-bold font-SpaceGrotesk leading-4">
                 <GrayGradientButton
                   callbackFn={() =>
                     setModeToCreate((prev) => ({...prev, cases: []}))
                   }
                 >
-                  <div class="text-gray-9a center gap-2 ">
+                  <div class="text-gray-9a center gap-2">
                     <TrashBinIcon />
-                    <span class="hidden sm:block">Clear selection</span>
+                    <span class="truncate">Clear selection</span>
                   </div>
                 </GrayGradientButton>
                 <YellowGradientButton
                   callbackFn={() => setIsAddCaseModalOpen(false)}
                 >
-                  <div class="center gap-2 text-yellow-ffb">
+                  <div class="center gap-[5px] lg:gap-2 text-yellow-ffb">
                     <svg
                       width="12"
                       height="12"
@@ -1348,7 +1374,7 @@ const CreateCaseBattle = (props) => {
                         fill="#FFB436"
                       />
                     </svg>
-                    <span class="hidden sm:block">Confirm Selection</span>
+                    <span class="truncate">Confirm Selection</span>
                   </div>
                 </YellowGradientButton>
               </div>
