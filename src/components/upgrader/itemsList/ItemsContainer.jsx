@@ -15,9 +15,7 @@ const ItemsContainer = (props) => {
   const ListItem = (props) => {
     return (
       <div
-        // Use CSS to set width to 100% or any other value.
         class="w-full h-full"
-        // Used for keyboard navigation and accessibility.
         tabIndex={props.tabIndex}
         role="listitem"
         style={props.style}

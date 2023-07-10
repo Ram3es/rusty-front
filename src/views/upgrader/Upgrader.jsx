@@ -9,6 +9,7 @@ import {spin} from "../../components/upgrader/dome/Spinner";
 import Fallback from "../Fallback";
 import PageLoadState from "../../libraries/PageLoadState";
 import {sortBy} from "../../components/upgrader/itemsList/ItemsListContainer";
+import SparkSprite from "../../assets/img/new-upgrader/SparkSprite.png";
 
 export const [currentGameId, setCurrentGameId] = createSignal("");
 export const [currentGameRoll, setCurrentGameRoll] = createSignal("");
@@ -61,17 +62,8 @@ export const bet = () => {
 };
 
 const Upgrader = (props) => {
-  const [globalHistory, setGlobalHistory] = createSignal([]);
-
-  // const [isItemsLoaded, setIsItemsLoaded] = createSignal(false);
-
-  const [search, setSearch] = createSignal("");
   const [itemsLimit, setItemsLimit] = createSignal(9999);
   const {upgraderPageLoaded, onUpgraderPageLoad} = PageLoadState;
-
-  let observer;
-
-  // const equals = (a, b) => a.length === b.length && a.every((v, i) => v === b[i]);
 
   const updateItems = (shouldLimitUpdate = true, observerReload = false) => {
     let offset = 0;
@@ -81,7 +73,7 @@ const Upgrader = (props) => {
     }
     socket.emit(
       "steam:market",
-      {search: search(), asc: sortBy() === "ASC", offset, limit: itemsLimit()},
+      {search: "", asc: sortBy() === "ASC", offset, limit: itemsLimit()},
       (data) => {
         if (data.msg) {
           toastr(data);
@@ -109,21 +101,24 @@ const Upgrader = (props) => {
 
   createEffect(() => {
     if (props.loaded()) {
-      socket.emit("upgrader:connect", {}, (data) => {
-        setGlobalHistory(
-          data.globalHistory.filter((val) => val.winnings > 0).slice(0, 4)
-        );
-        onUpgraderPageLoad(true);
-      });
+      // socket.emit("upgrader:connect", {}, (data) => {
+      //   setGlobalHistory(
+      //     data.globalHistory.filter((val) => val.winnings > 0).slice(0, 4)
+      //   );
+      // });
+      onUpgraderPageLoad(true);
     }
   });
 
   onMount(() => {
-    socket.on("upgrader:history:global", (data) => {
-      setGlobalHistory((prev) =>
-        [data, ...prev].filter((val) => val.winnings > 0).slice(0, 4)
-      );
-    });
+    // socket.on("upgrader:history:global", (data) => {
+    //   setGlobalHistory((prev) =>
+    //     [data, ...prev].filter((val) => val.winnings > 0).slice(0, 4)
+    //   );
+    // });
+
+    const sparkPreload = new Image();
+    sparkPreload.src = SparkSprite;
 
     updateItems(false);
     socket.on("steam:market:update", () => {

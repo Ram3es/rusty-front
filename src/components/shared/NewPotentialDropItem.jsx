@@ -63,7 +63,7 @@ const NewPotentialDropItem = (props) => {
           class={`h-full flex flex-col justify-end items-center pb-3 gap-3 font-SpaceGrotesk font-semibold
           bg-[url(/assets/img/new-upgrader/PotentialGray.png)]`}
         >
-          <img src={props.item.image} alt="" class="h-[60%] " />
+          <img src={props.item.image} alt="" class="h-[60%]" loading="lazy" />
           <div class=" flex flex-col justify-center self-start pl-4">
             <span class="text-[#A2A5C6] text-[14px]">{props.item.name}</span>
             <div class=" flex items-center gap-2">
