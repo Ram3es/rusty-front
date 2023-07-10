@@ -233,11 +233,11 @@ const SpinnerReelHorizontal = ({
                 ref={reelItem}
                 class={`w-32 flex flex-col gap-2 text-3xl 
                 transition-all duration-500 items-center justify-center
-                translate-y-[28px]
+                translate-y-[12px] md:translate-y-[28px]
                  ${
                    spinComplete()
                      ? index() === spinIndex()
-                       ? "scale-110 -translate-y-4"
+                       ? "md:scale-110 md:-translate-y-4"
                        : "opacity-40 grayscale"
                      : null
                  }`}
@@ -254,12 +254,12 @@ const SpinnerReelHorizontal = ({
                           ? "animate-bounce"
                           : ""
                         : null
-                    } h-24 z-20`}
+                    } h-[71px] md:h-24 z-20`}
                   />
                   <img
                     src={bglogos[item.rarity]}
                     alt={item.rarity + " glow"}
-                    class="absolute z-10 scale-[1.6]"
+                    class="absolute z-10 scale-[1.2] md:scale-[1.6]"
                   />
                 </div>
                 <div
@@ -300,8 +300,8 @@ const SpinnerReelHorizontal = ({
         left: ${confettiOffset()}px;`}
         ref={setConfettiCannonRefB}
       ></div>
-      <div class="arrow-down absolute left-1/2 top-0.5 -translate-x-1/2" />
-      <div class="arrow-down absolute left-1/2 bottom-0.5 -translate-x-1/2 rotate-180" />
+      <div class="scale-[0.5] -mt-2 md:-mt-0 arrow-down absolute left-1/2 top-0.5 -translate-x-1/2" />
+      <div class="scale-[0.5] -mb-2 md:-mb-0 arrow-down absolute left-1/2 bottom-0.5 -translate-x-1/2 rotate-180" />
       <div
         class="absolute right-0 top-0 h-full w-[186px]"
         style={{

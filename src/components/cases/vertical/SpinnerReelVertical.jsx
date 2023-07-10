@@ -69,6 +69,12 @@ const SpinnerReelVertical = ({
     return referencePoint - itemHeight - imgHeight / 2;
   };
 
+  createEffect(() => {
+    // console.log(reelItem(), 'REEL_ITEM')
+    // console.log(imgItem(),' imgItem')
+    // console.log(spinIndexes()[spinnerIndex], 'sssss')
+  })
+
   const [spinTime, setSpinTime] = createSignal(
     spinnerTimings.verticalInitialSpin
   );
@@ -281,7 +287,7 @@ const SpinnerReelVertical = ({
                   />
                 </div>
                 <div
-                  class={`font-[lato] flex flex-col items-center 
+                  class={`font-SpaceGrotesk flex flex-col items-center 
                   transition-all duration-500 overflow-visible gap-[4px]
                   ${
                     spinComplete() && index() === spinIndexes()[spinnerIndex]

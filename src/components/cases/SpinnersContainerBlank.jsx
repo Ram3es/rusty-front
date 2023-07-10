@@ -1,7 +1,7 @@
 const SpinnersContainerBlank = ({ pendingNum }) => {
   return (
       <div
-        class="relative flex rounded  h-[326px] w-full items-center justify-center"
+        class="relative flex rounded h-[178px] md:h-[326px] w-full items-center justify-center"
       >
         {pendingNum() === 1 ? (
           <>
@@ -16,7 +16,7 @@ const SpinnersContainerBlank = ({ pendingNum }) => {
           </>
           
         ) : (
-          <div class="flex justify-between w-full items-center">
+          <div class="lg:flex justify-between w-full items-center">
             <div class="arrow-down absolute top-1/2 -left-[8px] -translate-y-1/2 -rotate-90" />
             {Array.from({ length: pendingNum() }).map((_, index) => {
               return (
@@ -24,8 +24,7 @@ const SpinnersContainerBlank = ({ pendingNum }) => {
                   <img
                     src="assets/caseLineHorizontal.svg"
                     alt="caseline"
-                    class={`h-32 w-full transition-all duration-500
-                        `}
+                    class={`h-32 w-full transition-all duration-500`}
                   />
                 </div>
               );

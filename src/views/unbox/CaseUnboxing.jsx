@@ -5,6 +5,8 @@ import {
   createEffect,
   onCleanup,
   createMemo,
+  Switch,
+  Match,
 } from "solid-js";
 import {URL} from "../../libraries/url";
 import injector from "../../injector/injector";
@@ -40,6 +42,7 @@ import {
   playWinSound,
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
+import { onMount } from "solid-js";
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
@@ -54,8 +57,8 @@ const CaseUnboxing = (props) => {
   const [isCaseCanBeOpen, setIsCaseCanBeOpen] = createSignal(true);
   const [isCaseAlreadyOpened, setIsCaseAlreadyOpened] = createSignal(false);
   const [caseStatistic, setCaseStatistic] = createSignal();
-  const [countOfCases, setCountOfCases] = createSignal(1);
-  const [pendingNum, setPendingNum] = createSignal(1);
+  const [countOfCases, setCountOfCases] = createSignal(4);
+  const [pendingNum, setPendingNum] = createSignal(4);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [fairnessHash, setFairnessHash] = createSignal([]);
   const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] =
@@ -64,6 +67,8 @@ const CaseUnboxing = (props) => {
   const [beginWinSound, setBeginWinSound] = createSignal(false);
   const [beginClickSound, setBeginClickSound] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
+
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -360,6 +365,25 @@ const CaseUnboxing = (props) => {
     }
   });
 
+  const handleChangeInnerWidth = () => {
+    setInnerWidth(window.innerWidth);
+  };
+
+  onMount(() => {
+    window.addEventListener('resize', handleChangeInnerWidth);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('resize', handleChangeInnerWidth);
+  })
+
+  createEffect(() => {
+    console.log(spinnerOptions().map(item => item.winningItem.name), 'spinnerOptions!!!')
+    // console.log(spinnerOptions().slice(0, 2), 'spinnerOptions().slice(0, 2)')
+    // console.log(spinnerOptions().slice(-2), 'spinnerOptions().slice(-2)')
+// console.log(rollItems(), 'ROLL ITEMS');
+  })
+
   return (
     <>
       {rollCase() && (
@@ -432,23 +456,50 @@ const CaseUnboxing = (props) => {
                   </div>
                 )}
                 {countOfCases() === 1 ? (
-                  <SpinnersContainerHorizontal
-                    numSpinners={countOfCases}
-                    caseItemList={rollItems}
-                    spinnerOptions={spinnerOptions}
-                    setBeginClickSound={setBeginClickSound}
-                    setBeginPullBackSound={setBeginPullBackSound}
-                    setBeginWinSound={setBeginWinSound}
-                  />
+                    <SpinnersContainerHorizontal
+                      numSpinners={countOfCases}
+                      caseItemList={rollItems}
+                      spinnerOptions={spinnerOptions}
+                      setBeginClickSound={setBeginClickSound}
+                      setBeginPullBackSound={setBeginPullBackSound}
+                      setBeginWinSound={setBeginWinSound}
+                    />
                 ) : countOfCases() > 0 && countOfCases() < 5 ? (
-                  <SpinnersContainerVertical
-                    numSpinners={countOfCases}
-                    caseItemList={rollItems}
-                    spinnerOptions={spinnerOptions}
-                    setBeginClickSound={setBeginClickSound}
-                    setBeginPullBackSound={setBeginPullBackSound}
-                    setBeginWinSound={setBeginWinSound}
-                  />
+                  <Switch>
+                    <Match when={innerWidth() > 600}>
+                      {console.log('zaebissss')}
+                      <SpinnersContainerVertical
+                        numSpinners={countOfCases()}
+                        caseItemList={rollItems()}
+                        spinnerOptions={spinnerOptions()}
+                        setBeginClickSound={setBeginClickSound}
+                        setBeginPullBackSound={setBeginPullBackSound}
+                        setBeginWinSound={setBeginWinSound}
+                      />
+                    </Match>
+                    <Match when={(innerWidth() <= 600) && (countOfCases() <= 2)}>
+                      <SpinnersContainerVertical
+                        numSpinners={countOfCases()}
+                        caseItemList={rollItems()}
+                        spinnerOptions={spinnerOptions()}
+                        setBeginClickSound={setBeginClickSound}
+                        setBeginPullBackSound={setBeginPullBackSound}
+                        setBeginWinSound={setBeginWinSound}
+                      />
+                    </Match>
+                    <Match when={(innerWidth() <= 600) && (countOfCases() > 2)}>
+                        <SpinnersContainerVertical
+                          // numSpinners={2}
+                          numSpinners={countOfCases()}
+                          caseItemList={rollItems()}
+                          spinnerOptions={spinnerOptions()}
+                          // spinnerOptions={spinnerOptions().slice(0, 2)}
+                          setBeginClickSound={setBeginClickSound}
+                          setBeginPullBackSound={setBeginPullBackSound}
+                          setBeginWinSound={setBeginWinSound}
+                        />
+                    </Match>
+                  </Switch>
                 ) : (
                   <SpinnersContainerBlank pendingNum={pendingNum} />
                 )}
