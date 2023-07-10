@@ -211,7 +211,7 @@ const PotentialDropItem = (props) => {
                 </div>
               </div>
               <div
-                class={`w-full ${props.mobileTellCard ? 'inline-block' : 'flex items-center justify-center'} lg:inline-block overflow-hidden space-y-1.5 ${
+                class={`w-full ${props.mobileTellCard ? 'pt-2 lg:pt-0 inline-block' : 'flex items-center justify-center'} lg:inline-block overflow-hidden space-y-1.5 ${
                   props.isHorizontal
                     ? "flex flex-col justify-center pr-9"
                     : `${props.wideCard ? "px-3" : "px-4"}`

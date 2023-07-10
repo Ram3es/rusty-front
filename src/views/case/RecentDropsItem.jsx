@@ -62,25 +62,25 @@ const RecentDropsItem = (props) => {
 
     return (
         <div
-            class={`group min-w-[120px] min-h-[120px] z-10 rounded-4 relative cursor-pointer recent-drops--item ${
+            class={`group min-w-[76px] lg:min-w-[120px] min-h-[76px] lg:min-h-[120px] z-10 rounded-4 relative cursor-pointer recent-drops--item ${
                 styles().itemBg
             } font-SpaceGrotesk`}
         >
-            <div class='rounded-4 absolute inset-0 z-10 pt-4 group-hover:pt-1 pb-2'>
+            <div class='rounded-4 absolute inset-0 z-10 pt-2 lg:pt-4 group-hover:pt-1 pb-2'>
                 <div
                     class='hidden group-hover:block absolute inset-0 z-0 bg-repeat m-1 p-1'
                     style={{ 'background-image': `url('${ItemMainBg}')`, opacity: 0.02 }}
                 />
-                <div class='flex flex-col justify-items-center gap-2 group-hover:gap-0'>
+                <div class='flex flex-col justify-items-center gap-[3px] lg:gap-2 group-hover:gap-0'>
                     <div class='flex group-hover:hidden items-center justify-center'>
                         <div
-                            class='h-[72px] w-[72px] flex items-center justify-center relative'
+                            class='h-[45px] lg:h-[72px] w-[45px] lg:w-[72px] flex items-center justify-center relative'
                             style={{
                                 filter: `drop-shadow(0px 0px 16px ${styles().shadowLogoColor})`
                             }}
                         >
                             <svg
-                                class='absolute'
+                                class='w-[31px] h-[35px] lg:w-[50px] lg:h-[56px] absolute'
                                 width='50'
                                 height='56'
                                 viewBox='0 0 50 56'
@@ -148,19 +148,19 @@ const RecentDropsItem = (props) => {
                     </div>
                     <div class='group-hover:block hidden mx-auto'>
                         <div
-                            class={`p-3 rounded-full recent-drops-item__circle ${
+                            class={`p-[2px] lg:p-3 rounded-full recent-drops-item__circle ${
                                 styles().circleClass
                             }`}
                         >
                             <div
-                                class={`p-1.5 rounded-full recent-drops-item__circle ${
+                                class={`p-[2px] lg:p-1.5 rounded-full recent-drops-item__circle ${
                                     styles().circleClass
                                 }`}
                             >
                                 <div
                                     class={`border ${
                                         styles().circleColor
-                                    } rounded-full p-1 flex items-center justify-center w-9 h-9 grow`}
+                                    } rounded-full p-[2px] lg:p-1 flex items-center justify-center w-9 h-9 grow`}
                                 >
                                     <img
                                         class='rounded-full'
@@ -173,15 +173,15 @@ const RecentDropsItem = (props) => {
                     </div>
                     <div class='group-hover:hidden flex items-center justify-center overflow-hidden'>
                         <div class='flex gap-1.5'>
-                            <Coin width='5' />
-                            <span class='font-bold text-sm potential-drop--price'>
+                            <Coin width='5' additionalClasses="w-[13px] lg:w-5"  />
+                            <span class='font-bold text-9 lg:text-sm potential-drop--price truncate'>
                                 {Number(props?.drop?.price).toLocaleString()}
                             </span>
                         </div>
                     </div>
-                    <div class='group-hover:block hidden text-center font-bold mx-1'>
-                        <p class='text-white text-10'>Unboxed by:</p>
-                        <p class='text-gray-9aa text-sm'>{props.drop.username}</p>
+                    <div class='group-hover:block hidden text-center font-bold mx-1 px-1'>
+                        <p class='text-white text-9 lg:text-10'>Unboxed by:</p>
+                        <p class='text-gray-9aa text-9 lg:text-sm truncate'>{props.drop.username}</p>
                     </div>
                 </div>
             </div>

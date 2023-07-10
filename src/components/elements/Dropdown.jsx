@@ -58,7 +58,7 @@ const Dropdown = (props) => {
   document.addEventListener("mousedown", handleClick);
 
   return (
-    <div class="relative" ref={dropdownWrapper}>
+    <div class="relative" classList={{'w-full': props.isFullWidth}} ref={dropdownWrapper}>
       <GrayGradientButton
         callbackFn={() => {
         setIsOpen((prev) => !prev)
@@ -71,7 +71,7 @@ const Dropdown = (props) => {
           <span class={`text-gray-9a w-max whitespace-nowrap` }>
             {props.label}
           </span>
-          <span class="flex center gap-1.5 text-yellow-ffb w-full">
+          <span class="flex justify-end items-center lg:center gap-1.5 text-yellow-ffb w-full">
             <Switch>
               <Match when={!props.variant}>
                 <span class="capitalize w-full">{props.activeName}</span>

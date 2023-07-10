@@ -127,10 +127,11 @@ const CaseBattles = (props) => {
 
   return (
     <Fallback loaded={battlesPageLoaded}>
-      <div class="flex flex-col py-6 gap-2 min-h-[100vh]">
-          <div class= "w-full grid grid-cols-3 gap-3 items-center bg-control-panel">
-          <div class=" col-span-3 sm:col-span-1 w-full flex justify-center md:justify-start">
-            <Dropdown 
+      <div class="flex flex-col py-4 lg:py-6 gap-8 lg:gap-2 min-h-[100vh]">
+          <div class= "w-full grid grid-cols-3 gap-1 lg:gap-3 items-center bg-control-panel">
+          <div class="col-span-3 lg:col-span-1 w-full flex lg:justify-start">
+            <Dropdown
+              isFullWidth
               label=' Sort by Price:'
               activeName={sortBy()}
               itemsList={sortByOptions}
@@ -138,19 +139,15 @@ const CaseBattles = (props) => {
             />
           </div>
           <div
-            class=" col-span-3 md:col-span-1 row-start-1 md:row-start-auto h-full py-4 px-12 center flex-col gap-1"
-            style={{
-              background:
-                'linear-gradient(270deg, rgba(82, 215, 135, 0) 0%, rgba(82, 215, 135, 0.12) 50%, rgba(82, 215, 135, 0) 100%)'
-            }}
+            class=" col-span-3 lg:col-span-1 row-start-2 lg:row-start-auto h-full py-4 px-12 center flex-col gap-1 lg:case-battles--active-battles__background"
           >
             <div class='text-13 font-SpaceGrotesk text-gray-a2 font-bold w-max'>Case Battles</div>
             <div class='text-gradient-green-secondary w-max font-SpaceGrotesk font-bold text-14'>
               {Object.values(games).filter(g => g.status !== "ended" && (!g.private || g.owner == userObject.user?.id)).length} Active Battles
             </div>
           </div>
-          <div class=" col-span-3 sm:col-span-2 md:col-span-1 w-full flex flex-wrap-reverse py-0 md:py-2 gap-3 justify-center md:justify-end">
-            <NavLink href={URL.GAMEMODES.CASE_BATTLES_CREATE}>
+          <div class="col-span-3 lg:col-span-1 w-full flex flex-wrap-reverse py-0 lg:py-2 gap-3 justify-center lg:justify-end">
+            <NavLink class='w-full lg:w-max' href={URL.GAMEMODES.CASE_BATTLES_CREATE}>
               <YellowGradientButton callbackFn={() => {}}>
                 <div class='center text-14 font-SpaceGrotesk gap-2 text-yellow-ffb font-bold'>
                   <BattleRoyaleIcon additionClasses='w-4' />
@@ -160,13 +157,13 @@ const CaseBattles = (props) => {
             </NavLink>
           </div>
         </div>
-        <div class="w-full flex font-SpaceGrotesk text-13 text-[#A2A5C6] font-semibold">
+        <div class="hidden w-full lg:flex font-SpaceGrotesk text-13 text-[#A2A5C6] font-semibold">
             <div class="ml-8">Mode</div>
             <div class="ml-11">Cases</div>
             <div class="w-full flex-1" />
             <div class="mr-32 hidden sm:block">Participants</div>
         </div>
-        <div class='flex flex-col gap-3 px-0.5'>
+        <div class='flex flex-col gap-4 lg:gap-3 lg:px-0.5'>
           <For
             each={Object.keys(games)?.sort((a, b) => {
               const calculations =
@@ -183,7 +180,7 @@ const CaseBattles = (props) => {
               return calculations
             }).filter(g => !games[g].private || games[g].owner === userObject.user.id)}>
             {(id) => (<div
-                class="flex flex-col sm:flex-row w-full items-stretch min-h-[116px] bg-opacity-40 gap-2 case-battle-card"
+                class="px-4 py-4 lg:py-0 grid grid-cols-[0.2fr_1.8fr] grid-rows-[0.5fr_1f_0.5fr] lg:grid-cols-[0.7fr_1.3fr_1fr_1fr_1fr_1fr_1.3fr_1.7fr_0.3fr_0.7fr_1fr_1fr] fourk:grid-cols-[0.3fr_1.7fr_1fr_1fr_1fr_1fr_1fr_1fr_1.7fr_0.3fr_1fr_1fr] lg:grid-rows-[0.5fr_0.5fr] w-full items-stretch min-h-[116px] lg:h-[136px] bg-opacity-40 gap-3 case-battle-card"
                 classList={{
                   'cursed-case-battle': games[id]?.cursed === 1,
                   'group-case-battle': games[id]?.mode === 'group' && games[id]?.cursed !== 1,
@@ -195,19 +192,19 @@ const CaseBattles = (props) => {
                   transform: 'translate3d(0,0,0)' 
                 }}
               >
-                <div class='p-4 w-full flex gap-3 md:border-r border-dark-1617 relative z-10'>
-                  <div class='battle-info min-w-[4rem] w-16 center gap-3 flex-col'>
+                  <div class='px-2 ssm:px-0 lg:my-4 row-start-1 lg:col-span-1 lg:row-span-2 battle-info h-[68px] lg:h-[104px] ssm:min-w-[4rem] ssm:w-16 center lg:gap-3 flex-col'>
                     {games[id]?.cursed === 1 && (
-                      <BattleCursedIcon additionClasses='w-8 text-[#DAFD09]' />
+                      <BattleCursedIcon additionClasses='w-4 ssm:w-8 text-[#DAFD09]' />
                     )}
                     {games[id]?.mode === 'group' && games[id]?.cursed !== 1 && (
-                      <BattleGroupIcon additionClasses='text-[#5AC3FF] w-7' />
+                      <BattleGroupIcon additionClasses='text-[#5AC3FF] w-4 ssm:w-7' />
                     )}
                     {(games[id]?.mode === 'royal' || games[id]?.mode === 'team') &&
                       games[id]?.cursed !== 1 && (
-                        <BattleRoyaleIcon additionClasses='w-6 text-yellow-ffb' />
+                        <BattleRoyaleIcon additionClasses='w-4 ssm:w-6 text-yellow-ffb' />
                       )}
                     <div
+                    class='truncate text-12 sm:text-14'
                       classList={{
                         'text-[#DAFD09]': games[id]?.cursed === 1,
                         'text-[#5AC3FF]': games[id]?.mode === 'group' && games[id]?.cursed !== 1,
@@ -229,8 +226,7 @@ const CaseBattles = (props) => {
                       )}
                     </div>
                   </div>
-
-                  <div class='grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
+                  <div class='lg:my-4 col-span-2 col-start-1 lg:col-span-7 fourk:col-span-8 lg:row-span-2 lg:col-start-2 h-[104px] lg:border-r lg:border-dark-1617 grow rounded-6 grid grid-cols-[64px_1fr] bg-dark-primary-gradient'>
                     <DarkWrapperdWithBorders
                       isActive={games[id]?.status === 'open' || games[id]?.status === 'playing' || games[id]?.status === 'pending'}
                       classes='rounded-l-6'
@@ -385,9 +381,10 @@ const CaseBattles = (props) => {
                       </Show>
                     </div>
                   </div>
-                </div>
-                <div class="flex gap-2 flex-col px-9 py-4 min-w-[327px] relative z-10">
-                  <div class="center gap-2 users-wrapper-gradient w-full h-14 px-3">
+
+                  <div class='hidden lg:block min-h-[116px] w-1 border-r col-start-9 fourk:col-start-10 col-span-1 row-span-2 border-dark-1617' />
+                  
+                  <div class="lg:mt-4 p-2 col-start-2 row-start-1 lg:col-span-3 fourk:col-span-2 fourk:col-start-11 lg:col-start-10 center gap-2 users-wrapper-gradient w-full lg:h-[52px]">
                     <For each={Array.from(Array(games[id]?.playersQty).keys())}>
                       {(userIndex) => (
                         <>
@@ -405,7 +402,7 @@ const CaseBattles = (props) => {
                             }
                             avatar={games[id]?.players[userIndex + 1]?.avatar}
                             name={games[id]?.players[userIndex + 1]?.name}
-                            widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-9 h-9' : 'w-6 h-6'}
+                            widthClasses={games[id]?.status !== 'ended' || !!games[id]?.players[userIndex + 1]?.winner ? 'w-6 h-6 ssm:w-8 lg:w-9 ssm:h-8 lg:h-9' : 'w-4 h-4 ssm:w-6 ssm:h-6'}
                             opacityClasses={games[id]?.status !== 'ended' || !games[id]?.players[userIndex + 1]?.winner && 'opacity-20'}
                           />
                           {userIndex + 1 !== games[id]?.playersQty &&
@@ -426,7 +423,7 @@ const CaseBattles = (props) => {
                       )}
                     </For>
                   </div>
-                  <div class='flex items-center text-gray-9b gap-2'>
+                  <div class='lg:mb-4 col-span-2 row-start-3 lg:col-span-3 foruk:col-span-2 lg:col-start-10 fourk:col-start-11 fourk:col-span-2 lg:row-start-2 flex items-center text-gray-9b gap-2'>
                     {games[id].status === 'open' ? (
                       <YellowGradientButton
                         isFullWidth={true}
@@ -457,7 +454,7 @@ const CaseBattles = (props) => {
                             '0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)'
                         }}
                       >
-                        <div class='flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
+                        <div class='w-full flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center'>
                           <span class='w-max'>{games[id].status === 'playing' ? 'In Play' : 'Pending'}:</span>
                           <Coin width='5' />
                           <span class='text-gradient'>{games[id]?.totalValue}</span>
@@ -492,8 +489,9 @@ const CaseBattles = (props) => {
                         </div>
                       </NavLink>
                     )}
-                    <NavLink href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}${games[id].urlKey ? `&key=${games[id].urlKey}` : ""}`}>
-                      <GrayGradientButton callbackFn={() => {}}>
+                    <NavLink class='w-10 shrink-0 lg:w-max flex items-center justify-center' href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${id}${games[id].urlKey ? `&key=${games[id].urlKey}` : ""}`}>
+                      <div class='w-full'>
+                      <GrayGradientButton isFullWidth callbackFn={() => {}}>
                         <svg
                           width='20'
                           height='11'
@@ -511,9 +509,9 @@ const CaseBattles = (props) => {
                           />
                         </svg>
                       </GrayGradientButton>
+                      </div>
                     </NavLink>
                   </div>
-                </div>
               </div>
             )}
           </For>

@@ -1,7 +1,7 @@
 const GradientButton = (props) => {
   return (
         <div
-          class={`px-6 py-2 rounded-4 cursor-pointer center text-14 font-SpaceGrotesk font-bold text-yellow-ffb ${props.isFullWidth ? 'w-full' : 'w-max'}
+          class={`px-4 lg:px-6 py-2 rounded-4 cursor-pointer center text-14 font-SpaceGrotesk font-bold text-yellow-ffb ${props.isFullWidth ? 'w-full' : 'w-max'}
           border border-[#FFFFFF0A] shadow-lg hover:shadow-xl `}
           style={{
             background: `radial-gradient(50% 150% at 40% -40%, rgba(255, 180, 54, 0.10) 0%, rgba(255, 180, 54, 0) 100%),
