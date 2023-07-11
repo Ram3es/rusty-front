@@ -110,7 +110,7 @@ const FreeModal = (props) => {
         }}
       >
         <div
-          class={` w-full relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/4 ${
+          class={` w-full relative flex flex-col max-h-screen rounded-12 overflow-hidden transition-all transform -translate-y-1/4 ${
             !props.searchParams?.free ? "" : "-translate-y-0"
           } duration-100 ease-out`}
           style={{
@@ -142,7 +142,7 @@ const FreeModal = (props) => {
               <CloseButton />
             </NavLink>
           </div>
-          <div class="relative pt-5">
+          <div class="relative pt-5 h-full overflow-auto">
             <div
               class="absolute inset-0 z-0 bg-repeat mix-blend-luminosity"
               style={{
