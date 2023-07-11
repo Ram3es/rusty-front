@@ -7,7 +7,7 @@ const TOAST_MANAGER = () => {
 
   return (
     <>
-      <div class="absolute right-4 bottom-8 flex flex-col gap-2 z-50">
+      <div class="absolute w-[calc(100%-2rem)] sm:w-auto right-4 bottom-4 sm:bottom-8 flex flex-col gap-2 z-50">
         <For each={toastrs()}>
           {(toast) => (
             <Toast
