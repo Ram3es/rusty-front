@@ -23,19 +23,26 @@ const CaseBattles = (props) => {
   const [caseViewModal, setCaseViewModal] = createSignal(false);
   const [caseViewModalItem, setCaseViewModalItem] = createSignal(null);
   const [joinModal, setJoinModal] = createSignal({isOpen: false, game: null});
+  const [firstLoad, setFirstLoad] = createSignal(true);
 
   createEffect(() => {
     if (props.loaded()) {
-      socket.emit("battles:cases", {}, (data) => {
-        setCasesState(data.data.cases);
-      });
+      // socket.emit("battles:cases", {}, (data) => {
+      //   console.log("cases state", data.data);
+      //   setCasesState(data.data.cases);
+      // });
       onBattlesPageLoaded(true);
       socket.emit("battles:connect", {}, (data) => {
         console.log("battles:cases", data.data);
+        setCasesState(data.data.cases);
         setGames({...data.data.games, ...data.data.history});
-      });
-      socket.on(`battles:update`, (data) => {
-        setGames(data.gameId, data.data);
+
+        if (firstLoad()) {
+          setFirstLoad(false);
+          socket.on(`battles:update`, (data) => {
+            setGames(data.gameId, data.data);
+          });
+        }
       });
     }
   });
@@ -119,19 +126,17 @@ const CaseBattles = (props) => {
   return (
     <Fallback loaded={battlesPageLoaded}>
       <div class="flex flex-col py-4 lg:py-6 gap-8 lg:gap-2 min-h-[100vh]">
-          <div class= "w-full grid grid-cols-3 gap-1 lg:gap-3 items-center bg-control-panel">
+        <div class="w-full grid grid-cols-3 gap-1 lg:gap-3 items-center bg-control-panel">
           <div class="col-span-3 lg:col-span-1 w-full flex lg:justify-start">
             <Dropdown
               isFullWidth
-              label=' Sort by Price:'
+              label=" Sort by Price:"
               activeName={sortBy()}
               itemsList={sortByOptions}
               submitItem={(direction) => setSortBy(direction)}
             />
           </div>
-          <div
-            class=" col-span-3 lg:col-span-1 row-start-2 lg:row-start-auto h-full py-4 px-12 center flex-col gap-1 lg:case-battles--active-battles__background"
-          >
+          <div class=" col-span-3 lg:col-span-1 row-start-2 lg:row-start-auto h-full py-4 px-12 center flex-col gap-1 lg:case-battles--active-battles__background">
             <div class="text-13 font-SpaceGrotesk text-gray-a2 font-bold w-max">
               Case Battles
             </div>
@@ -147,7 +152,10 @@ const CaseBattles = (props) => {
             </div>
           </div>
           <div class="col-span-3 lg:col-span-1 w-full flex flex-wrap-reverse py-0 lg:py-2 gap-3 justify-center lg:justify-end">
-            <NavLink class='w-full lg:w-max' href={URL.GAMEMODES.CASE_BATTLES_CREATE}>
+            <NavLink
+              class="w-full lg:w-max"
+              href={URL.GAMEMODES.CASE_BATTLES_CREATE}
+            >
               <YellowGradientButton callbackFn={() => {}}>
                 <div class="center text-14 font-SpaceGrotesk gap-2 text-yellow-ffb font-bold">
                   <BattleRoyaleIcon additionClasses="w-4" />

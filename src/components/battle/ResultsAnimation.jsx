@@ -259,6 +259,18 @@ const ResultsAnimation = (props) => {
         }%, 100% { }
     }
 
+    @keyframes loserOpacity {
+      0%, ${(timings().countDuration / totalTime()) * 100}% {opacity: 1;}
+
+      ${
+        ((timings().countDuration +
+          timings().countRisePause +
+          timings().winnerRise) /
+          totalTime()) *
+        100
+      }%, 100% {opacity: 0.3; }
+  }
+
     }
     `);
 
@@ -416,28 +428,18 @@ const ResultsAnimation = (props) => {
         <For each={Array.from(Array(props.game().playersQty).keys())}>
           {(playerIndex) => (
             <div
-              class={`center relative pb-2 ${
-                props.game().status !== "ended" ||
-                isWinnerFromIndex(props.game().winners, playerIndex)
-                  ? `opacity-100 ${
-                      playerIndex === 0
-                        ? "rounded-l-8"
-                        : playerIndex ===
-                          Array.from(Array(props.game().playersQty).keys()).at(
-                            -1
-                          )
-                        ? "rounded-r-8"
-                        : ""
-                    }`
-                  : "opacity-30"
-              }`}
+              class={`center relative pb-2 transition-opacity`}
               style={{
                 background: `${props.getGradientForWinners(
                   props.game().playersQty,
                   props.game().winners,
                   playerIndex
                 )}`,
-                animation: `winnersGradient ${totalTime()}s ease-in-out forwards`,
+                animation: `${
+                  isWinnerFromIndex(props.game().winners, playerIndex)
+                    ? "winnersGradient"
+                    : "loserOpacity"
+                } ${totalTime()}s ease-in-out forwards`,
               }}
             >
               <div class="center p-2">
@@ -461,7 +463,11 @@ const ResultsAnimation = (props) => {
                     />
                   </div>
                   <div
-                    class={`${props.noAnimation && "-translate-y-[10px] "}`}
+                    class={`${
+                      props.noAnimation &&
+                      isWinnerFromIndex(props.game().winners, playerIndex) &&
+                      "-translate-y-[10px] "
+                    }`}
                     style={{
                       animation: `${
                         isWinnerFromIndex(props.game().winners, playerIndex) &&

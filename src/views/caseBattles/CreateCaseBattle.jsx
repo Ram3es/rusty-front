@@ -136,15 +136,14 @@ const CreateCaseBattle = (props) => {
 
   const getPlaceholdernumber = () => {
     const columnsTotal = Math.floor(itemsWrapper.offsetWidth / 214); // Adjust the width as needed
-    console.log("columnsTotal", columnsTotal);
+
     const row = Math.floor(modeToCreate().cases.length / columnsTotal);
-    console.log("row", row);
+
     const colsToShow =
       row === 0
         ? columnsTotal - modeToCreate().cases.length - 1
         : columnsTotal * (row + 1) - modeToCreate().cases.length - 1;
     setPlaceholdersToShow(colsToShow);
-    console.log("colsToShow", colsToShow);
   };
 
   const toggleCaseViewModal = () => {
@@ -188,14 +187,10 @@ const CreateCaseBattle = (props) => {
   createEffect(() => {
     if (props.loaded()) {
       onCreateBattlesPageLoaded(true);
-      socket.emit(
-        "battles:cases",
-        {price: sortBy() === sortOptions[1] ? "desc" : "asc"},
-        (data) => {
-          setCasesState(data.data.cases);
-          getPlaceholdernumber();
-        }
-      );
+      socket.emit("battles:cases", {price: "desc"}, (data) => {
+        setCasesState(data.data.cases);
+        getPlaceholdernumber();
+      });
     }
   });
 
@@ -1143,18 +1138,18 @@ const CreateCaseBattle = (props) => {
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>
-           <div class='w-max'>
-           <Dropdown
-              isFullWidth
-              label="Min Level:"
-              variant="level"
-              activeName={modeToCreate().minLevel}
-              itemsList={minLevelOptions}
-              submitItem={(level) =>
-                setModeToCreate((prev) => ({...prev, minLevel: level}))
-              }
-            />
-           </div>
+            <div class="w-max">
+              <Dropdown
+                isFullWidth
+                label="Min Level:"
+                variant="level"
+                activeName={modeToCreate().minLevel}
+                itemsList={minLevelOptions}
+                submitItem={(level) =>
+                  setModeToCreate((prev) => ({...prev, minLevel: level}))
+                }
+              />
+            </div>
           </Show>
         </div>
       </div>
@@ -1163,7 +1158,6 @@ const CreateCaseBattle = (props) => {
           class="fixed left-0 top-0 w-full h-full center bg-black bg-opacity-50 z-50"
           onClick={() => {
             setIsAddCaseModalOpen(false);
-            console.log("firing");
           }}
         >
           <div
@@ -1184,43 +1178,43 @@ const CreateCaseBattle = (props) => {
                     isFullWidth
                   />
                   <div
-                class="lg:hidden p-3.5 center border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
-                onClick={() => setIsAddCaseModalOpen(false)}
-              >
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z"
-                    fill="#9A9EC8"
+                    class="lg:hidden p-3.5 center border border-white border-opacity-5 drop-shadow-md rounded-4 cursor-pointer"
+                    onClick={() => setIsAddCaseModalOpen(false)}
+                  >
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0.499614 0.500386C0.188954 0.811046 0.188953 1.31473 0.499614 1.62539L3.87489 5.00066L0.500271 8.37527C0.189611 8.68593 0.189611 9.18961 0.500271 9.50027C0.810931 9.81093 1.31461 9.81093 1.62527 9.50027L4.99988 6.12566L8.37461 9.50039C8.68527 9.81105 9.18895 9.81105 9.49961 9.50039C9.81027 9.18973 9.81028 8.68605 9.49962 8.37539L6.12488 5.00066L9.50027 1.62527C9.81093 1.31461 9.81093 0.81093 9.50027 0.50027C9.18961 0.18961 8.68593 0.18961 8.37527 0.50027L4.99989 3.87566L1.62461 0.500386C1.31395 0.189726 0.810274 0.189726 0.499614 0.500386Z"
+                        fill="#9A9EC8"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                <div class="col-span-2">
+                  <Dropdown
+                    activeName={sortBy()}
+                    itemsList={sortOptions}
+                    submitItem={(sort) => setSortBy(sort)}
+                    label=" Sort by Price:"
+                    isFullWidth
                   />
-                </svg>
-              </div>
                 </div>
-                <div class='col-span-2'>
-                <Dropdown
-                  activeName={sortBy()}
-                  itemsList={sortOptions}
-                  submitItem={(sort) => setSortBy(sort)}
-                  label=" Sort by Price:"
-                  isFullWidth
-                />
-                </div>
-                <div class='col-span-2'>
-                <Dropdown
-                  activeName={priceRange()}
-                  itemsList={priceRanges}
-                  submitItem={(price) => setPriceRange(price)}
-                  label="Price Range:"
-                  variant="range"
-                  isFullWidth
-                />
+                <div class="col-span-2">
+                  <Dropdown
+                    activeName={priceRange()}
+                    itemsList={priceRanges}
+                    submitItem={(price) => setPriceRange(price)}
+                    label="Price Range:"
+                    variant="range"
+                    isFullWidth
+                  />
                 </div>
               </div>
               <div
@@ -1245,12 +1239,25 @@ const CreateCaseBattle = (props) => {
             </div>
             <div class="grid px-4 py-4 lg:py-6 grid-cols-2 lg:grid-cols-battle-create lg:px-12 gap-4 lg:gap-2 max-w-[1184px] w-full bg-dark-secondary h-[60vh] overflow-y-scroll">
               <For
-                each={filterByRange(
-                  casesState().filter((c) =>
-                    c.name.toLowerCase().includes(search().toLowerCase())
-                  ),
-                  priceRange()
-                )}
+                each={
+                  sortBy() === sortOptions[1]
+                    ? filterByRange(
+                        casesState().filter((c) =>
+                          c.name.toLowerCase().includes(search().toLowerCase())
+                        ),
+                        priceRange()
+                      )
+                    : filterByRange(
+                        casesState()
+                          .reverse()
+                          .filter((c) =>
+                            c.name
+                              .toLowerCase()
+                              .includes(search().toLowerCase())
+                          ),
+                        priceRange()
+                      )
+                }
               >
                 {(item) => (
                   <div class="relative w-full lg:w-fit mx-auto">
