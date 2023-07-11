@@ -539,11 +539,7 @@ const getWinnerValueById = (winnersArray, id) => {
     // If the current object's id matches the id we're looking for
     if (winnersArray[i].id === id) {
       // Return the winnerValue of this object
-      const totalWin = winnersArray[i].winnerValue;
-      const winValue = winnersArray[i].borrowMoney
-        ? totalWin * (1 - winnersArray[i].borrowPercent / 100)
-        : totalWin;
-      return winValue;
+      return winnersArray[i].winnerValue;
     }
   }
   // If no matching id was found, return null
