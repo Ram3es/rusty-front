@@ -9,7 +9,7 @@ const CoinFlipItemsRow = (props) => {
       class={`${
         props.mobile
           ? "col-span-8 row-start-2 lg:col-auto lg:hidden flex h-full overflow-hidden"
-          : "flex h-full lg:border-x coinflip-row-items-bg border-[#252741] pl-2 llg:pl-8 pr-2 w-[320px] llg:w-[420px] xll:w-[552px] overflow-hidden lg:coinflip-list--background__third"
+          : "flex h-full lg:border-x coinflip-row-items-bg border-[#252741] pl-2 llg:pl-8 pr-2 w-[320px] llg:w-[400px] xll:w-[552px] overflow-hidden lg:coinflip-list--background__third"
       }`}
     >
       <div class="flex items-center gap-1 lg:gap-3 llg:gap-4">
