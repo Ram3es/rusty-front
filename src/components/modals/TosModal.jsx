@@ -3,13 +3,11 @@ import { URL } from "../../libraries/url";
 import Modal from "./Modal";
 import YellowGradientButton from '../../components/elements/CaseGradientButton'
 
-import Splash from "../../assets/img/modals/winningSplash.svg";
-import Symbol from "../../assets/img/modals/tosSymbol.svg";
 import LoginModelBg from "../../assets/img/modals/LoginModelBg.png";
+import LoginModalSmallBg from "../../assets/img/modals/LoginModalSmallBg.png";
 import smallLogo from '../../assets/smallLogo.svg'
 
 import { NavLink } from "solid-app-router";
-import YellowButtonBg from "../../assets/img/animatedButtonBg.jpg";
 import CloseButton from "../elements/CloseButton";
 
 const TosModal = () => {
@@ -33,10 +31,38 @@ const TosModal = () => {
           "max-width": "698px",
         }}
       >
+        <div style={{
+              background:
+                "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(135deg, rgb(46 49 72) 0%, rgb(40 44 77) 100%)",
+            }}>
+         <div
+            class={`flex relative z-20 w-full md:hidden items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12`}
+            style={{
+              background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
+            }}
+          >
+            <div class="flex flex-col items-start sm:flex-row sm:items-center gap-6">
+              <div class="flex flex-col">
+                <h2 class="text-20 leading-[26px] text-white font-bold font-SpaceGrotesk uppercase truncate">
+                  LOGIN
+                </h2>
+                <div class="font-SpaceGrotesk font-bold text-xs leading-[15px] text-gray-64">
+                Entering RustyLoot...
+                </div>
+              </div>
+            </div>
+            <div
+              onClick={() => setToggles("tosModal", false)}
+              class="cursor-pointer flex md:hidden justify-center items-center z-10"
+            >
+              <CloseButton />
+            </div>
+            </div>
+            </div>
         <div class="bg-dark-16 w-full min-h-[458px] px-4 pt-2 relative center flex-col gap-6">
           <div
             onClick={() => setToggles("tosModal", false)}
-            class="center cursor-pointer absolute right-2 top-2 z-10"
+            class="cursor-pointer absolute hidden md:flex justify-center items-center right-2 top-2 z-10"
           >
             <CloseButton />
           </div>
@@ -47,7 +73,8 @@ const TosModal = () => {
                 "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",
             }}
           >
-            <img alt="LoginModelBg" class="w-full" src={LoginModelBg} />
+            <img alt="LoginModalSmallBg" class="w-full md:hidden" src={LoginModalSmallBg} />
+            <img alt="LoginModelBg" class="w-full hidden md:block" src={LoginModelBg} />
           </div>
           <div class="w-full flex flex-col gap-9 z-10 relative">
             
