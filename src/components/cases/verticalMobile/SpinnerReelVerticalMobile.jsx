@@ -325,14 +325,36 @@ const SpinnerReelVerticalMobile = (props) => {
           </For>
         </div>
       </div>
-
-      {/* <img
-        src='assets/caseLineHorizontal.svg'
-        alt="caseline"
-        class={`absolute h-32 rotate-90 w-full self-center transition-all duration-500 ${
-          spinComplete() ? 'opacity-30' : 'opacity-100'
-        }`}
-      /> */}
+      <Switch>
+        <Match
+          when={
+            (spinLists().length % 2 === 0 && !(props.spinnerIndex % 2)) ||
+            (spinLists().length === 3 && (props.spinnerIndex === 0 || props.spinnerIndex === 2))
+          }
+        >
+          <img
+            src="assets/caselinemobile.svg"
+            alt="caseline"
+            class={`absolute w-full left-3 transition-all duration-500 
+          ${spinComplete() ? 'opacity-30' : 'opacity-100'}
+        `}
+          />
+        </Match>
+        <Match
+          when={
+            (spinLists().length % 2 === 0 && props.spinnerIndex % 2) ||
+            (spinLists().length === 3 && props.spinnerIndex % 2)
+          }
+        >
+          <img
+            src="assets/caselinemobileright.svg"
+            alt="caseline"
+            class={`right-3 absolute w-full  transition-all duration-500 
+          ${spinComplete() ? 'opacity-30' : 'opacity-100'}
+        `}
+          />
+        </Match>
+      </Switch>
       {/* сделать инвисибл пока крутиться */}
       <div
         class="absolute left-0 top-0 w-full h-[47px]"
