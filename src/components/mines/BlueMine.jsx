@@ -1,4 +1,4 @@
-const Mine = (props) => {
+const BlueMine = (props) => {
   return (
     <svg
       width={props.size}
@@ -280,4 +280,4 @@ const Mine = (props) => {
   );
 };
 
-export default Mine;
+export default BlueMine;

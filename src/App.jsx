@@ -62,6 +62,7 @@ import CreateCaseBattle from "./views/caseBattles/CreateCaseBattle";
 import GameCaseBattle from "./views/caseBattles/GameCaseBattle";
 import Leaderboard from "./views/leaderboard/Leaderboard";
 import {SpinnerStatusProvider} from "./utilities/hooks/spinnerStatus";
+import Mines from "./views/mines/Mines";
 
 import {stopCaseBattlesSound} from "./utilities/Sounds/SoundButtonClick";
 import MobileBottomNavigation from "./components/nav/MobileBottomNavigation";
@@ -189,11 +190,11 @@ const App = () => {
                                     />
                                   }
                                 /> */}
-                                {/* <Route
+                                <Route
                                   exact
                                   path={`${URL.GAMEMODES.MINES}`}
                                   element={<Mines loaded={loaded} />}
-                                /> */}
+                                />
                                 {/* <Route
                                   exact
                                   path={`${URL.GAMEMODES.PLINKO}`}

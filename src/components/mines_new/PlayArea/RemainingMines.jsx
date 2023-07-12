@@ -1,8 +1,8 @@
 import Mine from "../MISC/Mine";
 import BustImg from "./BustImg";
 import RedText from "../MISC/RedText";
-import { isPlaying, hasLost } from "../TilesContainer";
-import { squaresLeft } from "../TilesContainer";
+import {isPlaying, hasLost} from "../TilesContainer";
+import {squaresLeft} from "../TilesContainer";
 
 const RemainingMines = () => {
   return (

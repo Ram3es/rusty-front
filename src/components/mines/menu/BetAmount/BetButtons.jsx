@@ -1,10 +1,8 @@
-import AdjustBtn from "../../MISC/AdjustBtn";
+import AdjustBtn from "./AdjustBtn";
 
-import { betAmount, setBetAmount } from "../../TilesContainer";
-
-const BetButtons = () => {
+const BetButtons = (props) => {
   const adjustBet = (amount) => {
-    setBetAmount(betAmount() + amount);
+    props.setBetValue(props.betValue() + amount);
   };
   return (
     <div class="flex items-center justify-between w-full mt-2">

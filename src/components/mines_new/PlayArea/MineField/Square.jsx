@@ -41,12 +41,9 @@ const Square = ({x, y}) => {
     if (isClicked()) {
       setTimeout(() => {
         setIsClicked(false);
-    }, 500);
-  }
-
+      }, 500);
+    }
   });
-
-
 
   createEffect(() => {
     if (!flipTile()) return;
@@ -84,7 +81,7 @@ const Square = ({x, y}) => {
       setIsPlaying,
       playCashoutSound,
       setKnownMines,
-      setHasLost,
+      setHasLost
     );
     setKnownMines((prev) => {
       const newMines = [...prev];
