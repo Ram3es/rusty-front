@@ -14,7 +14,7 @@ const DiscordJoinModal = (props) => {
     >
       <div class='w-full h-full absolute left-0 cursor-default top-0' onClick={props.handleClose} />
       <div
-        class='w-[80%] md:w-[439px] relative flex flex-col rounded-12 overflow-hidden transition-all transform -translate-y-1/2 duration-100 ease-out'
+        class='w-[80%] md:w-[439px] relative flex flex-col top-1/4 rounded-12 overflow-hidden transition-all transform -translate-y-1/2 duration-100 ease-out'
         style={{
           background:
             'radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)',
@@ -22,7 +22,7 @@ const DiscordJoinModal = (props) => {
         }}
       >
         <div
-          class='h-[88px] flex justify-between items-center rounded-t-xl relative px-9 py-6'
+          class='h-[104px] md:h-[88px] flex justify-between items-center rounded-t-xl relative px-6 md:px-9 py-6'
           style={{
             background:
               'linear-gradient(90deg, rgba(26, 27, 48, 0.00) 0%, rgba(0, 0, 0, 0.08) 50.00%, rgba(0, 0, 0, 0.00) 100%)',
@@ -57,7 +57,7 @@ const DiscordJoinModal = (props) => {
             </svg>
           </div>
         </div>
-        <div class='px-9 py-6 relative'>
+        <div class='px-6 md:px-9 py-6 relative'>
           <div
             class='absolute inset-0 z-0 top-2 bg-repeat mix-blend-luminosity'
             style={{
@@ -111,7 +111,7 @@ const DiscordJoinModal = (props) => {
               <a href='https://discord.com/invite/rustyloot' target='_blank'>
                 <GrayGradientButton
                   noShadow
-                  additionalClass='text-gray-a2 flex items-center justify-center gap-[10px] w-[180px] h-10 rounded-4 shadow-button gradient-gray-background border border-white/5'
+                  additionalClass='text-gray-a2 flex items-center justify-center gap-[10px] w-[139px] md:w-[180px] h-10 rounded-4 shadow-button gradient-gray-background border border-white/5'
                 >
                   <svg
                     width='18'
@@ -134,7 +134,7 @@ const DiscordJoinModal = (props) => {
               <a href={`https://rustyloot.gg/discord/`} target='_blank'>
                 <GrayGradientButton
                   noShadow
-                  additionalClass='text-gray-a2 flex items-center justify-center gap-[10px] w-[180px] h-10 rounded-4 shadow-button gradient-gray-background border border-white/5'
+                  additionalClass='text-gray-a2 flex items-center justify-center gap-[10px] w-[139px] md:w-[180px] h-10 rounded-4 shadow-button gradient-gray-background border border-white/5'
                 >
                   <svg
                     width='18'
