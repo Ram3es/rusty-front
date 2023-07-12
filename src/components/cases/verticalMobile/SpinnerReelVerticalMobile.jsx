@@ -264,7 +264,7 @@ const SpinnerReelVerticalMobile = (props) => {
           class={`relative flex flex-col transition-all w-full`}
           // eslint-disable-next-line solid/style-prop
           style={`
-            transform: translateY(${translateY() - topIndex() + 32}px);
+            transform: translateY(${translateY() - topIndex()}px);
             transition-timing-function: ${timingFunction()};
             transition-duration: ${spinTime() * timeMultiplier()}s;
           `}
