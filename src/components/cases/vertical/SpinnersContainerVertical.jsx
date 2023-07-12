@@ -1,4 +1,4 @@
-import {createSignal, createEffect, For} from "solid-js";
+import {createSignal, createEffect} from "solid-js";
 import SpinnerReelVertical from "./SpinnerReelVertical";
 import {spinReelsTrigger, setSpinReelsTrigger} from "../store";
 import {spinnerTimings, otherOptions} from "../../../libraries/caseSpinConfig";
@@ -23,14 +23,14 @@ const SpinnersContainerVertical = (props) => {
     const newSpinIndexes = [];
     const newSpinLists = [];
 
-    for (let i = 0; i < props.numSpinners; i++) {
+    for (let i = 0; i < props.numSpinners(); i++) {
       const spinIndex = getRandomIndex();
       let spinList = generateSpinList();
-      spinList[spinIndex] = props.spinnerOptions[i].winningItem;
-      if (props.spinnerOptions[i].isBigWin) {
+      spinList[spinIndex] = props.spinnerOptions()[i].winningItem;
+      if (props.spinnerOptions()[i].isBigWin) {
         setContainsBigWin(true);
       }
-      if (props.spinnerOptions[i].isConfettiWin) {
+      if (props.spinnerOptions()[i].isConfettiWin) {
         setContainsConfettiWin(true);
       }
       newSpinLists.push(spinList);
@@ -56,8 +56,8 @@ const SpinnersContainerVertical = (props) => {
     const newSpinList = [];
     for (let i = 0; i < 35; i++) {
       newSpinList.push(
-        props.caseItemList[
-          Math.floor(Math.random() * props.caseItemList.length)
+        props.caseItemList()[
+          Math.floor(Math.random() * props.caseItemList().length)
         ]
       );
     }
@@ -78,39 +78,38 @@ const SpinnersContainerVertical = (props) => {
       setActiveSpinners(0);
     }
     resetValues();
-    setActiveSpinners(props.numSpinners);
+    setActiveSpinners(props.numSpinners());
     generateSpinData();
     setReelsSpinning(true);
   };
 
   createEffect(() => {
-    // console.log(
-    //   spinReelsTrigger.triggered,
-    //   activeSpinners(),
-    //   props.spinnerOptions
-    // );
+    console.log(
+      spinReelsTrigger.triggered,
+      activeSpinners(),
+      props.spinnerOptions()
+    );
     if (spinReelsTrigger.triggered) {
       console.log(activeSpinners());
       spinReels();
       setSpinReelsTrigger({triggered: false});
     }
-    console.log(activeSpinners(), 'ACTIVE SPINNERS')
   });
 
   return (
     <div class="relative w-full">
       <div
-        class="relative flex rounded w-full h-[326px] min-w-max"
+        class="relative flex rounded w-full h-[326px] min-w-max "
         ref={setContainerRef}
       >
         <div class="arrow-down absolute top-1/2 -left-[8px] -translate-y-1/2 -rotate-90" />
-        {/* {Array.from({length: activeSpinners()}).map((_, index) => {
+        {Array.from({length: activeSpinners()}).map((_, index) => {
           return (
-            props.spinnerOptions[index] && (
+            props.spinnerOptions()[index] && (
               <SpinnerReelVertical
                 spinnerIndex={index}
-                isConfettiWin={props.spinnerOptions[index].isConfettiWin}
-                isBigWin={props.spinnerOptions[index].isBigWin}
+                isConfettiWin={props.spinnerOptions()[index].isConfettiWin}
+                isBigWin={props.spinnerOptions()[index].isBigWin}
                 isFastSpin={isFastAnimation()}
                 setBeginClickSound={props.setBeginClickSound}
                 setBeginPullBackSound={props.setBeginPullBackSound}
@@ -118,26 +117,7 @@ const SpinnersContainerVertical = (props) => {
               />
             )
           );
-        })} */}
-        <div class='grid grid-cols-2 gap-y-6 w-full'>
-        <For each={Array.from({ length: activeSpinners() })}>
-          {(_, index) => {
-            return (
-              props.spinnerOptions[index()] && (
-                <SpinnerReelVertical
-                  spinnerIndex={index()}
-                  isConfettiWin={props.spinnerOptions[index()].isConfettiWin}
-                  isBigWin={props.spinnerOptions[index()].isBigWin}
-                  isFastSpin={isFastAnimation()}
-                  setBeginClickSound={props.setBeginClickSound}
-                  setBeginPullBackSound={props.setBeginPullBackSound}
-                  setBeginWinSound={props.setBeginWinSound}
-                />
-              )
-            );
-          }}
-        </For>
-        </div>
+        })}
         <div class="arrow-down absolute top-1/2 -right-[8px] -translate-y-1/2 rotate-90" />
         <div
           class="absolute left-0 top-0 w-full h-[68px]"

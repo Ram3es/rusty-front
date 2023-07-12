@@ -43,6 +43,7 @@ import {
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import { onMount } from "solid-js";
+import SpinnersContainerVerticalMobile from "../../components/cases/verticalMobile/SpinnersContainerVerticalMobile";
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
@@ -57,8 +58,8 @@ const CaseUnboxing = (props) => {
   const [isCaseCanBeOpen, setIsCaseCanBeOpen] = createSignal(true);
   const [isCaseAlreadyOpened, setIsCaseAlreadyOpened] = createSignal(false);
   const [caseStatistic, setCaseStatistic] = createSignal();
-  const [countOfCases, setCountOfCases] = createSignal(4);
-  const [pendingNum, setPendingNum] = createSignal(4);
+  const [countOfCases, setCountOfCases] = createSignal(1);
+  const [pendingNum, setPendingNum] = createSignal(1);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [fairnessHash, setFairnessHash] = createSignal([]);
   const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] =
@@ -411,7 +412,7 @@ const CaseUnboxing = (props) => {
               class={`rounded-4 relative ${
                 pendingNum() === 1
                   ? "case-opening-wrapper"
-                  : "case-opening-wrapper-horizontal-yellow horisontal-borders"
+                  : innerWidth() >= 600 ? "case-opening-wrapper-horizontal-yellow horisontal-borders" : ''
               } overflow-hidden ${
                 !userObject.authenticated ||
                 (fairnessHash().length <= 0 && props.searchParams.daily &&
@@ -431,7 +432,7 @@ const CaseUnboxing = (props) => {
             >
               <div
                 class="w-full relative"
-                style={{"background-image": `url('${footerLogoBgVector}')`}}
+                style={{"background-image": `url('${innerWidth() >= 600 && footerLogoBgVector}')`}}
               >
                 {!isCaseAlreadyOpened() && (
                   <div
@@ -456,48 +457,35 @@ const CaseUnboxing = (props) => {
                   </div>
                 )}
                 {countOfCases() === 1 ? (
-                    <SpinnersContainerHorizontal
-                      numSpinners={countOfCases}
-                      caseItemList={rollItems}
-                      spinnerOptions={spinnerOptions}
-                      setBeginClickSound={setBeginClickSound}
-                      setBeginPullBackSound={setBeginPullBackSound}
-                      setBeginWinSound={setBeginWinSound}
-                    />
+                  <SpinnersContainerHorizontal
+                    numSpinners={countOfCases}
+                    caseItemList={rollItems}
+                    spinnerOptions={spinnerOptions}
+                    setBeginClickSound={setBeginClickSound}
+                    setBeginPullBackSound={setBeginPullBackSound}
+                    setBeginWinSound={setBeginWinSound}
+                  />
                 ) : countOfCases() > 0 && countOfCases() < 5 ? (
                   <Switch>
-                    <Match when={innerWidth() > 600}>
-                      {console.log('zaebissss')}
+                    <Match when={innerWidth() >= 600}>
                       <SpinnersContainerVertical
-                        numSpinners={countOfCases()}
-                        caseItemList={rollItems()}
-                        spinnerOptions={spinnerOptions()}
+                        numSpinners={countOfCases}
+                        caseItemList={rollItems}
+                        spinnerOptions={spinnerOptions}
                         setBeginClickSound={setBeginClickSound}
                         setBeginPullBackSound={setBeginPullBackSound}
                         setBeginWinSound={setBeginWinSound}
                       />
                     </Match>
-                    <Match when={(innerWidth() <= 600) && (countOfCases() <= 2)}>
-                      <SpinnersContainerVertical
-                        numSpinners={countOfCases()}
-                        caseItemList={rollItems()}
-                        spinnerOptions={spinnerOptions()}
+                    <Match when={innerWidth() < 600}>
+                      <SpinnersContainerVerticalMobile
+                        numSpinners={countOfCases}
+                        caseItemList={rollItems}
+                        spinnerOptions={spinnerOptions}
                         setBeginClickSound={setBeginClickSound}
                         setBeginPullBackSound={setBeginPullBackSound}
                         setBeginWinSound={setBeginWinSound}
                       />
-                    </Match>
-                    <Match when={(innerWidth() <= 600) && (countOfCases() > 2)}>
-                        <SpinnersContainerVertical
-                          // numSpinners={2}
-                          numSpinners={countOfCases()}
-                          caseItemList={rollItems()}
-                          spinnerOptions={spinnerOptions()}
-                          // spinnerOptions={spinnerOptions().slice(0, 2)}
-                          setBeginClickSound={setBeginClickSound}
-                          setBeginPullBackSound={setBeginPullBackSound}
-                          setBeginWinSound={setBeginWinSound}
-                        />
                     </Match>
                   </Switch>
                 ) : (
