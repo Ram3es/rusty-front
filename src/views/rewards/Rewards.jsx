@@ -11,6 +11,7 @@ import Bg from '../../assets/img/rewards/rewardsBg.png'
 import injector from '../../injector/injector'
 import ribbed from '../../components/new-home/img/ribbed.png'
 import coinsStack from '../../assets/img/rewards/rewards-coin-stack-md.png'
+import rewardsRobbed from '../../assets/img/rewards/rewardsRobbed.png'
 import PageLoadState from '../../libraries/PageLoadState'
 import Fallback from '../Fallback'
 import AmountWithCoin from '../../components/AmountWithCoin'
@@ -149,22 +150,23 @@ const Rewards = ({ loaded }) => {
       <Fallback loaded={rewardsPageLoaded}>
         <img alt='background' src={Bg} class='absolute left-0 top-0 min-w-full md:min-h-full' />
         <div class='w-full h-full flex flex-col gap-10 overflow-visible relative'>
-          <div class='flex flex-col md:flex-row justify-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
-            <div class='grow px-16 relative overflow-hidden'>
+          <div class='flex flex-col lg:flex-row justify-center mt-8 bg-no-repeat bg-cover lg:bg-full rewards-banner-bg rounded-8'>
+            <img src={rewardsRobbed} class=' absolute inset-0 min-h-full min-w-full block lg:hidden' />
+            <div class='grow px-5 md:px-16 h-36 md:h-64 lg:h-auto relative overflow-hidden'>
               <div
-                class='absolute inset-0 -left-5 top-[11px] h-[120px] '
+                class='absolute hidden lg:block inset-0 -left-5 top-[11px] h-[120px] '
                 style={{
                   'background-image': `url('${rewardRLbackground}')`,
                   opacity: 0.013
                 }}
               />
-              <div class='flex flex-col absolute inset-0 left-[72px] top-[36px]'>
+              <div class='flex flex-col absolute inset-0 left-6 md:left-[72px] top-6 md:top-[36px]'>
                 <div class='mb-4 flex flex-row items-end'>
-                  <h1 class='rewards-title text-72 font-SpaceGrotesk font-bold leading-none'>
+                  <h1 class='rewards-title text-36 md:text-72 font-SpaceGrotesk font-bold leading-none'>
                     Rewards
                   </h1>
                 </div>
-                <p class='text-gray-9a text-16 font-SpaceGrotesk'>
+                <p class='text-gray-9a text-14 md:text-16 font-SpaceGrotesk'>
                   Rank up to be unlock <span class='text-yellow-ffb'>higher level cases</span> that
                   can be opened daily!
                   <br />
@@ -172,18 +174,18 @@ const Rewards = ({ loaded }) => {
                 </p>
               </div>
             </div>
-            <div class='relative w-[495px] bg-black/30 rounded-8'>
+            <div class='relative w-4/5 self-end h-36 md:h-60 lg:h-auto lg:w-[495px] lg:bg-black/30 rounded-8'>
               <img
                 src={bannerCenterImage}
-                class='absolute h-[110%] -translate-x-1/2 left-0 bottom-0'
+                class='absolute h-[133px] md:h-[110%] -translate-x-1/2 left-4 md:left-0 bottom-0'
               />
-              <img src={coin1} class=' absolute right-6 -top-10' />
+              <img src={coin1} class=' w-20 md:w-auto absolute right-6 -top-4 md:-top-10' />
               <img src={coin2} class=' absolute -right-10 top-6' />
               <img src={coin3} class=' absolute left-20 -bottom-10' />
 
-              <div class='w-full h-full overflow-hidden relative'>
-                <img src={ribbed} class=' absolute inset-0 min-h-full min-w-full' />
-                <img class='w-full' src={RewardsBanerCases} alt='RewardsBanerCases' />
+              <div class='w-full h-full overflow-hidden relative center'>
+                <img src={ribbed} class=' absolute inset-0 min-h-full min-w-full hidden lg:block' />
+                <img class='w-full md:w-10/12 lg:w-full relative left-6 md:left-0' src={RewardsBanerCases} alt='RewardsBanerCases' />
               </div>
             </div>
           </div>
@@ -278,12 +280,12 @@ const Rewards = ({ loaded }) => {
                   <span class='text-gradient-green-secondary font-bold'>20% Rakeback</span>
                 </div>
               </div>
-              <Crankle additionalClasses='absolute top-0 left-48' />
-              <Crankle additionalClasses='absolute top-0 left-24 scale-75 opacity-[0.15]' />
-              <Crankle additionalClasses='absolute top-0 left-0 scale-50 opacity-[0.08]' />
-              <Crankle additionalClasses='absolute top-0 right-48 -scale-[1]' />
-              <Crankle additionalClasses='absolute top-0 right-24 -scale-75 opacity-[0.15]' />
-              <Crankle additionalClasses='absolute top-0 right-0 -scale-50 opacity-[0.08]' />
+              <Crankle additionalClasses='absolute top-0 left-48 hidden md:block' />
+              <Crankle additionalClasses='absolute top-0 left-24 scale-75 opacity-[0.15] hidden md:block' />
+              <Crankle additionalClasses='absolute top-0 left-0 scale-50 opacity-[0.08] hidden md:block' />
+              <Crankle additionalClasses='absolute top-0 right-48 -scale-[1] hidden md:block' />
+              <Crankle additionalClasses='absolute top-0 right-24 -scale-75 opacity-[0.15] hidden md:block' />
+              <Crankle additionalClasses='absolute top-0 right-0 -scale-50 opacity-[0.08] hidden md:block' />
             </div>
             <Show when={isShownRankBenefitModal()}>
               <RankBenefitsModal

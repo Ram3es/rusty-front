@@ -88,7 +88,7 @@ const RewardCaseItem = (props) => {
   return (
     <NavLink
       href={`${URL.CASE_UNBOXING}?id=${props?.item?.id}&daily=true`}
-      class={`relative flex flex-col h-[285px] w-[212px]`}
+      class={`relative flex flex-col h-[285px] w-[190px] md:w-[212px]`}
       onClick={(event) => {
         if (!props.isUserOnServer && props?.item?.name === 'Daily Free Case') {
           event.preventDefault()
@@ -113,7 +113,7 @@ const RewardCaseItem = (props) => {
         />
         <div class='relative grow z-10 px-4 pb-5 flex flex-col justify-between items-center'>
           <img
-            class='w-auto h-[127px] scale-[150%] absolute top-6'
+            class='w-auto h-auto md:h-[127px] scale-[150%] absolute top-8 md:top-6'
             src={props.item.image ? props.item.image.replace('{url}', window.origin) : ''}
             alt={props.item.name}
           />
