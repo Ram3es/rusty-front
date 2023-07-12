@@ -16,7 +16,7 @@ const SpinnersContainerBlank = ({ pendingNum }) => {
           </>
           
         ) : (
-          <div class="lg:flex justify-between w-full items-center">
+          <div class="flex justify-between w-full items-center">
             <div class="arrow-down absolute top-1/2 -left-[8px] -translate-y-1/2 -rotate-90" />
             {Array.from({ length: pendingNum() }).map((_, index) => {
               return (

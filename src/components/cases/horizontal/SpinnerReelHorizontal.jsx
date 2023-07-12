@@ -302,7 +302,7 @@ const SpinnerReelHorizontal = ({
       <div class="scale-[0.6] md:scale-[1.0] -mt-2 md:-mt-0 arrow-down absolute left-1/2 top-0.5 -translate-x-1/2" />
       <div class="scale-[0.6] md:scale-[1.0] -mb-2 md:-mb-0 arrow-down absolute left-1/2 bottom-0.5 -translate-x-1/2 rotate-180" />
       <div
-        class="hidden lg:blockabsolute right-0 top-0 h-full w-[186px]"
+        class="hidden lg:block absolute right-0 top-0 h-full w-[186px]"
         style={{
           background:
             "linear-gradient(270deg, #1A1C33 5.86%, rgba(26, 28, 51, 0) 100%)",
