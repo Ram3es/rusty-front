@@ -217,7 +217,7 @@ const SpinnerReelVerticalMobile = (props) => {
   return (
     <div
       id="slot-screen"
-      class="relative gap-2 w-full h-[217px] flex flex-col items-center justify-center overflow-hidden"
+      class="relative gap-2 w-full h-[264px] flex flex-col items-center justify-center overflow-hidden"
       classList={{
         'border-r-[2px] border-black/20': !(props.spinnerIndex % 2),
         'horisontal-borders-right rounded-tr-8 rounded-br-8':
