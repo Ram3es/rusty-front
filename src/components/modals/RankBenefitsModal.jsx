@@ -129,10 +129,10 @@ const RankBenefitsModal = (props) => {
                 }} 
             />
             <div
-                class="flex  flex-col absolute top-[5%] w-full max-w-[830px] xll:w-1/2 xll:max-w-full"
+                class="flex  flex-col absolute top-[5%] w-full max-w-[calc(100vw-32px)] sm:max-w-[830px] xll:w-1/2 xll:max-w-full"
             >
                 <div
-                    class={` w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden  h-[673px]`}
+                    class={` w-full flex flex-col relative transition-all rounded-8 rounded-t-12 overflow-hidden h-[673px]`}
                     style={{
                         background:
                         `radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), 
@@ -140,13 +140,13 @@ const RankBenefitsModal = (props) => {
                     }}
                 >
                     <div
-                        class='flex relative w-full h-max sm:h-22 items-center justify-between px-8 py-6  border border-black border-opacity-10 rounded-t-12'
+                        class='flex relative w-full h-max sm:h-22 sm:items-center justify-between px-8 py-6  border border-black border-opacity-10 rounded-t-12'
                         style={{
                         background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
                         }}
                     >
-                        <div class='w-full flex flex-col sm:flex-row items-center justify-between gap-y-2 font-bold font-SpaceGrotesk mr-0 sm:mr-20'>
-                            <div class="flex flex-col items-center sm:items-start">
+                        <div class='w-full flex flex-col sm:flex-row sm:items-center justify-between gap-y-2 font-bold font-SpaceGrotesk mr-0 sm:mr-20'>
+                            <div class="flex flex-col items-start">
                                 <h2 class="text-20 text-white  uppercase truncate">
                                     RANK BENEFITS 
                                 </h2>
@@ -154,7 +154,7 @@ const RankBenefitsModal = (props) => {
                                     Explore our Rank Rewards & Benefits
                                 </div>
                             </div>
-                            <div class=' w-max flex flex-wrap gap-2 items-center justify-center text-white font-medium text-base '>
+                            <div class=' w-max flex flex-wrap gap-2 self-center items-center justify-center text-white font-medium text-base '>
                                 Current Rank:
                                 <div class='flex items-center'>
                                     <div class='z-[1]'>
@@ -186,7 +186,7 @@ const RankBenefitsModal = (props) => {
                             <CloseButton />
                         </div>
                     </div>
-                    <div class=" flex flex-col gap-3 flex-1 px-8 py-6  relative">
+                    <div class=" flex flex-col gap-3 flex-1 px-8 py-6 overflow-scroll relative">
                         <div
                             class='absolute inset-0 z-0'
                             style={{ 'background-image': `url('${Mask}')`}}
