@@ -1,12 +1,10 @@
-import { createSignal, createEffect } from "solid-js";
-import MinesLogo from "../../MISC/MinesLogo";
+import {createSignal, createEffect} from "solid-js";
+import MinesLogo from "./MinesLogo";
 
-import { minesAmount } from "../../TilesContainer";
-
-const Button = ({ num, onClick }) => {
+const Button = (props) => {
   const [isActive, setIsActive] = createSignal(false);
   createEffect(() => {
-    if (minesAmount() === parseInt(num)) {
+    if (props.minesAmount() === parseInt(props.num)) {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -17,7 +15,7 @@ const Button = ({ num, onClick }) => {
       class={`flex border rounded-[4px] p-1 items-center justify-center gap-2 w-1/4 h-10 ${
         isActive() ? "border-[#FFB436]" : "border-[#FFFFFF0A]"
       }`}
-      onClick={onClick}
+      onClick={() => props.onClick()}
     >
       <MinesLogo active={isActive()} />
       <div
@@ -25,7 +23,7 @@ const Button = ({ num, onClick }) => {
           isActive() && "text-white"
         } text-[#9A9EC8]  font-bold text-sm`}
       >
-        x{num}
+        x{props.num}
       </div>
     </div>
   );

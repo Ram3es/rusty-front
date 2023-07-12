@@ -1,9 +1,9 @@
-import { createRoot, onMount, onCleanup, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
+import {createRoot, onMount, onCleanup, createSignal} from "solid-js";
+import {createStore} from "solid-js/store";
 
 import io from "socket.io-client";
-import { API } from "../libraries/url";
-import errorSound from "../assets/sounds/error.wav"
+import {API} from "../libraries/url";
+import errorSound from "../assets/sounds/error.wav";
 
 const socket = io(API, {
   transports: ["websocket", "polling"],
@@ -14,8 +14,8 @@ const [rewardCases, setRewardCases] = createStore({
   cases: [],
   isUserOnServer: false,
   lastDailyCaseOpening: null,
-  lastFreeCaseOpening: null
-})
+  lastFreeCaseOpening: null,
+});
 
 const SNOWMODE = false;
 
@@ -23,10 +23,10 @@ onMount(() => {
   socket.emit("rewards:cases", {}, (data) => {
     console.log("rewards:cases", data);
     if (!data.error) {
-      setRewardCases(data.data)
+      setRewardCases(data.data);
     }
-    });  
-})
+  });
+});
 
 const soundError = new Audio(errorSound);
 const createUserObject = () => {
@@ -48,10 +48,9 @@ const createUserObject = () => {
   const [toastrs, setToastrs] = createSignal([]);
 
   onMount(() => {
-
     socket.on("leaderboards:reset", (data) => {
       setLeaderboards(data.name, (prev) => {
-        return { ...prev, players: [], ending: data.ending };
+        return {...prev, players: [], ending: data.ending};
       });
     });
 
@@ -62,19 +61,30 @@ const createUserObject = () => {
     // eslint-disable-next-line solid/reactivity
     socket.on("system:message", (data) => {
       setToastrs((prev) =>
-        [{ ...data, id: `${Date.now()}:${Math.random()}` }, ...prev].slice(-2)
+        [{...data, id: `${Date.now()}:${Math.random()}`}, ...prev].slice(-2)
       );
 
       if (data.type == "error") {
+        // used for mines if spamming
+        if (data.msg === "Please do not spam!") {
+          setUserObject("user", (prev) => ({...prev.user, isSpamming: true}));
+          // set user as spamming for 1 second
+          setTimeout(() => {
+            setUserObject("user", (prev) => ({
+              ...prev.user,
+              isSpamming: false,
+            }));
+          }, 500);
+        }
         soundError.currentTime = 0;
         soundError.volume = userObject.user.sounds;
         let playedPromise = soundError.play();
         if (playedPromise) {
-            playedPromise.catch((e) => {
-                console.error(e)
-            });
+          playedPromise.catch((e) => {
+            console.error(e);
+          });
         }
-    }
+      }
     });
 
     socket.on("steam:trade", (data) => {
@@ -90,7 +100,7 @@ const createUserObject = () => {
     });
 
     socket.on("system:balance", (balance) => {
-      setUserObject("user", (prev) => ({ ...prev.user, balance: balance }));
+      setUserObject("user", (prev) => ({...prev.user, balance: balance}));
     });
 
     socket.on("winnings:modal", (data) => {
