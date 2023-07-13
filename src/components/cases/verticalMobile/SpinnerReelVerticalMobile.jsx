@@ -336,7 +336,7 @@ const SpinnerReelVerticalMobile = (props) => {
             src="assets/caselinemobile.svg"
             alt="caseline"
             class={`absolute w-full left-3 transition-all duration-500 
-          ${spinComplete() ? 'opacity-30' : 'opacity-100'}
+          ${spinComplete() ? 'opacity-30 -z-0' : 'opacity-100'}
         `}
           />
         </Match>
@@ -350,12 +350,11 @@ const SpinnerReelVerticalMobile = (props) => {
             src="assets/caselinemobileright.svg"
             alt="caseline"
             class={`right-3 absolute w-full  transition-all duration-500 
-          ${spinComplete() ? 'opacity-30' : 'opacity-100'}
+          ${spinComplete() ? 'opacity-30 -z-0 ' : 'opacity-100'}
         `}
           />
         </Match>
       </Switch>
-      {/* сделать инвисибл пока крутиться */}
       <div
         class="absolute left-0 top-0 w-full h-[47px]"
         style={{

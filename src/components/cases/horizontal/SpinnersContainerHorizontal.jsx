@@ -92,7 +92,7 @@ const SpinnersContainerHorizontal = ({
   return (
     <div class="relative w-full">
       <div
-        class="relative w-full h-[187px] md:h-[326px] overflow-hidden"
+        class="relative w-full h-[185px] md:h-[326px] overflow-hidden"
         ref={setContainerRef}
       >
         {Array.from({length: activeSpinners()}).map((_, index) => {
