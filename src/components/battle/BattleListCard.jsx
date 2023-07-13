@@ -372,7 +372,7 @@ const BattleListCard = (props) => {
           </div>
         ) : (
           <NavLink
-            class="w-full"
+            class="w-full z-10"
             href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${props.game.id}${
               props.game.urlKey ? `&key=${props.game.urlKey}` : ""
             }&reply=true`}

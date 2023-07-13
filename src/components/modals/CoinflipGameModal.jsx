@@ -8,7 +8,7 @@ import Modal from './Modal'
 import CoinflipGameSide from './CoinflipGameSide'
 
 import RBCoin from '../../assets/img/coinflip/rbcoin.svg'
-import CoinflipSound from '../../assets/sounds/coinflip.mp3'
+import CoinflipSound from '../../assets/sounds/coinflipv2.mp3'
 import CoinflipIcon from '../icons/CoinflipIcon'
 import RedAnimation from '../../assets/img/coinflip/red-animation.png'
 import BlackAnimation from '../../assets/img/coinflip/black-animation.png'

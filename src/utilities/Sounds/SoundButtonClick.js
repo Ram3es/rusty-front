@@ -1,7 +1,7 @@
 import SoundButton from "../../assets/sounds/button_click.mp3";
 import OptionButton from "../../assets/sounds/option_select.mp3";
 import MenuDropdown from "../../assets/sounds/drop_down_menu.mp3";
-import creditedSound from "../../assets/sounds/credited.wav";
+import creditedSound from "../../assets/sounds/cashoutv2.mp3";
 import PlaceBet from "../../assets/sounds/place-bet.wav";
 import countdown from "../../assets/sounds/countdown.mp3";
 import cashCount from "../../assets/sounds/cashCount.mp3";
@@ -11,11 +11,11 @@ import win from "../../assets/sounds/win.mp3";
 import winMax from "../../assets/sounds/winMax.mp3";
 import caseBattles from "../../assets/sounds/caseBattles.mp3";
 import caseBattlesConfetti from "../../assets/sounds/caseBattlesConfetti.mp3";
-import counter35 from "../../assets/sounds/counter35.mp3";
-import counter45 from "../../assets/sounds/counter45.mp3";
-import counter55 from "../../assets/sounds/counter55.mp3";
-import counter60 from "../../assets/sounds/counter60.mp3";
-import counter65 from "../../assets/sounds/counter65.mp3";
+import counter35 from "../../assets/sounds/counter35v2.mp3";
+import counter45 from "../../assets/sounds/counter45v2.mp3";
+import counter55 from "../../assets/sounds/counter55v2.mp3";
+import counter60 from "../../assets/sounds/counter60v2.mp3";
+import counter65 from "../../assets/sounds/counter65v2.mp3";
 
 import injector from "../../injector/injector";
 

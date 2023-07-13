@@ -11,7 +11,7 @@ import Question from "../../assets/img/mines/question.svg";
 
 import mineFineSound from "../../assets/sounds/safeSoundv2.mp3";
 import mineMissSound from "../../assets/sounds/boomSoundv2.mp3";
-import creditedSound from "../../assets/sounds/credited.wav";
+import creditedSound from "../../assets/sounds/cashoutv2.mp3";
 import PlaceBet from "../../assets/sounds/place-bet.wav";
 
 const placeBetSound = new Audio(PlaceBet);
@@ -98,6 +98,8 @@ const Mines = () => {
 
         if (!data.error && userObject?.user?.sounds) {
           placeBetSound.currentTime = 0;
+          placeBetSound.volume = userObject.user.sounds * 0.7;
+
           placeBetSound.play();
         }
 
@@ -136,14 +138,18 @@ const Mines = () => {
               setMines("status", "lost");
               if (userObject?.user?.sounds) {
                 bombSound.currentTime = 0;
+                bombSound.volume = userObject.user.sounds;
                 bombSound.play();
               }
             } else {
               setMines("status", "ended");
               if (userObject?.user?.sounds) {
                 safeSound.currentTime = 0;
+                safeSound.volume = userObject.user.sounds;
                 safeSound.play();
+
                 cashoutSound.currentTime = 0;
+                cashoutSound.volume = userObject.user.sounds;
                 cashoutSound.play();
               }
             }
@@ -154,6 +160,7 @@ const Mines = () => {
             setMines("status", "playing");
             if (userObject?.user?.sounds) {
               safeSound.currentTime = 0;
+              safeSound.volume = userObject.user.sounds;
               safeSound.play();
             }
           }
@@ -173,6 +180,7 @@ const Mines = () => {
         setMines("status", "ended");
         if (userObject?.user?.sounds) {
           cashoutSound.currentTime = 0;
+          cashoutSound.volume = userObject.user.sounds;
           cashoutSound.play();
         }
       }

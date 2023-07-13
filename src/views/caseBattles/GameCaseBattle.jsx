@@ -1227,7 +1227,13 @@ const GameCaseBattle = (props) => {
                                       playerIndex !== 0 &&
                                       playerIndex !== 2)) &&
                                   (getModeColor() === "yellow" ? (
-                                    <div class="absolute z-40 text-yellow-ffb center right-0 top-0 h-full border-r border-black border-opacity-10">
+                                    <div
+                                      class={`absolute z-40 text-yellow-ffb center right-0 top-0 h-full ${
+                                        game().status !== "ended" &&
+                                        game().status !== "results" &&
+                                        "border-r border-black border-opacity-10"
+                                      }`}
+                                    >
                                       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                                         {game().status !== "ended" &&
                                         game().status !== "results" ? (
@@ -1435,79 +1441,6 @@ const GameCaseBattle = (props) => {
                                     </div>
                                   </Match>
                                 </Switch>
-
-                                {/* <div
-                                  class={`w-full center transition-all duration-200 ${
-                                    game().status === "ended"
-                                      ? "scale-100"
-                                      : "absolute scale-0"
-                                  }`}
-                                >
-                                  {game().status === "ended" ? (
-                                    isWinner(game().winners, playerIndex) ? (
-                                      <div class="w-full h-full center flex-col gap-2 relative z-10">
-                                        <div
-                                          class={`absolute w-[64px] h-[50px] z-0`}
-                                          style={{
-                                            background:
-                                              "rgba(43, 246, 124, 0.56)",
-                                            filter: "blur(50px)",
-                                            "border-radius": "100px",
-                                          }}
-                                        />
-                                        <div
-                                          class="text-gradient-green font-SpaceGrotesk text-28 font-bold"
-                                          style={{
-                                            "text-shadow":
-                                              "0px 0px 20px rgba(43, 246, 124, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)",
-                                          }}
-                                        >
-                                          Winner
-                                        </div>
-                                        <div class="flex gap-2 items-center justify-center">
-                                          <Coin width="11" />{" "}
-                                          <span
-                                            class={`text-gradient font-SpaceGrotesk text-28 font-bold transition-all duration-1000
-                                               ${
-                                                 game().status === "ended"
-                                                   ? "scale-100"
-                                                   : "scale-50"
-                                               }`}
-                                          >
-                                            {
-                                              <WinningsDisplay
-                                                value={
-                                                  game().winners.find(
-                                                    (winner) =>
-                                                      winner.player_index ===
-                                                      playerIndex + 1
-                                                  ).winnerValue
-                                                }
-                                              />
-                                            }
-                                          </span>
-                                        </div>
-                                      </div>
-                                    ) : (
-                                      <div class="w-full h-full center flex-col z-10 relative">
-                                        <div
-                                          class="absolute w-[64px] h-[50px] z-0 "
-                                          style={{
-                                            background: "rgba(185, 0, 0, 0.6)",
-                                            filter: "blur(50px)",
-                                            "border-radius": "100px",
-                                          }}
-                                        />
-                                        <div class="flex gap-2 opacity-20 grayscale">
-                                          <Coin width="11" />{" "}
-                                          <span class="text-gradient font-SpaceGrotesk text-28 font-bold">
-                                            <LosingDisplay game={game} />
-                                          </span>
-                                        </div>
-                                      </div>
-                                    )
-                                  ) : null}
-                                </div> */}
                               </div>
                             )}
                           </For>
