@@ -1,8 +1,5 @@
-import BlueMine from "./BlueMine";
-import RedMine from "./RedMine";
-
-import BlueMineImg from "../../assets/img/mines/BlueMine.svg";
-import RedMineImg from "../../assets/img/mines/RedMine.svg";
+import BlueMineImg from "../../assets/img/mines/BlueMine.png";
+import RedMineImg from "../../assets/img/mines/RedMine.png";
 
 const ClearedSquare = (props) => {
   const rgb = {
@@ -32,7 +29,7 @@ const ClearedSquare = (props) => {
           rgb[props.color]
         }, 0.36) 0%, rgba(${rgb[props.color]}, 0) 100%),
         linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.05) 100%)`,
-        "box-shadow": `inset 0px 2px 3px rgba(0, 0, 0, 0.24), inset 0px 2px 12px rgba(0, 0, 0, 0.12)`,
+        "box-shadow": `0 0 8px rgba(${rgb[props.color]}, 0.2)`,
       }}
     >
       <div class="w-full h-full flex items-center justify-center rounded-lg  bg-[#181d36]">
@@ -49,7 +46,11 @@ const ClearedSquare = (props) => {
           }}
         >
           {props.color === "blue" ? (
-            <img src={BlueMineImg} alt="blue mine image" class="rotate-180" />
+            <img
+              src={BlueMineImg}
+              alt="blue mine image"
+              class="rotate-180 w-[70%]"
+            />
           ) : (
             <img
               src={RedMineImg}

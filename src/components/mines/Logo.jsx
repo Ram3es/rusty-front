@@ -1,7 +1,7 @@
 const Logo = (props) => {
   return (
     <svg
-      class="w-[26px] h-[26px] lg:w-[50px] lg:h-[50px]"
+      class="w-[26px] h-[26px] lg:w-[50px] lg:h-[50px] overflow-visible"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       version="1.1"
@@ -9,7 +9,7 @@ const Logo = (props) => {
       xml:space="preserve"
     >
       <defs>
-        <filter id="glow">
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur stdDeviation="20" result="coloredBlur" />
           <feMerge>
             <feMergeNode in="coloredBlur" />

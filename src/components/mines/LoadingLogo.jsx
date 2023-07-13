@@ -45,7 +45,7 @@ const LoadingLogo = (props) => {
 
   return (
     <div
-      class={`flex items-center justify-center h-full relative w-full`}
+      class={`flex items-center justify-center h-full relative w-full overflow-visible `}
       style={{
         "-webkit-backface-visibility": "hidden",
         "backface-visibility": "hidden",

@@ -1,13 +1,5 @@
-import {NavLink} from "solid-app-router";
-import {onMount, createEffect, createSignal, onCleanup} from "solid-js";
+import {onMount, createSignal, onCleanup, For} from "solid-js";
 import {createStore} from "solid-js/store";
-
-import {URL} from "../../libraries/url";
-import Coin from "../../utilities/Coin";
-
-import Bg from "../../assets/img/bg.png";
-
-import Question from "../../assets/img/mines/question.svg";
 
 import mineFineSound from "../../assets/sounds/safeSoundv2.mp3";
 import mineMissSound from "../../assets/sounds/boomSoundv2.mp3";
@@ -20,21 +12,22 @@ const bombSound = new Audio(mineMissSound);
 const cashoutSound = new Audio(creditedSound);
 
 import injector from "../../injector/injector";
-import History from "../history";
 
 import LoadingLogo from "../../components/mines/LoadingLogo";
 import ClearedSquare from "../../components/mines/ClearedSquare";
 import Menu from "../../components/mines/menu/Menu";
 import RemainingMines from "../../components/mines/RemainingMines";
 import Winnings from "../../components/mines/Winnings";
+import RedMineImg from "../../assets/img/mines/RedMine.png";
+import BlueMineImg from "../../assets/img/mines/BlueMine.png";
+
+import confetti from "canvas-confetti";
 
 const Mines = () => {
-  const {socket, toastr, props, userObject} = injector;
+  const {socket, toastr, userObject} = injector;
 
   const [betValue, setBetValue] = createSignal(500);
   const [minesAmount, setMinesAmount] = createSignal(10);
-
-  const [history, setHistory] = createSignal([]);
 
   const [mines, setMines] = createStore({
     mines: 0,
@@ -43,26 +36,26 @@ const Mines = () => {
     minePositions: [],
   });
 
-  let factorial = (n, to) => {
-    if (n <= to + 1) return n;
-    if (n < 0) return;
-    if (n < 2) return 1;
-    return n * factorial(n - 1, to);
-  };
+  // let factorial = (n, to) => {
+  //   if (n <= to + 1) return n;
+  //   if (n < 0) return;
+  //   if (n < 2) return 1;
+  //   return n * factorial(n - 1, to);
+  // };
 
-  let calculateMultiplier = () => {
-    return Number(
-      (
-        (1 /
-          (factorial(
-            25 - mines.mines,
-            25 - mines.mines - mines.cleared.length
-          ) /
-            factorial(25, 25 - mines.cleared.length))) *
-        0.94
-      ).toFixed(2)
-    );
-  };
+  // let calculateMultiplier = () => {
+  //   return Number(
+  //     (
+  //       (1 /
+  //         (factorial(
+  //           25 - mines.mines,
+  //           25 - mines.mines - mines.cleared.length
+  //         ) /
+  //           factorial(25, 25 - mines.cleared.length))) *
+  //       0.94
+  //     ).toFixed(2)
+  //   );
+  // };
 
   onMount(() => {
     socket.emit("mines:connect", {}, (data) => {
@@ -76,12 +69,15 @@ const Mines = () => {
         setBetValue(data?.user?.data?.activeInfo?.bet);
       }
 
-      setHistory(data.history);
+      // setHistory(data.history);
     });
 
-    socket.on("mines:history", (data) => {
-      setHistory((prev) => [data, ...prev].slice(0, 10));
-    });
+    // socket.on("mines:history", (data) => {
+    //   setHistory((prev) => [data, ...prev].slice(0, 10));
+    // });
+
+    new Image().src = RedMineImg;
+    new Image().src = BlueMineImg;
   });
 
   const bet = () => {
@@ -144,6 +140,8 @@ const Mines = () => {
             } else {
               setMines("status", "ended");
               if (userObject?.user?.sounds) {
+                fireCannon(confettiCannonRefA(), 75);
+                fireCannon(confettiCannonRefB(), 105);
                 safeSound.currentTime = 0;
                 safeSound.volume = userObject.user.sounds;
                 safeSound.play();
@@ -195,6 +193,47 @@ const Mines = () => {
     // socket.off("mines:check");
   });
 
+  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
+  const [confettiCannonRefB, setConfettiCannonRefB] = createSignal();
+
+  const fireCannon = (ref, angle) => {
+    const rectA = ref.getBoundingClientRect();
+
+    const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
+    const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+
+    const particleCount = 5;
+    const spread = 30;
+    const startVelocity = 40;
+    // const colorCodes = {
+    //   purple: "#9c27b0",
+    //   gold: "#ffeb3b",
+    //   red: "#f44336",
+    //   blue: "#2196f3",
+    //   gray: "#9e9e9e",
+    // };
+    const ticks = 70;
+
+    // for (let i = 0; i < 10; i++) {
+
+    // }
+    const interval = setInterval(() => {
+      confetti({
+        particleCount,
+        spread,
+        origin: {x: xA, y: yA},
+        startVelocity,
+        angle,
+        //   colors: ["#FFFFFF", colorCodes[color]],
+        ticks,
+      });
+    }, 40);
+
+    setTimeout(() => {
+      clearInterval(interval);
+    }, 500);
+  };
+
   return (
     <>
       <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-10 ">
@@ -228,74 +267,92 @@ const Mines = () => {
                 <div class="center relative w-full">
                   <RemainingMines mines={mines} />
                 </div>
-                <div class={`grid grid-cols-5 gap-3 pb-10 `}>
-                  <For
-                    each={[
-                      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                      18, 19, 20, 21, 22, 23, 24, 25,
-                    ]}
-                  >
-                    {(i) => (
-                      <div
-                        class={`center w-22 h-22 ${
-                          mines?.status == "playing" &&
-                          !mines.cleared.includes(i)
-                            ? "hover click-large"
-                            : "pointer-events-none"
-                        } `}
-                        onClick={() => {
-                          if (mines?.status == "playing") {
-                            check(i);
-                          }
-                        }}
-                      >
+                <div class="relative">
+                  <div class={`grid grid-cols-5 gap-3 pb-10 `}>
+                    <For
+                      each={[
+                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                        17, 18, 19, 20, 21, 22, 23, 24, 25,
+                      ]}
+                    >
+                      {(i) => (
                         <div
-                          class="w-full h-full relative transition-all duration-200"
-                          style={
-                            mines.minePositions.includes(i) ||
-                            mines.cleared.includes(i)
-                              ? {
-                                  "transform-style": "preserve-3d",
-                                  transform: "rotateY(180deg)",
-                                }
-                              : {}
-                          }
+                          class={`center w-22 h-22 ${
+                            mines?.status == "playing" &&
+                            !mines.cleared.includes(i)
+                              ? "hover click-large"
+                              : "pointer-events-none"
+                          } `}
+                          onClick={() => {
+                            if (mines?.status == "playing") {
+                              check(i);
+                            }
+                          }}
                         >
                           <div
-                            class={`w-full h-full absolute z-10 duration-200
-                            ${
-                              mines.status === "playing"
-                                ? "opacity-100"
-                                : mines.status === "lost"
-                                ? "opacity-30"
-                                : mines.status === "ended"
-                                ? "opacity-30"
-                                : "opacity-30"
-                            }`}
-                            style={{
-                              "backface-visibility": "hidden",
-                              transform: "rotateX(0deg)",
-                            }}
+                            class="w-full h-full relative transition-all duration-200"
+                            style={
+                              mines.minePositions.includes(i) ||
+                              mines.cleared.includes(i)
+                                ? {
+                                    "transform-style": "preserve-3d",
+                                    transform: "rotateY(180deg)",
+                                  }
+                                : {}
+                            }
                           >
-                            <LoadingLogo xy={i} mines={mines} />
-                          </div>
-                          <div
-                            class="w-full h-full absolute"
-                            style={{
-                              "backface-visibility": "hidden",
-                              transform: "rotateX(180deg)",
-                            }}
-                          >
-                            {mines.minePositions.includes(i) ? (
-                              <ClearedSquare color="red" mines={mines} i={i} />
-                            ) : (
-                              <ClearedSquare color="blue" mines={mines} i={i} />
-                            )}
+                            <div
+                              class={`w-full h-full absolute z-10 duration-200
+                              ${
+                                mines.status === "playing"
+                                  ? "opacity-100"
+                                  : mines.status === "lost"
+                                  ? "opacity-30"
+                                  : mines.status === "ended"
+                                  ? "opacity-30"
+                                  : "opacity-30"
+                              }`}
+                              style={{
+                                "backface-visibility": "hidden",
+                                transform: "rotateX(0deg)",
+                              }}
+                            >
+                              <LoadingLogo xy={i} mines={mines} />
+                            </div>
+                            <div
+                              class="w-full h-full absolute"
+                              style={{
+                                "backface-visibility": "hidden",
+                                transform: "rotateX(180deg)",
+                              }}
+                            >
+                              {mines.minePositions.includes(i) ? (
+                                <ClearedSquare
+                                  color="red"
+                                  mines={mines}
+                                  i={i}
+                                />
+                              ) : (
+                                <ClearedSquare
+                                  color="blue"
+                                  mines={mines}
+                                  i={i}
+                                />
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </For>
+                      )}
+                    </For>
+                  </div>
+                  <div
+                    class={`absolute self-center h-20 w-20  -bottom-2  -left-10`}
+                    ref={setConfettiCannonRefA}
+                  />
+                  <div
+                    class={`absolute self-center h-20 w-20  -bottom-2  -right-10`}
+                    ref={setConfettiCannonRefB}
+                  />
                 </div>
               </div>
               <div

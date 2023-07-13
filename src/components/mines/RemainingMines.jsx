@@ -1,5 +1,5 @@
-import BlueMineImg from "../../assets/img/mines/BlueMine.svg";
-import RedMineImg from "../../assets/img/mines/RedMine.svg";
+import BlueMineImg from "../../assets/img/mines/BlueMine.png";
+import RedMineImg from "../../assets/img/mines/RedMine.png";
 import RedText from "../shared/RedText";
 
 const RemainingMines = (props) => {
@@ -18,11 +18,11 @@ const RemainingMines = (props) => {
         }`,
       }}
     >
-      <div class="w-full flex items-center justify-center gap-2">
+      <div class="w-full flex items-center justify-center gap-2 pt-2">
         {props.mines.status === "lost" ? (
-          <img src={RedMineImg} alt="red mine image" class="h-[60%] " />
+          <img src={RedMineImg} alt="red mine image" class="w-[20%] " />
         ) : (
-          <img src={BlueMineImg} alt="blue mine image" class="h-[70%]" />
+          <img src={BlueMineImg} alt="blue mine image" class="w-[20%]" />
         )}
 
         {props.mines.status === "lost" ? (
