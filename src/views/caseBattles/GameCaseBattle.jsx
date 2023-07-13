@@ -927,7 +927,7 @@ const GameCaseBattle = (props) => {
               </GrayWrapperdWithBorders>
             </div>
             <div class="overflow-auto">
-              <div class="w-fit md:w-full flex flex-col gap-3">
+              <div class="w-full flex flex-col gap-3">
                 <div class="relative">
                   <div
                     class="relative w-full flex items-center justify-center p-[1px] rounded-t-8"
@@ -1375,7 +1375,7 @@ const GameCaseBattle = (props) => {
                               </div>
                             )}
                           </For>
-                          <Switch>
+                          {/* <Switch>
                             <Match
                               when={showResults() && game().status === "ended"}
                             >
@@ -1393,27 +1393,29 @@ const GameCaseBattle = (props) => {
                                 noAnimation
                               />
                             </Match>
-                          </Switch>
+                          </Switch> */}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* <For each={Array.from({length: game().playersQty})}>
-                  {(_, index) => {
-                    return (
-                      <BattlePullsColumn
-                        columnIndex={index}
-                        game={game}
-                        playerRoundData={playerRoundData}
-                        handleCallBot={() => callBot(index() + 1)}
-                        handleJoinGame={() => joinGame(index() + 1)}
-                      />
-                    )
-                  }}
-                </For> */}
+                <div class='grid grid-cols-2 gap-y-4 lg:hidden'>
+                  <For each={Array.from({length: game().playersQty})}>
+                      {(_, index) => {
+                        return (
+                          <BattlePullsColumn
+                            columnIndex={index}
+                            game={game}
+                            playerRoundData={playerRoundData}
+                            handleCallBot={() => callBot(index() + 1)}
+                            handleJoinGame={() => joinGame(index() + 1)}
+                          />
+                        )
+                      }}                 
+                  </For>
+                </div>
                 <div
-                  class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
+                  class={`hidden lg:grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
                     game().playersQty
                   }
                   ${
@@ -1543,7 +1545,7 @@ const GameCaseBattle = (props) => {
                     )}
                   </For>
                 </div>
-                <div class="border border-black border-opacity-5 rounded-8 -mt-12 flex bg-dark-secondary border-r-0 ">
+                <div class="hidden border border-black border-opacity-5 rounded-8 -mt-12 lg:flex bg-dark-secondary border-r-0 ">
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
