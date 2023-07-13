@@ -9,8 +9,8 @@ import Bg from "../../assets/img/bg.png";
 
 import Question from "../../assets/img/mines/question.svg";
 
-import mineFineSound from "../../assets/sounds/mines-tile.wav";
-import mineMissSound from "../../assets/sounds/mines-mine.wav";
+import mineFineSound from "../../assets/sounds/safeSoundv2.mp3";
+import mineMissSound from "../../assets/sounds/boomSoundv2.mp3";
 import creditedSound from "../../assets/sounds/credited.wav";
 import PlaceBet from "../../assets/sounds/place-bet.wav";
 
@@ -29,7 +29,7 @@ import RemainingMines from "../../components/mines/RemainingMines";
 import Winnings from "../../components/mines/Winnings";
 
 const Mines = () => {
-  const {socket, toastr, props} = injector;
+  const {socket, toastr, props, userObject} = injector;
 
   const [betValue, setBetValue] = createSignal(500);
   const [minesAmount, setMinesAmount] = createSignal(10);
@@ -96,7 +96,7 @@ const Mines = () => {
           toastr(data);
         }
 
-        if (!data.error && props?.user?.sounds) {
+        if (!data.error && userObject?.user?.sounds) {
           placeBetSound.currentTime = 0;
           placeBetSound.play();
         }
@@ -128,20 +128,31 @@ const Mines = () => {
           if (data.end) {
             setMines("minePositions", data.data.mines);
             setMines("cleared", data.data.cleared);
-            if (mines.cleared.length === 25 - mines.mines) {
-              setMines("status", "ended");
-            } else {
+            if (
+              data.data.mines.filter((element) =>
+                data.data.cleared.includes(element)
+              ).length > 0
+            ) {
               setMines("status", "lost");
+              if (userObject?.user?.sounds) {
+                bombSound.currentTime = 0;
+                bombSound.play();
+              }
+            } else {
+              setMines("status", "ended");
+              if (userObject?.user?.sounds) {
+                safeSound.currentTime = 0;
+                safeSound.play();
+                cashoutSound.currentTime = 0;
+                cashoutSound.play();
+              }
             }
-            if (props?.user?.sounds) {
-              bombSound.currentTime = 0;
-              bombSound.play();
-            }
+
             return;
           } else {
             setMines("cleared", data.data.cleared);
             setMines("status", "playing");
-            if (props?.user?.sounds) {
+            if (userObject?.user?.sounds) {
               safeSound.currentTime = 0;
               safeSound.play();
             }
@@ -160,7 +171,7 @@ const Mines = () => {
       if (!data.error) {
         setMines("minePositions", data.data.mines);
         setMines("status", "ended");
-        if (props?.user?.sounds) {
+        if (userObject?.user?.sounds) {
           cashoutSound.currentTime = 0;
           cashoutSound.play();
         }
