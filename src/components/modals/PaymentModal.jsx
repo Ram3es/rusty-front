@@ -854,7 +854,7 @@ const PaymentModal = (props) => {
                       : "flex"
                   } w-full flex-col min-h-full py-4 lg:py-8 justify-between items-center gap-3 lg:gap-8`}
                 >
-                  <div class="hidden lg:flex flex-col gap-2 max-h-[45vh] overflow-y-scroll border-b border-black/10 h-full px-8">
+                  <div class="hidden lg:flex flex-col gap-2 max-h-[44vh] overflow-y-scroll border-b border-black/10 h-full px-8">
                     <For each={activeItems()}>
                       {(item, index) => (
                         <div class="relative">

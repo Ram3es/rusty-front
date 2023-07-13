@@ -68,11 +68,12 @@ const NewItemsList = (props) => {
         `}
       >
         <div
-          class="show-scrollbar"
+          class="show-scrollbar h-[474px] lg:h-160 
+         max-h-[60vh]"
           style={{
             overflow: "auto",
             position: "relative",
-            height: "70vh",
+
             width: "100%",
           }}
           ref={(element) => {
