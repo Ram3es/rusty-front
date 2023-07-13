@@ -1,7 +1,7 @@
 import {createSignal, createEffect} from "solid-js";
 import Logo from "./Logo.jsx";
 import {Power1, TimelineMax} from "gsap";
-import MinesSquare from "../../assets/img/mines/MinesSquare.png";
+import MinesSquare from "../../assets/img/mines/MinesSquare.svg";
 import Injector from "../../injector/injector.jsx";
 
 const LoadingLogo = (props) => {
@@ -45,7 +45,7 @@ const LoadingLogo = (props) => {
 
   return (
     <div
-      class={`flex items-center justify-center h-full relative w-full overflow-visible `}
+      class={`flex items-center justify-center h-full relative w-full  `}
       style={{
         "-webkit-backface-visibility": "hidden",
         "backface-visibility": "hidden",

@@ -20,6 +20,7 @@ import RemainingMines from "../../components/mines/RemainingMines";
 import Winnings from "../../components/mines/Winnings";
 import RedMineImg from "../../assets/img/mines/RedMine.png";
 import BlueMineImg from "../../assets/img/mines/BlueMine.png";
+import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
 
 import confetti from "canvas-confetti";
 
@@ -89,7 +90,12 @@ const Mines = () => {
       },
       (data) => {
         if (data.msg) {
-          toastr(data);
+          if (
+            data.msg !== "You don't have a game active!" &&
+            data.msg !== "You have already revealed this tile!"
+          ) {
+            toastr(data);
+          }
         }
 
         if (!data.error && userObject?.user?.sounds) {
@@ -119,7 +125,12 @@ const Mines = () => {
       },
       (data) => {
         if (data.msg) {
-          toastr(data);
+          if (
+            data.msg !== "You don't have a game active!" &&
+            data.msg !== "You have already revealed this tile!"
+          ) {
+            toastr(data);
+          }
         }
 
         if (!data.error) {
@@ -170,7 +181,12 @@ const Mines = () => {
   const cashout = () => {
     socket.emit("mines:cashout", {}, (data) => {
       if (data.msg) {
-        toastr(data);
+        if (
+          data.msg !== "You don't have a game active!" &&
+          data.msg !== "You have already revealed this tile!"
+        ) {
+          toastr(data);
+        }
       }
 
       if (!data.error) {
@@ -236,9 +252,9 @@ const Mines = () => {
 
   return (
     <>
-      <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-10 ">
+      <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-6 pb-[40vh]">
         <div
-          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden"
+          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden relative"
           style={{
             background: `linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.16) 100%), radial-gradient(47.48% 100.00% at 41.02% -0.00%, 
             ${
@@ -262,6 +278,14 @@ const Mines = () => {
           />
 
           <div class="center flex-col relative w-full ">
+            <div
+              class="absolute top-0 left-0  w-full h-full opacity-[0.7] "
+              style={{
+                "background-image": `url(${footerLogoBgVector})`,
+                "background-repeat": "repeat",
+                "background-size": "cover",
+              }}
+            />
             <div class="flex gap-6 flex-col lg:flex-row w-full justify-between ">
               <div class="h-full flex flex-col items-center justify-center gap-4 w-full ">
                 <div class="flex justify-start lg:justify-center items-center relative w-full">
