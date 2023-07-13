@@ -26,24 +26,23 @@ const Winnings = (props) => {
   };
   return (
     <div class="flex flex-col relative items-end w-full gap-2">
-      {props.mines.status === "playing" && (
-        <div
-          class="whitespace-nowrap pr-2 flex items-center gap-1 opacity-30 py-1"
-          style={{
-            background:
-              "linear-gradient(270deg, rgba(255, 180, 54, 0.23) 0%, rgba(255, 180, 54, 0.00) 93.23%)",
-          }}
-        >
-          <CoinLogo h={30} />
-          <GoldText
-            text={`+ ${getCurrencyString(
-              calculateMultiplier(props.mines.cleared.length + 1) *
-                props.betValue()
-            )}`}
-            size={22.5}
-          />
-        </div>
-      )}
+      <div
+        class={`whitespace-nowrap pr-2 flex items-center gap-1  py-1
+          ${props.mines.status === "playing" ? "opacity-30" : "opacity-0"}`}
+        style={{
+          background:
+            "linear-gradient(270deg, rgba(255, 180, 54, 0.23) 0%, rgba(255, 180, 54, 0.00) 93.23%)",
+        }}
+      >
+        <CoinLogo h={30} />
+        <GoldText
+          text={`+ ${getCurrencyString(
+            calculateMultiplier(props.mines.cleared.length + 1) *
+              props.betValue()
+          )}`}
+          size={22.5}
+        />
+      </div>
 
       {props.mines.cleared.length > 0 && props.mines.status !== "lost" ? (
         <For each={props.mines.cleared}>

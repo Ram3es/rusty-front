@@ -30,9 +30,9 @@ const RemainingMines = (props) => {
             <RedText text={"BUST"} />
           </div>
         ) : (
-          <div class="text-[20px] font-semibold text-[#9A9EC8] flex gap-2">
-            <span class="text-white">
-              {`0${
+          <div class="text-[20px] font-semibold text-[#9A9EC8] flex gap-2 ">
+            <span class="text-white w-5">
+              {`${
                 25 -
                 (props.mines.mines
                   ? props.mines.mines + props.mines.cleared.length

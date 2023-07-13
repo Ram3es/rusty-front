@@ -3,20 +3,19 @@ import CoinLogo from "../../../shared/CoinLogo";
 import AdjustBtn from "./AdjustBtn";
 
 const BetDisplay = (props) => {
-  const [isActive, setActive] = createSignal(false);
   const halveBet = (e) => {
     e.stopPropagation();
-    props.callbackFn(props.betAmount() / 2);
+    props.setBetValue(props.betValue() / 2);
   };
 
   const doubleBet = (e) => {
     e.stopPropagation();
-    props.callbackFn(props.betAmount() * 2);
+    props.setBetValue(props.betValue() * 2);
   };
 
   const clearBet = (e) => {
     e.stopPropagation();
-    props.callbackFn(0);
+    props.setBetValue(0);
   };
 
   return (
@@ -42,11 +41,7 @@ const BetDisplay = (props) => {
                       linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02))`,
         }}
       >
-        <div
-          class={`flex gap-2 items-center ${
-            isActive() && "pointer-events-none"
-          }`}
-        >
+        <div class={`flex gap-2 items-center `}>
           <div class="flex gap-2 items-center flex-1 h-full">
             <CoinLogo h="16" />
             <input
@@ -58,11 +53,7 @@ const BetDisplay = (props) => {
             />
           </div>
         </div>
-        <div
-          class={`flex gap-3 h-full items-center ${
-            isActive() && "pointer-events-none"
-          }`}
-        >
+        <div class={`flex gap-3 h-full items-center `}>
           <AdjustBtn text={"1/2"} onClick={halveBet} small={props.small} />
           <AdjustBtn text={"x2"} onClick={doubleBet} small={props.small} />
           <div class="h-[175%] w-[1px] bg-[#1C1F3D]" />

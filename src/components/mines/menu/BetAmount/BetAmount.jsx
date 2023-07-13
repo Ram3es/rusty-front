@@ -15,6 +15,7 @@ const BetAmount = (props) => {
       <div class="text-[#9A9EC8] text-[12px] font-medium">Bet</div>
       <BetDisplay
         betValue={props.betValue}
+        setBetValue={props.setBetValue}
         callbackFn={(e) => {
           if (e.currentTarget.value < 0) {
             e.currentTarget.value = 0;

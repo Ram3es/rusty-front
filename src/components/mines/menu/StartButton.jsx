@@ -30,7 +30,11 @@ const StartButton = (props) => {
 
   return (
     <div
-      class="w-full p-[1px] rounded-md cursor-pointer"
+      class={`w-full p-[1px] rounded-md ${
+        props.mines.status === "playing" && props.mines.cleared.length < 1
+          ? "opacity-30 pointer-events-none"
+          : "hover"
+      } `}
       style={{
         background: `linear-gradient(180deg, ${
           props.mines.status === "playing"
@@ -65,25 +69,34 @@ const StartButton = (props) => {
             }) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12)) drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.12))`,
           }}
         >
-          <div
-            class={`font-semibold`}
-            style={{
-              color: `${
-                props.mines.status === "playing" ? "#27F278" : "#FFB436"
-              }`,
-            }}
-          >
-            {props.mines.status === "playing" ? "Cashout" : "Start Game"}
-          </div>
-          <CoinLogo h="16" />
-          {props.mines.status === "playing" ? (
-            <GreenText
-              text={getCurrencyString(
-                Math.floor(calculateMultiplier() * props.mines.value)
-              )}
-            />
+          {props.mines.status === "playing" &&
+          props.mines.cleared.length < 1 ? (
+            <div class="text-[#27F278] font-SpaceGrotesk font-semibold">
+              Reveal a Tile
+            </div>
           ) : (
-            <GoldText text={getCurrencyString(props.betValue() || 0)} />
+            <>
+              <div
+                class={`font-semibold`}
+                style={{
+                  color: `${
+                    props.mines.status === "playing" ? "#27F278" : "#FFB436"
+                  }`,
+                }}
+              >
+                {props.mines.status === "playing" ? "Cashout" : "Start Game"}
+              </div>
+              <CoinLogo h="16" />
+              {props.mines.status === "playing" ? (
+                <GreenText
+                  text={getCurrencyString(
+                    Math.floor(calculateMultiplier() * props.mines.value)
+                  )}
+                />
+              ) : (
+                <GoldText text={getCurrencyString(props.betValue() || 0)} />
+              )}
+            </>
           )}
         </div>
       </div>

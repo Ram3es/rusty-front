@@ -219,7 +219,10 @@ const Mines = () => {
                     {(i) => (
                       <div
                         class={`center w-22 h-22 ${
-                          mines?.status == "playing" ? "hover" : ""
+                          mines?.status == "playing" &&
+                          !mines.cleared.includes(i)
+                            ? "hover2"
+                            : "pointer-events-none"
                         } `}
                         onClick={() => {
                           if (mines?.status == "playing") {
@@ -277,11 +280,7 @@ const Mines = () => {
                 </div>
               </div>
               <div
-                class={`flex relative  ${
-                  mines.status !== "playing"
-                    ? "translate-y-[43%]"
-                    : "translate-y-1/3"
-                } min-w-[210px] justify-end 
+                class={`flex relative top-1/3 min-w-[210px] justify-end 
                 transition-transform duration-100 ease-in-out`}
               >
                 <Winnings mines={mines} betValue={betValue} />
