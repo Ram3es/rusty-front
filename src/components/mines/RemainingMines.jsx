@@ -5,7 +5,7 @@ import RedText from "../shared/RedText";
 const RemainingMines = (props) => {
   return (
     <div
-      class={`relative flex flex-col px-14 items-center h-14 transition-opacity duration-200 overflow-visible ${
+      class={`relative flex flex-col lg:px-14 items-center h-14 transition-opacity duration-200 overflow-visible ${
         props.mines.status !== "playing" &&
         props.mines.status !== "lost" &&
         "opacity-0"
@@ -18,7 +18,7 @@ const RemainingMines = (props) => {
         }`,
       }}
     >
-      <div class="w-full flex items-center justify-center gap-2 pt-2">
+      <div class="w-2/3 lg:w-full flex items-center justify-center gap-2 pt-2">
         {props.mines.status === "lost" ? (
           <img src={RedMineImg} alt="red mine image" class="w-[20%] " />
         ) : (
