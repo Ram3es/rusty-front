@@ -60,8 +60,8 @@ const CaseUnboxing = (props) => {
   const [isCaseCanBeOpen, setIsCaseCanBeOpen] = createSignal(true);
   const [isCaseAlreadyOpened, setIsCaseAlreadyOpened] = createSignal(false);
   const [caseStatistic, setCaseStatistic] = createSignal();
-  const [countOfCases, setCountOfCases] = createSignal(4);
-  const [pendingNum, setPendingNum] = createSignal(4);
+  const [countOfCases, setCountOfCases] = createSignal(1);
+  const [pendingNum, setPendingNum] = createSignal(1);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
   const [fairnessHash, setFairnessHash] = createSignal([]);
   const [remainingTimeToOpenCase, setRemainingTimeToOpenCase] =
