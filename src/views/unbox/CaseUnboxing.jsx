@@ -5,6 +5,8 @@ import {
   createEffect,
   onCleanup,
   createMemo,
+  Switch,
+  Match,
 } from "solid-js";
 import {URL} from "../../libraries/url";
 import injector from "../../injector/injector";
@@ -14,6 +16,8 @@ import Coin from "../../utilities/Coin";
 import {setSpinReelsTrigger} from "../../components/cases/store";
 import {spinnerTimings} from "../../libraries/caseSpinConfig";
 import SpinnerImage from "../../assets/img/unbox/spinner.png";
+
+import {useDebounce} from '../../utilities/hooks/debounce'
 
 import SpinnersContainerHorizontal from "../../components/cases/horizontal/SpinnersContainerHorizontal";
 import SpinnersContainerVertical from "../../components/cases/vertical/SpinnersContainerVertical";
@@ -40,6 +44,8 @@ import {
   playWinSound,
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
+import { onMount } from "solid-js";
+import SpinnersContainerVerticalMobile from "../../components/cases/verticalMobile/SpinnersContainerVerticalMobile";
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
@@ -64,6 +70,8 @@ const CaseUnboxing = (props) => {
   const [beginWinSound, setBeginWinSound] = createSignal(false);
   const [beginClickSound, setBeginClickSound] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
+
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -360,6 +368,18 @@ const CaseUnboxing = (props) => {
     }
   });
 
+  const handleChangeInnerWidth = () => {
+    setInnerWidth(window.innerWidth)
+  };
+
+  onMount(() => {
+    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+  })
+
   return (
     <>
       {rollCase() && (
@@ -384,11 +404,7 @@ const CaseUnboxing = (props) => {
               </div>
             </div>
             <div
-              class={`rounded-4 relative ${
-                pendingNum() === 1
-                  ? "case-opening-wrapper"
-                  : "case-opening-wrapper-horizontal-yellow horisontal-borders"
-              } overflow-hidden ${
+              class={`rounded-4 relative overflow-hidden ${
                 !userObject.authenticated ||
                 (fairnessHash().length <= 0 && props.searchParams.daily &&
                   (notAvailableCases().includes(
@@ -404,27 +420,106 @@ const CaseUnboxing = (props) => {
                   ? "mix-blend-luminosity"
                   : "mix-blend-normal"
               }`}
+              classList={{
+                'case-opening-wrapper': pendingNum() === 1,
+                'case-opening-wrapper-horizontal-yellow horisontal-borders': pendingNum() !== 1 && innerWidth() >= 600
+              }}
             >
               <div
                 class="w-full relative"
-                style={{"background-image": `url('${footerLogoBgVector}')`}}
+                style={{"background-image": `url('${innerWidth() >= 600 && footerLogoBgVector}')`}}
               >
                 {!isCaseAlreadyOpened() && (
                   <div
-                    class="absolute left-0 top-0 w-full h-full center rounded-4"
-                    style={{
-                      background:
-                        "radial-gradient(35.44% 82.64% at 2.04% -32.64%, rgba(255, 180, 54, 0.16) 14.79%, rgba(255, 180, 54, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, rgba(0, 0, 0, 0.24)",
-                      "backdrop-filter": "blur(6px)",
+                    class="md:absolute left-0 top-0 w-full h-full md:center rounded-4"
+                    classList={{
+                      'case-opening-placeholder--background center absolute': pendingNum() === 1 || innerWidth() >= 600,
+                      'grid grid-cols-2 gap-y-4': pendingNum() > 1 && innerWidth() < 600
                     }}
                   >
-                    <For each={Array.from({length: pendingNum()})}>
-                      {(_) => (
-                        <div class="w-full center">
+                    <For each={Array.from({ length: pendingNum() })}>
+                      {(_, index) => (
+                        <div
+                          class="relative w-full md:center"
+                          classList={{
+                            center: pendingNum() === 1 || innerWidth() >= 600,
+                            'relative h-[264px] center': pendingNum() > 1 && innerWidth() < 600,
+                            'horisontal-borders rounded-8 case-opening-placeholder--background__odd':
+                              pendingNum() > 1 &&
+                              innerWidth() < 600 &&
+                              pendingNum() === 3 &&
+                              index() === 2,
+                            'horisontal-borders-left-odd case-opening-placeholder--background__odd rounded-tl-8 rounded-bl-8':
+                              pendingNum() > 1 &&
+                              innerWidth() < 600 &&
+                              !(index() % 2) &&
+                              !(pendingNum() === 3 && index() === 2),
+                            'horisontal-borders-right-even case-opening-placeholder--background__even rounded-tr-8 rounded-br-8':
+                              pendingNum() > 1 &&
+                              innerWidth() < 600 &&
+                              (index() % 2 || (!(pendingNum() % 2 === 0) && index() !== 0)) &&
+                              !(pendingNum() === 3 && index() === 2)
+                          }}
+                        >
+                          {innerWidth() < 600 && (
+                            <>
+                              <Switch>
+                                <Match
+                                  when={
+                                    (pendingNum() % 2 === 0 && !(index() % 2)) ||
+                                    (pendingNum() === 3 && index() === 0)
+                                  }
+                                >
+                                  <div class="arrow-down absolute top-2/4 -left-[14px] -translate-y-1/2 -rotate-90 scale-[0.5]" />
+                                </Match>
+                                <Match
+                                  when={
+                                    (pendingNum() % 2 === 0 && index() % 2) ||
+                                    (pendingNum() === 3 && index() % 2)
+                                  }
+                                >
+                                  <div class="arrow-down absolute top-2/4 -right-[14px] -translate-y-1/2 rotate-90 scale-[0.5]" />
+                                </Match>
+                                <Match when={pendingNum() === 3 && index() === 2}>
+                                  <div class="arrow-down absolute top-2/4 -left-[14px] -translate-y-1/2 -rotate-90 scale-[0.5]" />
+                                  <div class="arrow-down absolute top-2/4 -right-[14px] -translate-y-1/2 rotate-90 scale-[0.5]" />
+                                </Match>
+                              </Switch>
+                              <Switch>
+                                <Match
+                                  when={
+                                    (pendingNum() % 2 === 0 && !(index() % 2)) ||
+                                    (pendingNum() === 3 && (index() === 0 || index() === 2))
+                                  }
+                                >
+                                  <img
+                                    src="assets/caselinemobile.svg"
+                                    alt="caseline"
+                                    class={`absolute w-full left-3 transition-all duration-500 
+                             
+                            `}
+                                  />
+                                </Match>
+                                <Match
+                                  when={
+                                    (pendingNum() % 2 === 0 && index() % 2) ||
+                                    (pendingNum() === 3 && index() % 2)
+                                  }
+                                >
+                                  <img
+                                    src="assets/caselinemobileright.svg"
+                                    alt="caseline"
+                                    class={`right-3 absolute w-full  transition-all duration-500 
+                            `}
+                                  />
+                                </Match>
+                              </Switch>
+                            </>
+                          )}
                           <img
                             alt="case-image"
-                            class="w-10/12 max-w-[427px] no-select relative z-10"
-                            src={rollCase().image || ""}
+                            class="md:w-10/12 w-[181px] md:max-w-[427px] max-w-[181px] no-select relative z-10"
+                            src={rollCase().image || ''}
                           />
                         </div>
                       )}
@@ -441,16 +536,34 @@ const CaseUnboxing = (props) => {
                     setBeginWinSound={setBeginWinSound}
                   />
                 ) : countOfCases() > 0 && countOfCases() < 5 ? (
-                  <SpinnersContainerVertical
-                    numSpinners={countOfCases}
-                    caseItemList={rollItems}
-                    spinnerOptions={spinnerOptions}
-                    setBeginClickSound={setBeginClickSound}
-                    setBeginPullBackSound={setBeginPullBackSound}
-                    setBeginWinSound={setBeginWinSound}
-                  />
+                  <Switch>
+                    <Match when={innerWidth() >= 600}>
+                      <SpinnersContainerVertical
+                        numSpinners={countOfCases}
+                        caseItemList={rollItems}
+                        spinnerOptions={spinnerOptions}
+                        setBeginClickSound={setBeginClickSound}
+                        setBeginPullBackSound={setBeginPullBackSound}
+                        setBeginWinSound={setBeginWinSound}
+                      />
+                    </Match>
+                    <Match when={innerWidth() < 600}>
+                      <SpinnersContainerVerticalMobile
+                        numSpinners={countOfCases}
+                        caseItemList={rollItems}
+                        spinnerOptions={spinnerOptions}
+                        setBeginClickSound={setBeginClickSound}
+                        setBeginPullBackSound={setBeginPullBackSound}
+                        setBeginWinSound={setBeginWinSound}
+                      />
+                    </Match>
+                  </Switch>
                 ) : (
-                  <SpinnersContainerBlank pendingNum={pendingNum} />
+                  <Switch>
+                    <Match when={innerWidth() >= 600 || pendingNum() === 1}>
+                      <SpinnersContainerBlank pendingNum={pendingNum} />
+                    </Match>
+                  </Switch>
                 )}
               </div>
             </div>
