@@ -66,6 +66,8 @@ import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png";
 import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
 import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
 import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
+import BattlePullsColumn from "../../components/battle/BattlePullsColumn";
+import { getColorByPrice, getGradientForWinners, getModeColorByName, getModeHexByTextColor, getModeRgbByTextColor, isWinner } from "../../utilities/caseBattles-tools";
 
 export const [containerRef, setContainerRef] = createSignal(null);
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -124,43 +126,6 @@ const GameCaseBattle = (props) => {
 
   let counter = 0;
   let intervalId = null;
-
-  const getModeColor = () => {
-    return (game().mode === "royal" || game().mode === "team") &&
-      game().cursed !== 1
-      ? "yellow"
-      : game().cursed === 1
-      ? "green"
-      : "blue";
-  };
-
-  const getModeColorRgb = () => {
-    const color = getModeColor();
-    if (color === "yellow") return "255, 180, 54";
-    if (color === "green") return "218, 253, 9";
-    if (color === "blue") return "90, 195, 255";
-  };
-
-  const getModeColorHex = () => {
-    const color = getModeColor();
-    if (color === "yellow") return "#ffb436";
-    if (color === "green") return "#DAFD09";
-    if (color === "blue") return "#5ac3ff";
-  };
-
-  const getColor = (item_price) => {
-    const color =
-      item_price > 1000 * 100
-        ? "gold"
-        : item_price > 1000 * 30
-        ? "red"
-        : item_price > 1000 * 10
-        ? "purple"
-        : item_price > 1000 * 2
-        ? "blue"
-        : "gray";
-    return color;
-  };
 
   const generateSpinList = (playerIndex) => {
     setSpinOffsets([]);
@@ -244,7 +209,7 @@ const GameCaseBattle = (props) => {
           img: item.image?.replace("{url}", window.origin) || "",
           price: item.item_price,
           name: item.name,
-          rarity: getColor(item.item_price),
+          rarity: getColorByPrice(item.item_price),
           isConfetti: item.isConfetti,
         }))
       );
@@ -263,7 +228,7 @@ const GameCaseBattle = (props) => {
             name: inputGame.players[playerIndex + 1][
               `round_${inputGame.currentRound}`
             ].name,
-            rarity: getColor(
+            rarity: getColorByPrice(
               inputGame.players[playerIndex + 1][
                 `round_${inputGame.currentRound}`
               ].item_price
@@ -522,40 +487,6 @@ const GameCaseBattle = (props) => {
     clearInterval(intervalId);
   });
 
-  const isWinner = (winnersArray, playerIndex) => {
-    if (winnersArray) {
-      return winnersArray.some(
-        (winner) => winner.player_index === playerIndex + 1
-      );
-    }
-    return false;
-  };
-
-  const getGradientForWinners = (playerQty, winnersArray, playerIndex) => {
-    return (
-      isWinner(winnersArray, playerIndex) &&
-      (playerQty === 2
-        ? `radial-gradient(100% 126.02% at ${
-            playerIndex + 1 === 1 ? "0%" : "100%"
-          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
-        : playerQty === 4
-        ? `radial-gradient(100% 126.02% at ${
-            playerIndex + 1 === 1 || playerIndex + 1 === 2 ? "0%" : "100%"
-          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
-        : playerQty === 3
-        ? `radial-gradient(${
-            playerIndex + 1 === 2 ? "40%" : "100%"
-          } 126.02% at ${
-            playerIndex + 1 === 1
-              ? "0%"
-              : playerIndex + 1 === 2
-              ? "50%"
-              : "100%"
-          } 50%, rgba(27, 220, 128, 0.16) 0%, rgba(27, 220, 128, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`
-        : "")
-    );
-  };
-
   const createRandomFunction = (
     gameId,
     currentRound,
@@ -581,7 +512,7 @@ const GameCaseBattle = (props) => {
       c.items.forEach((i) => {
         const img = new Image();
         img.src = i.image;
-        bgLogoColors.add(getColor(i.item_price));
+        bgLogoColors.add(getColorByPrice(i.item_price));
       });
     });
 
@@ -696,7 +627,7 @@ const GameCaseBattle = (props) => {
         blue: "#2196f3",
         gray: "#9e9e9e",
       };
-      const color = getColor(item.item.price);
+      const color = getColorByPrice(item.item.price);
       const ticks = 70;
 
       // const confettiInterval = setInterval(() => {
@@ -856,10 +787,10 @@ const GameCaseBattle = (props) => {
   return (
     <div class="flex flex-col">
       {game() && (
-        <div class="w-full h-full flex flex-col gap-8 relative py-8">
-          <div class="px-4 xl:px-8 xxl:px-14 flex flex-col ">
-            <div class="flex flex-col md:flex-row justify-between gap-2 mb-0 xl:-mb-8">
-              <div class="flex items-center gap-6">
+        <div class="w-full h-full flex flex-col gap-8 relative py-4 lg:py-8">
+          <div class="lg:px-4 xl:px-8 xxl:px-14 flex flex-col">
+            <div class="flex flex-col lg:flex-row  gap-3 lg:gap-2 mb-0 xl:-mb-8">
+              <div class="flex lg:items-center flex-col gap-3 lg:flex-row lg:gap-6">
                 <NavLink href={URL.GAMEMODES.CASE_BATTLES}>
                   <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max h-[40px]">
                     <ArrowBack />
@@ -893,9 +824,9 @@ const GameCaseBattle = (props) => {
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap gap-2 justify-center items-center mx-auto md:mx-0">
+              <div class="flex flex-wrap gap-2 lg:justify-center lg:items-center">
                 <div
-                  class={`w-max center h-10 px-5 border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
+                  class={`w-max lg:center h-10 px-5 border border-[#303448] rounded-4 flex gap-1 items-center text-gray-9a`}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(_, index) => (
@@ -920,9 +851,9 @@ const GameCaseBattle = (props) => {
                             (game().mode === "team" &&
                               index() !== 0 &&
                               index() !== 2)) &&
-                          (getModeColor() === "yellow" ? (
+                          (getModeColorByName(game().mode) === "yellow" ? (
                             <BattleRoyaleIcon additionClasses="w-3" />
-                          ) : getModeColor() === "green" ? (
+                          ) : getModeColorByName(game().mode) === "green" ? (
                             <BattleCursedIcon additionClasses="w-4" />
                           ) : (
                             <BattleGroupIcon additionClasses="w-4" />
@@ -932,9 +863,9 @@ const GameCaseBattle = (props) => {
                   </For>
                   <div
                     classList={{
-                      "text-yellow-ffb": getModeColor() === "yellow",
-                      "text-[#DAFD09]": getModeColor() === "green",
-                      "text-[#5AC3FF]": getModeColor() === "blue",
+                      "text-yellow-ffb": getModeColorByName(game().mode) === "yellow",
+                      "text-[#DAFD09]": getModeColorByName(game().mode) === "green",
+                      "text-[#5AC3FF]": getModeColorByName(game().mode) === "blue",
                     }}
                   >
                     {(game().mode === "royal" || game().mode === "team") &&
@@ -982,7 +913,7 @@ const GameCaseBattle = (props) => {
               <GrayWrapperdWithBorders classes="rounded-t-4 min-w-[300px]">
                 {game().status !== "ended" ? (
                   <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12">
-                    <span class="w-max">{getCurrentRollItem().name}</span>
+                    <span class="w-max truncate">{getCurrentRollItem().name}</span>
                     <img src={CoinStack} alt="" />
                     <span class="text-gradient text-shadow-gold-secondary">
                       {getCurrencyString(getCurrentRollItem().price)}
@@ -1003,7 +934,7 @@ const GameCaseBattle = (props) => {
                     style={{
                       background: `radial-gradient(circle at center, rgba(${
                         game().status !== "ended"
-                          ? `${getModeColorRgb()}, 1`
+                          ? `${getModeRgbByTextColor(getModeColorByName(game().mode))}, 1`
                           : `255, 255, 255, 0.05`
                       }) 6%, rgba(255, 255, 255, 0.05) 8%)`,
                     }}
@@ -1015,7 +946,7 @@ const GameCaseBattle = (props) => {
                                   border-x-[8px] border-b-[4px]
                                   border-x-transparent`}
                           style={{
-                            "border-bottom-color": getModeColorHex(),
+                            "border-bottom-color": getModeHexByTextColor(getModeColorByName(game().mode)),
                           }}
                         />
                         <div
@@ -1023,7 +954,7 @@ const GameCaseBattle = (props) => {
                                   border-x-[8px] border-b-[4px]
                                   border-x-transparent`}
                           style={{
-                            "border-bottom-color": getModeColorHex(),
+                            "border-bottom-color": getModeHexByTextColor(getModeColorByName(game().mode)),
                           }}
                         />
                       </>
@@ -1049,9 +980,9 @@ const GameCaseBattle = (props) => {
                                 class="absolute left-1/2 top-1/2 h-full w-[64px] -translate-x-1/2 -translate-y-1/2"
                                 style={{
                                   background:
-                                    getModeColor() === "yellow"
+                                    getModeColorByName(game().mode) === "yellow"
                                       ? "linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)"
-                                      : getModeColor() === "blue"
+                                      : getModeColorByName(game().mode) === "blue"
                                       ? "linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)"
                                       : "linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)",
                                 }}
@@ -1157,11 +1088,11 @@ const GameCaseBattle = (props) => {
                       background: `linear-gradient(0deg, rgba(255, 255, 255, 0.02) 15%, rgba(255, 255, 255, 0.06) 30%, rgba(${
                         game().status === "ended"
                           ? "154, 158, 200"
-                          : `${getModeColorRgb()}`
+                          : `${getModeRgbByTextColor(getModeColorByName(game().mode))}`
                       },0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${
                         game().status === "ended"
                           ? "154, 158, 200"
-                          : `${getModeColorRgb()}`
+                          : `${getModeRgbByTextColor(getModeColorByName(game().mode))}`
                       },0.6) 54.5%, rgba(255, 255, 255, 0.035) 70%`,
                     }}
                   >
@@ -1169,7 +1100,7 @@ const GameCaseBattle = (props) => {
                       <div
                         class={`rounded-b-4 ${
                           game().status !== "ended" &&
-                          `case-opening-wrapper-horizontal-${getModeColor()}`
+                          `case-opening-wrapper-horizontal-${getModeColorByName(game().mode)}`
                         }`}
                       >
                         <div
@@ -1187,7 +1118,7 @@ const GameCaseBattle = (props) => {
                             class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${
                               game().status === "ended"
                                 ? "gray"
-                                : `${getModeColor()}`
+                                : `${getModeColorByName(game().mode)}`
                             }
                               transition-colors duration-200`}
                           />
@@ -1195,7 +1126,7 @@ const GameCaseBattle = (props) => {
                             class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${
                               game().status === "ended"
                                 ? "gray"
-                                : `${getModeColor()}`
+                                : `${getModeColorByName(game().mode)}`
                             }
                               transition-colors duration-200`}
                           />
@@ -1226,7 +1157,7 @@ const GameCaseBattle = (props) => {
                                     (game().mode === "team" &&
                                       playerIndex !== 0 &&
                                       playerIndex !== 2)) &&
-                                  (getModeColor() === "yellow" ? (
+                                  (getModeColorByName(game().mode) === "yellow" ? (
                                     <div
                                       class={`absolute z-40 text-yellow-ffb center right-0 top-0 h-full ${
                                         game().status !== "ended" &&
@@ -1239,7 +1170,7 @@ const GameCaseBattle = (props) => {
                                         game().status !== "results" ? (
                                           <GrayWrapperdWithBorders
                                             classes="rounded-6"
-                                            gradientColor={getModeColor()}
+                                            gradientColor={getModeColorByName(game().mode)}
                                           >
                                             <BattleRoyaleIcon
                                               additionClasses="w-6 m-2"
@@ -1249,14 +1180,14 @@ const GameCaseBattle = (props) => {
                                         ) : null}
                                       </div>
                                     </div>
-                                  ) : getModeColor() === "green" ? (
+                                  ) : getModeColorByName(game().mode) === "green" ? (
                                     <div class="absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10">
                                       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                                         {game().status !== "ended" &&
                                         game().status !== "results" ? (
                                           <GrayWrapperdWithBorders
                                             classes="rounded-6"
-                                            gradientColor={getModeColor()}
+                                            gradientColor={getModeColorByName(game().mode)}
                                           >
                                             <BattleCursedIcon
                                               additionClasses="w-7 m-2"
@@ -1273,7 +1204,7 @@ const GameCaseBattle = (props) => {
                                         game().status !== "results" ? (
                                           <GrayWrapperdWithBorders
                                             classes="rounded-6"
-                                            gradientColor={getModeColor()}
+                                            gradientColor={getModeColorByName(game().mode)}
                                           >
                                             <BattleGroupIcon
                                               additionClasses="w-7 mx-1 my-2"
@@ -1314,7 +1245,7 @@ const GameCaseBattle = (props) => {
                                                 .isBigWin
                                             }
                                             isFastSpin={false}
-                                            lineColor={getModeColor()}
+                                            lineColor={getModeColorByName(game().mode)}
                                             randomFunction={randomFunction}
                                             user={userObject}
                                             containsConfettiWin={
@@ -1450,7 +1381,6 @@ const GameCaseBattle = (props) => {
                             >
                               <ResultsAnimation
                                 game={game}
-                                getModeColorRgb={getModeColorRgb}
                                 getGradientForWinners={getGradientForWinners}
                               />
                             </Match>
@@ -1459,7 +1389,6 @@ const GameCaseBattle = (props) => {
                             >
                               <ResultsAnimation
                                 game={game}
-                                getModeColorRgb={getModeColorRgb}
                                 getGradientForWinners={getGradientForWinners}
                                 noAnimation
                               />
@@ -1470,6 +1399,19 @@ const GameCaseBattle = (props) => {
                     </div>
                   </div>
                 </div>
+                {/* <For each={Array.from({length: game().playersQty})}>
+                  {(_, index) => {
+                    return (
+                      <BattlePullsColumn
+                        columnIndex={index}
+                        game={game}
+                        playerRoundData={playerRoundData}
+                        handleCallBot={() => callBot(index() + 1)}
+                        handleJoinGame={() => joinGame(index() + 1)}
+                      />
+                    )
+                  }}
+                </For> */}
                 <div
                   class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
                     game().playersQty
@@ -1481,7 +1423,7 @@ const GameCaseBattle = (props) => {
                   }
                   `}
                   style={{
-                    background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, ${
+                    background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeRgbByTextColor(getModeColorByName(game().mode))}, ${
                       game().status === "ended" ? 0 : "0.07"
                     }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
                   }}
@@ -1514,7 +1456,7 @@ const GameCaseBattle = (props) => {
                       >
                         {game().players[playerIndex + 1] ? (
                           <div class="center p-2">
-                            <div class=" pl-2 pr-6 flex flex-wrap gap-2 center">
+                            <div class="pl-2 pr-6 flex flex-wrap gap-2 center">
                               <div class="w-max">
                                 <UserGameAvatar
                                   mode={
@@ -1605,7 +1547,7 @@ const GameCaseBattle = (props) => {
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex) => (
                       <>
-                        <div class="flex w-full px-5 py-10 pt-12 ">
+                        <div class="flex w-full px-5 py-10 pt-12">
                           {game().players[playerIndex + 1] && (
                             <div class="flex gap-2 flex-wrap justify-center w-full">
                               <For
@@ -1623,7 +1565,7 @@ const GameCaseBattle = (props) => {
                                               round
                                             ]
                                           }
-                                          color={getColor(
+                                          color={getColorByPrice(
                                             playerRoundData()[playerIndex][
                                               round
                                             ].item_price

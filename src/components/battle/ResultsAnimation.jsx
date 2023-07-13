@@ -13,6 +13,7 @@ import {
   playCounter60Sound,
   playCounter65Sound,
 } from "../../utilities/Sounds/SoundButtonClick";
+import { getModeColorByName, getModeRgbByTextColor } from "../../utilities/caseBattles-tools";
 
 const ResultsAnimation = (props) => {
   const [timings, setTimings] = createSignal({});
@@ -420,7 +421,7 @@ const ResultsAnimation = (props) => {
         } 
         mt-3`}
         style={{
-          background: `radial-gradient(25% 50% at 50% 0%, rgba(${props.getModeColorRgb()}, ${
+          background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeRgbByTextColor(getModeColorByName(props.game().mode))}, ${
             props.game().status === "ended" ? 0 : "0.07"
           }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
         }}
