@@ -37,7 +37,7 @@ const SelectedItem = () => {
 
       <div class={`${activeItem() && "pt-[10%]"}`}>Your Selection</div>
       <div
-        class={`flex w-[190px] h-[235px] items-center justify-center ${
+        class={`flex w-[190px] h-[235px] items-center justify-center pointer-events-none ${
           activeItem() && ""
         }`}
       >

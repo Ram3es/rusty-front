@@ -221,7 +221,7 @@ const Mines = () => {
                         class={`center w-22 h-22 ${
                           mines?.status == "playing" &&
                           !mines.cleared.includes(i)
-                            ? "hover2"
+                            ? "hover click-large"
                             : "pointer-events-none"
                         } `}
                         onClick={() => {

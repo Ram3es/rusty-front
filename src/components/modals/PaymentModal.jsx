@@ -9,6 +9,7 @@ import RedCoin from "../../assets/img/coinflip/redcoin.svg";
 
 import {NavLink, useNavigate} from "solid-app-router";
 import Items from "./Items";
+import NewItemsList from "./NewItemsList";
 
 import Giftcard5 from "../../assets/img/giftcards/giftcard5.png";
 import Giftcard10 from "../../assets/img/giftcards/giftcard10.png";
@@ -64,7 +65,7 @@ const PaymentModal = (props) => {
   const [descending, setDescending] = createSignal(false);
 
   const [wager, setWager] = createSignal(0);
-  const [itemsLimit, setItemsLimit] = createSignal(48);
+  const [itemsLimit, setItemsLimit] = createSignal(9999);
 
   const [isItemsRefresh, setIsItemsResresh] = createSignal(false);
 
@@ -89,7 +90,11 @@ const PaymentModal = (props) => {
       temp.value += item.price;
     }
     setSettings(temp);
-    if (props.searchParams?.deposit && props.searchParams?.crypto && props.searchParams.method) {
+    if (
+      props.searchParams?.deposit &&
+      props.searchParams?.crypto &&
+      props.searchParams.method
+    ) {
       socket.emit(
         "crypto:address:get",
         {
@@ -120,7 +125,7 @@ const PaymentModal = (props) => {
     // setIsItemsResresh(true);
     // setItems([]);
 
-    socket.emit("steam:inventory:refresh", {asc: descending()}, (data) => {
+    socket.emit("steam:inventory:refresh", {asc: false}, (data) => {
       if (data.msg) {
         toastr(data);
       }
@@ -151,7 +156,7 @@ const PaymentModal = (props) => {
     }
     socket.emit(
       "steam:market",
-      {search: search(), asc: descending(), offset, limit: itemsLimit()},
+      {search: search(), asc: false, offset, limit: itemsLimit()},
       (data) => {
         setItemsTotal(0);
         setWager(data.data?.wager || 0);
@@ -210,7 +215,7 @@ const PaymentModal = (props) => {
 
   const updateInventory = () => {
     if (!isItemsRefresh()) {
-      socket.emit("steam:inventory", {asc: descending()}, (data) => {
+      socket.emit("steam:inventory", {asc: false}, (data) => {
         if (data.msg) {
           toastr(data);
         }
@@ -234,9 +239,9 @@ const PaymentModal = (props) => {
 
   onMount(() => {
     if (
-      ((props.searchParams?.deposit && props.searchParams?.items) ||
-        (props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT &&
-      items().length === 0))
+      (props.searchParams?.deposit && props.searchParams?.items) ||
+      (props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT &&
+        items().length === 0)
     ) {
       updateInventory();
     } else if (props.searchParams?.withdraw && items().length === 0) {
@@ -244,8 +249,6 @@ const PaymentModal = (props) => {
         updateItems(false);
       });
       updateItems(false);
-    } else if (!props.searchParams?.withdraw) {
-      setItemsLimit(45);
     }
 
     if (
@@ -270,7 +273,6 @@ const PaymentModal = (props) => {
       const index = prev.findIndex((i) => {
         return item.id === i.id;
       });
-
 
       if (
         !props.searchParams?.withdraw ||
@@ -536,7 +538,7 @@ const PaymentModal = (props) => {
     ) {
       updateInventory();
     } else if (props.searchParams?.withdraw) {
-      updateItems(false, true);
+      updateItems(false);
     }
   };
 
@@ -548,7 +550,7 @@ const PaymentModal = (props) => {
     ) {
       updateInventory();
     } else if (props.searchParams?.withdraw) {
-      updateItems(false, true);
+      updateItems(false);
     }
   };
 
@@ -577,7 +579,6 @@ const PaymentModal = (props) => {
       ru: "вывести",
     },
   };
-
 
   return (
     <Modal
@@ -777,7 +778,7 @@ const PaymentModal = (props) => {
                     </div>
                   )}
                 </div>
-                <Items
+                {/* <Items
                   withdraw={props.searchParams?.withdraw}
                   disabled={props.searchParams?.withdraw && wager() > 0}
                   items={() => {
@@ -791,6 +792,20 @@ const PaymentModal = (props) => {
                   }}
                   toggle={toggle}
                   activeItems={activeItems}
+                /> */}
+                <NewItemsList
+                  items={() => {
+                    return search()
+                      ? items().filter((item) =>
+                          String(item.name)
+                            .toLowerCase()
+                            .includes(String(search()).toLowerCase())
+                        )
+                      : items();
+                  }}
+                  toggle={toggle}
+                  activeItems={activeItems}
+                  descending={descending}
                 />
               </div>
               <div
@@ -872,11 +887,12 @@ const PaymentModal = (props) => {
                   </div>
                   <div class="center flex-col w-full px-4 lg:px-8 gap-3">
                     <div class="center gap-2 p-3 w-full border rounded-4 border-white/10">
-                      <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold  items-center"
-                      classList={{
-                        'text-green-27': props.searchParams?.deposit,
-                        'text-yellow-ffb': !props.searchParams?.deposit
-                      }}
+                      <div
+                        class="flex gap-2 text-14 font-SpaceGrotesk font-bold  items-center"
+                        classList={{
+                          "text-green-27": props.searchParams?.deposit,
+                          "text-yellow-ffb": !props.searchParams?.deposit,
+                        }}
                       >
                         <span class="text-white">
                           {settings().amount}
@@ -884,10 +900,13 @@ const PaymentModal = (props) => {
                         </span>
                         <span>worth</span>
                         <Coin width="5" />
-                        <span  classList={{
-                        'text-gradient-green-secondary': props.searchParams?.deposit,
-                        'text-gradient': !props.searchParams?.deposit
-                      }}>
+                        <span
+                          classList={{
+                            "text-gradient-green-secondary":
+                              props.searchParams?.deposit,
+                            "text-gradient": !props.searchParams?.deposit,
+                          }}
+                        >
                           {Number(settings().value).toLocaleString()}
                         </span>
                       </div>
@@ -907,35 +926,41 @@ const PaymentModal = (props) => {
                           }}
                         />
                       </div>
-                      <div class='w-full'>
-                      <YellowGradientButton
-                        isFullWidth={true}
-                        callbackFn={() => {
-                          props.searchParams?.deposit &&
-                          props.searchParams?.giftcard
-                            ? giftcardDeposit()
-                            : props.searchParams?.deposit
-                            ? deposit()
-                            : props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT
-                            ? deposit(true)
-                            : withdraw();
-                        }}
-                        color={props.searchParams?.deposit ? 'mint' : 'yellow'}
-                      >
-                        <div class="justify-center flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center"
-                        classList={{
-                          'text-green-27 text-shadow-base': props.searchParams?.deposit,
-                          'text-yellow-ffb': !props.searchParams?.deposit
-                        }}
+                      <div class="w-full">
+                        <YellowGradientButton
+                          isFullWidth={true}
+                          callbackFn={() => {
+                            props.searchParams?.deposit &&
+                            props.searchParams?.giftcard
+                              ? giftcardDeposit()
+                              : props.searchParams?.deposit
+                              ? deposit()
+                              : props.pathname() ==
+                                URL.GAMEMODES.JACKPOT_DEPOSIT
+                              ? deposit(true)
+                              : withdraw();
+                          }}
+                          color={
+                            props.searchParams?.deposit ? "mint" : "yellow"
+                          }
                         >
-                          {props.searchParams?.giftcard
-                            ? "redeem"
-                            : props.searchParams?.deposit ||
-                              props.pathname() == URL.GAMEMODES.JACKPOT_DEPOSIT
-                            ? buttonName.deposit[i18n.language]
-                            : buttonName.withdraw[i18n.language]}
-                        </div>
-                      </YellowGradientButton>
+                          <div
+                            class="justify-center flex capitalize gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center"
+                            classList={{
+                              "text-green-27 text-shadow-base":
+                                props.searchParams?.deposit,
+                              "text-yellow-ffb": !props.searchParams?.deposit,
+                            }}
+                          >
+                            {props.searchParams?.giftcard
+                              ? "redeem"
+                              : props.searchParams?.deposit ||
+                                props.pathname() ==
+                                  URL.GAMEMODES.JACKPOT_DEPOSIT
+                              ? buttonName.deposit[i18n.language]
+                              : buttonName.withdraw[i18n.language]}
+                          </div>
+                        </YellowGradientButton>
                       </div>
                     </div>
                   </div>

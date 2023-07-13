@@ -34,12 +34,12 @@ const NewPotentialDropItem = (props) => {
 
   return (
     <div
-      class={`relative z-10 w-[95%] h-[95%] rounded-md ${
+      class={`relative z-10 w-[95%] h-[95%] rounded-md hover click-small ${
         props.clickable && "cursor-pointer"
       }
       ${!isLoaded() && "animate-pulse bg-[#262739]"}
       ${
-        props.clickable && props.item === props.activeItem()
+        (props.clickable && props.item === props.activeItem()) || props.isActive
           ? "border border-[#FFB436] "
           : "border border-[#a2a5c600] "
       }}`}

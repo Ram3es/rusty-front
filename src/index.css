@@ -177,21 +177,13 @@ body::after {
     transform: scale(0.95);
   }
 
-  .hover2 {
-    cursor: pointer;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
-    user-select: none;
+  .click-large:active {
+    transform: scale(0.8) !important;
+    transition-duration: 0.2s;
   }
-  .hover2:hover {
-    filter: brightness(1.1);
-  }
-  .hover2:active {
-    filter: brightness(0.7);
-    transform: scale(0.8);
+
+  .click-small:active {
+    transform: scale(0.98) !important;
   }
 
   .hover-bet:hover > p {
