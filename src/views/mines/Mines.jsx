@@ -238,7 +238,7 @@ const Mines = () => {
     <>
       <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-10 ">
         <div
-          class="w-full flex gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden"
+          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden"
           style={{
             background: `linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.16) 100%), radial-gradient(47.48% 100.00% at 41.02% -0.00%, 
             ${
@@ -262,9 +262,9 @@ const Mines = () => {
           />
 
           <div class="center flex-col relative w-full ">
-            <div class="flex gap-6 w-full justify-between ">
+            <div class="flex gap-6 flex-col lg:flex-row w-full justify-between ">
               <div class="h-full flex flex-col items-center justify-center gap-4 w-full ">
-                <div class="center relative w-full">
+                <div class="flex justify-start lg:justify-center items-center relative w-full">
                   <RemainingMines mines={mines} />
                 </div>
                 <div class="relative">
@@ -277,7 +277,7 @@ const Mines = () => {
                     >
                       {(i) => (
                         <div
-                          class={`center w-22 h-22 ${
+                          class={`center w-16 h-16 lg:w-22 lg:h-22 ${
                             mines?.status == "playing" &&
                             !mines.cleared.includes(i)
                               ? "hover click-large"
@@ -356,7 +356,7 @@ const Mines = () => {
                 </div>
               </div>
               <div
-                class={`flex relative top-1/3 min-w-[210px] justify-end 
+                class={`flex absolute lg:relative top-0 right-0 lg:top-1/3 min-w-[210px] justify-end 
                 transition-transform duration-100 ease-in-out`}
               >
                 <Winnings mines={mines} betValue={betValue} />

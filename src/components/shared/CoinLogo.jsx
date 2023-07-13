@@ -1,8 +1,25 @@
+import { onMount, onCleanup, createSignal } from "solid-js";
+import { useDebounce } from "../../utilities/hooks/debounce";
+
 const CoinLogo = ({ h }) => {
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth);
+  
+  const handleChangeInnerWidth = () => {
+    setInnerWidth(window.innerWidth)
+  };
+
+  onMount(() => {
+    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+  })
+
   return (
     <svg
-      width={h * 1.3125}
-      height={h}
+      width={h * (innerWidth() > 1023 ? 1.3125 : 0.80)}
+      height={innerWidth() > 1023 ? h : h * 0.85}
       viewBox="0 0 21 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

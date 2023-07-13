@@ -25,9 +25,9 @@ const Winnings = (props) => {
     return multiplier < 1 ? 1.01 : multiplier;
   };
   return (
-    <div class="flex flex-col relative items-end w-full gap-2">
+    <div class="flex flex-col relative items-end w-10/12 lg:w-full gap-2">
       <div
-        class={`whitespace-nowrap pr-2 flex items-center gap-1  py-1
+        class={`whitespace-nowrap pr-2 hidden lg:flex items-center gap-1  py-1
           ${props.mines.status === "playing" ? "opacity-30" : "opacity-0"}`}
         style={{
           background:
@@ -50,7 +50,7 @@ const Winnings = (props) => {
             <>
               {index() === 0 ? (
                 <div
-                  class="whitespace-nowrap pr-2 flex items-center gap-1 py-1"
+                  class="whitespace-nowrap pr-2 flex items-center gap-1 py-1 w-full lg:w-auto"
                   style={{
                     background:
                       "linear-gradient(270deg, rgba(92, 222, 144, 0.24) 0%, rgba(92, 222, 144, 0.00) 100%)",
@@ -70,7 +70,7 @@ const Winnings = (props) => {
                 <>
                   {index() <= 5 && props.mines.status === "playing" ? (
                     <div
-                      class={`whitespace-nowrap pr-2 flex items-center gap-1 py-1`}
+                      class={`whitespace-nowrap pr-2 hidden lg:flex items-center gap-1 py-1`}
                       style={{
                         opacity: `${(60 - index() * 10) / 100}`,
                       }}
