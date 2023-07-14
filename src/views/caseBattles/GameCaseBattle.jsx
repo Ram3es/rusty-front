@@ -1375,7 +1375,7 @@ const GameCaseBattle = (props) => {
                               </div>
                             )}
                           </For>
-                          {/* <Switch>
+                          <Switch>
                             <Match
                               when={showResults() && game().status === "ended"}
                             >
@@ -1393,13 +1393,15 @@ const GameCaseBattle = (props) => {
                                 noAnimation
                               />
                             </Match>
-                          </Switch> */}
+                          </Switch>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class='grid grid-cols-2 gap-y-4 lg:hidden'>
+                <div class={`grid grid-cols-2 gap-y-4 lg:grid-cols-${
+                    game().playersQty
+                  }`}>
                   <For each={Array.from({length: game().playersQty})}>
                       {(_, index) => {
                         return (

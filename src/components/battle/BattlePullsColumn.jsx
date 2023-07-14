@@ -1,4 +1,4 @@
-import { For } from 'solid-js'
+import { For, onCleanup } from 'solid-js'
 import UserGameAvatar from './UserGameAvatar'
 import GrayGradientButton from '../elements/GrayGradientButton'
 import EmojiIcon from '../icons/EmojiIcon'
@@ -17,26 +17,52 @@ import CaseGradientButton from '../../components/elements/CaseGradientButton'
 import RankLabel from '../chat/RankLabel'
 import Ranks from '../../utilities/Ranks'
 import SmallItemCardNew from './SmallItemCardNew'
+import { createSignal } from 'solid-js'
+import { onMount } from 'solid-js'
+import { useDebounce } from '../../utilities/hooks/debounce'
 
 const BattlePullsColumn = (props) => {
   const { userObject } = injector
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
 
   const isEven = (number) => number % 2 === 0
+
+  const handleChangeInnerWidth = () => {
+    setInnerWidth(window.innerWidth)
+  }
+
+  onMount(() => {
+    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000))
+  })
+
+  onCleanup(() => {
+    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000))
+  })
 
   return (
     <div
       class="flex flex-col"
       classList={{
         'border-r-2 border-black/20':
-          isEven(props.columnIndex()) && !(props.columnIndex() + 1 === props.game().playersQty)
+          (isEven(props.columnIndex()) &&
+            !(props.columnIndex() + 1 === props.game().playersQty) &&
+            innerWidth() < 600) ||
+          (isEven(props.columnIndex()) && props.columnIndex() !== props.game().playersQty) ||
+          (!isEven(props.columnIndex()) &&
+            props.columnIndex() + 1 !== props.game().playersQty &&
+            innerWidth() >= 600)
       }}
     >
       <div
-        class={`border h-[69px] border-black flex items-center justify-center border-opacity-5 relative z-10`}
+        class={`border h-[69px] lg:h-full border-black flex items-center justify-center border-opacity-5 relative z-10`}
         classList={{
-          'rounded-tl-8 rounded-bl-8': isEven(props.columnIndex()),
-          'rounded-tr-8 rounded-br-8': !isEven(props.columnIndex()),
-          'rounded-8': props.columnIndex() + 1 === 3 && props.game().playersQty === 3
+          'rounded-tl-8 rounded-bl-8':
+            (isEven(props.columnIndex()) && innerWidth() < 600) || props.columnIndex() === 0,
+          'rounded-tr-8 rounded-br-8':
+            (!isEven(props.columnIndex()) && innerWidth() < 600) ||
+            props.columnIndex() === Array.from(Array(props.game().playersQty).keys()).at(-1),
+          'rounded-8 lg:rounded-tl-0':
+            props.columnIndex() + 1 === 3 && props.game().playersQty === 3 && innerWidth() < 600
         }}
         style={{
           background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeRgbByTextColor(
@@ -162,30 +188,34 @@ const BattlePullsColumn = (props) => {
       <div
         class="border border-black border-opacity-5 -mt-8 flex bg-dark-secondary border-r-0"
         classList={{
-          'rounded-bl-8': isEven(props.columnIndex()),
-          'rounded-br-8': !isEven(props.columnIndex()),
-          'rounded-8': props.columnIndex() + 1 === 3 && props.game().playersQty === 3
+          'rounded-bl-8':
+            (isEven(props.columnIndex()) && innerWidth() < 600) || props.columnIndex() === 0,
+          'rounded-br-8':
+            (!isEven(props.columnIndex()) && innerWidth() < 600) ||
+            props.columnIndex() === Array.from(Array(props.game().playersQty).keys()).at(-1),
+          'rounded-8':
+            props.columnIndex() + 1 === 3 && props.game().playersQty === 3 && innerWidth() < 600
         }}
       >
         <div class="flex w-full px-3 py-3 pt-12">
           <div class="flex gap-3 flex-wrap justify-center w-full">
             <For each={Array.from(Array(props.game().cases.length).keys())}>
-              {(round) => (
-                <div>
+              {(round) => {
+                return (<div>
                   {props.playerRoundData()[props.columnIndex()][round] ? (
-                    <SmallItemCardNew
-                      item={props.playerRoundData()[props.columnIndex()][round]}
-                      color={getColorByPrice(
-                        props.playerRoundData()[props.columnIndex()][round].item_price
-                      )}
-                    />
+                    <div>
+                      <SmallItemCardNew
+                        item={props.playerRoundData()[props.columnIndex()][round]}
+                        color={getColorByPrice(
+                          props.playerRoundData()[props.columnIndex()][round].item_price
+                        )}
+                      />
+                    </div>
                   ) : (
-                    <>
-                      <img src={ItemPlaceholder} class="w-30 h-[7.5rem] center" />
-                    </>
+                    <img src={ItemPlaceholder} class="w-30 h-[7.5rem] center" />
                   )}
                 </div>
-              )}
+              )}}
             </For>
           </div>
         </div>
