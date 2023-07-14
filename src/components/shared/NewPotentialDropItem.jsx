@@ -34,9 +34,9 @@ const NewPotentialDropItem = (props) => {
 
   return (
     <div
-      class={`relative z-10 w-[${props.lessGap ? "97" : "95"}%] h-[${
-        props.lessGap ? "97" : "95"
-      }%] rounded-md hover click-small ${props.clickable && "cursor-pointer"}
+      class={`relative z-10${props.lessGap ? " w-[97%]" : " w-[95%]"} ${
+        props.lessGap ? "h-[97%]" : "h-[95%]"
+      } rounded-md hover click-small ${props.clickable && "cursor-pointer"}
       ${!isLoaded() && "animate-pulse bg-[#262739]"}
       ${
         (props.clickable && props.item === props.activeItem()) || props.isActive
