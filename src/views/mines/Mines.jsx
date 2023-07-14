@@ -20,8 +20,8 @@ import RemainingMines from "../../components/mines/RemainingMines";
 import Winnings from "../../components/mines/Winnings";
 import RedMineImg from "../../assets/img/mines/RedMine.png";
 import BlueMineImg from "../../assets/img/mines/BlueMine.png";
-import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
-import MinesBg from "../../assets/img/mines/MinesBg.svg";
+// import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
+import MinesBg from "../../assets/img/mines/MinesBg.png";
 
 import confetti from "canvas-confetti";
 
@@ -273,11 +273,11 @@ const Mines = () => {
           }}
         >
           <div
-            class="absolute top-0 left-0  w-full h-full opacity-[0.05] "
+            class="absolute top-0 left-0  w-full h-full opacity-[0.999] "
             style={{
               "background-image": `url(${MinesBg})`,
               "background-repeat": "repeat",
-              // "background-size": "cover",
+              "background-size": "contain",
             }}
           />
           <Menu
@@ -330,15 +330,15 @@ const Mines = () => {
                           >
                             <div
                               class={`w-full h-full absolute z-10 duration-200
-                                ${
-                                  mines.status === "playing"
-                                    ? "opacity-100"
-                                    : mines.status === "lost"
-                                    ? "opacity-30"
-                                    : mines.status === "ended"
-                                    ? "opacity-30"
-                                    : "opacity-30"
-                                }`}
+                                  ${
+                                    mines.status === "playing"
+                                      ? "opacity-100"
+                                      : mines.status === "lost"
+                                      ? "opacity-30"
+                                      : mines.status === "ended"
+                                      ? "opacity-30"
+                                      : "opacity-30"
+                                  }`}
                               style={{
                                 "backface-visibility": "hidden",
                                 transform: "rotateX(0deg)",

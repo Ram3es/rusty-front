@@ -142,7 +142,7 @@ const BattleListCard = (props) => {
                                 props
                                   .casesState()
                                   .findIndex((c) => c.id === caseItem.id)
-                              ].price
+                              ]?.price
                             }
                             name={caseItem.name}
                           />
@@ -239,7 +239,7 @@ const BattleListCard = (props) => {
                                 props
                                   .casesState()
                                   .findIndex((c) => c.id === caseItem.id)
-                              ].price
+                              ]?.price
                             }
                             name={caseItem.name}
                           />
