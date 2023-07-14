@@ -29,7 +29,7 @@ const Mines = () => {
   const {socket, toastr, userObject} = injector;
 
   const [betValue, setBetValue] = createSignal(500);
-  const [minesAmount, setMinesAmount] = createSignal(10);
+  const [minesAmount, setMinesAmount] = createSignal(1);
 
   const [mines, setMines] = createStore({
     mines: 0,
