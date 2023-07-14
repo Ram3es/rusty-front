@@ -45,19 +45,23 @@ const ClearedSquare = (props) => {
             // filter: `drop-shadow(0px 0px 8px rgba(80, 150, 255, 0.07))`,
           }}
         >
-          {props.color === "blue" ? (
-            <img
-              src={BlueMineImg}
-              alt="blue mine image"
-              class="rotate-180 w-[70%]"
-            />
-          ) : (
-            <img
-              src={RedMineImg}
-              alt="red mine image"
-              class="w-[75%] rotate-180"
-            />
-          )}
+          <img
+            src={BlueMineImg}
+            alt="blue mine image"
+            class={`rotate-180 w-[70%] `}
+            style={{
+              display: props.color === "blue" ? "block" : "none",
+            }}
+          />
+
+          <img
+            src={RedMineImg}
+            alt="red mine image"
+            class={`w-[75%] rotate-180 `}
+            style={{
+              display: props.color === "red" ? "block" : "none",
+            }}
+          />
         </div>
       </div>
     </div>

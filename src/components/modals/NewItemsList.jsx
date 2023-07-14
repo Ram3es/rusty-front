@@ -38,10 +38,11 @@ const NewItemsList = (props) => {
                   .activeItems()
                   .findIndex((i) => props.item.id === i.id) >= 0
               }
+              lessGap
             />
           </div>
         ) : (
-          <div class="w-[95%] h-[95%] rounded-6 animate-pulse bg-[#23253d]" />
+          <div class="w-[97%] h-[97%] rounded-6 animate-pulse bg-[#23253d]" />
         )}
       </div>
     );
@@ -49,7 +50,7 @@ const NewItemsList = (props) => {
 
   const calculateItemSize = (crossAxisSize) => {
     // Choose minimum size depending on the available space.
-    const minWidth = crossAxisSize > 560 ? 180 : 140;
+    const minWidth = crossAxisSize > 560 ? 150 : 117;
 
     const count = Math.floor(crossAxisSize / minWidth);
     const width = Math.floor(crossAxisSize / count);

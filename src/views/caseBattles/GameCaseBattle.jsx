@@ -113,6 +113,7 @@ const GameCaseBattle = (props) => {
   // const [spinnerStatus, setSpinnerStatus] = createSignal({status: "inactive"});
   const [confettiData, setConfettiData] = createSignal([]);
   const [playerRoundData, setPlayerRoundData] = createSignal([[]]);
+  const [playerBarRef, setPlayerBarRef] = createSignal(null);
 
   const [showResults, setShowResults] = createSignal(false);
 
@@ -851,7 +852,7 @@ const GameCaseBattle = (props) => {
     // }
   });
 
-  const activate = (round) => {};
+  // const activate = (round) => {};
 
   return (
     <div class="flex flex-col">
@@ -1452,6 +1453,7 @@ const GameCaseBattle = (props) => {
                                 game={game}
                                 getModeColorRgb={getModeColorRgb}
                                 getGradientForWinners={getGradientForWinners}
+                                playerBarRef={playerBarRef}
                               />
                             </Match>
                             <Match
@@ -1461,6 +1463,7 @@ const GameCaseBattle = (props) => {
                                 game={game}
                                 getModeColorRgb={getModeColorRgb}
                                 getGradientForWinners={getGradientForWinners}
+                                playerBarRef={playerBarRef}
                                 noAnimation
                               />
                             </Match>
@@ -1474,17 +1477,14 @@ const GameCaseBattle = (props) => {
                   class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
                     game().playersQty
                   }
-                  ${
-                    game().status !== "ended" && game().status !== "results"
-                      ? "opacity-100"
-                      : "opacity-0"
-                  }
+                  
                   `}
                   style={{
                     background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeColorRgb()}, ${
                       game().status === "ended" ? 0 : "0.07"
                     }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
                   }}
+                  ref={setPlayerBarRef}
                 >
                   <For each={Array.from(Array(game().playersQty).keys())}>
                     {(playerIndex, index) => (
@@ -1504,17 +1504,25 @@ const GameCaseBattle = (props) => {
                               }`
                             : "opacity-30"
                         }`}
-                        style={{
-                          background: `${getGradientForWinners(
-                            game().playersQty,
-                            game().winners,
-                            playerIndex
-                          )}`,
-                        }}
+                        // style={{
+                        //   background: `${getGradientForWinners(
+                        //     game().playersQty,
+                        //     game().winners,
+                        //     playerIndex
+                        //   )}`,
+                        // }}
                       >
                         {game().players[playerIndex + 1] ? (
                           <div class="center p-2">
-                            <div class="pl-2 pr-6 flex flex-row gap-2 center">
+                            <div
+                              class={`pl-2 pr-6 flex flex-row gap-2 center
+                            ${
+                              game().status !== "ended" &&
+                              game().status !== "results"
+                                ? "opacity-100"
+                                : "opacity-0"
+                            }`}
+                            >
                               <div class="w-max">
                                 <UserGameAvatar
                                   mode={

@@ -19,11 +19,23 @@ const RemainingMines = (props) => {
       }}
     >
       <div class="w-2/3 lg:w-full flex items-center justify-center gap-2 pt-2">
-        {props.mines.status === "lost" ? (
-          <img src={RedMineImg} alt="red mine image" class="w-[20%] " />
-        ) : (
-          <img src={BlueMineImg} alt="blue mine image" class="w-[20%]" />
-        )}
+        <img
+          src={RedMineImg}
+          alt="red mine image"
+          class="w-[20%] "
+          style={{
+            display: props.mines.status === "lost" ? "block" : "none",
+          }}
+        />
+
+        <img
+          src={BlueMineImg}
+          alt="blue mine image"
+          class="w-[20%]"
+          style={{
+            display: props.mines.status === "lost" ? "none" : "block",
+          }}
+        />
 
         {props.mines.status === "lost" ? (
           <div class="">

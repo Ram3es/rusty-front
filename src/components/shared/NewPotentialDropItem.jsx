@@ -34,9 +34,9 @@ const NewPotentialDropItem = (props) => {
 
   return (
     <div
-      class={`relative z-10 w-[95%] h-[95%] rounded-md hover click-small ${
-        props.clickable && "cursor-pointer"
-      }
+      class={`relative z-10 w-[${props.lessGap ? "97" : "95"}%] h-[${
+        props.lessGap ? "97" : "95"
+      }%] rounded-md hover click-small ${props.clickable && "cursor-pointer"}
       ${!isLoaded() && "animate-pulse bg-[#262739]"}
       ${
         (props.clickable && props.item === props.activeItem()) || props.isActive
@@ -64,8 +64,10 @@ const NewPotentialDropItem = (props) => {
           bg-[url(/assets/img/new-upgrader/PotentialGray.png)]`}
         >
           <img src={props.item.image} alt="" class="h-[60%]" loading="lazy" />
-          <div class=" flex flex-col justify-center self-start pl-4">
-            <span class="text-[#A2A5C6] text-[14px]">{props.item.name}</span>
+          <div class="w-full flex flex-col justify-center self-start px-4 ">
+            <span class="text-[#A2A5C6] text-[14px] truncate max-w-full">
+              {props.item.name}
+            </span>
             <div class=" flex items-center gap-2">
               <CoinLogo h="15" />
               <span class="text-gradient text-16">
