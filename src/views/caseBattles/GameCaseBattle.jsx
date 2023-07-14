@@ -1030,9 +1030,9 @@ const GameCaseBattle = (props) => {
                     )}
                     <div class="w-full bg-[#15162C] rounded-t-8">
                       <div class="w-full rounded-t-8 bg-[rgba(255, 255, 255, 0.05)]">
-                        <div class="w-full bg-[#15162C] rounded-t-8">
+                        <div class="w-full bg-[#15162C] rounded-t-8 h-[56px]">
                           <div
-                            class="flex justify-center w-full overflow-hidden rounded-t-8"
+                            class="flex justify-center w-full overflow-hidden rounded-t-8 h-full"
                             style={{
                               background: `radial-gradient(33.44% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.05) 0%, rgba(255, 180, 54, 0) 100%),
                                 linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.14) 100%),
@@ -1514,7 +1514,7 @@ const GameCaseBattle = (props) => {
                       >
                         {game().players[playerIndex + 1] ? (
                           <div class="center p-2">
-                            <div class=" pl-2 pr-6 flex flex-wrap gap-2 center">
+                            <div class="pl-2 pr-6 flex flex-row gap-2 center">
                               <div class="w-max">
                                 <UserGameAvatar
                                   mode={
