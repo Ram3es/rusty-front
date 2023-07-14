@@ -22,7 +22,7 @@ const RemainingMines = (props) => {
         <img
           src={RedMineImg}
           alt="red mine image"
-          class="w-[20%] "
+          class="w-[18%] "
           style={{
             display: props.mines.status === "lost" ? "block" : "none",
           }}
