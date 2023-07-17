@@ -1402,7 +1402,7 @@ const GameCaseBattle = (props) => {
                     </div>
                   </div>
                 </div>
-                <div class={`grid grid-cols-2 gap-y-4 lg:grid-cols-${
+                <div class={`grid lg:hidden grid-cols-2 gap-y-4 lg:grid-cols-${
                     game().playersQty
                   }`}>
                   <For each={Array.from({length: game().playersQty})}>
