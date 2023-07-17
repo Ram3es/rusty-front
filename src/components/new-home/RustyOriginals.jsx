@@ -48,7 +48,6 @@ const gameModes = [
   {
     name: "Mines",
     video: Mines,
-    disabled: true,
     icon: <MinesIcon additionClasses="w-5 h-5 text-gray-55" />,
     url: URL.GAMEMODES.MINES,
   },

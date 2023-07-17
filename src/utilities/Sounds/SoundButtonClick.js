@@ -11,11 +11,11 @@ import win from "../../assets/sounds/win.mp3";
 import winMax from "../../assets/sounds/winMax.mp3";
 import caseBattles from "../../assets/sounds/caseBattles.mp3";
 import caseBattlesConfetti from "../../assets/sounds/caseBattlesConfetti.mp3";
-import counter35 from "../../assets/sounds/counter35v2.mp3";
-import counter45 from "../../assets/sounds/counter45v2.mp3";
-import counter55 from "../../assets/sounds/counter55v2.mp3";
-import counter60 from "../../assets/sounds/counter60v2.mp3";
-import counter65 from "../../assets/sounds/counter65v2.mp3";
+import counter35 from "../../assets/sounds/counter35.mp3";
+import counter45 from "../../assets/sounds/counter45.mp3";
+import counter55 from "../../assets/sounds/counter55.mp3";
+import counter60 from "../../assets/sounds/counter60.mp3";
+import counter65 from "../../assets/sounds/counter65.mp3";
 
 import injector from "../../injector/injector";
 

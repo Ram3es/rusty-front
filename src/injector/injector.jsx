@@ -60,9 +60,11 @@ const createUserObject = () => {
 
     // eslint-disable-next-line solid/reactivity
     socket.on("system:message", (data) => {
-      setToastrs((prev) =>
-        [{...data, id: `${Date.now()}:${Math.random()}`}, ...prev].slice(-2)
-      );
+      if (data?.msg !== "Please do not spam!") {
+        setToastrs((prev) =>
+          [{...data, id: `${Date.now()}:${Math.random()}`}, ...prev].slice(-2)
+        );
+      }
 
       if (data.type == "error") {
         // used for mines if spamming

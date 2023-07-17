@@ -6,6 +6,7 @@ import {
   activeItem,
   isGameStarted,
 } from "../../../views/upgrader/Upgrader";
+import {playSelectItemSound} from "../../../utilities/Sounds/ItemsSound";
 
 import {VirtualContainer} from "@minht11/solid-virtual-container";
 
@@ -25,6 +26,7 @@ const ItemsContainer = (props) => {
             if (isGameStarted()) {
               return;
             }
+            playSelectItemSound();
             setBetValue(0);
             setActiveItem(props.item);
           }}

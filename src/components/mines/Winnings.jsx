@@ -1,3 +1,4 @@
+import {createSignal, createEffect} from "solid-js";
 import {For} from "solid-js";
 import GreenText from "../shared/GreenText";
 import GoldText from "../shared/GoldText";
@@ -13,6 +14,13 @@ let factorial = (n, to) => {
 };
 
 const Winnings = (props) => {
+  const [winningsMemory, setWinningsMemory] = createSignal([]);
+  createEffect(() => {
+    if (props.mines.status === "playing") {
+      setWinningsMemory(props.betValue());
+    }
+  });
+
   let calculateMultiplier = (cleared) => {
     const multiplier = Number(
       (
@@ -61,7 +69,7 @@ const Winnings = (props) => {
                     text={`+ ${getCurrencyString(
                       calculateMultiplier(
                         props.mines.cleared.length - index()
-                      ) * props.betValue()
+                      ) * winningsMemory()
                     )}`}
                     size={30}
                   />

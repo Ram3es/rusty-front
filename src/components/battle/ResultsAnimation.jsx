@@ -364,6 +364,21 @@ const ResultsAnimation = (props) => {
     }, 500);
   };
 
+  const [playerBarWidth, setPlayerBarWidth] = createSignal(0);
+  createEffect(() => {
+    const handleResize = () => {
+      if (props.playerBarRef()) {
+        setPlayerBarWidth(props.playerBarRef().offsetWidth);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
+
   return (
     <div class="w-full h-full absolute z-20">
       <style>{keyframes()}</style>
@@ -419,17 +434,26 @@ const ResultsAnimation = (props) => {
         class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
           props.game().playersQty
         } 
-        mt-3`}
+        mt-3 -translate-x-[2px]`}
         style={{
-          background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeRgbByTextColor(getModeColorByName(props.game().mode))}, ${
-            props.game().status === "ended" ? 0 : "0.07"
-          }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
+          // background: `radial-gradient(25% 50% at 50% 0%, rgba(${props.getModeColorRgb()}, ${
+          //   props.game().status === "ended" ? 0 : "0.07"
+          // }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
+          width: `${playerBarWidth()}px`,
         }}
       >
         <For each={Array.from(Array(props.game().playersQty).keys())}>
           {(playerIndex) => (
             <div
-              class={`center relative pb-2 transition-opacity`}
+              class={`center relative pb-2 transition-opacity
+              ${
+                playerIndex === 0
+                  ? "rounded-l-8"
+                  : playerIndex ===
+                    Array.from(Array(props.game().playersQty).keys()).at(-1)
+                  ? "rounded-r-8"
+                  : ""
+              }`}
               style={{
                 background: `${props.getGradientForWinners(
                   props.game().playersQty,

@@ -142,7 +142,7 @@ const BattleListCard = (props) => {
                                 props
                                   .casesState()
                                   .findIndex((c) => c.id === caseItem.id)
-                              ].price
+                              ]?.price
                             }
                             name={caseItem.name}
                           />
@@ -239,7 +239,7 @@ const BattleListCard = (props) => {
                                 props
                                   .casesState()
                                   .findIndex((c) => c.id === caseItem.id)
-                              ].price
+                              ]?.price
                             }
                             name={caseItem.name}
                           />
@@ -362,7 +362,7 @@ const BattleListCard = (props) => {
                 "0px 2px 2px rgba(0, 0, 0, 0.12), 0px 2px 2px rgba(0, 0, 0, 0.12)",
             }}
           >
-            <div class="w-full flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center">
+            <div class="w-full center gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a">
               <span class="w-max">
                 {props.game.status === "playing" ? "In Play" : "Pending"}:
               </span>

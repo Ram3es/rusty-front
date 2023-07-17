@@ -1,7 +1,7 @@
 import {createSignal, createEffect} from "solid-js";
 import Logo from "./Logo.jsx";
 import {Power1, TimelineMax} from "gsap";
-import MinesSquare from "../../assets/img/mines/MinesSquare.png";
+import MinesSquare from "../../assets/img/mines/MinesSquare.svg";
 import Injector from "../../injector/injector.jsx";
 
 const LoadingLogo = (props) => {
@@ -45,18 +45,19 @@ const LoadingLogo = (props) => {
 
   return (
     <div
-      class={`flex items-center justify-center h-full relative w-full overflow-visible `}
+      class={`flex items-center justify-center h-full relative w-full rounded-md `}
       style={{
         "-webkit-backface-visibility": "hidden",
         "backface-visibility": "hidden",
+        background: `linear-gradient(45deg, rgba(255, 255, 255, 0.00) 20.07%, rgba(255, 255, 255, 0.02) 41.30%, rgba(0, 0, 0, 0.02) 68.93%, rgba(255, 255, 255, 0.02) 100%), radial-gradient(100.00% 100% at 50% 0.00%, rgba(255, 180, 54, 0.08) 0%, rgba(255, 180, 54, 0.00) 100%), radial-gradient(100% 100% at 50% -0.00%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0.00) 100%), linear-gradient(0deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.02) 100%), radial-gradient(206.96% 100.00% at 100.00% 50.00%, rgba(29, 35, 82, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%), #212547`,
       }}
       onClick={() => setAnimateStart(true)}
     >
-      <img
+      {/* <img
         class="absolute -z-10 w-full h-full"
         src={MinesSquare}
         alt="mines square background"
-      />
+      /> */}
       <Logo xy={props.xy} start={animateStart} />
     </div>
   );

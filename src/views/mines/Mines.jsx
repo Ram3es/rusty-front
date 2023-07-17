@@ -20,6 +20,8 @@ import RemainingMines from "../../components/mines/RemainingMines";
 import Winnings from "../../components/mines/Winnings";
 import RedMineImg from "../../assets/img/mines/RedMine.png";
 import BlueMineImg from "../../assets/img/mines/BlueMine.png";
+// import footerLogoBgVector from "../../assets/img/footer/footerLogoBgVector.png";
+import MinesBg from "../../assets/img/mines/MinesBg.png";
 
 import confetti from "canvas-confetti";
 
@@ -27,7 +29,7 @@ const Mines = () => {
   const {socket, toastr, userObject} = injector;
 
   const [betValue, setBetValue] = createSignal(500);
-  const [minesAmount, setMinesAmount] = createSignal(10);
+  const [minesAmount, setMinesAmount] = createSignal(1);
 
   const [mines, setMines] = createStore({
     mines: 0,
@@ -89,7 +91,12 @@ const Mines = () => {
       },
       (data) => {
         if (data.msg) {
-          toastr(data);
+          if (
+            data.msg !== "You don't have a game active!" &&
+            data.msg !== "You have already revealed this tile!"
+          ) {
+            toastr(data);
+          }
         }
 
         if (!data.error && userObject?.user?.sounds) {
@@ -119,7 +126,12 @@ const Mines = () => {
       },
       (data) => {
         if (data.msg) {
-          toastr(data);
+          if (
+            data.msg !== "You don't have a game active!" &&
+            data.msg !== "You have already revealed this tile!"
+          ) {
+            toastr(data);
+          }
         }
 
         if (!data.error) {
@@ -170,7 +182,12 @@ const Mines = () => {
   const cashout = () => {
     socket.emit("mines:cashout", {}, (data) => {
       if (data.msg) {
-        toastr(data);
+        if (
+          data.msg !== "You don't have a game active!" &&
+          data.msg !== "You have already revealed this tile!"
+        ) {
+          toastr(data);
+        }
       }
 
       if (!data.error) {
@@ -236,22 +253,33 @@ const Mines = () => {
 
   return (
     <>
-      <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-10 ">
+      <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-6 pb-[40vh]">
         <div
-          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden"
+          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden relative"
           style={{
-            background: `linear-gradient(0deg, rgba(0, 0, 0, 0.16) 0%, rgba(0, 0, 0, 0.16) 100%), radial-gradient(47.48% 100.00% at 41.02% -0.00%, 
-            ${
-              mines.status === "playing"
-                ? "rgba(118, 124, 255, 0.12)"
-                : mines.status === "lost"
-                ? "rgba(214, 51, 51, 0.12)"
-                : "rgba(214, 51, 51, 0)"
-            }  0%, rgba(118, 124, 255, 0.00) 100%), linear-gradient(0deg, rgba(0, 0, 0, 0.24) 0%, rgba(0, 0, 0, 0.24) 100%), 
-            radial-gradient(186.19% 100.00% at 100.00% 50.00%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%), 
-            radial-gradient(186.19% 100.00% at 100.00% 50.00%, #1F2344 0%, #23253D 100%)`,
+            background: `
+                        radial-gradient(60% 100% at 40.95% 0%, ${
+                          mines.status === "playing"
+                            ? "rgba(118, 124, 255, 0.12)"
+                            : mines.status === "lost"
+                            ? "rgba(214, 51, 51, 0.12)"
+                            : "rgba(214, 51, 51, 0)"
+                        } 0%, rgba(118, 124, 255, 0) 100%),
+                        linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24)),
+                        linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16)),
+                        radial-gradient(100% 186.19% at 0% 50%, rgba(29, 35, 82, 0.56) 0%, rgba(29, 31, 48, 0.56) 100%),
+                        radial-gradient(100% 186.19% at 0% 50%, #1F2344 0%, #23253D 100%),
+                        linear-gradient(0deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04))`,
           }}
         >
+          <div
+            class="absolute top-0 left-0  w-full h-full opacity-[0.999] "
+            style={{
+              "background-image": `url(${MinesBg})`,
+              "background-repeat": "repeat",
+              "background-size": "contain",
+            }}
+          />
           <Menu
             betValue={betValue}
             setBetValue={setBetValue}
@@ -260,7 +288,6 @@ const Mines = () => {
             handleStartButtonClick={handleStartButtonClick}
             mines={mines}
           />
-
           <div class="center flex-col relative w-full ">
             <div class="flex gap-6 flex-col lg:flex-row w-full justify-between ">
               <div class="h-full flex flex-col items-center justify-center gap-4 w-full ">
@@ -303,15 +330,15 @@ const Mines = () => {
                           >
                             <div
                               class={`w-full h-full absolute z-10 duration-200
-                              ${
-                                mines.status === "playing"
-                                  ? "opacity-100"
-                                  : mines.status === "lost"
-                                  ? "opacity-30"
-                                  : mines.status === "ended"
-                                  ? "opacity-30"
-                                  : "opacity-30"
-                              }`}
+                                  ${
+                                    mines.status === "playing"
+                                      ? "opacity-100"
+                                      : mines.status === "lost"
+                                      ? "opacity-30"
+                                      : mines.status === "ended"
+                                      ? "opacity-30"
+                                      : "opacity-30"
+                                  }`}
                               style={{
                                 "backface-visibility": "hidden",
                                 transform: "rotateX(0deg)",
@@ -356,15 +383,15 @@ const Mines = () => {
                 </div>
               </div>
               <div
-                class={`flex absolute lg:relative top-0 right-0 lg:top-1/3 min-w-[210px] justify-end 
-                transition-transform duration-100 ease-in-out`}
+                class={`flex absolute lg:relative top-0 right-0 lg:top-1/3 min-w-[210px] justify-end
+                  transition-transform duration-100 ease-in-out`}
               >
                 <Winnings mines={mines} betValue={betValue} />
               </div>
             </div>
             {/* <p class="text-gray-8c text-14 font-medium font-Oswald absolute -bottom-8">
-              {mines?.hash || "No hash"}
-            </p> */}
+                {mines?.hash || "No hash"}
+              </p> */}
           </div>
         </div>
       </div>
