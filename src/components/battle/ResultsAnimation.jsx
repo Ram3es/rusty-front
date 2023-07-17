@@ -384,14 +384,14 @@ const ResultsAnimation = (props) => {
       <style>{keyframes()}</style>
       <div class="w-full h-full overflow-hidden ">
         <div class="w-full h-full flex items-center justify-between ">
-          <For each={Object.keys(props.game().players)}>
+          <For each={props.players}>
             {(player) => (
               <div class="flex-1 flex items-center justify-center">
                 <span
                   class={`font-SpaceGrotesk text-28 font-bold `}
                   style={{
                     animation: `${
-                      isPlayerWinner(props.game().players[player])
+                      isPlayerWinner(props.game().players[player + 1], props.players)
                         ? "slightupWinner"
                         : "slightupLoser"
                     } ${totalTime()}s ease-in-out forwards`,
@@ -400,7 +400,7 @@ const ResultsAnimation = (props) => {
                   {!props.noAnimation && (
                     <WinningsDisplay
                       value={calculatePlayerIndivdualWinnings(
-                        props.game().players[player]
+                        props.game().players[player + 1]
                       )}
                       countdownDuration={timings().countDuration}
                     />
@@ -553,7 +553,8 @@ const calculatePlayerIndivdualWinnings = (playerObject) => {
   return total;
 };
 
-const isPlayerWinner = (playerObject) => {
+const isPlayerWinner = (playerObject, index = 0) => {
+  console.log(index, playerObject);
   return playerObject.winner;
 };
 const isWinnerFromIndex = (winnersArray, playerIndex) => {

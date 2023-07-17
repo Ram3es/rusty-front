@@ -7,6 +7,7 @@ import {
   onCleanup,
   Switch,
   Show,
+  onMount,
 } from "solid-js";
 import {useLocation} from "solid-app-router";
 import HoveredButton from "../../components/elements/HoveredButton";
@@ -29,6 +30,7 @@ import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
 import SmallItemCardNew from "../../components/battle/SmallItemCardNew";
 import UserBadge from "../../components/battle/UserBadge";
+import {useDebounce} from '../../utilities/hooks/debounce'
 
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
@@ -52,7 +54,6 @@ import {
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
-import confetti, {create} from "canvas-confetti";
 import CoinStack from "../../assets/img/case-battles/CoinStack.png";
 import GoldText from "../../components/shared/GoldText";
 import ResultsAnimation from "../../components/battle/ResultsAnimation";
@@ -68,6 +69,7 @@ import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
 import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
 import BattlePullsColumn from "../../components/battle/BattlePullsColumn";
 import { getColorByPrice, getGradientForWinners, getModeColorByName, getModeHexByTextColor, getModeRgbByTextColor, isWinner } from "../../utilities/caseBattles-tools";
+import CaseBattleSpinersContainer from "./CaseBattleSpinersContainer";
 
 export const [containerRef, setContainerRef] = createSignal(null);
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
@@ -112,12 +114,14 @@ const GameCaseBattle = (props) => {
   const [beginWinSound, setBeginWinSound] = createSignal(false);
   const [beginClickSound, setBeginClickSound] = createSignal(false);
   const [spinQueue, setSpinQueue] = createSignal([]);
+  const [confettiFired, setConfettiFired] = createSignal(false);
   // const [spinnerStatus, setSpinnerStatus] = createSignal({status: "inactive"});
   const [confettiData, setConfettiData] = createSignal([]);
   const [playerRoundData, setPlayerRoundData] = createSignal([[]]);
   const [playerBarRef, setPlayerBarRef] = createSignal(null);
 
   const [showResults, setShowResults] = createSignal(false);
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
 
   const {changeStatus} = useSpinnerStatus();
 
@@ -477,6 +481,14 @@ const GameCaseBattle = (props) => {
     });
   });
 
+  const handleChangeInnerWidth = () => {
+    setInnerWidth(window.innerWidth)
+  };
+
+  onMount(() => {
+    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+  });
+
   onCleanup(() => {
     console.log("onCleanup!!!!!!!!!!!!!!");
     setSpinLists([]);
@@ -486,6 +498,7 @@ const GameCaseBattle = (props) => {
     socket.off(`battles:update`);
     counter = 0;
     clearInterval(intervalId);
+    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
   });
 
   const createRandomFunction = (
@@ -559,10 +572,7 @@ const GameCaseBattle = (props) => {
   });
 
   // const [confettiActive, setConfettiActive] = createSignal(false);
-  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
-  const [confettiCannonRefB, setConfettiCannonRefB] = createSignal();
-  const [confettiCannonRefC, setConfettiCannonRefC] = createSignal();
-  const [confettiCannonRefD, setConfettiCannonRefD] = createSignal();
+
 
   // let confettiInterval;
   // const createConfetti = () => {
@@ -609,68 +619,6 @@ const GameCaseBattle = (props) => {
   //   }
   // };
 
-  const fireCannon = (ref, item) => {
-    if (item) {
-      console.log("fire confetti");
-      const rectA = ref.getBoundingClientRect();
-
-      const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-      const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
-
-      const intervalDuration = 30;
-      const particleCount = 5;
-      const spread = 30;
-      const startVelocity = 25;
-      const colorCodes = {
-        purple: "#9c27b0",
-        gold: "#ffeb3b",
-        red: "#f44336",
-        blue: "#2196f3",
-        gray: "#9e9e9e",
-      };
-      const color = getColorByPrice(item.item.price);
-      const ticks = 70;
-
-      // const confettiInterval = setInterval(() => {
-      //   confetti({
-      //     particleCount,
-      //     spread,
-      //     origin: {x: xA, y: yA},
-      //     startVelocity,
-      //     colors: ["#FFFFFF", colorCodes[color]],
-      //     ticks,
-      //   });
-      // }, intervalDuration);
-
-      // asyncInterval(
-      //   () => {
-      //     confetti({
-      //       particleCount,
-      //       spread,
-      //       origin: {x: xA, y: yA},
-      //       startVelocity,
-      //       colors: ["#FFFFFF", colorCodes[color]],
-      //       ticks,
-      //     });
-      //   },
-      //   70,
-      //   4
-      // );
-
-      for (let i = 0; i < 6; i++) {
-        confetti({
-          particleCount,
-          spread,
-          origin: {x: xA, y: yA},
-          startVelocity,
-          colors: ["#FFFFFF", colorCodes[color]],
-          ticks,
-        });
-      }
-
-      // setConfettiIntervals([...confettiIntervals(), confettiInterval]);
-    }
-  };
 
   async function asyncInterval(func, delay, times) {
     for (let i = 0; i < times; i++) {
@@ -681,85 +629,10 @@ const GameCaseBattle = (props) => {
 
   const [confettiIntervals, setConfettiIntervals] = createSignal([]);
 
-  const cleanUpConfetti = () => {
-    // if (confettiFired()) {
-    setHasCleanedUpConfetti(true);
-    confettiIntervals().forEach((t) => {
-      clearInterval(t);
-    });
-    setConfettiIntervals([]);
-    // setWinnings(game().players);
-    // }
-    // else {
-    //   console.log("confetti not fired");
-    // }
-  };
 
-  const createConfetti = () => {
-    if (!confettiFired()) {
-      setConfettiFired(true);
-      for (let i = 0; i < game().playersQty; i++) {
-        const ref = [
-          confettiCannonRefA,
-          confettiCannonRefB,
-          confettiCannonRefC,
-          confettiCannonRefD,
-        ][i]();
-        if (confettiData()[i].item) {
-          fireCannon(ref, confettiData()[i]);
-        }
-      }
-      setConfettiData([]);
-    } else {
-      console.log("confetti already fired");
-    }
-  };
-
-  const [toIntersectA, setToIntersectA] = createSignal();
-  const [toIntersectB, setToIntersectB] = createSignal();
-
-  const [isIntersectingA, setIsIntersectingA] = createSignal(false);
-  const [isIntersectingB, setIsIntersectingB] = createSignal(false);
-
-  createEffect(() => {
-    if (toIntersectA()) {
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          setIsIntersectingA(entry.isIntersecting);
-        });
-      });
-
-      observer.observe(toIntersectA());
-
-      onCleanup(() => {
-        observer.unobserve(toIntersectA());
-      });
-    }
-    if (toIntersectB()) {
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          setIsIntersectingB(entry.isIntersecting);
-        });
-      });
-
-      observer.observe(toIntersectB());
-
-      onCleanup(() => {
-        observer.unobserve(toIntersectB());
-      });
-    }
-  });
-  const [lastAction, setLastAction] = createSignal({});
-  const [confettiFired, setConfettiFired] = createSignal(false);
   const [hasCleanedUpConfetti, setHasCleanedUpConfetti] = createSignal(false);
   createEffect(() => {
-    if (isIntersectingA()) {
-      if (!confettiFired()) {
-        console.log("activate", game().currentRound);
-        setLastAction({type: "activate", round: game().currentRound});
-        createConfetti();
-      }
-    }
+    
     // if (isIntersectingB()) {
     //   if (!hasCleanedUpConfetti()) {
     //     if (
@@ -1083,323 +956,48 @@ const GameCaseBattle = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div
-                    class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200`}
-                    style={{
-                      background: `linear-gradient(0deg, rgba(255, 255, 255, 0.02) 15%, rgba(255, 255, 255, 0.06) 30%, rgba(${
-                        game().status === "ended"
-                          ? "154, 158, 200"
-                          : `${getModeRgbByTextColor(getModeColorByName(game().mode))}`
-                      },0.6) 45.5%, transparent 45.5%, transparent 54.5%, rgba(${
-                        game().status === "ended"
-                          ? "154, 158, 200"
-                          : `${getModeRgbByTextColor(getModeColorByName(game().mode))}`
-                      },0.6) 54.5%, rgba(255, 255, 255, 0.035) 70%`,
-                    }}
-                  >
-                    <div class="bg-[#13152A] rounded-b-4">
-                      <div
-                        class={`rounded-b-4 ${
-                          game().status !== "ended" &&
-                          `case-opening-wrapper-horizontal-${getModeColorByName(game().mode)}`
-                        }`}
-                      >
-                        <div
-                          class="relative w-full h-[326px] flex"
-                          ref={setContainerRef}
-                        >
-                          <div
-                            class="absolute w-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4"
-                            style={{
-                              "background-image": `url('${bgVectorCaseBattle}')`,
-                              opacity: 0.002,
-                            }}
-                          />
-                          <div
-                            class={`arrow-down absolute top-1/2 -right-[10px] -translate-y-1/2 rotate-90 ${
-                              game().status === "ended"
-                                ? "gray"
-                                : `${getModeColorByName(game().mode)}`
-                            }
-                              transition-colors duration-200`}
-                          />
-                          <div
-                            class={`arrow-down absolute top-1/2 -left-[10px] -translate-y-1/2 -rotate-90 ${
-                              game().status === "ended"
-                                ? "gray"
-                                : `${getModeColorByName(game().mode)}`
-                            }
-                              transition-colors duration-200`}
-                          />
-                          <div
-                            class="absolute left-0 top-0 w-full h-[68px]"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)",
-                              opacity: 0.5,
-                            }}
-                          />
-                          <div
-                            class="absolute left-0 bottom-0 w-full h-[68px]"
-                            style={{
-                              background:
-                                "linear-gradient(180deg, rgba(26, 28, 51, 1) 5.86%, rgba(26, 28, 51, 0) 100%)",
-                              transform: "matrix(-1, 0, 0, -1, 0, 0)",
-                            }}
-                          />
-                          <For
-                            each={Array.from(Array(game().playersQty).keys())}
-                          >
-                            {(playerIndex) => (
-                              <div class="relative w-full center">
-                                {playerIndex + 1 !== game().playersQty &&
-                                  (game().mode === "royal" ||
-                                    game().mode === "group" ||
-                                    (game().mode === "team" &&
-                                      playerIndex !== 0 &&
-                                      playerIndex !== 2)) &&
-                                  (getModeColorByName(game().mode) === "yellow" ? (
-                                    <div
-                                      class={`absolute z-40 text-yellow-ffb center right-0 top-0 h-full ${
-                                        game().status !== "ended" &&
-                                        game().status !== "results" &&
-                                        "border-r border-black border-opacity-10"
-                                      }`}
-                                    >
-                                      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        {game().status !== "ended" &&
-                                        game().status !== "results" ? (
-                                          <GrayWrapperdWithBorders
-                                            classes="rounded-6"
-                                            gradientColor={getModeColorByName(game().mode)}
-                                          >
-                                            <BattleRoyaleIcon
-                                              additionClasses="w-6 m-2"
-                                              glowColor={"255, 180, 54"}
-                                            />
-                                          </GrayWrapperdWithBorders>
-                                        ) : null}
-                                      </div>
-                                    </div>
-                                  ) : getModeColorByName(game().mode) === "green" ? (
-                                    <div class="absolute z-40 text-[#DAFD09] center right-0 top-0 h-full border-r border-black border-opacity-10">
-                                      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                                        {game().status !== "ended" &&
-                                        game().status !== "results" ? (
-                                          <GrayWrapperdWithBorders
-                                            classes="rounded-6"
-                                            gradientColor={getModeColorByName(game().mode)}
-                                          >
-                                            <BattleCursedIcon
-                                              additionClasses="w-7 m-2"
-                                              glowColor={"218, 253, 9"}
-                                            />
-                                          </GrayWrapperdWithBorders>
-                                        ) : null}
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    <div class="absolute z-40 text-[#5AC3FF] center right-0 top-0 h-full border-r border-black border-opacity-10">
-                                      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 ">
-                                        {game().status !== "ended" &&
-                                        game().status !== "results" ? (
-                                          <GrayWrapperdWithBorders
-                                            classes="rounded-6"
-                                            gradientColor={getModeColorByName(game().mode)}
-                                          >
-                                            <BattleGroupIcon
-                                              additionClasses="w-7 mx-1 my-2"
-                                              glowColor="90, 195, 255"
-                                            />
-                                          </GrayWrapperdWithBorders>
-                                        ) : null}
-                                      </div>
-                                    </div>
-                                  ))}
-                                <Switch>
-                                  <Match
-                                    when={
-                                      (game().status === "playing" ||
-                                        game().status === "syncing") &&
-                                      spinLists().length > 0 &&
-                                      game().players["1"].round_0.id !== null
-                                    }
-                                  >
-                                    {() => {
-                                      const randomFunction =
-                                        createRandomFunction(
-                                          game().id,
-                                          game().currentRound,
-                                          playerIndex
-                                        );
-                                      return !!spinnerOptions()[playerIndex] &&
-                                        !!spinLists()[playerIndex] ? (
-                                        game().status === "playing" ? (
-                                          <BattleSpinnerReel
-                                            spinnerIndex={playerIndex}
-                                            isConfettiWin={
-                                              spinnerOptions()[playerIndex]
-                                                .isConfettiWin || false
-                                            }
-                                            isBigWin={
-                                              spinnerOptions()[playerIndex]
-                                                .isBigWin
-                                            }
-                                            isFastSpin={false}
-                                            lineColor={getModeColorByName(game().mode)}
-                                            randomFunction={randomFunction}
-                                            user={userObject}
-                                            containsConfettiWin={
-                                              containsConfettiWin
-                                            }
-                                            gameType={game().mode}
-                                            round={game().currentRound}
-                                            spinQueue={spinQueue}
-                                            setSpinQueue={setSpinQueue}
-                                            // spinnerStatus={spinnerStatus}
-                                            spinList={spinLists()[playerIndex]}
-                                            spinIndex={
-                                              spinIndexes()[playerIndex]
-                                            }
-                                            setToIntersectA={setToIntersectA}
-                                            setToIntersectB={setToIntersectB}
-                                          />
-                                        ) : (
-                                          <div class="h-32 flex flex-col gap-2 text-3xl  items-center scale-125 -translate-y-8">
-                                            <div class="relative z-10 flex">
-                                              <img
-                                                class={`h-24 z-20 transition-all duration-500`}
-                                                src={
-                                                  spinLists()[playerIndex][
-                                                    spinIndexes()[playerIndex]
-                                                  ].img
-                                                }
-                                                alt={
-                                                  spinLists()[playerIndex][
-                                                    spinIndexes()[playerIndex]
-                                                  ].name
-                                                }
-                                              />
-                                              <img
-                                                src={
-                                                  bglogos[
-                                                    spinLists()[playerIndex][
-                                                      spinIndexes()[playerIndex]
-                                                    ].rarity
-                                                  ]
-                                                }
-                                                alt={
-                                                  spinLists()[playerIndex][
-                                                    spinIndexes()[playerIndex]
-                                                  ].rarity + " glow"
-                                                }
-                                                class="absolute z-10 scale-[1.4]"
-                                              />
-                                            </div>
-                                            <div
-                                              class={`flex flex-col items-center justify-center 
-                                                   overflow-visible h-min `}
-                                            >
-                                              <div class="text-[#A2A5C6] text-14 font-semibold">
-                                                {
-                                                  spinLists()[playerIndex][
-                                                    spinIndexes()[playerIndex]
-                                                  ].name
-                                                }
-                                              </div>
-                                              <div class="flex  items-center justify-center gap-1">
-                                                <img src={CoinStack} alt="" />
-                                                <GoldText
-                                                  text={getCurrencyString(
-                                                    spinLists()[playerIndex][
-                                                      spinIndexes()[playerIndex]
-                                                    ].price
-                                                  )}
-                                                  size="13"
-                                                />
-                                              </div>
-                                            </div>
-                                          </div>
-                                        )
-                                      ) : (
-                                        <Spiner classes="w-9 text-yellow-ffb" />
-                                      );
-                                    }}
-                                    {playerIndex === 0 && (
-                                      <div
-                                        class={`absolute self-center h-20 w-20  -bottom-2  left-1/2 -translate-x-1/2`}
-                                        ref={setConfettiCannonRefA}
-                                      />
-                                    )}
-                                    {playerIndex === 1 && (
-                                      <div
-                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
-                                        ref={setConfettiCannonRefB}
-                                      />
-                                    )}
-                                    {playerIndex === 2 && (
-                                      <div
-                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
-                                        ref={setConfettiCannonRefC}
-                                      />
-                                    )}
-                                    {playerIndex === 3 && (
-                                      <div
-                                        class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
-                                        ref={setConfettiCannonRefD}
-                                      />
-                                    )}
-                                  </Match>
-                                  <Match when={game().status === "open"}>
-                                    {game().players[playerIndex + 1] ? (
-                                      <div
-                                        class="w-full h-full center text-gradient font-SpaceGrotesk text-28 font-bold"
-                                        style={{
-                                          "text-shadow": `0px 0px 20px rgba(255, 180, 54, 0.56), 0px 2px 2px rgba(0, 0, 0, 0.12)`,
-                                        }}
-                                      >
-                                        Ready
-                                      </div>
-                                    ) : (
-                                      <Spiner classes="w-9 text-yellow-ffb" />
-                                    )}
-                                  </Match>
-                                  <Match when={game().status === "countdown"}>
-                                    <div class="w-full h-full center">
-                                      <CountDownText
-                                        text={currentCountdown()}
-                                        size={54}
-                                      />
-                                    </div>
-                                  </Match>
-                                </Switch>
-                              </div>
-                            )}
-                          </For>
-                          <Switch>
-                            <Match
-                              when={showResults() && game().status === "ended"}
-                            >
-                              <ResultsAnimation
-                                game={game}
-                                getGradientForWinners={getGradientForWinners}
-                                playerBarRef={playerBarRef}
-                              />
-                            </Match>
-                            <Match
-                              when={!showResults() && game().status === "ended"}
-                            >
-                              <ResultsAnimation
-                                game={game}
-                                getGradientForWinners={getGradientForWinners}
-                                playerBarRef={playerBarRef}
-                                noAnimation
-                              />
-                            </Match>
-                          </Switch>
-                        </div>
-                      </div>
-                    </div>
+                  <div class="flex flex-col gap-4">
+                  <CaseBattleSpinersContainer
+                    game={game}
+                    confettiFired={confettiFired}
+                    setConfettiFired={setConfettiFired}
+                    spinnerOptions={spinnerOptions}
+                    containsConfettiWin={containsConfettiWin}
+                    spinQueue={spinQueue}
+                    setSpinQueue={setSpinQueue}
+                    spinIndexes={spinIndexes}
+                    currentCountdown={currentCountdown}
+                    showResults={showResults}
+                    playerBarRef={playerBarRef}
+                    confettiData={confettiData}
+                    setConfettiData={setConfettiData}
+                    innerWidth={innerWidth}
+                    players={innerWidth() > 600
+                      ? Array.from(Array(game().playersQty).keys())
+                      : Array.from(Array(game().playersQty).keys()).slice(
+                          0,
+                          2
+                        )}
+                  />
+                  <Show when={innerWidth() < 600 && game().playersQty > 2}>
+                    <CaseBattleSpinersContainer
+                      game={game}
+                      confettiFired={confettiFired}
+                      setConfettiFired={setConfettiFired}
+                      spinnerOptions={spinnerOptions}
+                      containsConfettiWin={containsConfettiWin}
+                      spinQueue={spinQueue}
+                      setSpinQueue={setSpinQueue}
+                      spinIndexes={spinIndexes}
+                      currentCountdown={currentCountdown}
+                      showResults={showResults}
+                      playerBarRef={playerBarRef}
+                      confettiData={confettiData}
+                      setConfettiData={setConfettiData}
+                      innerWidth={innerWidth}
+                      players={Array.from(Array(game().playersQty).keys()).slice(2)}
+                    />
+                  </Show>
                   </div>
                 </div>
                 <div class={`grid lg:hidden grid-cols-2 gap-y-4 lg:grid-cols-${
