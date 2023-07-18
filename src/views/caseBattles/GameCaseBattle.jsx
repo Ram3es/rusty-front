@@ -663,7 +663,7 @@ const GameCaseBattle = (props) => {
       {game() && (
         <div class="w-full h-full flex flex-col gap-8 relative py-4 lg:py-8">
           <div class="lg:px-4 xl:px-8 xxl:px-14 flex flex-col">
-            <div class="flex flex-col lg:flex-row  gap-3 lg:gap-2 mb-0 xl:-mb-8">
+            <div class="flex flex-col lg:flex-row lg:justify-between gap-3 lg:gap-2 mb-0 xl:-mb-8">
               <div class="flex lg:items-center flex-col gap-3 lg:flex-row lg:gap-6">
                 <NavLink href={URL.GAMEMODES.CASE_BATTLES}>
                   <div class="flex gap-2 items-center p-3 border-2 border-white border-opacity-5 rounded-4 drop-shadow w-max h-[40px]">
@@ -1000,7 +1000,7 @@ const GameCaseBattle = (props) => {
                   </Show>
                   </div>
                 </div>
-                <div class={`grid lg:hidden grid-cols-2 gap-y-4 lg:grid-cols-${
+                <div class={`grid grid-cols-2 gap-y-4 lg:grid-cols-${
                     game().playersQty
                   }`}>
                   <For each={Array.from({length: game().playersQty})}>
@@ -1012,205 +1012,10 @@ const GameCaseBattle = (props) => {
                             playerRoundData={playerRoundData}
                             handleCallBot={() => callBot(index() + 1)}
                             handleJoinGame={() => joinGame(index() + 1)}
+                            playerBarRef={playerBarRef}
                           />
                         )
                       }}                 
-                  </For>
-                </div>
-                <div
-                  class={`hidden lg:grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
-                    game().playersQty
-                  }
-                  
-                  `}
-                  style={{
-                    background: `radial-gradient(25% 50% at 50% 0%, rgba(${getModeRgbByTextColor(getModeColorByName(game().mode))}, ${
-                      game().status === "ended" ? 0 : "0.07"
-                    }) 0%, rgba(255, 180, 54, 0) 100%), linear-gradient(89.84deg, #1A1B30 0.14%, #191C35 99.86%)`,
-                  }}
-                  ref={setPlayerBarRef}
-                >
-                  <For each={Array.from(Array(game().playersQty).keys())}>
-                    {(playerIndex, index) => (
-                      <div
-                        class={`center relative pb-2 ${
-                          game().status !== "ended" ||
-                          isWinner(game().winners, playerIndex)
-                            ? `opacity-100 ${
-                                playerIndex === 0
-                                  ? "rounded-l-8"
-                                  : playerIndex ===
-                                    Array.from(
-                                      Array(game().playersQty).keys()
-                                    ).at(-1)
-                                  ? "rounded-r-8"
-                                  : ""
-                              }`
-                            : "opacity-30"
-                        }`}
-                        // style={{
-                        //   background: `${getGradientForWinners(
-                        //     game().playersQty,
-                        //     game().winners,
-                        //     playerIndex
-                        //   )}`,
-                        // }}
-                      >
-                        {game().players[playerIndex + 1] ? (
-                          <div class="center p-2">
-                            <div
-                              class={`pl-2 pr-6 flex flex-row gap-2 center
-                            ${
-                              game().status !== "ended" &&
-                              game().status !== "results"
-                                ? "opacity-100"
-                                : "opacity-0"
-                            }`}
-                            >
-                              <div class="w-max">
-                                <UserGameAvatar
-                                  mode={
-                                    game()?.cursed === 1
-                                      ? "cursed"
-                                      : game()?.mode === "group" &&
-                                        game()?.cursed !== 1
-                                      ? "group"
-                                      : "royal"
-                                  }
-                                  isBot={
-                                    game().players[playerIndex + 1] &&
-                                    !game().players[playerIndex + 1]?.avatar
-                                  }
-                                  avatar={
-                                    game().players[playerIndex + 1]?.avatar
-                                  }
-                                  name={game().players[playerIndex + 1]?.name}
-                                />
-                              </div>
-                              <UserBadge
-                                game={game}
-                                playerIndex={playerIndex}
-                              />
-                            </div>
-                          </div>
-                        ) : game().owner === userObject.user.id &&
-                          !spinLists()[playerIndex] ? (
-                          <div class="w-full center">
-                            <div class="h-10">
-                              <GrayGradientButton
-                                callbackFn={() => callBot(playerIndex + 1)}
-                              >
-                                <div class="text-gray-9a center gap-2 text-14 font-bold font-SpaceGrotesk">
-                                  <EmojiIcon />
-                                  <span>Call Bot</span>
-                                </div>
-                              </GrayGradientButton>
-                            </div>
-                          </div>
-                        ) : (
-                          <div class="w-full center">
-                            <div class="h-10">
-                              <YellowGradientButton
-                                callbackFn={() => joinGame(playerIndex + 1)}
-                              >
-                                <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                                  <span class="w-max">Join</span>
-                                  <Coin width="5" />
-                                  <span class="text-gradient">
-                                    {game().fundBattle
-                                      ? game().totalValue -
-                                        (
-                                          game().totalValue *
-                                          (game().fundPercent / 100)
-                                        ).toFixed()
-                                      : game().totalValue}
-                                  </span>
-                                  {game().fundBattle ? (
-                                    <div
-                                      class={
-                                        "rounded-2 border border-[#0BBD52]/10 px-1 w-[29px] center text-green-3e font-Quicksand font-bold text-10"
-                                      }
-                                      style={{
-                                        background:
-                                          "linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.12) 41.3%, rgba(0, 0, 0, 0.12) 68.93%, rgba(255, 255, 255, 0.12) 100%), radial-gradient(98.73% 114.02% at 100% -37.29%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, radial-gradient(99.15% 99.15% at 12.7% 107.2%, rgba(11, 189, 82, 0.48) 0%, rgba(0, 0, 0, 0) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */, linear-gradient(0deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)), linear-gradient(180deg, rgba(11, 189, 82, 0) 0%, rgba(11, 189, 82, 0.12) 100%), radial-gradient(58.03% 60.37% at 50% 29.27%, rgba(118, 124, 255, 0.05) 0%, rgba(118, 124, 255, 0) 100%), radial-gradient(100% 275.07% at 100% 0%, rgba(33, 36, 60, 0.48) 0%, rgba(29, 31, 48, 0.48) 100%)",
-                                      }}
-                                    >
-                                      -{game().fundPercent}%
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </YellowGradientButton>
-                            </div>
-                          </div>
-                        )}
-                        {Array.from(Array(game().playersQty).keys()).at(-1) !==
-                          index() && (
-                          <div class="border-r border-black border-opacity-20 absolute right-0 top-0 h-full" />
-                        )}
-                      </div>
-                    )}
-                  </For>
-                </div>
-                <div class="hidden border border-black border-opacity-5 rounded-8 -mt-12 lg:flex bg-dark-secondary border-r-0 ">
-                  <For each={Array.from(Array(game().playersQty).keys())}>
-                    {(playerIndex) => (
-                      <>
-                        <div class="flex w-full px-5 py-10 pt-12">
-                          {game().players[playerIndex + 1] && (
-                            <div class="flex gap-2 flex-wrap justify-center w-full">
-                              <For
-                                each={Array.from(
-                                  Array(game().cases.length).keys()
-                                )}
-                              >
-                                {(round) => (
-                                  <div>
-                                    {playerRoundData()[playerIndex][round] ? (
-                                      <div class="w-30 h-[7.5rem] center">
-                                        <SmallItemCardNew
-                                          item={
-                                            playerRoundData()[playerIndex][
-                                              round
-                                            ]
-                                          }
-                                          color={getColorByPrice(
-                                            playerRoundData()[playerIndex][
-                                              round
-                                            ].item_price
-                                          )}
-                                        />
-                                      </div>
-                                    ) : (
-                                      <>
-                                        <img
-                                          src={ItemPlaceholder}
-                                          class="w-30 h-[7.5rem] center"
-                                        />
-                                        {/* <div
-                                          class="w-30 h-[7.5rem] flex items-center justify-center font-bold text-72
-                                        font-SpaceGrotesk rounded-md text-[#FFFFFF03]"
-                                          style={{
-                                            background: `linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%),
-                                                        radial-gradient(136.7% 122.5% at 50.04% 121.87%, rgba(255, 180, 54, 0.07) 0%, rgba(255, 180, 54, 0) 100%),
-                                                        linear-gradient(75.96deg, rgba(255, 255, 255, 0) 20.07%, rgba(255, 255, 255, 0.03) 41.3%, rgba(0, 0, 0, 0.03) 68.93%, 
-                                                        rgba(255, 255, 255, 0.03) 100%)`,
-                                          }}
-                                        >
-                                          {round}
-                                        </div> */}
-                                      </>
-                                    )}
-                                  </div>
-                                )}
-                              </For>
-                            </div>
-                          )}
-                        </div>
-                        <div class="border-r border-black border-opacity-5" />
-                      </>
-                    )}
                   </For>
                 </div>
               </div>

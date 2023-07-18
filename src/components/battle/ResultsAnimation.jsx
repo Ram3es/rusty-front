@@ -13,7 +13,7 @@ import {
   playCounter60Sound,
   playCounter65Sound,
 } from "../../utilities/Sounds/SoundButtonClick";
-import { getModeColorByName, getModeRgbByTextColor } from "../../utilities/caseBattles-tools";
+import { getCountDuration, getModeColorByName, getModeRgbByTextColor } from "../../utilities/caseBattles-tools";
 
 const ResultsAnimation = (props) => {
   const [timings, setTimings] = createSignal({});
@@ -24,17 +24,6 @@ const ResultsAnimation = (props) => {
 
   createEffect(() => console.log(props.game()));
 
-  const getCountDuration = (numCases) => {
-    return numCases <= 5
-      ? 3.5
-      : numCases <= 10
-      ? 4.5
-      : numCases <= 20
-      ? 5.5
-      : numCases <= 30
-      ? 6
-      : 6.5;
-  };
 
   const gradientClip = `-webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;
@@ -430,7 +419,7 @@ const ResultsAnimation = (props) => {
         class={`absolute self-center h-20 w-20  -bottom-2  right-0 `}
         ref={setConfettiCannonRefB}
       />
-      <div
+      {/* <div
         class={`grid rounded-8 border border-black border-opacity-5 relative z-10 grid-cols-${
           props.game().playersQty
         } 
@@ -531,7 +520,7 @@ const ResultsAnimation = (props) => {
             </div>
           )}
         </For>
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -557,7 +546,7 @@ const isPlayerWinner = (playerObject, index = 0) => {
   console.log(index, playerObject);
   return playerObject.winner;
 };
-const isWinnerFromIndex = (winnersArray, playerIndex) => {
+export const isWinnerFromIndex = (winnersArray, playerIndex) => {
   if (winnersArray) {
     return winnersArray.some(
       (winner) => winner.player_index === playerIndex + 1
@@ -566,7 +555,7 @@ const isWinnerFromIndex = (winnersArray, playerIndex) => {
   return false;
 };
 
-const getWinnerValueById = (winnersArray, id) => {
+export const getWinnerValueById = (winnersArray, id) => {
   for (let i = 0; i < winnersArray.length; i++) {
     // If the current object's id matches the id we're looking for
     if (winnersArray[i].id === id) {

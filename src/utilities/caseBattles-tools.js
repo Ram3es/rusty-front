@@ -69,3 +69,15 @@ export const getColorByPrice = (item_price) => {
       : "gray";
   return color;
 };
+
+export  const getCountDuration = (numCases) => {
+  return numCases <= 5
+    ? 3.5
+    : numCases <= 10
+    ? 4.5
+    : numCases <= 20
+    ? 5.5
+    : numCases <= 30
+    ? 6
+    : 6.5;
+};
