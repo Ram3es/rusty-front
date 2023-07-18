@@ -1,4 +1,4 @@
-import { For, onCleanup, createEffect, Match } from 'solid-js'
+import { For, onCleanup, createEffect } from 'solid-js'
 import UserGameAvatar from './UserGameAvatar'
 import GrayGradientButton from '../elements/GrayGradientButton'
 import EmojiIcon from '../icons/EmojiIcon'
@@ -256,16 +256,17 @@ const BattlePullsColumn = (props) => {
           <div class="flex gap-3 flex-wrap justify-center w-full">
             <For each={Array.from(Array(props.game().cases.length).keys())}>
               {(round) => {
-                console.log('round', round)
                 return (
                   <div>
                     {props.playerRoundData()[props.columnIndex()][round] ? (
-                      <SmallItemCardNew
-                        item={props.playerRoundData()[props.columnIndex()][round]}
-                        color={getColorByPrice(
-                          props.playerRoundData()[props.columnIndex()][round].item_price
-                        )}
-                      />
+                      <div class="w-30 h-[7.5rem] center">
+                        <SmallItemCardNew
+                          item={props.playerRoundData()[props.columnIndex()][round]}
+                          color={getColorByPrice(
+                            props.playerRoundData()[props.columnIndex()][round].item_price
+                          )}
+                        />
+                      </div>
                     ) : (
                       <img src={ItemPlaceholder} class="w-30 h-[7.5rem] center" />
                     )}
