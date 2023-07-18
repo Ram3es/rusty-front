@@ -6,7 +6,7 @@ import { useI18n } from "../../i18n/context";
 import ModeMark from "../header/ModeMark";
 import { URL } from "../../libraries/url";
 
-const MobileGameNavigation = () => {
+const MobileGameNavigation = (props) => {
   const [currPath, setCurrPath] = createSignal(window.location.pathname);
   const i18n = useI18n();
 
@@ -19,6 +19,7 @@ const MobileGameNavigation = () => {
               href={mode.disabled ? "" : mode.url}
               class="relative"
               onClick={() => {
+                props.onCloseMobileMenu()
                 if (!mode.disabled) {
                   document.getElementById("scrollWrapper").scrollTop = 0;
                   setCurrPath(() => mode.url);

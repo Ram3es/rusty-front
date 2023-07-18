@@ -143,7 +143,7 @@ const SubHeader = (props) => {
 
   return (
     <>
-      <div class="relative z-40 h-14 lg:h-full">
+      <div class="relative z-50 h-14 lg:h-full">
         <div
           class="flex relative z-10 h-14 items-center px-4 py-2 lg:p-0 lg:h-auto"
           style={{
@@ -514,6 +514,7 @@ const SubHeader = (props) => {
                     }`}
                     class={`gap-3 cursor-pointer group relative`}
                     onClick={(e) => {
+                      toggleActiveMobileMenu()
                       if (toggle.url == URL.FAIRNESS) {
                         e.preventDefault();
                         setToggles("provablyFairModal", true);
@@ -556,6 +557,7 @@ const SubHeader = (props) => {
                     href={`${toggle.url}`}
                     class={`gap-3 cursor-pointer group relative`}
                     onClick={() => {
+                      toggleActiveMobileMenu()
                       setTimeout(() => {
                         setCurrPath(() => window.location.pathname);
                       }, 100);
@@ -640,7 +642,7 @@ const SubHeader = (props) => {
             </div>
           </div>
         )}
-        {currentNavTab() === "games" && <MobileGameNavigation />}
+        {currentNavTab() === "games" && <MobileGameNavigation onCloseMobileMenu={() => setCurrentNavTab('')} />}
       </div>
     </>
   );
