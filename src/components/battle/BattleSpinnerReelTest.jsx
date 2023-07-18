@@ -57,7 +57,7 @@ const BattleSpinnerReel = (props) => {
 
   const calculateTopIndexOffset = () => {
     setReelItem(() => document.querySelector("[data-reel-item]"));
-    const referencePoint = containerRef().offsetHeight / 2;
+    const referencePoint = props.containerRef().offsetHeight / 2;
     const itemHeight = reelItem().offsetHeight;
     const imgHeight = imgItem().offsetHeight;
     return referencePoint - itemHeight - imgHeight / 2;
