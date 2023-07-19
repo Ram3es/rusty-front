@@ -23,9 +23,9 @@ const NewItemsList = (props) => {
         {props.item ? (
           <div
             onClick={() => {
-              if (Number(props.item.locked) != 1) {
+              // if (Number(props.item.locked) != 1) {
                 getParentProps().toggle(props.item);
-              }
+              // }
             }}
             class="w-full h-full"
           >
