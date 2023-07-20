@@ -34,7 +34,7 @@ const MobileBottomNavigation = () => {
 
   return (
       <div
-        class="z-10 fixed left-0 bottom-0 h-[74px] w-full lg:hidden bg-dark-18"
+        class="z-10 relative left-0 bottom-0 min-h-[74px] w-full lg:hidden bg-dark-18"
       >
         <div
           style={{

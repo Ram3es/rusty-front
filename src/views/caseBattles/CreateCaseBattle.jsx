@@ -469,7 +469,7 @@ const CreateCaseBattle = (props) => {
         </div>
 
         <div class="center flex-col gap-2 px-4 xl:px-8 xxl:px-14 llg:w-[calc(100vw-324px)] bg-control-panel">
-          <div class="grid grid-cols-2 lg:w-[616px] lg:flex lg:flex-col justify-between px-4 lg:px-14 py-4 border-white border border-opacity-5 gap-4">
+          <div class="grid grid-cols-2 w-full lg:w-[616px] lg:flex lg:flex-col justify-between px-4 lg:px-14 py-4 border-white border border-opacity-5 gap-4">
             <div class="col-span-2 grid grid-cols-2 lg:flex flex-col justify-between lg:flex-row gap-2 lg:w-full">
               <div>
                 <CaseGradientButton
@@ -1091,7 +1091,7 @@ const CreateCaseBattle = (props) => {
           </div>
         </div>
 
-        <div class="lg:center flex flex-col-reverse lg:flex-row gap-4 p-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)] bg-control-panel">
+        <div class="lg:center flex flex-col lg:flex-row gap-4 p-4 xl:px-8 xxl:px-14 llg:max-w-[calc(100vw-324px)] bg-control-panel">
           <CaseGradientButton
             isFullWidth={true}
             callbackFn={() => createBattle()}
@@ -1138,7 +1138,7 @@ const CreateCaseBattle = (props) => {
             </div>
           </CaseGradientButton>
           <Show when={modeToCreate().fundBattle}>
-            <div class="w-max">
+            <div class="w-full lg:w-max">
               <Dropdown
                 isFullWidth
                 label="Min Level:"
@@ -1161,7 +1161,7 @@ const CreateCaseBattle = (props) => {
           }}
         >
           <div
-            class="w-11/12 h-5/6 lg:w-auto lg:h-auto flex flex-col rounded-12 overflow-hidden"
+            class="w-11/12 h-[94%] lg:w-auto lg:h-auto flex flex-col rounded-12 overflow-hidden"
             style={{
               background:
                 "radial-gradient(121.17% 118.38% at 46.04% 63.97%, rgba(118, 124, 255, 0.06) 0%, rgba(118, 124, 255, 0) 63.91%), linear-gradient(90.04deg, #1A1B30 0%, #191C35 100%)",

@@ -24,6 +24,7 @@ import CloseIcon from "../icons/CloseIcon";
 import { navigationGameModes } from "../../libraries/navigation";
 import tabStore from "../nav/MobileNavStore";
 import MobileGameNavigation from "../nav/MobileGameNavigation";
+import { isAppleSafari } from "../../utilities/helpers";
 
 const SubHeader = (props) => {
   let soundButtonMain;
@@ -501,7 +502,7 @@ const SubHeader = (props) => {
         </div>
 
         {activeMobileMenu() && !isNotificationModalOpen() && (
-          <div class="transition-all delay-700ease-in-out duration-700 absolute flex flex-col left-0 top-full w-full h-[calc(100vh-69px-56px)] overflow-y-scroll p-6 gap-6 subheader-nav">
+          <div class={`transition-all delay-700ease-in-out duration-700 absolute flex flex-col left-0 top-full w-full ${!isAppleSafari() ? "h-[calc(100vh-125px)]" : "h-[calc(100vh-205px)] lg:h-[calc(100vh-125px)]"} overflow-y-scroll p-6 gap-6 subheader-nav`}>
             <div class="flex flex-col gap-[18px]">
               <For each={toggles}>
                 {(toggle) => (

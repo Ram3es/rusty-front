@@ -585,7 +585,7 @@ const PaymentModal = (props) => {
       open={() => {
         return true;
       }}
-      style={"flex justify-center pt-12"}
+      style={"flex justify-center pt-4"}
       handler={props.handler}
       noContainer={true}
     >
@@ -602,7 +602,7 @@ const PaymentModal = (props) => {
         class={`flex flex-col z-10 relative w-11/12 transition-all overflow-hidden`}
         style={{
           "max-width": !props.searchParams?.crypto ? "1496px" : "830px",
-          "max-height": "90vh",
+          "max-height": "99vh",
         }}
       >
         <div
@@ -727,9 +727,10 @@ const PaymentModal = (props) => {
               >
                 <div class="w-full h-20 lg:h-10 flex flex-col items-end lg:flex-row justify-between gap-2 relative z-10">
                   <div class="w-full lg:w-max flex gap-2 h-full">
-                    <div class="w-full flex-1 h-full bg-dark-1c">
+                    <div class="w-full flex-1 h-full bg-dark-1c max-w-[calc(50%-4px)] md:max-w-none">
                       <div class="w-full lg:w-80">
                         <CaseSearchInput
+                          noInputMaxWidth={true}
                           search={search()}
                           onReset={() => setSearch("")}
                           onInput={(text) => updateSearch(text)}
@@ -737,14 +738,17 @@ const PaymentModal = (props) => {
                         />
                       </div>
                     </div>
-                    <Dropdown
-                      activeName={
-                        descending() ? sortOptions[0] : sortOptions[1]
-                      }
-                      itemsList={sortOptions}
-                      submitItem={() => changeDescending()}
-                      label=" Sort by Price:"
-                    />
+                    <div class="max-w-[calc(50%-4px)] w-full md:w-auto">
+                      <Dropdown
+                        activeName={
+                          descending() ? sortOptions[0] : sortOptions[1]
+                        }
+                        itemsList={sortOptions}
+                        submitItem={() => changeDescending()}
+                        label=" Sort by Price:"
+                      />
+                    </div>
+                    
                   </div>
                   {props.searchParams?.withdraw && (
                     <div class="w-full  lg:w-max balance-bg rounded-4 flex items-center drop-shadow-dark">

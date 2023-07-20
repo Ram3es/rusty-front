@@ -50,7 +50,7 @@ const CaseSearchInput = (props) => {
         </div>
       )}
       <input
-        class="relative max-w-[calc(100%-30px)] sm:max-w-none grow sm:min-w-32 z-10 text-14 truncate text-gray-92 font-medium font-SpaceGrotesk"
+        class={`relative ${props.noInputMaxWidth ? "" : "max-w-[calc(100%-30px)]" } sm:max-w-none grow sm:min-w-32 z-10 text-14 truncate text-gray-92 font-medium font-SpaceGrotesk`}
         type="text"
         value={props.search}
         onInput={(e) => props.onInput(e.target.value)}

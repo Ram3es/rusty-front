@@ -1856,6 +1856,15 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   filter: drop-shadow(0px 0px 10px rgba(255, 180, 54, 0.24));
 }
 
+@media screen and (max-width: 768px) {
+  .header-nav-link-active {
+    background: url('./assets/img/ActiveGameLinkBgSm.png');
+    background-size: 100% 110%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
 .header-nav-link svg,
 .header-nav-link-active svg {
   height: 26px;
@@ -2292,6 +2301,12 @@ input[type='range'].borrow-slider::-webkit-slider-thumb {
   -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;
+}
+
+@media (max-width: 768px) {
+  .case-opening-wrapper::before {
+    border-radius: 0;
+  }
 }
 
 .horisontal-borders::before {

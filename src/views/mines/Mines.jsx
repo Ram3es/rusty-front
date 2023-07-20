@@ -255,7 +255,7 @@ const Mines = () => {
     <>
       <div class="w-full h-full flex flex-col gap-24 overflow-y-scroll relative pt-6 pb-[40vh]">
         <div
-          class="w-full flex flex-col-reverse lg:flex-row gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden relative"
+          class="w-full flex flex-col-reverse lg:flex-row gap-4 lg:gap-10 border border-[#ffff640a] rounded-md h-full overflow-y-hidden relative"
           style={{
             background: `
                         radial-gradient(60% 100% at 40.95% 0%, ${
@@ -290,12 +290,12 @@ const Mines = () => {
           />
           <div class="center flex-col relative w-full ">
             <div class="flex gap-6 flex-col lg:flex-row w-full justify-between ">
-              <div class="h-full flex flex-col items-center justify-center gap-4 w-full ">
+              <div class="h-full flex flex-col items-center justify-center lg:gap-4 w-full ">
                 <div class="flex justify-start lg:justify-center items-center relative w-full">
                   <RemainingMines mines={mines} />
                 </div>
                 <div class="relative">
-                  <div class={`grid grid-cols-5 gap-3 pb-10 `}>
+                  <div class={`grid grid-cols-5 gap-3 lg:pb-10 `}>
                     <For
                       each={[
                         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,

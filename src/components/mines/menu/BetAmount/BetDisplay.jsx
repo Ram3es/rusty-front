@@ -43,9 +43,9 @@ const BetDisplay = (props) => {
       >
         <div class={`flex gap-2 items-center `}>
           <div class="flex gap-2 items-center flex-1 h-full">
-            <CoinLogo h="16" />
+            <CoinLogo h="16" noMobileResize={true} />
             <input
-              class="text-14 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
+              class="text-17 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
               type="number"
               onInput={(e) => props.callbackFn(e)}
               value={props.betValue()}

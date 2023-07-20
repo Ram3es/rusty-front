@@ -47,7 +47,7 @@ const CaseCardToAdd = (props) => {
       >
         <img
           class={`absolute group-hover:rotate-6 top-4 ${
-            props.isAdded && !props.mobileSmallCard ? "scale-[1.1] lg:scale-[1.4]" : "scale-[1.2] lg:scale-150"
+            props.isAdded && !props.mobileSmallCard ? "scale-[1.1] lg:scale-[1.4]" : "scale-[1.8] lg:scale-150"
           }`}
           classList={{
             'h-[64px] lg:h-[110px]': props.mobileSmallCard,

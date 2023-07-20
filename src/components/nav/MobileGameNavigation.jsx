@@ -5,13 +5,14 @@ import { createSignal } from "solid-js";
 import { useI18n } from "../../i18n/context";
 import ModeMark from "../header/ModeMark";
 import { URL } from "../../libraries/url";
+import { isAppleSafari } from "../../utilities/helpers";
 
 const MobileGameNavigation = (props) => {
   const [currPath, setCurrPath] = createSignal(window.location.pathname);
   const i18n = useI18n();
 
   return (
-    <div class="absolute left-0 top-full w-full h-[calc(100vh-69px-56px)] overflow-y-scroll z-50 subheader-nav">
+    <div class={`absolute left-0 top-full w-full ${!isAppleSafari() ? "h-[calc(100vh-125px)]" : "h-[calc(100vh-205px)] lg:h-[calc(100vh-125px)]"} overflow-y-scroll z-50 subheader-nav`}>
       <div class="grid grid-cols-2 p-4 gap-4">
         <For each={navigationGameModes}>
           {(mode) => (
@@ -27,7 +28,7 @@ const MobileGameNavigation = (props) => {
               }}
             >
               <div
-                class={`h-[66px] ${
+                class={`h-[90px] ${
                   mode.url === URL.GAMEMODES.CASE_BATTLES
                     ? "xxl:w-[136px]"
                     : "xxl:w-[108px]"

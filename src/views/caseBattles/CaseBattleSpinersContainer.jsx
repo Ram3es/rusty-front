@@ -184,7 +184,7 @@ const CaseBattleSpinersContainer = (props) => {
 
   return (
     <div
-      class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200 ${innerWidth < 700 && props.players.length === 1 ? "w-1/2" : "w-full"} `}
+      class={`${props.isFullRounded ? 'p-0.5 rounded-4' : 'px-[2px] rounded-b-4'} shadow-xl transition-colors duration-200 ${innerWidth < 700 && props.players.length === 1 ? "w-1/2" : "w-full"} `}
       style={{
         background: `linear-gradient(0deg, rgba(255, 255, 255, 0.02) 15%, rgba(255, 255, 255, 0.06) 30%, rgba(${
           props.game().status === "ended"
@@ -197,9 +197,9 @@ const CaseBattleSpinersContainer = (props) => {
         },0.6) 54.5%, rgba(255, 255, 255, 0.035) 70%`,
       }}
     >
-      <div class="bg-[#13152A] rounded-b-4">
+      <div class={`${props.isFullRounded ? 'rounded-4' : 'rounded-b-4'} bg-[#13152A]`}>
         <div
-          class={`rounded-b-4 ${
+          class={`${props.isFullRounded ? 'rounded-4' : 'rounded-b-4'} ${
             props.game().status !== "ended" &&
             `case-opening-wrapper-horizontal-${getModeColorByName(
               props.game().mode
@@ -208,7 +208,7 @@ const CaseBattleSpinersContainer = (props) => {
         >
           <div class="relative w-full h-[326px] flex" ref={setContainerRef}>
             <div
-              class="absolute w-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4"
+              class={`absolute w-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter ${props.isFullRounded ? 'rounded-4' : 'rounded-b-4'}`}
               style={{
                 "background-image": `url('${bgVectorCaseBattle}')`,
                 opacity: 0.002,

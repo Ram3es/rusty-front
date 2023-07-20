@@ -3,7 +3,7 @@ import { createEffect, createSignal, For } from "solid-js";
 import injector from "../../injector/injector";
 import { API, URL } from "../../libraries/url";
 import Coin from "../../utilities/Coin";
-import Modal from "./Modal";
+import Modal, {scrallModalTop} from "./Modal";
 
 import Bg from "../../assets/img/modals/accountBg.png";
 import Splash from "../../assets/img/modals/accountSplash.svg";
@@ -33,6 +33,7 @@ import Ranks from "../../utilities/Ranks";
 import GrayGradientButton from "../elements/GrayGradientButton";
 import ArrowBack from "../icons/ArrowBack";
 import GoldRay from "../icons/GoldRay";
+import { create } from "canvas-confetti";
 
 const tabHeaders = {
   users:{
@@ -66,7 +67,9 @@ const AffiliatesModal = (props) => {
 
   const [tab, setTab] = createSignal("overview");
 
-  console.log(tab(), 'h=====================')
+  createEffect(() => {
+    scrallModalTop();
+  });
 
   const [tiers] = createSignal([
     {
@@ -271,7 +274,6 @@ const AffiliatesModal = (props) => {
       open={() => {
         return true;
       }}
-      handler={() => {}}
     >
       <NavLink
         class="w-full h-full absolute left-0 cursor-default top-0"
@@ -290,7 +292,7 @@ const AffiliatesModal = (props) => {
           }}
         >
           <div
-            class={`flex relative w-full items-center justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12`}
+            class={`flex relative w-full items-start justify-between px-8 py-6 bg-cover border border-black border-opacity-10 rounded-t-12`}
             style={{
               background: 'linear-gradient(87.89deg, rgba(26, 27, 48, 0) 1.79%, rgba(0, 0, 0, 0.08) 50.01%, rgba(0, 0, 0, 0) 98.24%)'
             }}

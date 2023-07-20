@@ -27,6 +27,7 @@ const BetAmount = (props) => {
             props.setBetValue(e.currentTarget.value);
           }
         }}
+        small={true}
         variant="input"
       />
       <BetButtons betValue={props.betValue} setBetValue={props.setBetValue} />

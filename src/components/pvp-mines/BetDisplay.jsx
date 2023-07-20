@@ -51,10 +51,10 @@ linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
           }`}
         >
           <div class="flex gap-2 items-center flex-1 h-full">
-            <CoinLogo h="16" />
+            <CoinLogo noMobileResize={true} h="16"  />
             {/* <GoldText text={getCurrencyString(betValue())} size="15" /> */}
             <input
-              class="text-14 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
+              class="text-17 gold-input absolute left-9 overflow-hidden w-[35%] font-semibold"
               type="number"
               onInput={(e) => props.callbackFn(e)}
               value={props.betAmount()}

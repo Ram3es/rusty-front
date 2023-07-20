@@ -178,370 +178,372 @@ const PvpModal = (props) => {
           </div>
 
           <div class="w-full flex flex-col gap-2">
-            <div class="w-full flex flex-col-reverse llg:flex-row gap-10 xl:gap-20 overflow-y-scroll h-max max-h-[70vh]">
-              <div class="flex flex-col flex-1 gap-6 grow-1 justify-center">
-                <div class="w-full flex flex-col gap-3">
-                  <For
-                    each={[
-                      ...Object.values(game().players || {}),
-                      ...Array.from({
-                        length: game()?.playersAmount || 0,
-                      }).fill(0),
-                    ].slice(0, game()?.playersAmount || 0)}
-                  >
-                    {(val) => (
-                      <div
-                        class={`w-full h-22 min-w-[368px] bg-dark-22 flex justify-between items-center px-6 py-3 relative bg-cover rounded-4 border-l-2 ${
-                          game()?.status == "started" &&
-                          val &&
-                          game()?.turn % game()?.playersAmount == val?.index
-                            ? "border-yellow-ff"
-                            : game()?.status == "ended" &&
-                              game()?.winner?.player?.index == val.index
-                            ? "border-[#86FFB6]"
-                            : game()?.status == "pending" ||
-                              (game()?.status !== "ended" &&
-                                val &&
-                                game()?.turn % game()?.playersAmount !==
-                                  val?.index &&
-                                !val?.eliminated)
-                            ? "border-gray-9a border-opacity-30"
-                            : "border-[#D63333] border-opacity-30"
-                        } overflow-hidden ${val?.eliminated ? "" : ""}`}
-                        style={
-                          game()?.status == "started" &&
-                          val &&
-                          game()?.turn % game()?.playersAmount == val?.index
-                            ? {
-                                background:
-                                  "linear-gradient(90deg, rgba(255, 180, 54, 0.08) 0%, rgba(255, 180, 54, 0) 93.23%)",
-                              }
-                            : game()?.status == "ended" &&
-                              game()?.winner?.player?.index == val.index
-                            ? {
-                                background:
-                                  "linear-gradient(90deg, rgba(134, 255, 182, 0.08) 0%, rgba(255, 180, 54, 0) 93.23%)",
-                              }
-                            : game()?.status == "pending" ||
-                              (game()?.status !== "ended" &&
-                                val &&
-                                game()?.turn % game()?.playersAmount !==
-                                  val?.index &&
-                                !val?.eliminated)
-                            ? {
-                                background:
-                                  "linear-gradient(90deg, rgba(154, 161, 223, 0.08) 0%, rgba(154, 161, 223, 0) 100%)",
-                              }
-                            : {
-                                background:
-                                  "linear-gradient(90deg, rgba(214, 51, 51, 0.08) 0%, rgba(154, 161, 223, 0) 100%)",
-                              }
-                        }
-                      >
-                        <div class="w-full flex items-center gap-3">
-                          <UserGameAvatar
-                            isBot={val?.bot}
-                            widthClasses="w-14 h-14"
-                            color={
-                              game()?.status == "started" &&
-                              val &&
-                              game()?.turn % game()?.playersAmount == val?.index
-                                ? "#FFB436"
-                                : game()?.status == "ended" &&
-                                  game()?.winner?.player?.index == val.index
-                                ? "#86FFB6"
-                                : game()?.status == "pending" ||
-                                  (game()?.status !== "ended" &&
-                                    val &&
-                                    game()?.turn % game()?.playersAmount !==
-                                      val?.index &&
-                                    !val?.eliminated)
-                                ? "#9AA1DF5C"
-                                : "#D63333"
-                            }
-                            avatar={val?.avatar || ""}
-                            name={val?.username || ""}
-                            eliminated={val?.eliminated}
-                            isTransparentImage={
-                              !(
-                                (game()?.status === "started" &&
-                                  game()?.status == "started" &&
+            <div class="overflow-y-scroll h-max max-h-[70vh]">
+              <div class="w-full flex flex-col-reverse llg:flex-row gap-2 md:gap-10 xl:gap-20 ">
+                <div class="flex flex-col flex-1 gap-6 grow-1 justify-center">
+                  <div class="w-full flex flex-col gap-3">
+                    <For
+                      each={[
+                        ...Object.values(game().players || {}),
+                        ...Array.from({
+                          length: game()?.playersAmount || 0,
+                        }).fill(0),
+                      ].slice(0, game()?.playersAmount || 0)}
+                    >
+                      {(val) => (
+                        <div
+                          class={`w-full h-22 min-w-[368px] bg-dark-22 flex justify-between items-center px-6 py-3 relative bg-cover rounded-4 border-l-2 ${
+                            game()?.status == "started" &&
+                            val &&
+                            game()?.turn % game()?.playersAmount == val?.index
+                              ? "border-yellow-ff"
+                              : game()?.status == "ended" &&
+                                game()?.winner?.player?.index == val.index
+                              ? "border-[#86FFB6]"
+                              : game()?.status == "pending" ||
+                                (game()?.status !== "ended" &&
                                   val &&
-                                  game()?.turn % game()?.playersAmount ==
-                                    val?.index) ||
-                                (game()?.status == "ended" &&
-                                  game()?.winner?.player?.index == val.index)
-                              )
-                            }
-                          />
-                          {val?.username ? (
-                            <div class="flex flex-col gap-2">
-                              <div
-                                class="flex center  gap-2 text-sm font-bold h-wit max-w-[214px] whitespace-nowrap pl-2 py-1 pr-3 rounded"
-                                style={{
+                                  game()?.turn % game()?.playersAmount !==
+                                    val?.index &&
+                                  !val?.eliminated)
+                              ? "border-gray-9a border-opacity-30"
+                              : "border-[#D63333] border-opacity-30"
+                          } overflow-hidden ${val?.eliminated ? "" : ""}`}
+                          style={
+                            game()?.status == "started" &&
+                            val &&
+                            game()?.turn % game()?.playersAmount == val?.index
+                              ? {
                                   background:
-                                    "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
-                                  "box-shadow":
-                                    "0px 2px 2px rgba(0, 0, 0, 0.12)",
-                                }}
-                              >
-                                <Ranks
-                                  width={5}
-                                  staff={val.rank || 0}
-                                  rank={val.level?.league || "bronze"}
-                                />
-                                <RankLabel
-                                  staff={val.rank || 0}
-                                  rank={val.level?.league || "bronze"}
-                                />
+                                    "linear-gradient(90deg, rgba(255, 180, 54, 0.08) 0%, rgba(255, 180, 54, 0) 93.23%)",
+                                }
+                              : game()?.status == "ended" &&
+                                game()?.winner?.player?.index == val.index
+                              ? {
+                                  background:
+                                    "linear-gradient(90deg, rgba(134, 255, 182, 0.08) 0%, rgba(255, 180, 54, 0) 93.23%)",
+                                }
+                              : game()?.status == "pending" ||
+                                (game()?.status !== "ended" &&
+                                  val &&
+                                  game()?.turn % game()?.playersAmount !==
+                                    val?.index &&
+                                  !val?.eliminated)
+                              ? {
+                                  background:
+                                    "linear-gradient(90deg, rgba(154, 161, 223, 0.08) 0%, rgba(154, 161, 223, 0) 100%)",
+                                }
+                              : {
+                                  background:
+                                    "linear-gradient(90deg, rgba(214, 51, 51, 0.08) 0%, rgba(154, 161, 223, 0) 100%)",
+                                }
+                          }
+                        >
+                          <div class="w-full flex items-center gap-3">
+                            <UserGameAvatar
+                              isBot={val?.bot}
+                              widthClasses="w-14 h-14"
+                              color={
+                                game()?.status == "started" &&
+                                val &&
+                                game()?.turn % game()?.playersAmount == val?.index
+                                  ? "#FFB436"
+                                  : game()?.status == "ended" &&
+                                    game()?.winner?.player?.index == val.index
+                                  ? "#86FFB6"
+                                  : game()?.status == "pending" ||
+                                    (game()?.status !== "ended" &&
+                                      val &&
+                                      game()?.turn % game()?.playersAmount !==
+                                        val?.index &&
+                                      !val?.eliminated)
+                                  ? "#9AA1DF5C"
+                                  : "#D63333"
+                              }
+                              avatar={val?.avatar || ""}
+                              name={val?.username || ""}
+                              eliminated={val?.eliminated}
+                              isTransparentImage={
+                                !(
+                                  (game()?.status === "started" &&
+                                    game()?.status == "started" &&
+                                    val &&
+                                    game()?.turn % game()?.playersAmount ==
+                                      val?.index) ||
+                                  (game()?.status == "ended" &&
+                                    game()?.winner?.player?.index == val.index)
+                                )
+                              }
+                            />
+                            {val?.username ? (
+                              <div class="flex flex-col gap-2">
                                 <div
-                                  class={`center gap-2 ${
+                                  class="flex center  gap-2 text-sm font-bold h-wit max-w-[214px] whitespace-nowrap pl-2 py-1 pr-3 rounded"
+                                  style={{
+                                    background:
+                                      "linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), radial-gradient(100% 275.07% at 100% 0%, rgba(30, 34, 68, 0.56) 0%, rgba(15, 19, 53, 0.56) 100%)",
+                                    "box-shadow":
+                                      "0px 2px 2px rgba(0, 0, 0, 0.12)",
+                                  }}
+                                >
+                                  <Ranks
+                                    width={5}
+                                    staff={val.rank || 0}
+                                    rank={val.level?.league || "bronze"}
+                                  />
+                                  <RankLabel
+                                    staff={val.rank || 0}
+                                    rank={val.level?.league || "bronze"}
+                                  />
+                                  <div
+                                    class={`center gap-2 ${
+                                      game()?.status == "started" &&
+                                      val &&
+                                      game()?.turn % game()?.playersAmount ==
+                                        val?.index
+                                        ? "text-gray-9a"
+                                        : game()?.status == "ended" &&
+                                          game()?.winner?.player?.index ==
+                                            val.index
+                                        ? "text-[#86FFB6]"
+                                        : game()?.status == "pending" ||
+                                          (game()?.status !== "ended" &&
+                                            val &&
+                                            game()?.turn %
+                                              game()?.playersAmount !==
+                                              val?.index &&
+                                            !val?.eliminated)
+                                        ? "text-gray-9a"
+                                        : "text-[#D63333]"
+                                    }`}
+                                  >
+                                    <p
+                                      class="text-14 text-current font-bold font-SpaceGrotesk leading-none truncate"
+                                      style={{
+                                        "max-width": "10rem",
+                                      }}
+                                    >
+                                      {val?.username || ""}
+                                    </p>
+                                  </div>
+                                </div>
+                                <div
+                                  class={`flex gap-2 items-center font-SpaceGrotesk font-bold ${
                                     game()?.status == "started" &&
                                     val &&
                                     game()?.turn % game()?.playersAmount ==
                                       val?.index
-                                      ? "text-gray-9a"
+                                      ? "text-gradient"
                                       : game()?.status == "ended" &&
-                                        game()?.winner?.player?.index ==
-                                          val.index
+                                        game()?.winner?.player?.index == val.index
                                       ? "text-[#86FFB6]"
                                       : game()?.status == "pending" ||
                                         (game()?.status !== "ended" &&
                                           val &&
-                                          game()?.turn %
-                                            game()?.playersAmount !==
+                                          game()?.turn % game()?.playersAmount !==
                                             val?.index &&
                                           !val?.eliminated)
-                                      ? "text-gray-9a"
-                                      : "text-[#D63333]"
+                                      ? "text-gradient "
+                                      : "text-gradient opacity-30"
                                   }`}
                                 >
-                                  <p
-                                    class="text-14 text-current font-bold font-SpaceGrotesk leading-none truncate"
-                                    style={{
-                                      "max-width": "10rem",
-                                    }}
-                                  >
-                                    {val?.username || ""}
-                                  </p>
-                                </div>
-                              </div>
-                              <div
-                                class={`flex gap-2 items-center font-SpaceGrotesk font-bold ${
-                                  game()?.status == "started" &&
-                                  val &&
-                                  game()?.turn % game()?.playersAmount ==
-                                    val?.index
-                                    ? "text-gradient"
-                                    : game()?.status == "ended" &&
-                                      game()?.winner?.player?.index == val.index
-                                    ? "text-[#86FFB6]"
-                                    : game()?.status == "pending" ||
-                                      (game()?.status !== "ended" &&
-                                        val &&
-                                        game()?.turn % game()?.playersAmount !==
-                                          val?.index &&
-                                        !val?.eliminated)
-                                    ? "text-gradient "
-                                    : "text-gradient opacity-30"
-                                }`}
-                              >
-                                <Coin width="5" />
-                                <span>{game()?.value}</span>
-                              </div>
-                            </div>
-                          ) : !val?.username &&
-                            game()?.owner == userObject?.user?.id ? (
-                            <div class="mx-auto">
-                              <YellowGradientButton
-                                isFullWidth={false}
-                                callbackFn={callbot}
-                              >
-                                <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                                  <span class="text-gradient">Call Bot</span>
-                                </div>
-                              </YellowGradientButton>
-                            </div>
-                          ) : (
-                            <div class="mx-auto">
-                              <YellowGradientButton
-                                isFullWidth={false}
-                                callbackFn={join}
-                              >
-                                <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
-                                  <span class="w-max">Join</span>
                                   <Coin width="5" />
-                                  <span class="text-gradient">
-                                    {game()?.value}
-                                  </span>
+                                  <span>{game()?.value}</span>
                                 </div>
-                              </YellowGradientButton>
-                            </div>
-                          )}
+                              </div>
+                            ) : !val?.username &&
+                              game()?.owner == userObject?.user?.id ? (
+                              <div class="mx-auto">
+                                <YellowGradientButton
+                                  isFullWidth={false}
+                                  callbackFn={callbot}
+                                >
+                                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                                    <span class="text-gradient">Call Bot</span>
+                                  </div>
+                                </YellowGradientButton>
+                              </div>
+                            ) : (
+                              <div class="mx-auto">
+                                <YellowGradientButton
+                                  isFullWidth={false}
+                                  callbackFn={join}
+                                >
+                                  <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center">
+                                    <span class="w-max">Join</span>
+                                    <Coin width="5" />
+                                    <span class="text-gradient">
+                                      {game()?.value}
+                                    </span>
+                                  </div>
+                                </YellowGradientButton>
+                              </div>
+                            )}
 
-                          {/* <div class={`${val?.username ? "hidden" : "center"} absolute right-2 top-5 hover`} onClick={callbot}>
-                                                      <div class="relative cursor-pointer center hover h-10 w-28 rounded-2 bg-cover group scrolling-btn-wrapper overflow-hidden" style={{"background-image": `url(${YellowButtonBg})`}}>
-                                                          <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0"></div>
-                                                          <div class="absolute left-0.5 top-0.5 h-9 w-[calc(100%-4px)] bg-dark-13"></div>
-                                                          <div class="absolute center">
-                                                              <p class="text-yellow-ff text-14 font-semibold font-Oswald uppercase">call bot</p>
-                                                          </div>
-                                                      </div>
-                                                    </div> */}
+                            {/* <div class={`${val?.username ? "hidden" : "center"} absolute right-2 top-5 hover`} onClick={callbot}>
+                                                        <div class="relative cursor-pointer center hover h-10 w-28 rounded-2 bg-cover group scrolling-btn-wrapper overflow-hidden" style={{"background-image": `url(${YellowButtonBg})`}}>
+                                                            <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0"></div>
+                                                            <div class="absolute left-0.5 top-0.5 h-9 w-[calc(100%-4px)] bg-dark-13"></div>
+                                                            <div class="absolute center">
+                                                                <p class="text-yellow-ff text-14 font-semibold font-Oswald uppercase">call bot</p>
+                                                            </div>
+                                                        </div>
+                                                      </div> */}
+                          </div>
                         </div>
-                      </div>
-                    )}
-                  </For>
-                </div>
-              </div>
-
-              <div class="center gap-6 flex-col md:flex-row grow">
-                <div class="relative flex flex-col gap-2 justify-center">
-                  <div
-                    class={`flex-col z-10 relative w-max left-1/2 px-16 py-1 bottom-full transform -translate-x-1/2 ${
-                      game()?.status == "ended" ? "center" : "hidden"
-                    }`}
-                    style={{
-                      background:
-                        "radial-gradient(50% 100% at 50% 0%, rgba(154, 158, 200, 0.24) 0%, rgba(154, 158, 200, 0) 100%)",
-                      border: "1px solid",
-                      "border-image-source":
-                        "radial-gradient(36.46% 36.46% at 50% 100%, rgba(154, 158, 200, 0.36) 0%, rgba(154, 158, 200, 0) 100%)",
-                    }}
-                  >
-                    <p class="text-20 text-gray-9a font-bold font-SpaceGrotesk">
-                      Round Over
-                    </p>
-                  </div>
-                  <div
-                    class={`flex-col z-10 relative w-max left-1/2 px-16 py-1 bottom-full transform -translate-x-1/2 ${
-                      game()?.status != "ended" ? "center" : "hidden"
-                    }`}
-                    style={{
-                      background:
-                        "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.24) 0%, rgba(255, 180, 54, 0) 100%)",
-                      border: "1px solid",
-                      "border-image-source":
-                        "radial-gradient(36.46% 36.46% at 50% 100%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%)",
-                    }}
-                  >
-                    <p class="text-20 text-yellow-ffb font-bold font-SpaceGrotesk">
-                      {game()?.status == "pending" ? (
-                        "Waiting for Players..."
-                      ) : game()?.status == "started" ? (
-                        <>
-                          <span class="text-gray-9a">Autopick in: </span>
-                          {`0${counter()}`.slice(-2)}
-                        </>
-                      ) : (
-                        "Game starting"
                       )}
-                    </p>
+                    </For>
                   </div>
-                  <div class="relative mb-4">
-                    <div
-                      class={`grid grid-cols-5 gap-4 w-max ${
-                        game()?.status == "ended" ? "opacity-10" : ""
-                      }`}
-                    >
-                      <For
-                        each={[
-                          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                          17, 18, 19, 20, 21, 22, 23, 24, 25,
-                        ]}
-                      >
-                        {(i) => (
-                          <PvpMinesSquare
-                            id={i}
-                            isMine={game()?.minesCleared?.includes(i)}
-                            isFlipped={game()?.cleared?.includes(i)}
-                            onClick={() => {
-                              check(i);
-                            }}
-                          />
-                        )}
-                      </For>
-                    </div>
-                    {game()?.status == "ended" ? (
-                      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 center flex-col">
-                        <UserGameAvatar
-                          isBot={game()?.winner?.player?.bot}
-                          widthClasses="w-14 h-14"
-                          mode="winner"
-                          avatar={game()?.winner?.player?.avatar || ""}
-                          name={game()?.winner?.player?.username || ""}
-                        />
-                        <div class="text-gradient-green-secondary font-SpaceGrotesk text-28 font-bold">
-                          Winner
-                        </div>
-                        <div class="flex gap-2 items-center">
-                          <Coin />
-                          <div class="text-gradient font-SpaceGrotesk text-30 font-bold">
-                            {game()?.winner?.value || 0}
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                </div>
 
-                  {/* <div
-                    class={`flex-col relative z-10 mt-24 ${
-                      game()?.status != "started" && game()?.status != "ended"
-                        ? "center"
-                        : "hidden"
-                    }`}
-                  >
-                    <p class="text-24 md:text-32 text-white font-medium font-Oswald uppercase">
-                      {game()?.status == "pending"
-                        ? "waiting for players"
-                        : game()?.status == "counting"
-                        ? "game starting"
-                        : "game finished"}
-                    </p>
-                    <p
-                      class={`text-20 md:text-24 text-white font-medium font-Oswald ${
-                        game()?.status == "pending" ? "hidden" : ""
+                <div class="center gap-6 flex-col md:flex-row grow">
+                  <div class="relative flex flex-col gap-2 justify-center">
+                    <div
+                      class={`flex-col z-10 relative w-max left-1/3 lg:left-1/2 px-16 pt-3 pb-1 lg:py-1 bottom-full transform -translate-x-1/2 ${
+                        game()?.status == "ended" ? "center" : "hidden"
                       }`}
+                      style={{
+                        background:
+                          "radial-gradient(50% 100% at 50% 0%, rgba(154, 158, 200, 0.24) 0%, rgba(154, 158, 200, 0) 100%)",
+                        border: "1px solid",
+                        "border-image-source":
+                          "radial-gradient(36.46% 36.46% at 50% 100%, rgba(154, 158, 200, 0.36) 0%, rgba(154, 158, 200, 0) 100%)",
+                      }}
                     >
-                      {game()?.status == "ended"
-                        ? `The winner won ${game()?.winner?.value}`
-                        : `The game will start in ${counter()} seconds`}
-                    </p>
-                    <div class="w-72 md:w-100 h-3 rounded-full bg-white my-4 overflow-hidden">
-                      <div
-                        class="w-full h-full rounded-full bg-yellow-ff duration-1000"
-                        style={{
-                          width: `${(counter() - 1) / 0.05}%`,
-                        }}
-                      />
+                      <p class="text-20 text-gray-9a font-bold font-SpaceGrotesk">
+                        Round Over
+                      </p>
                     </div>
-                    {game()?.owner !== userObject?.user?.id ? (
+                    <div
+                      class={`flex-col z-10 relative w-max left-1/3 lg:left-1/2 px-16 pt-3 pb-1 lg:py-1 bottom-full transform -translate-x-1/2 ${
+                        game()?.status != "ended" ? "center" : "hidden"
+                      }`}
+                      style={{
+                        background:
+                          "radial-gradient(50% 100% at 50% 0%, rgba(255, 180, 54, 0.24) 0%, rgba(255, 180, 54, 0) 100%)",
+                        border: "1px solid",
+                        "border-image-source":
+                          "radial-gradient(36.46% 36.46% at 50% 100%, rgba(255, 180, 54, 0.36) 0%, rgba(255, 180, 54, 0) 100%)",
+                      }}
+                    >
+                      <p class="text-20 text-yellow-ffb font-bold font-SpaceGrotesk">
+                        {game()?.status == "pending" ? (
+                          "Waiting for Players..."
+                        ) : game()?.status == "started" ? (
+                          <>
+                            <span class="text-gray-9a">Autopick in: </span>
+                            {`0${counter()}`.slice(-2)}
+                          </>
+                        ) : (
+                          "Game starting"
+                        )}
+                      </p>
+                    </div>
+                    <div class="relative mb-4">
                       <div
-                        class={`${
-                          game()?.status == "pending" ? "center" : "hidden"
-                        } relative hover w-38 h-10 rounded-2 bg-cover group scrolling-btn-wrapper overflow-hidden`}
-                        style={{ "background-image": `url(${YellowButtonBg})` }}
-                        onClick={join}
+                        class={`grid grid-cols-5 gap-[10px] lg:gap-4 w-max ${
+                          game()?.status == "ended" ? "opacity-10" : ""
+                        }`}
                       >
-                        <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0" />
-                        <div class="center gap-2 absolute">
-                          <p class="text-14 text-dark-16 font-medium font-Oswald uppercase">
-                            join for
-                          </p>
-                          <div class="center gap-0.5">
+                        <For
+                          each={[
+                            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+                            17, 18, 19, 20, 21, 22, 23, 24, 25,
+                          ]}
+                        >
+                          {(i) => (
+                            <PvpMinesSquare
+                              id={i}
+                              isMine={game()?.minesCleared?.includes(i)}
+                              isFlipped={game()?.cleared?.includes(i)}
+                              onClick={() => {
+                                check(i);
+                              }}
+                            />
+                          )}
+                        </For>
+                      </div>
+                      {game()?.status == "ended" ? (
+                        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 center flex-col">
+                          <UserGameAvatar
+                            isBot={game()?.winner?.player?.bot}
+                            widthClasses="w-14 h-14"
+                            mode="winner"
+                            avatar={game()?.winner?.player?.avatar || ""}
+                            name={game()?.winner?.player?.username || ""}
+                          />
+                          <div class="text-gradient-green-secondary font-SpaceGrotesk text-28 font-bold">
+                            Winner
+                          </div>
+                          <div class="flex gap-2 items-center">
                             <Coin />
-                            <p class="text-14 text-dark-16 font-medium font-Oswald uppercase">
-                              {game()?.value}
-                            </p>
+                            <div class="text-gradient font-SpaceGrotesk text-30 font-bold">
+                              {game()?.winner?.value || 0}
+                            </div>
                           </div>
                         </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+
+                    {/* <div
+                      class={`flex-col relative z-10 mt-24 ${
+                        game()?.status != "started" && game()?.status != "ended"
+                          ? "center"
+                          : "hidden"
+                      }`}
+                    >
+                      <p class="text-24 md:text-32 text-white font-medium font-Oswald uppercase">
+                        {game()?.status == "pending"
+                          ? "waiting for players"
+                          : game()?.status == "counting"
+                          ? "game starting"
+                          : "game finished"}
+                      </p>
+                      <p
+                        class={`text-20 md:text-24 text-white font-medium font-Oswald ${
+                          game()?.status == "pending" ? "hidden" : ""
+                        }`}
+                      >
+                        {game()?.status == "ended"
+                          ? `The winner won ${game()?.winner?.value}`
+                          : `The game will start in ${counter()} seconds`}
+                      </p>
+                      <div class="w-72 md:w-100 h-3 rounded-full bg-white my-4 overflow-hidden">
+                        <div
+                          class="w-full h-full rounded-full bg-yellow-ff duration-1000"
+                          style={{
+                            width: `${(counter() - 1) / 0.05}%`,
+                          }}
+                        />
                       </div>
-                    ) : (
-                      ""
-                    )}
-                  </div> */}
+                      {game()?.owner !== userObject?.user?.id ? (
+                        <div
+                          class={`${
+                            game()?.status == "pending" ? "center" : "hidden"
+                          } relative hover w-38 h-10 rounded-2 bg-cover group scrolling-btn-wrapper overflow-hidden`}
+                          style={{ "background-image": `url(${YellowButtonBg})` }}
+                          onClick={join}
+                        >
+                          <div class="scrolling-btn-image hidden group-hover:block absolute left-0 top-0" />
+                          <div class="center gap-2 absolute">
+                            <p class="text-14 text-dark-16 font-medium font-Oswald uppercase">
+                              join for
+                            </p>
+                            <div class="center gap-0.5">
+                              <Coin />
+                              <p class="text-14 text-dark-16 font-medium font-Oswald uppercase">
+                                {game()?.value}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div> */}
+                  </div>
                 </div>
               </div>
             </div>

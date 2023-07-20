@@ -1,7 +1,7 @@
 import { onMount, onCleanup, createSignal } from "solid-js";
 import { useDebounce } from "../../utilities/hooks/debounce";
 
-const CoinLogo = ({ h }) => {
+const CoinLogo = ({ h, noMobileResize }) => {
   const [innerWidth, setInnerWidth] = createSignal(window.innerWidth);
   
   const handleChangeInnerWidth = () => {
@@ -18,8 +18,8 @@ const CoinLogo = ({ h }) => {
 
   return (
     <svg
-      width={h * (innerWidth() > 1023 ? 1.3125 : 0.80)}
-      height={innerWidth() > 1023 ? h : h * 0.85}
+      width={h * (innerWidth() > 1023 || noMobileResize ? 1.3125 : 0.80)}
+      height={innerWidth() > 1023 || noMobileResize ? h : h * 0.85}
       viewBox="0 0 21 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,9 +1,9 @@
 const AdjustBtn = (props) => {
   return (
     <div
-      class={`border  border-[#FFFFFF14] text-gray-9a  p-[2px] h-full hover ${
+      class={`border   border-[#FFFFFF14] text-gray-9a  p-[2px] h-full hover ${
         props.small
-          ? "min-w-[40px] text-xs pt-0"
+          ? "min-w-[42px] text-xs p-[3px]"
           : "min-w-[20px] xll:min-w-[52px] text-[14px]"
       }  px-0.5 md:px-1 xll:px-2 rounded-[4px] font-semibold cursor-pointer shadow-button flex items-center justify-center`}
       style={{

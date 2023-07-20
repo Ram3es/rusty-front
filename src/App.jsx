@@ -66,6 +66,7 @@ import Mines from "./views/mines/Mines";
 
 import {stopCaseBattlesSound} from "./utilities/Sounds/SoundButtonClick";
 import MobileBottomNavigation from "./components/nav/MobileBottomNavigation";
+import { isAppleSafari } from "./utilities/helpers";
 
 const App = () => {
   const {userObject, setUserObject, setLeaderboards, toggles, socket} =
@@ -142,9 +143,9 @@ const App = () => {
         class={`absolute top-0 left-0 w-full h-full overflow-hidden bg-dark-18 hide-scrollbar`}
       >
         <Fallback loaded={loaded}>
-          <div class="w-full transition-all duration-200 relative flex flex-col h-full">
+          <div class="w-full transition-all duration-200 relative flex flex-col h-full max-h-screen overflow-auto">
             <SubHeader changeLang={handleOnChangeLang} pathname={pathname} />
-            <div class="flex flex-row h-[calc(100vh-130px)] w-full">
+            <div class={`flex flex-row ${!isAppleSafari() ? "h-[calc(100vh-130px)]" : "h-[calc(100vh-210px)] lg:h-[calc(100vh-130px)]"} w-full`}>
               <div class="main-content flex flex-col w-full">
                 <div class="flex flex-col lg:flex-row h-full">
                   {/* <Nav pathname={pathname} /> */}

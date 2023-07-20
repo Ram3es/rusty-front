@@ -404,7 +404,7 @@ const CaseUnboxing = (props) => {
               </div>
             </div>
             <div
-              class={`rounded-4 relative overflow-hidden ${
+              class={`lg:rounded-4 relative -left-4 lg:left-0 w-[calc(100%+32px)] lg:w-full overflow-hidden ${
                 !userObject.authenticated ||
                 (fairnessHash().length <= 0 && props.searchParams.daily &&
                   (notAvailableCases().includes(
@@ -431,7 +431,7 @@ const CaseUnboxing = (props) => {
               >
                 {!isCaseAlreadyOpened() && (
                   <div
-                    class="md:absolute left-0 top-0 w-full h-full md:center rounded-4"
+                    class="md:absolute left-0 top-0 w-full h-full md:center lg:rounded-4"
                     classList={{
                       'case-opening-placeholder--background center absolute': pendingNum() === 1 || innerWidth() >= 600,
                       'grid grid-cols-2 gap-y-4': pendingNum() > 1 && innerWidth() < 600

@@ -64,13 +64,12 @@ const NewItemsList = (props) => {
   return (
     <>
       <div
-        class={`w-full justify-center items-center h-[474px] lg:h-160 
-         max-h-[60vh] overflow-y-scroll
+        class={`w-full justify-center items-center h-[474px] lg:h-160 max-h-[45vh] lg:max-h-[61vh]
         `}
       >
         <div
-          class="show-scrollbar h-[474px] lg:h-160 
-         max-h-[60vh]"
+          class="show-scrollbar h-[474px] h- lg:h-[700px] 
+         max-h-[45vh] lg:max-h-[61vh]"
           style={{
             overflow: "auto",
             position: "relative",

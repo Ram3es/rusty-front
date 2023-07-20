@@ -981,6 +981,7 @@ const GameCaseBattle = (props) => {
                   />
                   <Show when={innerWidth() < 600 && game().playersQty > 2}>
                     <CaseBattleSpinersContainer
+                      isFullRounded={true}
                       game={game}
                       confettiFired={confettiFired}
                       setConfettiFired={setConfettiFired}

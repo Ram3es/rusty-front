@@ -298,7 +298,7 @@ const CoinflipGameSide = (props) => {
         <div
           class={`flex flex-col items-center ${
             props.left ? "md:items-start" : "md:items-end"
-          } gap-2 lg:gap-4 px-4 md:px-8 lg:pl-9 md:pr-[46px] pb-2 pt-[6px] lg:pt-5`}
+          } ${isLoser() && props.isEndShow() && "opacity-40"} gap-2 lg:gap-4 px-4 md:px-8 lg:pl-9 md:pr-[46px] pb-2 pt-[6px] lg:pt-5`}
         >
           {(props.left || props.data()?.status !== "open") && (
             <div
@@ -427,7 +427,7 @@ const CoinflipGameSide = (props) => {
           )}
           {(props.left || (props.data().status !== 'pending' && props.data().status !== 'open')) && (
             <div
-              class={`${isLoser() && props.isEndShow() && "opacity-40"} w-full`}
+              class={`w-full`}
             >
               <ListItems
                 items={() => {

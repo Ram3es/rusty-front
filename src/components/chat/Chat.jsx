@@ -14,6 +14,7 @@ import SoundIcon from '../icons/SoundIcon'
 import tabStore from '../nav/MobileNavStore'
 import RankLabel from './RankLabel'
 import LoginButton from '../elements/LoginButton'
+import { isAppleSafari } from '../../utilities/helpers'
 
 const Chat = (p) => {
   const { userObject, setUserObject, socket, toastr, setToggles } = injector
@@ -145,7 +146,7 @@ const Chat = (p) => {
   return (
     <div
       id='chatHodler'
-      class={`flex items-center flex-col w-full lg:w-[324px] h-[calc(100vh-56px-16px)] lg:h-full duration-200 z-30 ${
+      class={`flex items-center flex-col w-full lg:w-[324px] ${!isAppleSafari() ? " h-[calc(100vh-72px)]" : "h-[calc(100vh-152px)] lg:h-[calc(100vh-72px)]"} lg:h-full duration-200 z-30 ${
         currentNavTab() === 'chat' ? 'right-0' : '-right-full lg:-right-[324px]'
       } llg:right-0 top-0 absolute llg:relative font-SpaceGrotesk`}
       style={{
