@@ -256,7 +256,7 @@ const ProvablyFairModal = () => {
               </div>
             </div>
           </div>
-          {/* <div>
+          <div>
 <iframe height="600" style="width: 100%;" scrolling="no" title="Untitled" src="https://codepen.io/TerryLoot/embed/GRwqPGR?default-tab=" frameborder="no" loading="lazy" allowtransparency="true" allowfullscreen="true">
   See the Pen <a href="https://codepen.io/TerryLoot/pen/GRwqPGR">
   Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
@@ -267,7 +267,7 @@ const ProvablyFairModal = () => {
   Untitled</a> by Terry (<a href="https://codepen.io/TerryLoot">@TerryLoot</a>)
   on <a href="https://codepen.io">CodePen</a>.
 </iframe>
-          </div> */}
+          </div>
         </div>
       </div>
     </Modal>
