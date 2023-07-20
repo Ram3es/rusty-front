@@ -753,7 +753,7 @@ const GameCaseBattle = (props) => {
   return (
     <div class="flex flex-col">
       {game() && (
-        <div class="w-full h-full flex flex-col gap-8 relative py-4 lg:py-8">
+        <div class="w-full h-full flex flex-col gap-8 relative py-4 lg:py-8 z-10">
           <div class="lg:px-4 xl:px-8 xxl:px-14 flex flex-col">
             <div class="flex flex-col lg:flex-row lg:justify-between gap-3 lg:gap-2 mb-0 xl:-mb-8">
               <div class="flex lg:items-center flex-col gap-3 lg:flex-row lg:gap-6">
