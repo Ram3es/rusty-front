@@ -134,6 +134,7 @@ const CaseBattles = (props) => {
               activeName={sortBy()}
               itemsList={sortByOptions}
               submitItem={(direction) => setSortBy(direction)}
+              toggleClick
             />
           </div>
           <div class=" col-span-3 lg:col-span-1 row-start-2 lg:row-start-auto h-full py-4 px-12 center flex-col gap-1 lg:case-battles--active-battles__background">

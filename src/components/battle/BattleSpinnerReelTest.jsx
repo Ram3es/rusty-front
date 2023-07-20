@@ -1,10 +1,4 @@
 import {For, createSignal, createEffect, onCleanup, onMount} from "solid-js";
-import {
-  containerRef,
-  spinOffsets,
-  reelsSpinning,
-  setReelsSpinning,
-} from "../../views/caseBattles/GameCaseBattle";
 import {spinnerTimings, otherOptions} from "../../libraries/caseSpinConfig";
 import GoldText from "../shared/GoldText";
 import {getCurrencyString} from "../mines_new/utils/tools";
@@ -22,7 +16,7 @@ import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg
 import CaseLineBlue from "../../assets/img/case-battles/caseLineHorizontalBlue.svg";
 import CaseLineGreen from "../../assets/img/case-battles/caseLineHorizontalGreen.svg";
 
-import confetti from "canvas-confetti";
+import confetti, {create} from "canvas-confetti";
 import {useSpinnerStatus} from "../../utilities/hooks/spinnerStatus";
 // import { Fireworks } from "fireworks-js";
 import {init} from "snowf";
@@ -63,9 +57,6 @@ const BattleSpinnerReel = (props) => {
     return referencePoint - itemHeight - imgHeight / 2;
   };
 
-  const [spinTime, setSpinTime] = createSignal(
-    spinnerTimings.battleInitialSpin
-  );
   const [timingFunction, setTimingFunction] = createSignal(
     // "cubic-bezier(.48,.84,.49,1)"
     "cubic-bezier(.2,1,.53,1)"
@@ -75,11 +66,8 @@ const BattleSpinnerReel = (props) => {
 
   const {getStatus} = useSpinnerStatus();
 
-  const [hasRun, setHasRun] = createSignal(false);
-
   createEffect(() => {
-    if (getStatus() === "spinning" && !hasRun()) {
-      setHasRun(true);
+    if (getStatus() === "spinning") {
       moveToIndex();
     }
   });
@@ -122,8 +110,8 @@ const BattleSpinnerReel = (props) => {
   // };
 
   const withinOtherReelBounds = (newOffset) => {
-    for (let i = 0; i < spinOffsets().length; i++) {
-      const currOffset = spinOffsets()[i];
+    for (let i = 0; i < props.spinOffsets().length; i++) {
+      const currOffset = props.spinOffsets()[i];
 
       const lowerBound = currOffset * 0.9;
       const upperBound = currOffset * 1.1;
@@ -138,6 +126,7 @@ const BattleSpinnerReel = (props) => {
   const getSpinOffSet = () => {
     const itemHeight = reelItem().offsetHeight;
     const landInMiddle = props.randomFunction() <= LAND_IN_MIDDLE_CHANCE;
+    const newOffsets = props.spinOffsets();
     if (landInMiddle) {
       let newOffset =
         itemHeight / 2 - props.randomFunction() * 0.1 * itemHeight;
@@ -145,66 +134,22 @@ const BattleSpinnerReel = (props) => {
       if (withinOtherReelBounds(newOffset)) {
         newOffset = itemHeight / 2 - props.randomFunction() * 0.1 * itemHeight;
       }
-      spinOffsets().push(newOffset);
+
+      newOffsets.push(newOffset);
+      props.setSpinOffsets(newOffsets);
 
       return newOffset;
     }
     const newOffset =
       Math.floor((props.randomFunction() * 0.95 + 0.05) * itemHeight) / 2;
-    spinOffsets().push(newOffset);
+
+    newOffsets.push(newOffset);
+    props.setSpinOffsets(newOffsets);
     return newOffset;
   };
 
-  // const [confettiActive, setConfettiActive] = createSignal(false);
-  // const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
-
-  // let confettiInterval;
-  // // const createConfetti = () => {
-  //   if (!confettiActive()) {
-  //     setConfettiActive(true);
-
-  //     const rectA = confettiCannonRefA().getBoundingClientRect();
-
-  //     const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-  //     const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
-
-  //     // Fire confetti every 100 milliseconds (you can adjust this value)
-  //     const intervalDuration = 30;
-  //     const particleCount = 5;
-  //     const spread = 30;
-  //     const startVelocity = 25;
-  //     const colorCodes = {
-  //       purple: "#9c27b0",
-  //       gold: "#ffeb3b",
-  //       red: "#f44336",
-  //       blue: "#2196f3",
-  //       gray: "#9e9e9e",
-  //     };
-  //     const spinList = props.spinList;
-  //     const color = spinList[props.spinIndex].rarity;
-  //     const ticks = 70;
-
-  //     confettiInterval = setInterval(() => {
-  //       confetti({
-  //         particleCount,
-  //         spread,
-  //         origin: {x: xA, y: yA},
-  //         startVelocity,
-  //         colors: ["#FFFFFF", colorCodes[color]],
-  //         ticks,
-  //       });
-  //     }, intervalDuration);
-
-  //     // Clear the interval after 3 seconds
-  //     setTimeout(() => {
-  //       clearInterval(confettiInterval);
-  //       setConfettiActive(false);
-  //     }, 200);
-  //   }
-  // };
-
   createEffect(() => {
-    if (props.gameType === "team") {
+    if (props.gameType === "team" || props.solo) {
       setLineWidth(reel().offsetWidth);
     } else {
       setLineWidth(reel().offsetWidth - 42);
@@ -212,61 +157,104 @@ const BattleSpinnerReel = (props) => {
   });
 
   const [spinnerKeyframes, setSpinnerKeyframes] = createSignal(``);
+  const [totalTime, setTotalTime] = createSignal(0);
   createEffect(() => {
+    const timings = {
+      initialSpin: 3.85 * timeMultiplier(), // 70
+      snapback: 0.4565, // 78.3
+      snapbackHold: 0.2585, // 83
+      items: 0.4785, // 91.7
+      confettiHold: 0.33, // 83.6
+      confettiVisible: 0.055, // 83.7
+      confettiVisibleHold: 0.11, // 85.7
+      confettiExit: 0.055, // 85.8
+    };
+    setTotalTime(
+      timings.initialSpin +
+        timings.snapback +
+        timings.snapbackHold +
+        timings.items +
+        timings.confettiHold +
+        timings.confettiVisible +
+        timings.confettiVisibleHold
+    );
+
+    const seventy = timings.initialSpin;
+    const seventyEight = seventy + timings.snapback;
+    const eightyThree = seventyEight + timings.snapbackHold;
+    const ninetyOne = eightyThree + timings.items;
+
+    const confettiEightyThreeSix = eightyThree + timings.confettiHold;
+    const confettiEightyThreeSeven =
+      confettiEightyThreeSix + timings.confettiVisible;
+    const confettiEightyFiveSeven =
+      confettiEightyThreeSeven + timings.confettiVisibleHold;
+    const confettiEightyFiveEight =
+      confettiEightyFiveSeven + timings.confettiExit;
+
     if (initialMoveAmount() !== 0) {
       setSpinnerKeyframes(`
       @keyframes spinnerAnimation${props.spinnerIndex} {
         0% { transform: translateY(0px);}
-        70% { transform: translateY(${
-          calculateTopIndexOffset() - initialMoveAmount()
-        }px);}
-        78.3% {transform: translateY(${
-          calculateTopIndexOffset() - getOffsetCorrection()
-        }px);}
-        83% {transform: translateY(${
-          calculateTopIndexOffset() - getOffsetCorrection()
-        }px);}
+        ${(seventy / totalTime()) * 100}% { transform: translateY(${
+        calculateTopIndexOffset() - initialMoveAmount()
+      }px);}
+        ${(seventyEight / totalTime()) * 100}% {transform: translateY(${
+        calculateTopIndexOffset() - getOffsetCorrection()
+      }px);}
+        ${(eightyThree / totalTime()) * 100}% {transform: translateY(${
+        calculateTopIndexOffset() - getOffsetCorrection()
+      }px);}
         100% {transform: translateY(${
           calculateTopIndexOffset() - getOffsetCorrection()
         }px);}
       }
 
+      @keyframes caseLineAnimation {
+        0% { opacity: 1; }
+        ${(eightyThree / totalTime()) * 100}% { opacity: 1;}
+        ${(ninetyOne / totalTime()) * 100}% {opacity: 0.3;}
+        100% {opacity: 0.3;}
+      }
+
       @keyframes winItemAnimation {
         0% { transform: scale(1); }
-        83% { transform: scale(1);}
-        91.7% {transform: scale(1.25) translateY(-2rem);}
+        ${(eightyThree / totalTime()) * 100}% { transform: scale(1);}
+        ${
+          (ninetyOne / totalTime()) * 100
+        }% {transform: scale(1.25) translateY(-2rem);}
         100% {transform: scale(1.25) translateY(-2rem);}
       }
 
       @keyframes otherItemAnimation {
         0% { transform: scale(1); opacity: 1;}
-        83% { transform: scale(1); opacity: 1;}
-        91.7% {transform: scale(0); opacity: 0;}
+        ${
+          (eightyThree / totalTime()) * 100
+        }% { transform: scale(1); opacity: 1;}
+        ${(ninetyOne / totalTime()) * 100}% {transform: scale(0); opacity: 0;}
         100% {transform: scale(0); opacity: 0;}
       }
 
       @keyframes textAnimation {
         0% { transform: scale(0); }
-        83% { transform: scale(0);}
-        91.7% {transform: scale(1);}
+        ${(eightyThree / totalTime()) * 100}% { transform: scale(0);}
+        ${(ninetyOne / totalTime()) * 100}% {transform: scale(1);}
         100% {transform: scale(1);}
       }
 
       @keyframes confettiAnimation {
         0% { top: 150vh; }
-        83.6% { top: 150vh;}
-        83.7% {top: 0;}
-        85.7% {top: 0;}
-        85.7% {top: 150vh;}
+        ${(confettiEightyThreeSix / totalTime()) * 100}% { top: 150vh;}
+        ${(confettiEightyThreeSeven / totalTime()) * 100}% {top: 0;}
+        ${(confettiEightyFiveSeven / totalTime()) * 100}% {top: 0;}
+        ${(confettiEightyFiveEight / totalTime()) * 100}% {top: 150vh;}
         100% {top: 150vh;}
       }
-      @keyframes confettiCleanupAnimation {
-        0% { top: 150vh; }
-        86.6% { top: 150vh;}
-        87.7% {top: 0;}
-        89.7% {top: 0;}
-        89.8% {top: 150vh;}
-        100% {top: 150vh;}
+      
+      @keyframes winItemBounceAnimation {
+        0% {transform: translateY(0px);}
+        50% {transform: translateY(-10px);}
+        100% {transform: translateY(0px);}
       }
         `);
     }
@@ -289,7 +277,7 @@ const BattleSpinnerReel = (props) => {
               `}
           style={{
             "animation-name": `${`spinnerAnimation${props.spinnerIndex}`}`,
-            "animation-duration": `5.5s`,
+            "animation-duration": `${totalTime()}s`,
             "animation-timing-function": "cubic-bezier(.2,1,.53,1)",
             "animation-fill-mode": "forwards",
           }}
@@ -308,13 +296,26 @@ const BattleSpinnerReel = (props) => {
                         ? "winItemAnimation"
                         : "otherItemAnimation"
                     }`,
-                    "animation-duration": `5.5s`,
+                    "animation-duration": `${totalTime()}s`,
                     "animation-timing-function":
                       "cubic-bezier(0.25, 1, 0.5, 1)",
                     "animation-fill-mode": "forwards",
                   }}
                 >
-                  <div class="relative z-10 flex">
+                  <div
+                    class="relative z-10 flex"
+                    style={{
+                      animation: `1s ease-in-out ${
+                        props.isFastSpin
+                          ? totalTime() - totalTime() * 0.3
+                          : totalTime() - totalTime() * 0.15
+                      }s infinite normal forwards running ${
+                        index() === props.spinIndex &&
+                        !props.battle &&
+                        "winItemBounceAnimation"
+                      }`,
+                    }}
+                  >
                     {/* {props.spinnerIndex === 0 &&  <ObserverItem />}  */}
                     {index() === 0 ? (
                       <img
@@ -345,7 +346,7 @@ const BattleSpinnerReel = (props) => {
                         "animation-name": `${
                           index() === props.spinIndex && "textAnimation"
                         }`,
-                        "animation-duration": `5.5s`,
+                        "animation-duration": `${totalTime()}s`,
                         "animation-timing-function":
                           "cubic-bezier(0.25, 1, 0.5, 1)",
                         "animation-fill-mode": "forwards",
@@ -400,18 +401,21 @@ const BattleSpinnerReel = (props) => {
       </div>
       <img
         src={
-          props.lineColor === "yellow"
-            ? CaseLineYellow
+          props.lineColor === "green"
+            ? CaseLineGreen
             : props.lineColor === "blue"
             ? CaseLineBlue
-            : CaseLineGreen
+            : CaseLineYellow
         }
         alt="caseline"
         class={`absolute h-32  self-center transition-opacity duration-500 opacity-100
          `}
-        // ${getStatus() === "end" ? "opacity-30" : "opacity-100"}
         style={{
           width: lineWidth() + "px",
+          "animation-name": `caseLineAnimation`,
+          "animation-duration": `${totalTime()}s`,
+          "animation-timing-function": "cubic-bezier(.2,1,.53,1)",
+          "animation-fill-mode": "forwards",
         }}
       />
       {/* <div
@@ -424,11 +428,11 @@ const BattleSpinnerReel = (props) => {
             return (
               <>
                 <div
-                  class="absolute w-1 h-1 bg-white opacity-[0.01]"
+                  class="fixed w-1 h-1 bg-white opacity-[0.01]"
                   ref={props.setToIntersectA}
                   style={{
                     "animation-name": `confettiAnimation`,
-                    "animation-duration": `5.5s`,
+                    "animation-duration": `${totalTime()}s`,
                     "animation-timing-function": "linear",
                     "animation-fill-mode": "forwards",
                   }}
@@ -438,7 +442,7 @@ const BattleSpinnerReel = (props) => {
                   ref={props.setToIntersectB}
                   style={{
                     "animation-name": "confettiCleanupAnimation",
-                    "animation-duration": `5.5s`,
+                    "animation-duration": `totalTime()s`,
                     "animation-timing-function": "linear",
                     "animation-fill-mode": "forwards",
                   }}

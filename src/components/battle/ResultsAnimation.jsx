@@ -13,7 +13,11 @@ import {
   playCounter60Sound,
   playCounter65Sound,
 } from "../../utilities/Sounds/SoundButtonClick";
-import { getCountDuration, getModeColorByName, getModeRgbByTextColor } from "../../utilities/caseBattles-tools";
+import {
+  getCountDuration,
+  getModeColorByName,
+  getModeRgbByTextColor,
+} from "../../utilities/caseBattles-tools";
 
 const ResultsAnimation = (props) => {
   const [timings, setTimings] = createSignal({});
@@ -21,9 +25,7 @@ const ResultsAnimation = (props) => {
   const [totalTime, setTotalTime] = createSignal(0);
 
   const [confettiFired, setConfettiFired] = createSignal(false);
-
-  createEffect(() => console.log(props.game()));
-
+  const [confettiCanvas, setConfettiCanvas] = createSignal(null);
 
   const gradientClip = `-webkit-background-clip: text;
                         -webkit-text-fill-color: transparent;
@@ -316,10 +318,17 @@ const ResultsAnimation = (props) => {
   });
 
   const fireCannon = (ref, angle) => {
-    const rectA = ref.getBoundingClientRect();
+    const parent = ref.parentNode;
+    const grandParent = parent.parentNode;
 
-    const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-    const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+    const rectA = ref.getBoundingClientRect();
+    const rectGP = grandParent.getBoundingClientRect();
+
+    const xA = rectA.left - rectGP.left + ref.offsetWidth / 2;
+    const yA = rectA.top - rectGP.top + ref.offsetHeight / 2;
+
+    const normalizedXA = xA / grandParent.offsetWidth;
+    const normalizedYA = yA / grandParent.offsetHeight;
 
     const particleCount = 5;
     const spread = 30;
@@ -333,25 +342,30 @@ const ResultsAnimation = (props) => {
     };
     const ticks = 70;
 
-    // for (let i = 0; i < 10; i++) {
+    const end = Date.now() + 0.095 * 1000;
 
-    // }
-    const interval = setInterval(() => {
-      confetti({
+    (function frame() {
+      confettiCanvas().confetti({
         particleCount,
         spread,
-        origin: {x: xA, y: yA},
+        origin: {x: normalizedXA, y: normalizedYA},
         startVelocity,
         angle,
-        //   colors: ["#FFFFFF", colorCodes[color]],
         ticks,
       });
-    }, 40);
 
-    setTimeout(() => {
-      clearInterval(interval);
-    }, 500);
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   };
+
+  createEffect(() => {
+    if (confettiCanvas()) {
+      confettiCanvas().confetti =
+        confettiCanvas().confetti || create(confettiCanvas(), {resize: true});
+    }
+  });
 
   const [playerBarWidth, setPlayerBarWidth] = createSignal(0);
   createEffect(() => {
@@ -370,6 +384,7 @@ const ResultsAnimation = (props) => {
 
   return (
     <div class="w-full h-full absolute z-20">
+      <canvas class="absolute w-full h-full" ref={setConfettiCanvas} />
       <style>{keyframes()}</style>
       <div class="w-full h-full overflow-hidden ">
         <div class="w-full h-full flex items-center justify-between ">
@@ -380,7 +395,10 @@ const ResultsAnimation = (props) => {
                   class={`font-SpaceGrotesk text-28 font-bold `}
                   style={{
                     animation: `${
-                      isPlayerWinner(props.game().players[player + 1], props.players)
+                      isPlayerWinner(
+                        props.game().players[player + 1],
+                        props.players
+                      )
                         ? "slightupWinner"
                         : "slightupLoser"
                     } ${totalTime()}s ease-in-out forwards`,
@@ -543,7 +561,6 @@ const calculatePlayerIndivdualWinnings = (playerObject) => {
 };
 
 const isPlayerWinner = (playerObject, index = 0) => {
-  console.log(index, playerObject);
   return playerObject.winner;
 };
 export const isWinnerFromIndex = (winnersArray, playerIndex) => {

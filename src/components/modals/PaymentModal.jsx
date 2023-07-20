@@ -538,7 +538,7 @@ const PaymentModal = (props) => {
     ) {
       updateInventory();
     } else if (props.searchParams?.withdraw) {
-      updateItems(false);
+      // updateItems(false);
     }
   };
 
@@ -746,6 +746,7 @@ const PaymentModal = (props) => {
                         itemsList={sortOptions}
                         submitItem={() => changeDescending()}
                         label=" Sort by Price:"
+                        toggleClick
                       />
                     </div>
                     

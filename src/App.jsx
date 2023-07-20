@@ -275,10 +275,12 @@ const App = () => {
                                 <Route
                                   path={`${URL.CASE_UNBOXING}`}
                                   element={
-                                    <CaseUnboxing
-                                      searchParams={searchParams}
-                                      loaded={loaded}
-                                    />
+                                    <SpinnerStatusProvider>
+                                      <CaseUnboxing
+                                        searchParams={searchParams}
+                                        loaded={loaded}
+                                      />
+                                    </SpinnerStatusProvider>
                                   }
                                 />
                                 <Route

@@ -26,6 +26,7 @@ const SearchBar = () => {
           itemsList={sortOptions}
           submitItem={(sort) => setSortBy(sort)}
           label="Sort by Price:"
+          toggleClick
         />
       </div>
     </div>

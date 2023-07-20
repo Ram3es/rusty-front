@@ -1,7 +1,7 @@
-import { For } from "solid-js";
-import { SOCIAL, URL } from "../../libraries/url.jsx";
-import { NavLink } from "solid-app-router";
-import { useI18n } from "../../i18n/context";
+import {For} from "solid-js";
+import {SOCIAL, URL} from "../../libraries/url.jsx";
+import {NavLink} from "solid-app-router";
+import {useI18n} from "../../i18n/context";
 
 import injector from "../../injector/injector";
 import SubFooter from "./SubFooter.jsx";
@@ -12,7 +12,7 @@ import footerLogo from "../../assets/img/footer/logo-footer.svg";
 const Footer = (props) => {
   const i18n = useI18n();
 
-  const { setToggles } = injector;
+  const {setToggles} = injector;
 
   const menus = [
     {
@@ -232,12 +232,12 @@ const Footer = (props) => {
       <div class="relative rounded-br-8 overflow-hidden">
         <div
           class="flex relative z-10 "
-          style={{ "background-image": `url('${footerLogoBgVector}')` }}
+          style={{"background-image": `url('${footerLogoBgVector}')`}}
         >
           <div class="p-6 pb-2 lg:pb-0 lg:p-12 xl:pl-28 w-full flex relative z-20 flex-wrap font-SpaceGrotesk">
             <div class="w-full lg:w-1/3 mb-10 lg:mb-0">
               <img src={footerLogo} alt="logo" />
-              <p class="text-blue-60 max-w-sm text-12 mt-[24px] lg:mt-5 mr-14">
+              <p class="text-blue-60 max-w-sm text-12 mt-[24px] lg:mt-5 mr-14 pb-4">
                 {i18n.t("footer.Rustyloot is the finest")}
                 <br />
                 <br />

@@ -1204,6 +1204,7 @@ const CreateCaseBattle = (props) => {
                     submitItem={(sort) => setSortBy(sort)}
                     label=" Sort by Price:"
                     isFullWidth
+                    toggleClick
                   />
                 </div>
                 <div class="col-span-2">

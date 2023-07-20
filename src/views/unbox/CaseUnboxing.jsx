@@ -17,7 +17,7 @@ import {setSpinReelsTrigger} from "../../components/cases/store";
 import {spinnerTimings} from "../../libraries/caseSpinConfig";
 import SpinnerImage from "../../assets/img/unbox/spinner.png";
 
-import {useDebounce} from '../../utilities/hooks/debounce'
+import {useDebounce} from "../../utilities/hooks/debounce";
 
 import SpinnersContainerHorizontal from "../../components/cases/horizontal/SpinnersContainerHorizontal";
 import SpinnersContainerVertical from "../../components/cases/vertical/SpinnersContainerVertical";
@@ -44,8 +44,19 @@ import {
   playWinSound,
 } from "../../utilities/Sounds/SoundButtonClick";
 import clickSeq from "../../assets/sounds/clickSeq.mp3";
-import { onMount } from "solid-js";
+import {onMount} from "solid-js";
 import SpinnersContainerVerticalMobile from "../../components/cases/verticalMobile/SpinnersContainerVerticalMobile";
+import {FaSolidCropSimple} from "solid-icons/fa";
+
+import bglogo_gold from "../../assets/img/case-battles/bglogo_gold.png";
+import bglogo_blue from "../../assets/img/case-battles/bglogo_blue.png";
+import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
+import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
+import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
+
+import CaseLineYellow from "../../assets/img/case-battles/caseLineHorizontal.svg";
+import CaseLineMobile from "../../assets/img/case/caselinemobile.svg";
+import CaseLineMobileRight from "../../assets/img/case/caselinemobileright.svg";
 
 export const [isFastAnimation, setIsFastAnimation] = createSignal(false);
 export const [isRolling, setIsRolling] = createSignal(false);
@@ -71,7 +82,7 @@ const CaseUnboxing = (props) => {
   const [beginClickSound, setBeginClickSound] = createSignal(false);
   const [containsConfettiWin, setContainsConfettiWin] = createSignal(false);
 
-  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth);
 
   const getColor = (item_price) => {
     return item_price > 1000 * 100
@@ -83,6 +94,14 @@ const CaseUnboxing = (props) => {
       : item_price > 1000 * 2
       ? "blue"
       : "gray";
+  };
+
+  const bglogos = {
+    gold: bglogo_gold,
+    blue: bglogo_blue,
+    red: bglogo_red,
+    purple: bglogo_purple,
+    gray: bglogo_gray,
   };
 
   const itemsUpdate = (data) => {
@@ -99,6 +118,7 @@ const CaseUnboxing = (props) => {
         isConfetti: item.isConfetti,
       }));
       setRollCase(() => myCase);
+      preLoadImages();
       setCaseStatistic(() => ({
         recentDrops:
           data?.data?.case?.recentDrops.map((item) => ({
@@ -115,6 +135,7 @@ const CaseUnboxing = (props) => {
               }
             : undefined,
       }));
+
       setRollItems(() =>
         myCase.items.map((item) => ({
           img: item.image,
@@ -122,6 +143,7 @@ const CaseUnboxing = (props) => {
           name: item.name,
           rarity: getColor(item.item_price),
           isConfetti: item.isConfetti,
+          chance: item.chance,
         }))
       );
     }
@@ -255,14 +277,17 @@ const CaseUnboxing = (props) => {
     setSpinReelsTrigger({triggered: true});
     setIsRolling(true);
   };
-
+  const [buttonDisabled, setButtonDisabled] = createSignal(false);
   const startGame = (isDemo) => {
+    if (buttonDisabled()) return;
+    setButtonDisabled(true);
     if (isCaseCanBeOpen() && !isRolling()) {
       let durationInSeconds = spinnerTimings.verticalInitialSpin + 3; // For example, a 2-second duration
       if (isFastAnimation()) {
         durationInSeconds =
           durationInSeconds * spinnerTimings.fastSpinMultiplier;
       }
+
       if (!props.searchParams.daily) {
         socket.emit(
           "case:open",
@@ -275,6 +300,7 @@ const CaseUnboxing = (props) => {
           (data) => {
             if (!data.error) {
               rollCases(data);
+              setButtonDisabled(false);
             } else {
               toastr(data);
             }
@@ -369,16 +395,46 @@ const CaseUnboxing = (props) => {
   });
 
   const handleChangeInnerWidth = () => {
-    setInnerWidth(window.innerWidth)
+    setInnerWidth(window.innerWidth);
   };
 
   onMount(() => {
-    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+    window.addEventListener(
+      "resize",
+      useDebounce(handleChangeInnerWidth, 1000)
+    );
   });
 
   onCleanup(() => {
-    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
-  })
+    window.removeEventListener(
+      "resize",
+      useDebounce(handleChangeInnerWidth, 1000)
+    );
+  });
+
+  const preLoadImages = () => {
+    const items = rollCase().items;
+
+    const bgLogoColors = new Set();
+
+    // loop through each case, and each case items and pre load the images
+    items.forEach((i) => {
+      bgLogoColors.add(getColor(i.item_price));
+    });
+
+    // pre load image backgrounds
+    bgLogoColors.forEach((rarity) => {
+      const img = new Image();
+      img.src = bglogos[rarity];
+    });
+
+    const img = new Image();
+    img.src = CaseLineYellow;
+    const img2 = new Image();
+    img2.src = CaseLineMobile;
+    const img3 = new Image();
+    img3.src = CaseLineMobileRight;
+  };
 
   return (
     <>
@@ -398,7 +454,7 @@ const CaseUnboxing = (props) => {
               </NavLink>
               <div class="mt-[14px] lg:mt-0 flex flex-col lg:items-end font-SpaceGrotesk text-11 text-gray-9a">
                 <For each={fairnessHash()}>
-                  {(hash) => <p class='break-all'>Server Seed Hash: {hash}</p>}
+                  {(hash) => <p class="break-all">Server Seed Hash: {hash}</p>}
                 </For>
                 <p>Client Seed: {userObject.user.client_seed}</p>
               </div>
@@ -406,7 +462,8 @@ const CaseUnboxing = (props) => {
             <div
               class={`lg:rounded-4 relative -left-4 lg:left-0 w-[calc(100%+32px)] lg:w-full overflow-hidden ${
                 !userObject.authenticated ||
-                (fairnessHash().length <= 0 && props.searchParams.daily &&
+                (fairnessHash().length <= 0 &&
+                  props.searchParams.daily &&
                   (notAvailableCases().includes(
                     convertRomanToNormal(rollCase().name)
                   ) ||
@@ -421,44 +478,53 @@ const CaseUnboxing = (props) => {
                   : "mix-blend-normal"
               }`}
               classList={{
-                'case-opening-wrapper': pendingNum() === 1,
-                'case-opening-wrapper-horizontal-yellow horisontal-borders': pendingNum() !== 1 && innerWidth() >= 600
+                "case-opening-wrapper": pendingNum() === 1,
+                "case-opening-wrapper-horizontal-yellow horisontal-borders":
+                  pendingNum() !== 1 && innerWidth() >= 600,
               }}
             >
               <div
                 class="w-full relative"
-                style={{"background-image": `url('${innerWidth() >= 600 && footerLogoBgVector}')`}}
+                style={{
+                  "background-image": `url('${
+                    innerWidth() >= 600 && footerLogoBgVector
+                  }')`,
+                }}
               >
                 {!isCaseAlreadyOpened() && (
                   <div
                     class="md:absolute left-0 top-0 w-full h-full md:center lg:rounded-4"
                     classList={{
-                      'case-opening-placeholder--background center absolute': pendingNum() === 1 || innerWidth() >= 600,
-                      'grid grid-cols-2 gap-y-4': pendingNum() > 1 && innerWidth() < 600
+                      "case-opening-placeholder--background center absolute":
+                        pendingNum() === 1 || innerWidth() >= 600,
+                      "grid grid-cols-2 gap-y-4":
+                        pendingNum() > 1 && innerWidth() < 600,
                     }}
                   >
-                    <For each={Array.from({ length: pendingNum() })}>
+                    <For each={Array.from({length: pendingNum()})}>
                       {(_, index) => (
                         <div
                           class="relative w-full md:center"
                           classList={{
                             center: pendingNum() === 1 || innerWidth() >= 600,
-                            'relative h-[264px] center': pendingNum() > 1 && innerWidth() < 600,
-                            'horisontal-borders rounded-8 case-opening-placeholder--background__odd':
+                            "relative h-[264px] center":
+                              pendingNum() > 1 && innerWidth() < 600,
+                            "horisontal-borders rounded-8 case-opening-placeholder--background__odd":
                               pendingNum() > 1 &&
                               innerWidth() < 600 &&
                               pendingNum() === 3 &&
                               index() === 2,
-                            'horisontal-borders-left-odd case-opening-placeholder--background__odd rounded-tl-8 rounded-bl-8':
+                            "horisontal-borders-left-odd case-opening-placeholder--background__odd rounded-tl-8 rounded-bl-8":
                               pendingNum() > 1 &&
                               innerWidth() < 600 &&
                               !(index() % 2) &&
                               !(pendingNum() === 3 && index() === 2),
-                            'horisontal-borders-right-even case-opening-placeholder--background__even rounded-tr-8 rounded-br-8':
+                            "horisontal-borders-right-even case-opening-placeholder--background__even rounded-tr-8 rounded-br-8":
                               pendingNum() > 1 &&
                               innerWidth() < 600 &&
-                              (index() % 2 || (!(pendingNum() % 2 === 0) && index() !== 0)) &&
-                              !(pendingNum() === 3 && index() === 2)
+                              (index() % 2 ||
+                                (!(pendingNum() % 2 === 0) && index() !== 0)) &&
+                              !(pendingNum() === 3 && index() === 2),
                           }}
                         >
                           {innerWidth() < 600 && (
@@ -466,7 +532,8 @@ const CaseUnboxing = (props) => {
                               <Switch>
                                 <Match
                                   when={
-                                    (pendingNum() % 2 === 0 && !(index() % 2)) ||
+                                    (pendingNum() % 2 === 0 &&
+                                      !(index() % 2)) ||
                                     (pendingNum() === 3 && index() === 0)
                                   }
                                 >
@@ -480,7 +547,9 @@ const CaseUnboxing = (props) => {
                                 >
                                   <div class="arrow-down absolute top-2/4 -right-[14px] -translate-y-1/2 rotate-90 scale-[0.5]" />
                                 </Match>
-                                <Match when={pendingNum() === 3 && index() === 2}>
+                                <Match
+                                  when={pendingNum() === 3 && index() === 2}
+                                >
                                   <div class="arrow-down absolute top-2/4 -left-[14px] -translate-y-1/2 -rotate-90 scale-[0.5]" />
                                   <div class="arrow-down absolute top-2/4 -right-[14px] -translate-y-1/2 rotate-90 scale-[0.5]" />
                                 </Match>
@@ -488,8 +557,10 @@ const CaseUnboxing = (props) => {
                               <Switch>
                                 <Match
                                   when={
-                                    (pendingNum() % 2 === 0 && !(index() % 2)) ||
-                                    (pendingNum() === 3 && (index() === 0 || index() === 2))
+                                    (pendingNum() % 2 === 0 &&
+                                      !(index() % 2)) ||
+                                    (pendingNum() === 3 &&
+                                      (index() === 0 || index() === 2))
                                   }
                                 >
                                   <img
@@ -519,7 +590,7 @@ const CaseUnboxing = (props) => {
                           <img
                             alt="case-image"
                             class="md:w-10/12 w-[181px] md:max-w-[427px] max-w-[181px] no-select relative z-10"
-                            src={rollCase().image || ''}
+                            src={rollCase().image || ""}
                           />
                         </div>
                       )}
@@ -690,8 +761,13 @@ const CaseUnboxing = (props) => {
                       </button>
                     )}
                     {!props.searchParams.daily && (
-                      <div class={`w-full ${isRolling() && "pointer-events-none"}`}>
-                        <CaseGradientButton isFullWidth callbackFn={() => startGame(false)}>
+                      <div
+                        class={`w-full ${isRolling() && "pointer-events-none"}`}
+                      >
+                        <CaseGradientButton
+                          isFullWidth
+                          callbackFn={() => startGame(false)}
+                        >
                           <div
                             class={`flex gap-2 text-14 font-SpaceGrotesk font-bold text-yellow-ffb items-center `}
                           >
@@ -706,8 +782,13 @@ const CaseUnboxing = (props) => {
                         </CaseGradientButton>
                       </div>
                     )}
-                    <div class={`w-full ${isRolling() && "pointer-events-none"}`}>
-                      <GrayGradientButton isFullWidth callbackFn={() => startGame(true)}>
+                    <div
+                      class={`w-full ${isRolling() && "pointer-events-none"}`}
+                    >
+                      <GrayGradientButton
+                        isFullWidth
+                        callbackFn={() => startGame(true)}
+                      >
                         <span
                           class={`text-14 font-bold font-SpaceGrotesk text-gray-9a w-max`}
                         >
@@ -731,7 +812,7 @@ const CaseUnboxing = (props) => {
                     )}
                 </div>
               </div>
-              <div class='my-2 w-full h-[1px] bg-black bg-opacity-[.16] lg:hidden' />
+              <div class="my-2 w-full h-[1px] bg-black bg-opacity-[.16] lg:hidden" />
               <div
                 class={`flex ssm:flex-wrap lg:justify-end gap-3 lg:py-2 pl-2 text-14 font-SpaceGrotesk text-gray-9a`}
               >
