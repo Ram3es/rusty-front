@@ -376,6 +376,7 @@ const BattleListCard = (props) => {
             href={`${URL.GAMEMODES.CASE_BATTLES_GAME}?id=${props.game.id}${
               props.game.urlKey ? `&key=${props.game.urlKey}` : ""
             }&reply=true`}
+            onClick={() => {document.querySelector("#scrollWrapper").scrollTop = 0}}
           >
             <div
               class={`h-10 px-4 rounded-4 flex center cursor-pointer w-full border border-white border-opacity-5 `}
