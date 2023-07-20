@@ -113,7 +113,7 @@ const CaseUnboxing = (props) => {
       myCase.items = myCase.items.map((item) => ({
         ...item,
         price: item.item_price,
-        chance: myCase.name === "Daily Free Case" ? null : item.chance,
+        chance: myCase.name === "Daily Free Case" ? 1 : item.chance,
         image: item.image?.replace("{url}", window.origin) || "",
         isConfetti: item.isConfetti,
       }));
@@ -885,7 +885,7 @@ const CaseUnboxing = (props) => {
                     rollCase()?.items.sort((a, b) => b.price - a.price) || []
                   }
                 >
-                  {(item) => <PotentialDropItem mobileTellCard skin={item} />}
+                  {(item) => <PotentialDropItem mobileTellCard skin={item} isDropChanceShown={rollCase().name !== "Daily Free Case"} />}
                 </For>
               </div>
             </div>

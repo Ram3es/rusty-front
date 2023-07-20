@@ -229,7 +229,7 @@ const PotentialDropItem = (props) => {
               </div>
             </div>
           </div>
-          {props.skin?.chance && (
+          {props.skin?.chance && props.isDropChanceShown && (
             <div
               class="absolute top-3 left-3 font-semibold z-50 text-11"
               style={{
