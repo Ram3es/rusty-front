@@ -1,11 +1,19 @@
-import { For, Switch, Match, createSignal, createEffect, onCleanup } from "solid-js";
+import {
+  For,
+  Switch,
+  Match,
+  createSignal,
+  createEffect,
+  onCleanup,
+  onMount,
+} from "solid-js";
 import {
   getGradientForWinners,
   getModeColorByName,
   getModeRgbByTextColor,
   getColorByPrice,
 } from "../../utilities/caseBattles-tools";
-import { spinLists } from "./GameCaseBattle"
+import {spinLists} from "./GameCaseBattle";
 import {getRandomFunction} from "../../utilities/Random/randomGen";
 import injector from "../../injector/injector";
 import confetti, {create} from "canvas-confetti";
@@ -34,14 +42,12 @@ const CaseBattleSpinersContainer = (props) => {
   const {userObject} = injector;
 
   const [toIntersectA, setToIntersectA] = createSignal();
-  const [toIntersectB, setToIntersectB] = createSignal();
   const [isIntersectingA, setIsIntersectingA] = createSignal(false);
-  const [isIntersectingB, setIsIntersectingB] = createSignal(false);
-  const [lastAction, setLastAction] = createSignal({});
-  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal();
-  const [confettiCannonRefB, setConfettiCannonRefB] = createSignal();
-  const [confettiCannonRefC, setConfettiCannonRefC] = createSignal();
-  const [confettiCannonRefD, setConfettiCannonRefD] = createSignal();
+  const [confettiCannonRefA, setConfettiCannonRefA] = createSignal(null);
+  const [confettiCannonRefB, setConfettiCannonRefB] = createSignal(null);
+  const [confettiCannonRefC, setConfettiCannonRefC] = createSignal(null);
+  const [confettiCannonRefD, setConfettiCannonRefD] = createSignal(null);
+  const [confettiCanvas, setConfettiCanvas] = createSignal(null);
 
   const bglogos = {
     gold: bglogo_gold,
@@ -62,16 +68,22 @@ const CaseBattleSpinersContainer = (props) => {
     );
     return rng;
   };
-  
+
   const fireCannon = (ref, item) => {
     if (item) {
-      console.log("fire confetti");
+      const parent = ref.parentNode;
+      const grandParent = parent.parentNode;
+
       const rectA = ref.getBoundingClientRect();
+      const rectGP = grandParent.getBoundingClientRect();
 
-      const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-      const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
+      const xA = rectA.left - rectGP.left + ref.offsetWidth / 2;
+      const yA = rectA.top - rectGP.top + ref.offsetHeight / 2;
 
-      const intervalDuration = 30;
+      const normalizedXA = xA / grandParent.offsetWidth;
+      const normalizedYA = yA / grandParent.offsetHeight;
+
+      // const intervalDuration = 30;
       const particleCount = 5;
       const spread = 30;
       const startVelocity = 25;
@@ -85,44 +97,22 @@ const CaseBattleSpinersContainer = (props) => {
       const color = getColorByPrice(item.item.price);
       const ticks = 70;
 
-      // const confettiInterval = setInterval(() => {
-      //   confetti({
-      //     particleCount,
-      //     spread,
-      //     origin: {x: xA, y: yA},
-      //     startVelocity,
-      //     colors: ["#FFFFFF", colorCodes[color]],
-      //     ticks,
-      //   });
-      // }, intervalDuration);
+      const end = Date.now() + 0.05 * 1000;
 
-      // asyncInterval(
-      //   () => {
-      //     confetti({
-      //       particleCount,
-      //       spread,
-      //       origin: {x: xA, y: yA},
-      //       startVelocity,
-      //       colors: ["#FFFFFF", colorCodes[color]],
-      //       ticks,
-      //     });
-      //   },
-      //   70,
-      //   4
-      // );
-
-      for (let i = 0; i < 6; i++) {
-        confetti({
+      (function frame() {
+        confettiCanvas().confetti({
           particleCount,
           spread,
-          origin: {x: xA, y: yA},
+          origin: {x: normalizedXA, y: normalizedYA},
           startVelocity,
           colors: ["#FFFFFF", colorCodes[color]],
           ticks,
         });
-      }
 
-      // setConfettiIntervals([...confettiIntervals(), confettiInterval]);
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      })();
     }
   };
 
@@ -147,6 +137,13 @@ const CaseBattleSpinersContainer = (props) => {
   };
 
   createEffect(() => {
+    if (confettiCanvas()) {
+      confettiCanvas().confetti =
+        confettiCanvas().confetti || create(confettiCanvas(), {resize: true});
+    }
+  });
+
+  createEffect(() => {
     if (toIntersectA()) {
       let observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
@@ -160,23 +157,9 @@ const CaseBattleSpinersContainer = (props) => {
         observer.unobserve(toIntersectA());
       });
     }
-    if (toIntersectB()) {
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          setIsIntersectingB(entry.isIntersecting);
-        });
-      });
-
-      observer.observe(toIntersectB());
-
-      onCleanup(() => {
-        observer.unobserve(toIntersectB());
-      });
-    }
     if (isIntersectingA()) {
       if (!props.confettiFired()) {
         console.log("activate", props.game().currentRound);
-        setLastAction({type: "activate", round: props.game().currentRound});
         createConfetti();
       }
     }
@@ -184,13 +167,17 @@ const CaseBattleSpinersContainer = (props) => {
 
   return (
     <div
-      class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200 ${innerWidth < 700 && props.players.length === 1 ? "w-1/2" : "w-full"} `}
+      class={`px-[2px] rounded-b-4 shadow-xl transition-colors duration-200 ${
+        innerWidth < 700 && props.players.length === 1 ? "w-1/2" : "w-full"
+      } `}
       style={{
         background: `linear-gradient(0deg, rgba(255, 255, 255, 0.02) 15%, rgba(255, 255, 255, 0.06) 30%, rgba(${
           props.game().status === "ended"
             ? "154, 158, 200"
             : `${getModeRgbByTextColor(getModeColorByName(props.game().mode))}`
-        },0.6) 45.5%, transparent ${innerWidth > 700 ? '45.5%' : '47.5%' }, transparent ${innerWidth > 700 ? '54.5%' : '51.5%' }, rgba(${
+        },0.6) 45.5%, transparent ${
+          innerWidth > 700 ? "45.5%" : "47.5%"
+        }, transparent ${innerWidth > 700 ? "54.5%" : "51.5%"}, rgba(${
           props.game().status === "ended"
             ? "154, 158, 200"
             : `${getModeRgbByTextColor(getModeColorByName(props.game().mode))}`
@@ -207,6 +194,8 @@ const CaseBattleSpinersContainer = (props) => {
           }`}
         >
           <div class="relative w-full h-[326px] flex" ref={setContainerRef}>
+            <canvas class="absolute w-full h-full" ref={setConfettiCanvas} />
+
             <div
               class="absolute w-full inset-0 z-0 bg-repeat m-1 p-1 mix-blend-plus-lighter rounded-b-4"
               style={{
@@ -246,11 +235,7 @@ const CaseBattleSpinersContainer = (props) => {
                 transform: "matrix(-1, 0, 0, -1, 0, 0)",
               }}
             />
-            <For
-              each={
-                props.players
-              }
-            >
+            <For each={props.players}>
               {(playerIndex) => (
                 <div class="relative w-full center">
                   {playerIndex + 1 !== props.game().playersQty &&
@@ -262,18 +247,24 @@ const CaseBattleSpinersContainer = (props) => {
                     (getModeColorByName(props.game().mode) === "yellow" ? (
                       <div
                         class={`absolute z-40 text-yellow-ffb center ${
-                          innerWidth < 700 ? 
-                          playerIndex === 0 || playerIndex === 2 ?
-                            "right-0 top-0"
-                            : "right-full top-1/2"
-                          : "right-0 top-0"
+                          innerWidth < 700
+                            ? playerIndex === 0 || playerIndex === 2
+                              ? "right-0 top-0"
+                              : "right-full top-1/2"
+                            : "right-0 top-0"
                         }  h-full ${
                           props.game().status !== "ended" &&
                           props.game().status !== "results" &&
                           "border-r border-black border-opacity-10"
                         }`}
                       >
-                        <div class={`absolute left-1/2 top-1/2 ${innerWidth < 700 && playerIndex !== 0 ? "-translate-y-1/3" : " -translate-y-1/2"} -translate-x-1/2`}>
+                        <div
+                          class={`absolute left-1/2 top-1/2 ${
+                            innerWidth < 700 && playerIndex !== 0
+                              ? "-translate-y-1/3"
+                              : " -translate-y-1/2"
+                          } -translate-x-1/2`}
+                        >
                           {props.game().status !== "ended" &&
                           props.game().status !== "results" ? (
                             <GrayWrapperdWithBorders
@@ -291,14 +282,22 @@ const CaseBattleSpinersContainer = (props) => {
                         </div>
                       </div>
                     ) : getModeColorByName(props.game().mode) === "green" ? (
-                      <div class={`absolute z-40 text-[#DAFD09] center ${
-                        innerWidth < 700 ? 
-                        playerIndex === 0 || playerIndex === 2 ?
-                          "right-0 top-0"
-                          : "right-full top-1/2"
-                        : "right-0 top-0"
-                      } h-full border-r border-black border-opacity-10`}>
-                        <div class={`absolute left-1/2 top-1/2 -translate-x-1/2 ${innerWidth < 700 && playerIndex !== 0 ? "-translate-y-1/3" : " -translate-y-1/2"}`}>
+                      <div
+                        class={`absolute z-40 text-[#DAFD09] center ${
+                          innerWidth < 700
+                            ? playerIndex === 0 || playerIndex === 2
+                              ? "right-0 top-0"
+                              : "right-full top-1/2"
+                            : "right-0 top-0"
+                        } h-full border-r border-black border-opacity-10`}
+                      >
+                        <div
+                          class={`absolute left-1/2 top-1/2 -translate-x-1/2 ${
+                            innerWidth < 700 && playerIndex !== 0
+                              ? "-translate-y-1/3"
+                              : " -translate-y-1/2"
+                          }`}
+                        >
                           {props.game().status !== "ended" &&
                           props.game().status !== "results" ? (
                             <GrayWrapperdWithBorders
@@ -316,14 +315,22 @@ const CaseBattleSpinersContainer = (props) => {
                         </div>
                       </div>
                     ) : (
-                      <div class={`absolute z-40 text-[#5AC3FF] center ${
-                        innerWidth < 700 ? 
-                        playerIndex === 0 || playerIndex === 2 ?
-                          "right-0 top-0"
-                          : "right-full top-1/2"
-                        : "right-0 top-0"
-                      } h-full border-r border-black border-opacity-10`}>
-                        <div class={`absolute left-1/2 top-1/2 -translate-x-1/2 ${innerWidth < 700 && playerIndex !== 0 ? "-translate-y-1/3" : " -translate-y-1/2"} `}>
+                      <div
+                        class={`absolute z-40 text-[#5AC3FF] center ${
+                          innerWidth < 700
+                            ? playerIndex === 0 || playerIndex === 2
+                              ? "right-0 top-0"
+                              : "right-full top-1/2"
+                            : "right-0 top-0"
+                        } h-full border-r border-black border-opacity-10`}
+                      >
+                        <div
+                          class={`absolute left-1/2 top-1/2 -translate-x-1/2 ${
+                            innerWidth < 700 && playerIndex !== 0
+                              ? "-translate-y-1/3"
+                              : " -translate-y-1/2"
+                          } `}
+                        >
                           {props.game().status !== "ended" &&
                           props.game().status !== "results" ? (
                             <GrayWrapperdWithBorders
@@ -363,10 +370,12 @@ const CaseBattleSpinersContainer = (props) => {
                               containerRef={containerRef}
                               spinnerIndex={playerIndex}
                               isConfettiWin={
-                                props.spinnerOptions()[playerIndex].isConfettiWin ||
-                                false
+                                props.spinnerOptions()[playerIndex]
+                                  .isConfettiWin || false
                               }
-                              isBigWin={props.spinnerOptions()[playerIndex].isBigWin}
+                              isBigWin={
+                                props.spinnerOptions()[playerIndex].isBigWin
+                              }
                               isFastSpin={false}
                               lineColor={getModeColorByName(props.game().mode)}
                               randomFunction={randomFunction}
@@ -380,7 +389,8 @@ const CaseBattleSpinersContainer = (props) => {
                               spinList={spinLists()[playerIndex]}
                               spinIndex={props.spinIndexes()[playerIndex]}
                               setToIntersectA={setToIntersectA}
-                              setToIntersectB={setToIntersectB}
+                              spinOffsets={props.spinOffsets}
+                              setSpinOffsets={props.setSpinOffsets}
                             />
                           ) : (
                             <div class="h-32 flex flex-col gap-2 text-3xl  items-center scale-125 -translate-y-8">
@@ -443,27 +453,29 @@ const CaseBattleSpinersContainer = (props) => {
                           <Spiner classes="w-9 text-yellow-ffb" />
                         );
                       }}
+                      {() => console.log(props.players, playerIndex)}
                       {playerIndex === 0 && (
                         <div
-                          class={`absolute self-center h-20 w-20  -bottom-2  left-1/2 -translate-x-1/2`}
+                          class={`absolute self-center h-20 w-20  -bottom-8  left-1/2 -translate-x-1/2 `}
                           ref={setConfettiCannonRefA}
                         />
                       )}
                       {playerIndex === 1 && (
                         <div
-                          class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                          class={`absolute self-center h-20 w-20  -bottom-8 left-1/2 -translate-x-1/2 `}
                           ref={setConfettiCannonRefB}
                         />
                       )}
+
                       {playerIndex === 2 && (
                         <div
-                          class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                          class={`absolute self-center h-20 w-20  -bottom-8  left-1/2 -translate-x-1/2 `}
                           ref={setConfettiCannonRefC}
                         />
                       )}
                       {playerIndex === 3 && (
                         <div
-                          class={`absolute self-center h-20 w-20  -bottom-2 left-1/2 -translate-x-1/2`}
+                          class={`absolute self-center h-20 w-20  -bottom-8 left-1/2 -translate-x-1/2 `}
                           ref={setConfettiCannonRefD}
                         />
                       )}
@@ -484,7 +496,10 @@ const CaseBattleSpinersContainer = (props) => {
                     </Match>
                     <Match when={props.game().status === "countdown"}>
                       <div class="w-full h-full center">
-                        <CountDownText text={props.currentCountdown()} size={54} />
+                        <CountDownText
+                          text={props.currentCountdown()}
+                          size={54}
+                        />
                       </div>
                     </Match>
                   </Switch>
@@ -492,7 +507,9 @@ const CaseBattleSpinersContainer = (props) => {
               )}
             </For>
             <Switch>
-              <Match when={props.showResults() && props.game().status === "ended"}>
+              <Match
+                when={props.showResults() && props.game().status === "ended"}
+              >
                 <ResultsAnimation
                   players={props.players}
                   game={props.game}
@@ -500,7 +517,9 @@ const CaseBattleSpinersContainer = (props) => {
                   playerBarRef={props.playerBarRef}
                 />
               </Match>
-              <Match when={!props.showResults() && props.game().status === "ended"}>
+              <Match
+                when={!props.showResults() && props.game().status === "ended"}
+              >
                 <ResultsAnimation
                   game={props.game}
                   players={props.players}

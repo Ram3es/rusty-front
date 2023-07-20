@@ -1,28 +1,27 @@
 /* @refresh reload */
-import { render } from 'solid-js/web';
-import { Router  } from "solid-app-router";
+import {render} from "solid-js/web";
+import {Router} from "solid-app-router";
 
-import './index.css';
-import App from './App';
+import "./index.css";
+import App from "./App";
 
 const Main = () => {
-    
-    if (!window.console || Object.keys(window.console).length === 0) {
-        window.console = {
-          log: function() {},
-          info: function() {},
-          error: function() {},
-          warn: function() {}
-        };
-      }
-render(
+  // if (!window.console || Object.keys(window.console).length === 0) {
+  //   window.console = {
+  //     log: function () {},
+  //     info: function () {},
+  //     error: function () {},
+  //     warn: function () {},
+  //   };
+  // }
+  render(
     () => (
-        <Router>
+      <Router>
         <App />
-        </Router>
+      </Router>
     ),
     document.getElementById("root")
-    );
-}
+  );
+};
 
 Main();

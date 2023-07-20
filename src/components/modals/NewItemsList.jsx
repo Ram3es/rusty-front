@@ -48,6 +48,17 @@ const NewItemsList = (props) => {
     );
   };
 
+  const [sortedItemList, setSortedItemList] = createSignal([]);
+  createEffect(() => {
+    if (props.items()) {
+      if (props.descending()) {
+        setSortedItemList([...props.items()].reverse()); // create a copy before reversing
+      } else {
+        setSortedItemList([...props.items()]); // create a copy here as well for consistency
+      }
+    }
+  });
+
   const calculateItemSize = (crossAxisSize) => {
     // Choose minimum size depending on the available space.
     const minWidth = crossAxisSize > 560 ? 150 : 117;
@@ -74,7 +85,6 @@ const NewItemsList = (props) => {
           style={{
             overflow: "auto",
             position: "relative",
-
             width: "100%",
           }}
           ref={(element) => {
@@ -82,13 +92,7 @@ const NewItemsList = (props) => {
           }}
         >
           <VirtualContainer
-            items={
-              props.items().length > 0
-                ? props.descending()
-                  ? props.items().reverse()
-                  : props.items()
-                : Array(30)
-            }
+            items={props.items().length > 0 ? sortedItemList() : Array(30)}
             scrollTarget={scrollTargetElement}
             // Calculate how many grid columns to show.
             itemSize={calculateItemSize}

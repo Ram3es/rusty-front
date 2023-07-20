@@ -104,6 +104,7 @@ const Coinflip = (props) => {
             activeName={sortBy()}
             itemsList={SORT_OPTIONS}
             submitItem={(direction) => setSortBy(direction)}
+            toggleClick
           />
           <div class="relative flex items-center justify-center gap-2 py-2 px-3 z-20 rounded coinflip-statistic__gray col-start-1 lg:col-start-2 row-start-2 lg:row-start-1">
             <div

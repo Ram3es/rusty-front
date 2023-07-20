@@ -30,7 +30,7 @@ import {tippy} from "solid-tippy";
 import CaseToolTip from "../../components/battle/CaseToolTip";
 import SmallItemCardNew from "../../components/battle/SmallItemCardNew";
 import UserBadge from "../../components/battle/UserBadge";
-import {useDebounce} from '../../utilities/hooks/debounce'
+import {useDebounce} from "../../utilities/hooks/debounce";
 
 import ItemCardSmall from "../../components/battle/ItemCardSmall";
 import UserGameAvatar from "../../components/battle/UserGameAvatar";
@@ -68,13 +68,18 @@ import bglogo_red from "../../assets/img/case-battles/bglogo_red.png";
 import bglogo_purple from "../../assets/img/case-battles/bglogo_purple.png";
 import bglogo_gray from "../../assets/img/case-battles/bglogo_gray.png";
 import BattlePullsColumn from "../../components/battle/BattlePullsColumn";
-import { getColorByPrice, getGradientForWinners, getModeColorByName, getModeHexByTextColor, getModeRgbByTextColor, isWinner } from "../../utilities/caseBattles-tools";
+import {
+  getColorByPrice,
+  getGradientForWinners,
+  getModeColorByName,
+  getModeHexByTextColor,
+  getModeRgbByTextColor,
+  isWinner,
+} from "../../utilities/caseBattles-tools";
 import CaseBattleSpinersContainer from "./CaseBattleSpinersContainer";
 
-export const [containerRef, setContainerRef] = createSignal(null);
 export const [reelsSpinning, setReelsSpinning] = createSignal(false);
 export const [spinIndexes, setSpinIndexes] = createSignal([]);
-export const [spinOffsets, setSpinOffsets] = createSignal([]);
 export const [spinLists, setSpinLists] = createSignal([]);
 
 export const clickingSound = new Audio(clickSeq);
@@ -102,6 +107,7 @@ const bglogos = {
 const GameCaseBattle = (props) => {
   const {socket, userObject, toastr} = injector;
 
+  const [containerRef, setContainerRef] = createSignal(null);
   const [game, setGame] = createSignal(null);
   const [rollItems, setRollItems] = createSignal([]);
   const [spinnerOptions, setSpinnerOptions] = createSignal([]);
@@ -119,9 +125,11 @@ const GameCaseBattle = (props) => {
   const [confettiData, setConfettiData] = createSignal([]);
   const [playerRoundData, setPlayerRoundData] = createSignal([[]]);
   const [playerBarRef, setPlayerBarRef] = createSignal(null);
+  const [spinOffsets, setSpinOffsets] = createSignal([]);
 
   const [showResults, setShowResults] = createSignal(false);
-  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth)
+  const [innerWidth, setInnerWidth] = createSignal(window.innerWidth);
+  const [confettiCanvas, setConfettiCanvas] = createSignal(null);
 
   const {changeStatus} = useSpinnerStatus();
 
@@ -132,18 +140,82 @@ const GameCaseBattle = (props) => {
   let counter = 0;
   let intervalId = null;
 
+  const getModeColor = () => {
+    return (game().mode === "royal" || game().mode === "team") &&
+      game().cursed !== 1
+      ? "yellow"
+      : game().cursed === 1
+      ? "green"
+      : "blue";
+  };
+
+  const getModeColorRgb = () => {
+    const color = getModeColor();
+    if (color === "yellow") return "255, 180, 54";
+    if (color === "green") return "218, 253, 9";
+    if (color === "blue") return "90, 195, 255";
+  };
+
+  const getModeColorHex = () => {
+    const color = getModeColor();
+    if (color === "yellow") return "#ffb436";
+    if (color === "green") return "#DAFD09";
+    if (color === "blue") return "#5ac3ff";
+  };
+
+  const getColor = (item_price) => {
+    const color =
+      item_price > 1000 * 100
+        ? "gold"
+        : item_price > 1000 * 30
+        ? "red"
+        : item_price > 1000 * 10
+        ? "purple"
+        : item_price > 1000 * 2
+        ? "blue"
+        : "gray";
+    return color;
+  };
+
+  // const generateSpinList = (playerIndex) => {
+  //   setSpinOffsets([]);
+
+  //   const newSpinList = [];
+
+  //   for (let i = 0; i < 35; i++) {
+  //     const r = Math.floor(
+  //       createRandomFunction(game().id, game().currentRound, playerIndex, i)() *
+  //         rollItems().length
+  //     );
+  //     newSpinList.push(rollItems()[r]);
+  //   }
+  //   return newSpinList;
+  // };
+
   const generateSpinList = (playerIndex) => {
     setSpinOffsets([]);
 
     const newSpinList = [];
+    const rollItemsList = rollItems();
+    const totalChance = rollItemsList.reduce(
+      (total, item) => total + item.chance,
+      0
+    );
 
     for (let i = 0; i < 35; i++) {
-      const r = Math.floor(
+      const randomValue =
         createRandomFunction(game().id, game().currentRound, playerIndex, i)() *
-          rollItems().length
-      );
-      newSpinList.push(rollItems()[r]);
+        totalChance;
+      let accumulatedChance = 0;
+      for (const item of rollItemsList) {
+        accumulatedChance += item.chance;
+        if (randomValue <= accumulatedChance) {
+          newSpinList.push(item);
+          break;
+        }
+      }
     }
+
     return newSpinList;
   };
 
@@ -194,7 +266,7 @@ const GameCaseBattle = (props) => {
         clearInterval(interval);
       });
       setConfettiIntervals([]);
-      setHasCleanedUpConfetti(true);
+      // setHasCleanedUpConfetti(true);
 
       console.log("FORCE CLEAN INTERVALS");
     }
@@ -216,6 +288,7 @@ const GameCaseBattle = (props) => {
           name: item.name,
           rarity: getColorByPrice(item.item_price),
           isConfetti: item.isConfetti,
+          chance: item.chance,
         }))
       );
 
@@ -290,7 +363,7 @@ const GameCaseBattle = (props) => {
       setSpinIndexes(() => newSpinIndexes);
       setSpinLists(() => newSpinLists);
       setConfettiFired(false);
-      setHasCleanedUpConfetti(false);
+      // setHasCleanedUpConfetti(false);
       setConfettiIntervals([]);
       if (game().status != "syncing") {
         if (containsConfettiWin()) {
@@ -482,11 +555,14 @@ const GameCaseBattle = (props) => {
   });
 
   const handleChangeInnerWidth = () => {
-    setInnerWidth(window.innerWidth)
+    setInnerWidth(window.innerWidth);
   };
 
   onMount(() => {
-    window.addEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+    window.addEventListener(
+      "resize",
+      useDebounce(handleChangeInnerWidth, 1000)
+    );
   });
 
   onCleanup(() => {
@@ -498,7 +574,10 @@ const GameCaseBattle = (props) => {
     socket.off(`battles:update`);
     counter = 0;
     clearInterval(intervalId);
-    window.removeEventListener('resize', useDebounce(handleChangeInnerWidth, 1000));
+    window.removeEventListener(
+      "resize",
+      useDebounce(handleChangeInnerWidth, 1000)
+    );
   });
 
   const createRandomFunction = (
@@ -573,88 +652,101 @@ const GameCaseBattle = (props) => {
 
   // const [confettiActive, setConfettiActive] = createSignal(false);
 
-
-  // let confettiInterval;
-  // const createConfetti = () => {
-  //   if (!confettiActive()) {
-  //     setConfettiActive(true);
-
-  //     const rectA = confettiCannonRefA().getBoundingClientRect();
-
-  //     const xA = (rectA.left + rectA.right) / 2 / window.innerWidth;
-  //     const yA = (rectA.top + rectA.bottom) / 2 / window.innerHeight;
-
-  //     // Fire confetti every 100 milliseconds (you can adjust this value)
-  //     const intervalDuration = 30;
-  //     const particleCount = 5;
-  //     const spread = 30;
-  //     const startVelocity = 25;
-  //     const colorCodes = {
-  //       purple: "#9c27b0",
-  //       gold: "#ffeb3b",
-  //       red: "#f44336",
-  //       blue: "#2196f3",
-  //       gray: "#9e9e9e",
-  //     };
-  //     const spinList = props.spinList;
-  //     const color = spinList[props.spinIndex].rarity;
-  //     const ticks = 70;
-
-  //     confettiInterval = setInterval(() => {
-  //       confetti({
-  //         particleCount,
-  //         spread,
-  //         origin: {x: xA, y: yA},
-  //         startVelocity,
-  //         colors: ["#FFFFFF", colorCodes[color]],
-  //         ticks,
-  //       });
-  //     }, intervalDuration);
-
-  //     // Clear the interval after 3 seconds
-  //     setTimeout(() => {
-  //       clearInterval(confettiInterval);
-  //       setConfettiActive(false);
-  //     }, 200);
+  // async function asyncInterval(func, delay, times) {
+  //   for (let i = 0; i < times; i++) {
+  //     await new Promise((resolve) => setTimeout(resolve, delay));
+  //     func();
   //   }
-  // };
-
-
-  async function asyncInterval(func, delay, times) {
-    for (let i = 0; i < times; i++) {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      func();
-    }
-  }
+  // }
 
   const [confettiIntervals, setConfettiIntervals] = createSignal([]);
 
+  // const cleanUpConfetti = () => {
+  //   // if (confettiFired()) {
+  //   setHasCleanedUpConfetti(true);
+  //   confettiIntervals().forEach((t) => {
+  //     clearInterval(t);
+  //   });
+  //   setConfettiIntervals([]);
+  //   // setWinnings(game().players);
+  //   // }
+  //   // else {
+  //   //   console.log("confetti not fired");
+  //   // }
+  // };
 
-  const [hasCleanedUpConfetti, setHasCleanedUpConfetti] = createSignal(false);
-  createEffect(() => {
-    
-    // if (isIntersectingB()) {
-    //   if (!hasCleanedUpConfetti()) {
-    //     if (
-    //       lastAction().type !== "activate" &&
-    //       lastAction().round === game().currentRound
-    //     ) {
-    //       console.log("catch activate", game().currentRound);
-    //       setLastAction({type: "activate", round: game().currentRound});
-    //       createConfetti();
-    //     } else if (
-    //       lastAction().type === "activate" &&
-    //       lastAction().round === game().currentRound
-    //     ) {
-    //       console.log("clean up", game().currentRound);
-    //       setLastAction({type: "clean up", round: game().currentRound});
-    //       cleanUpConfetti();
-    //     } else {
-    //       console.log("clean up next round for some reason");
-    //     }
-    //   }
-    // }
-  });
+  // const createConfetti = () => {
+  //   if (!confettiFired()) {
+  //     setConfettiFired(true);
+  //     for (let i = 0; i < game().playersQty; i++) {
+  //       const ref = [
+  //         confettiCannonRefA,
+  //         confettiCannonRefB,
+  //         confettiCannonRefC,
+  //         confettiCannonRefD,
+  //       ][i]();
+  //       if (confettiData()[i].item) {
+  //         fireCannon(ref, confettiData()[i]);
+  //       }
+  //     }
+  //     setConfettiData([]);
+  //   } else {
+  //     console.log("confetti already fired");
+  //   }
+  // };
+
+  // createEffect(() => {
+  //   if (confettiCanvas()) {
+  //     confettiCanvas().confetti =
+  //       confettiCanvas().confetti || create(confettiCanvas(), {resize: true});
+  //   }
+  // });
+
+  // const [toIntersectA, setToIntersectA] = createSignal();
+  // // const [toIntersectB, setToIntersectB] = createSignal();
+
+  // const [isIntersectingA, setIsIntersectingA] = createSignal(false);
+  // // const [isIntersectingB, setIsIntersectingB] = createSignal(false);
+
+  // createEffect(() => {
+  //   if (toIntersectA()) {
+  //     let observer = new IntersectionObserver((entries) => {
+  //       entries.forEach((entry) => {
+  //         setIsIntersectingA(entry.isIntersecting);
+  //       });
+  //     });
+
+  //     observer.observe(toIntersectA());
+
+  //     onCleanup(() => {
+  //       observer.unobserve(toIntersectA());
+  //     });
+  //   }
+  //   // if (toIntersectB()) {
+  //   //   let observer = new IntersectionObserver((entries) => {
+  //   //     entries.forEach((entry) => {
+  //   //       setIsIntersectingB(entry.isIntersecting);
+  //   //     });
+  //   //   });
+
+  //   //   observer.observe(toIntersectB());
+
+  //   //   onCleanup(() => {
+  //   //     observer.unobserve(toIntersectB());
+  //   //   });
+  //   // }
+  // });
+  // // const [lastAction, setLastAction] = createSignal({});
+  // // const [hasCleanedUpConfetti, setHasCleanedUpConfetti] = createSignal(false);
+  // createEffect(() => {
+  //   if (isIntersectingA()) {
+  //     if (!confettiFired()) {
+  //       console.log("activate", game().currentRound);
+  //       // setLastAction({type: "activate", round: game().currentRound});
+  //       createConfetti();
+  //     }
+  //   }
+  // });
 
   // const activate = (round) => {};
 
@@ -737,9 +829,12 @@ const GameCaseBattle = (props) => {
                   </For>
                   <div
                     classList={{
-                      "text-yellow-ffb": getModeColorByName(game().mode) === "yellow",
-                      "text-[#DAFD09]": getModeColorByName(game().mode) === "green",
-                      "text-[#5AC3FF]": getModeColorByName(game().mode) === "blue",
+                      "text-yellow-ffb":
+                        getModeColorByName(game().mode) === "yellow",
+                      "text-[#DAFD09]":
+                        getModeColorByName(game().mode) === "green",
+                      "text-[#5AC3FF]":
+                        getModeColorByName(game().mode) === "blue",
                     }}
                   >
                     {(game().mode === "royal" || game().mode === "team") &&
@@ -787,7 +882,9 @@ const GameCaseBattle = (props) => {
               <GrayWrapperdWithBorders classes="rounded-t-4 min-w-[300px]">
                 {game().status !== "ended" ? (
                   <div class="flex gap-2 text-14 font-SpaceGrotesk font-bold text-gray-9a items-center py-1 px-12">
-                    <span class="w-max truncate">{getCurrentRollItem().name}</span>
+                    <span class="w-max truncate">
+                      {getCurrentRollItem().name}
+                    </span>
                     <img src={CoinStack} alt="" />
                     <span class="text-gradient text-shadow-gold-secondary">
                       {getCurrencyString(getCurrentRollItem().price)}
@@ -808,7 +905,9 @@ const GameCaseBattle = (props) => {
                     style={{
                       background: `radial-gradient(circle at center, rgba(${
                         game().status !== "ended"
-                          ? `${getModeRgbByTextColor(getModeColorByName(game().mode))}, 1`
+                          ? `${getModeRgbByTextColor(
+                              getModeColorByName(game().mode)
+                            )}, 1`
                           : `255, 255, 255, 0.05`
                       }) 6%, rgba(255, 255, 255, 0.05) 8%)`,
                     }}
@@ -820,7 +919,9 @@ const GameCaseBattle = (props) => {
                                   border-x-[8px] border-b-[4px]
                                   border-x-transparent`}
                           style={{
-                            "border-bottom-color": getModeHexByTextColor(getModeColorByName(game().mode)),
+                            "border-bottom-color": getModeHexByTextColor(
+                              getModeColorByName(game().mode)
+                            ),
                           }}
                         />
                         <div
@@ -828,7 +929,9 @@ const GameCaseBattle = (props) => {
                                   border-x-[8px] border-b-[4px]
                                   border-x-transparent`}
                           style={{
-                            "border-bottom-color": getModeHexByTextColor(getModeColorByName(game().mode)),
+                            "border-bottom-color": getModeHexByTextColor(
+                              getModeColorByName(game().mode)
+                            ),
                           }}
                         />
                       </>
@@ -856,7 +959,8 @@ const GameCaseBattle = (props) => {
                                   background:
                                     getModeColorByName(game().mode) === "yellow"
                                       ? "linear-gradient(270deg, rgba(255, 180, 54, 0) 0%, rgba(255, 180, 54, 0.12) 50%, rgba(255, 180, 54, 0) 100%)"
-                                      : getModeColorByName(game().mode) === "blue"
+                                      : getModeColorByName(game().mode) ===
+                                        "blue"
                                       ? "linear-gradient(270deg, rgba(90, 195, 255, 0) 0%, rgba(90, 195, 255, 0.12) 50%, rgba(90, 195, 255, 0) 100%)"
                                       : "linear-gradient(270deg, rgba(218, 253, 9, 0) 0%, rgba(218, 253, 9, 0.12) 50%, rgba(218, 253, 9, 0) 100%)",
                                 }}
@@ -956,30 +1060,8 @@ const GameCaseBattle = (props) => {
                       </div>
                     </div>
                   </div>
+
                   <div class="flex flex-col gap-4">
-                  <CaseBattleSpinersContainer
-                    game={game}
-                    confettiFired={confettiFired}
-                    setConfettiFired={setConfettiFired}
-                    spinnerOptions={spinnerOptions}
-                    containsConfettiWin={containsConfettiWin}
-                    spinQueue={spinQueue}
-                    setSpinQueue={setSpinQueue}
-                    spinIndexes={spinIndexes}
-                    currentCountdown={currentCountdown}
-                    showResults={showResults}
-                    playerBarRef={playerBarRef}
-                    confettiData={confettiData}
-                    setConfettiData={setConfettiData}
-                    innerWidth={innerWidth}
-                    players={innerWidth() > 600
-                      ? Array.from(Array(game().playersQty).keys())
-                      : Array.from(Array(game().playersQty).keys()).slice(
-                          0,
-                          2
-                        )}
-                  />
-                  <Show when={innerWidth() < 600 && game().playersQty > 2}>
                     <CaseBattleSpinersContainer
                       game={game}
                       confettiFired={confettiFired}
@@ -995,27 +1077,61 @@ const GameCaseBattle = (props) => {
                       confettiData={confettiData}
                       setConfettiData={setConfettiData}
                       innerWidth={innerWidth}
-                      players={Array.from(Array(game().playersQty).keys()).slice(2)}
+                      players={
+                        innerWidth() > 600
+                          ? Array.from(Array(game().playersQty).keys())
+                          : Array.from(Array(game().playersQty).keys()).slice(
+                              0,
+                              2
+                            )
+                      }
+                      spinOffsets={spinOffsets}
+                      setSpinOffsets={setSpinOffsets}
                     />
-                  </Show>
+                    <Show when={innerWidth() < 600 && game().playersQty > 2}>
+                      <CaseBattleSpinersContainer
+                        game={game}
+                        confettiFired={confettiFired}
+                        setConfettiFired={setConfettiFired}
+                        spinnerOptions={spinnerOptions}
+                        containsConfettiWin={containsConfettiWin}
+                        spinQueue={spinQueue}
+                        setSpinQueue={setSpinQueue}
+                        spinIndexes={spinIndexes}
+                        currentCountdown={currentCountdown}
+                        showResults={showResults}
+                        playerBarRef={playerBarRef}
+                        confettiData={confettiData}
+                        setConfettiData={setConfettiData}
+                        innerWidth={innerWidth}
+                        players={Array.from(
+                          Array(game().playersQty).keys()
+                        ).slice(2)}
+                        spinOffsets={spinOffsets}
+                        setSpinOffsets={setSpinOffsets}
+                        additionalInstance
+                      />
+                    </Show>
                   </div>
                 </div>
-                <div class={`grid grid-cols-2 gap-y-4 lg:grid-cols-${
+                <div
+                  class={`grid grid-cols-2 gap-y-4 lg:grid-cols-${
                     game().playersQty
-                  }`}>
+                  }`}
+                >
                   <For each={Array.from({length: game().playersQty})}>
-                      {(_, index) => {
-                        return (
-                          <BattlePullsColumn
-                            columnIndex={index}
-                            game={game}
-                            playerRoundData={playerRoundData}
-                            handleCallBot={() => callBot(index() + 1)}
-                            handleJoinGame={() => joinGame(index() + 1)}
-                            playerBarRef={playerBarRef}
-                          />
-                        )
-                      }}                 
+                    {(_, index) => {
+                      return (
+                        <BattlePullsColumn
+                          columnIndex={index}
+                          game={game}
+                          playerRoundData={playerRoundData}
+                          handleCallBot={() => callBot(index() + 1)}
+                          handleJoinGame={() => joinGame(index() + 1)}
+                          playerBarRef={playerBarRef}
+                        />
+                      );
+                    }}
                   </For>
                 </div>
               </div>
